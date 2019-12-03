@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <H1>No se ni que pedo ajajajaj </H1>
+    <h3>Pero intentre hacer la matriz</h3>
+    <script>
+        var limit = 20;
+        var inicioX = 1;
+        var inicioY = 19;
+        var MatrizPrincipal = new Array(limit);
+        for (let i = 0; i <= 19; i++) {///----------------------------------------------------
+            MatrizPrincipal[i]=new Array(limit);
+        }//-----------------------------------------------------------------------------------
+        //rellenar de ceros las cosas los 1 seran la nave buena
+        for (i=0; i<limit; i++){
+            for (e=0; e<limit; e++){
+                MatrizPrincipal[i][e] = 0;
+            }
+        }//------------------------------Reyenar el arreglo de ceros
+        MatrizPrincipal[inicioY][inicioX] = 1; ///imprimirla ahi para ver la nave
+        console.log(MatrizPrincipal);//--Arrancando el arreglo
+
+
+        document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
+            MatrizPrincipal[inicioY][inicioX] = 0;
+        //y que la nave pueda moverse   ----  inicioX     inicioY  
+             console.log(event);
+            switch(event.code){
+                case "KeyW": if (inicioY == 0) {
+                                   inicioY = limit;
+                              }else{
+                                    inicioY--;
+                                   }
+                   break;
+                case "KeyS": if (inicioY == limit) {
+                                    inicioY = 0;
+                               }else{
+                                    inicioY++;
+                                    }
+                    break;
+                case "KeyA": if (inicioX == 0) {
+                                    inicioX = limit;
+                                }else{
+                                    inicioX--;   
+                                }
+                    break;
+                case "KeyD": if (inicioX == limit) {
+                                     inicioX = limit;
+                                } else {
+                                    inicioX++;    
+                                }              
+                    break;
+            } 
+            console.log('----------------------------');
+            MatrizPrincipal[inicioY][inicioX] = 1;
+            console.log(MatrizPrincipal);
+        });
+            //KeyS
+            //Space
+
+
+
+    
+    </script>
+</body>
+</html>
