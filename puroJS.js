@@ -11,6 +11,11 @@ for (i=0; i<limit; i++){
         MatrizPrincipal[i][e] = 0;
     }
 }//------------------------------Reyenar el arreglo de ceros
+
+
+
+
+
 MatrizPrincipal[inicioY][inicioX] = 1; ///imprimirla ahi para ver la nave
 console.log(MatrizPrincipal);//--Arrancando el arreglo
 

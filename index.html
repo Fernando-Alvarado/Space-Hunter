@@ -10,29 +10,8 @@
     <H1>No se ni que pedo ajajajaj </H1>
     <h3>Pero intentre hacer la matriz</h3>
  
-    <canvas id="a" width="500" height="500" style="border: 1px solid #000000;"></canvas>
-   
-    
-    <script>
-      var nosale = document.getElementById('a');
-      var lienzo = nosale.getContext('2d');
-    lienzo.beginPath();
-     // ctx.fillStyle = 'black';
-   
-     lienzo.fillStyle = "green";
-     lienzo.rect(0, 0, 500, 500);// ver cuanto queremos rellenarlo
-     lienzo.fill();// poder rellenar de color el fondo del canvas
-
-
-     lienzo.moveTo(10, 60);
-     lienzo.lineTo(110, 60);
-
-     lienzo.stroke();
-    
-
-     lienzo.closePath();
-    </script>
-
+    <canvas id="matrizBase" width="500" height="500" style="border: 1px solid #000000;"></canvas>
+   <script src="juego.js"></script>
 
 </body>
 </html>

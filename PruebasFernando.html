@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <h1>Mis pruebas cause im a idiot</h1>
+        
+        <canvas id="fernando" width="300" height="300" style="border: 1px solid #000000;"></canvas>
+        <script>
+               var matrizPrincipal = document.getElementById('fernando');
+               var lienzoBase = matrizPrincipal.getContext('2d');
+
+               
+            lienzoBase.beginPath();//EMPEZAR EL DIBUJO
+            lienzoBase.fillStyle = "black";//color que quieran
+            lienzoBase.rect(23, 70, 100, 100);// ver cuanto queremos rellenarlo
+         //   lienzoBase.fill();// poder rellenar de color el fondo del canvas
+            //hacer las pruebas de dibujo
+          
+            lienzoBase.fillStyle = "red";//color que quieran
+            lienzoBase.rect(30, 50, 10, 10);// ver cuanto queremos rellenarlo   
+            lienzoBase.fill();// poder rellenar de color el fondo del canvas
+
+
+lienzoBase.closePath();
+        </script>
+</body>
+</html>
