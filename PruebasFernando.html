@@ -11,25 +11,76 @@
         
         <canvas id="fernando" width="300" height="300" style="border: 1px solid #000000;"></canvas>
         <script>
-               var matrizPrincipal = document.getElementById('fernando');
-               var lienzoBase = matrizPrincipal.getContext('2d');
+         var limit = 20;
+/////----------------------------------------
+var MatrizPrincipal = new Array(limit);
+for (let i = 0; i <= 19; i++) {///----------------------------------------------------
+MatrizPrincipal[i]=new Array(limit);
+}//-----------------------------------------------------------------------------------
+//rellenar de ceros las cosas los 1 seran la nave buena
+for (i=0; i<limit; i++){
+for (e=0; e<limit; e++){
+MatrizPrincipal[i][e] = 0;
+}
+}//------------------------------Reyenar el arreglo de ceros
+/////----------------------------------------
 
 
-            lienzoBase.beginPath();//EMPEZAR EL DIBUJO
 
-            lienzoBase.fillStyle = "red";//color que quieran
-            lienzoBase.rect(30, 0, 30, 30);// ver cuanto queremos rellenarlo
-         //   lienzoBase.fill();// poder rellenar de color el fondo del canvas
-            //hacer las pruebas de dibujo
-            lienzoBase.fill();// poder rellenar de color el fondo del canvas
-            lienzoBase.closePath();
-          
 
-            lienzoBase.beginPath();//EMPEZAR EL DIBUJO
-            lienzoBase.fillStyle = "black";//color que quieran
-            lienzoBase.rect(30, 50, 10, 10);// ver cuanto queremos rellenarlo   
-            lienzoBase.fill();// poder rellenar de color el fondo del canvas
-            lienzoBase.closePath();
+class PersonajePrincipal{
+constructor (inicioX, inicioY, matrizDondeSeTrabaja) {
+    this.inicioX = inicioX;
+    this.inicioY = inicioY;              
+    this.matrizDondeSeTrabaja = matrizDondeSeTrabaja;             
+    this.matrizDondeSeTrabaja[this.inicioY][this.inicioX] = 1;
+}
+mover(){
+document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
+        
+        console.log( this.matrizDondeSeTrabaja)
+        console.log('----------------------')
+        this.matrizDondeSeTrabaja[this.inicioY][this.inicioX] = 0;
+    //y que la nave pueda moverse   ----  inicioX     inicioY  
+    switch(event.code){
+            case "KeyW": if (this.inicioY == 0) {
+                            this.inicioY = 20;
+                        }else{
+                            this.inicioY--;
+                        }
+                break;
+            case "KeyS": if (this.inicioY == 20) {
+                            this.inicioY = 0;
+                        }else{
+                            this.inicioY++;
+                        }
+                break;
+            case "KeyA": if (this.inicioX == 0) {
+                            this.inicioX = 20;
+                        }else{
+                            this.inicioX--;   
+                        }
+                break;
+            case "KeyD": if (this.inicioX == 20) {
+                            this.inicioX = 20;
+                        } else {
+                            this.inicioX++;    
+                        }              
+                break;
+    }   
+    this.matrizDondeSeTrabaja[this.inicioY][this.inicioX] = 1;
+    console.log(this.matrizDondeSeTrabaja);
+});
+}
+
+    
+
+
+
+}
+//Ejecucion del primer objeto
+const nave = new PersonajePrincipal (3,3,MatrizPrincipal);
+nave.mover()
         </script>
 </body>
 </html>

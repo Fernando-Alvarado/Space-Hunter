@@ -87,19 +87,14 @@ colocarPosicionesAleatorias(8);//si solo se pone 1, sera la principal xd
 //como ciclo principal
 
 
+
+
+
+
 //------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------
 //-------------PURO CAMVAS------- (matriz de los monitos)--------------------------------
 lienzoBase.beginPath();//EMPEZAR EL DIBUJO
-       /* lienzoBase.fillStyle = "green";//color que quieran
-        lienzoBase.rect(0, 0, 500, 500);// ver cuanto queremos rellenarlo
-        lienzoBase.fill();// poder rellenar de color el fondo del canvas   */
-
-
-//ciclo para dibujar
-
+//dibujar la reticula 
 dibujarReticula();
-
-
-
 lienzoBase.closePath();
