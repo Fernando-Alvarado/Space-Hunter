@@ -5,12 +5,60 @@ var matrizPrincipal = document.getElementById('matrizBase');//puede ser o no el 
 var lienzoBase = matrizPrincipal.getContext('2d');
 
 //--------------------------------OBJETOS------------------------------------------------------------
-class PersonajePrincipal{
-    constructor () { //poder las variables de constructor
-       
-     }
+//---------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------
 
-}
+class PersonajePrincipal{
+    constructor (inicioX, inicioY, matrizDondeSeTrabaja) {
+        this.inicioX = inicioX;
+        this.inicioY = inicioY;              
+        this.matrizDondeSeTrabaja = matrizDondeSeTrabaja;             
+        this.matrizDondeSeTrabaja[this.inicioY][this.inicioX] = 1;
+    }
+    mover(){
+        var inicioX = this.inicioX;
+        var inicioY = this.inicioY;
+        var matrizDondeSeTrabaja = this.matrizDondeSeTrabaja;
+    document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
+       
+          //  console.log(lol)
+            console.log('----------------------')
+            matrizDondeSeTrabaja[inicioY][inicioX] = 0;
+        //y que la nave pueda moverse   ----  inicioX     inicioY  
+        switch(event.code){
+                case "KeyW": if (inicioY == 0) {
+                                inicioY = 20;
+                            }else{
+                                inicioY--;
+                            }
+                    break;
+                case "KeyS": if (inicioY == 20) {
+                                inicioY = 0;
+                            }else{
+                                 inicioY++;
+                            }
+                    break;
+                case "KeyA": if (inicioX == 0) {
+                                 inicioX = 20;
+                            }else{
+                                 inicioX--;   
+                            }
+                    break;
+                case "KeyD": if (inicioX == 20) {
+                                inicioX = 20;
+                            } else {
+                                inicioX++;    
+                            }              
+                    break;
+        }   
+         matrizDondeSeTrabaja[inicioY][inicioX] = 1;
+        console.log(matrizDondeSeTrabaja);
+    });
+    }
+    }
+////-------------------------------------------------------------------------------------------------------
+////-------------------------------------------------------------------------------------------------------
+////-------------------------------------------------------------------------------------------------------
 function dibujarReticula(){//funcion que se puede quitar cuando se pase el juego
     //vertical
     for(let i = 0; i <= tamCanvas; i+=(tamCanvas/limit)){
@@ -61,8 +109,7 @@ function colocarPosicionesAleatorias(numNaves){
         var arrayNavesEnemigas = new Array(numNaves * 2)
         for(let i = 0; i < (numNaves *2); i++){
             arrayNavesEnemigas[i] = Math.floor((Math.random()*50)+1)
-        }
-        console.log(arrayNavesEnemigas)         
+        }        
     //colocando posicion de la nave principla
         Matriz[arrayNavesEnemigas[0]][arrayNavesEnemigas[1]] = 2;    
     //  Colocar las naves en la matriz de las naves enemigas  
@@ -80,6 +127,11 @@ function colocarPosicionesAleatorias(numNaves){
 
 
 colocarPosicionesAleatorias(8);//si solo se pone 1, sera la principal xd
+//console.log(colocarPosicionesAleatorias(8));
+console.log('------')
+console.log(colocarPosicionesAleatorias(8))
+/*const nave = new PersonajePrincipal (3,3,MatrizPrincipal);
+nave.mover()*/
 
 //console.log()
 

@@ -28,56 +28,7 @@ MatrizPrincipal[i][e] = 0;
 
 
 
-class PersonajePrincipal{
-constructor (inicioX, inicioY, matrizDondeSeTrabaja) {
-    this.inicioX = inicioX;
-    this.inicioY = inicioY;              
-    this.matrizDondeSeTrabaja = matrizDondeSeTrabaja;             
-    this.matrizDondeSeTrabaja[this.inicioY][this.inicioX] = 1;
-}
-mover(){
-document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
-        
-        console.log( this.matrizDondeSeTrabaja)
-        console.log('----------------------')
-        this.matrizDondeSeTrabaja[this.inicioY][this.inicioX] = 0;
-    //y que la nave pueda moverse   ----  inicioX     inicioY  
-    switch(event.code){
-            case "KeyW": if (this.inicioY == 0) {
-                            this.inicioY = 20;
-                        }else{
-                            this.inicioY--;
-                        }
-                break;
-            case "KeyS": if (this.inicioY == 20) {
-                            this.inicioY = 0;
-                        }else{
-                            this.inicioY++;
-                        }
-                break;
-            case "KeyA": if (this.inicioX == 0) {
-                            this.inicioX = 20;
-                        }else{
-                            this.inicioX--;   
-                        }
-                break;
-            case "KeyD": if (this.inicioX == 20) {
-                            this.inicioX = 20;
-                        } else {
-                            this.inicioX++;    
-                        }              
-                break;
-    }   
-    this.matrizDondeSeTrabaja[this.inicioY][this.inicioX] = 1;
-    console.log(this.matrizDondeSeTrabaja);
-});
-}
 
-    
-
-
-
-}
 //Ejecucion del primer objeto
 const nave = new PersonajePrincipal (3,3,MatrizPrincipal);
 nave.mover()
