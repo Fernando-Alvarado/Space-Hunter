@@ -38,18 +38,19 @@ function MatrizBase(){
 }
  //poner posiones de las naves y ver donde vas a empezar funcion importante xd
 function colocarPosicionesAleatorias(numNaves){
- 
+   var Matriz = MatrizBase()
         var arrayNavesEnemigas = new Array(numNaves * 2)
         for(let i = 0; i < (numNaves *2); i++){
             arrayNavesEnemigas[i] = Math.floor((Math.random()*50)+1)
         }
-    ///colocando posicion de la nave principla
-    MatrizBase().MatrizPrincipal[arrayNavesEnemigas[0]][arrayNavesEnemigas[1]] = 2;    
-    ///   Colocar las naves en la matriz de las naves enemigas
-    for(let i=2; i> (numNaves * 2); i+=2){
-        //colocando las naves enemigas donde deben ser
-        MatrizBase().MatrizPrincipal[arrayNavesEnemigas[i]][arrayNavesEnemigas[i++]] = 1; 
+        console.log(arrayNavesEnemigas)         
+    //colocando posicion de la nave principla
+        Matriz[arrayNavesEnemigas[0]][arrayNavesEnemigas[1]] = 2;    
+    //  Colocar las naves en la matriz de las naves enemigas  
+   for(let i=2; i< (numNaves * 2); i+=2){   
+        Matriz[arrayNavesEnemigas[i]][arrayNavesEnemigas[i+1]] = 1; 
     }
+    console.log(Matriz);
     return arrayNavesEnemigas;
 }
 
@@ -59,8 +60,8 @@ function colocarPosicionesAleatorias(numNaves){
 //MatrizBase(); ///this will be a mess
 
 
-colocarPosicionesAleatorias(5);
-console.log(MatrizPrincipal);
+colocarPosicionesAleatorias(5);//si solo se pone 1, sera la principal xd
+
 //console.log()
 
 //---Creo que necesitaremos poner un funcion como setTimeout(function(){ alert("Hello"); }, 3000); --
