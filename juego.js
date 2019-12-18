@@ -24,6 +24,25 @@ function dibujarReticula(){//funcion que se puede quitar cuando se pase el juego
     }
     lienzoBase.stroke();//el que las dibuja
 }
+function ponerLasNavesEnLaMatriz(matrizDeclarada){//cada que se mueva se tendra que correr esta
+    // funcion para refrescar todo
+    for(let i=0; i<limit; i++){ //colocar las cosas en su lugar
+        for(let e=0; e<limit; e++){
+            if(matrizDeclarada[i][e] != 0){
+                lienzoBase.beginPath();//EMPEZAR EL DIBUJO
+                if(matrizDeclarada[i][e] == 2)
+                     lienzoBase.fillStyle = "black";//color que quieran
+                else
+                    lienzoBase.fillStyle = "red";//color que quieran
+                lienzoBase.rect((e*10), (i*10), 10, 10);//poner las cuadrados tal ves hay que
+                //tal vez hay que cambiar el cuadro de los cuaros 10
+                lienzoBase.fill();// poder rellenar de color el fondo del canvas
+                lienzoBase.closePath();
+           }
+        } 
+    }
+
+}
 function MatrizBase(){
       var MatrizPrincipal = new Array(limit);
         for (let i = 0; i < limit; i++) {///----------------
@@ -50,7 +69,7 @@ function colocarPosicionesAleatorias(numNaves){
    for(let i=2; i< (numNaves * 2); i+=2){   
         Matriz[arrayNavesEnemigas[i]][arrayNavesEnemigas[i+1]] = 1; 
     }
-    console.log(Matriz);
+    ponerLasNavesEnLaMatriz(Matriz)
     return arrayNavesEnemigas;
 }
 
@@ -60,7 +79,7 @@ function colocarPosicionesAleatorias(numNaves){
 //MatrizBase(); ///this will be a mess
 
 
-colocarPosicionesAleatorias(5);//si solo se pone 1, sera la principal xd
+colocarPosicionesAleatorias(8);//si solo se pone 1, sera la principal xd
 
 //console.log()
 

@@ -1,3 +1,10 @@
+///
+///
+///COSAS PARA PODER MOVER LA NAVE JAJAJAJAJ
+///
+///
+
+
 var limit = 20;
 var inicioX = 1;
 var inicioY = 19;

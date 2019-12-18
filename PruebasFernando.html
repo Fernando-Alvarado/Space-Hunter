@@ -14,19 +14,22 @@
                var matrizPrincipal = document.getElementById('fernando');
                var lienzoBase = matrizPrincipal.getContext('2d');
 
-               
+
             lienzoBase.beginPath();//EMPEZAR EL DIBUJO
-            lienzoBase.fillStyle = "black";//color que quieran
-            lienzoBase.rect(23, 70, 100, 100);// ver cuanto queremos rellenarlo
+
+            lienzoBase.fillStyle = "red";//color que quieran
+            lienzoBase.rect(30, 0, 30, 30);// ver cuanto queremos rellenarlo
          //   lienzoBase.fill();// poder rellenar de color el fondo del canvas
             //hacer las pruebas de dibujo
+            lienzoBase.fill();// poder rellenar de color el fondo del canvas
+            lienzoBase.closePath();
           
-            lienzoBase.fillStyle = "red";//color que quieran
+
+            lienzoBase.beginPath();//EMPEZAR EL DIBUJO
+            lienzoBase.fillStyle = "black";//color que quieran
             lienzoBase.rect(30, 50, 10, 10);// ver cuanto queremos rellenarlo   
             lienzoBase.fill();// poder rellenar de color el fondo del canvas
-
-
-lienzoBase.closePath();
+            lienzoBase.closePath();
         </script>
 </body>
 </html>
