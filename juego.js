@@ -13,7 +13,7 @@ class PersonajePrincipal{
         this.inicioX = inicioX;
         this.inicioY = inicioY;              
         this.matrizDondeSeTrabaja = matrizDondeSeTrabaja;             
-        this.matrizDondeSeTrabaja[this.inicioY][this.inicioX] = 1;
+        this.matrizDondeSeTrabaja[this.inicioY][this.inicioX] = 2;
     }
     mover(){
         var inicioX = this.inicioX;
@@ -126,10 +126,10 @@ function colocarPosicionesAleatorias(numNaves){//saber donde estaran las naves a
    for(let i=2; i< (numNaves * 2); i+=2){   
         Matriz[arrayNavesEnemigas[i]][arrayNavesEnemigas[i+1]] = 1; 
     }
-    ponerLasNavesEnLaMatriz(Matriz)
-    console.log(arrayNavesEnemigas)
-    console.log(arrayNavesEnemigas[0])
+    ponerLasNavesEnLaMatriz(Matriz)//ibujar la matriz de nuemeros en esta de canvas     
+    //instanciando el objeto principal ----------------------
     const nave = new PersonajePrincipal (arrayNavesEnemigas[1], arrayNavesEnemigas[0],Matriz);
+    ////--------------------------------------------
     nave.mover()
    
 }

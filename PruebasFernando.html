@@ -8,9 +8,9 @@
 </head>
 <body>
         <h1>Mis pruebas cause im a idiot</h1>
-        
-        <canvas id="fernando" width="300" height="300" style="border: 1px solid #000000;"></canvas>
+            
         <script>
+            var limit = 10;
                 function MatrizBase(){
       var MatrizPrincipal = new Array(limit);
         for (let i = 0; i < limit; i++) {///----------------
@@ -22,6 +22,89 @@
             }
         }//------------------------------Reyenar el arreglo de ceros
     return MatrizPrincipal;
+}
+
+
+function DondeCorreraTodoElJuego(){///funcion que simula donde corre el juego
+    document.addEventListener('keydown', function(event){
+        console.log("bip dubip dup");
+    });
+}
+//console.log(MatrizBase());
+//setTimeout(function(){ console.log('se mueve 1 nave enemiga') }, 1000);
+
+function JuegoBucle(){
+    setTimeout(function(){ 
+        console.log("Hello"); 
+        JuegoBucle();
+    }, 1000);
+}
+//JuegoBucle();
+//DondeCorreraTodoElJuego();
+
+/////--------------------------------------------------------------------------------------------------
+/////--------------------------------------------------------------------------------------------------
+/*
+class PersonajePrincipal{
+    constructor (inicioX, inicioY, matrizDondeSeTrabaja) {
+        this.inicioX = inicioX;
+        this.inicioY = inicioY;              
+        this.matrizDondeSeTrabaja = matrizDondeSeTrabaja;             
+        this.matrizDondeSeTrabaja[this.inicioY][this.inicioX] = 1;
+    }
+    mover(){
+        var inicioX = this.inicioX;
+        var inicioY = this.inicioY;
+        var matrizDondeSeTrabaja = this.matrizDondeSeTrabaja;
+    document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
+            matrizDondeSeTrabaja[inicioY][inicioX] = 0;
+            LimpiarLaMatriz(inicioY, inicioX);
+        //y que la nave pueda moverse   ----  inicioX     inicioY  
+        switch(event.code){
+                case "KeyW": if (inicioY == 0) {
+                                inicioY = limit-1;
+                            }else{
+                                inicioY--;
+                            }
+                    break;
+                case "KeyS": if (inicioY == limit-1) {
+                                inicioY = 0;
+                            }else{
+                                 inicioY++;
+                            }
+                    break;
+                case "KeyA": if (inicioX == 0) {
+                                 inicioX = limit-1;
+                            }else{
+                                 inicioX--;   
+                            }
+                    break;
+                case "KeyD": if (inicioX == limit-1) {
+                                inicioX = 0;
+                            } else {
+                                inicioX++;    
+                            }              
+                    break;
+        } 
+         matrizDondeSeTrabaja[inicioY][inicioX] = 2;
+         ponerLasNavesEnLaMatriz(matrizDondeSeTrabaja);
+        console.log(event.code);
+    });
+    }
+    }
+*/
+/////--------------------------------------------------------------------------------------------------
+///-------------------DECLARANDO EL OBJETO dE LAS NAVES LO PONDRE A PRUEBA---------------------------------------------------
+
+class PersonajePrincipal{
+    constructor (inicioX, inicioY, matrizDondeSeTrabaja) {
+        this.inicioX = inicioX;
+        this.inicioY = inicioY;              
+      
+    }
+    mover(){
+       
+    }
 }
         </script>
 </body>
