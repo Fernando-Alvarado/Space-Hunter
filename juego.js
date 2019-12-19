@@ -25,25 +25,25 @@ class PersonajePrincipal{
         //y que la nave pueda moverse   ----  inicioX     inicioY  
         switch(event.code){
                 case "KeyW": if (inicioY == 0) {
-                                inicioY = 20;
+                                inicioY = limit-1;
                             }else{
                                 inicioY--;
                             }
                     break;
-                case "KeyS": if (inicioY == 20) {
+                case "KeyS": if (inicioY == limit-1) {
                                 inicioY = 0;
                             }else{
                                  inicioY++;
                             }
                     break;
                 case "KeyA": if (inicioX == 0) {
-                                 inicioX = 20;
+                                 inicioX = limit-1;
                             }else{
                                  inicioX--;   
                             }
                     break;
-                case "KeyD": if (inicioX == 20) {
-                                inicioX = 20;
+                case "KeyD": if (inicioX == limit-1) {
+                                inicioX = limit-1;
                             } else {
                                 inicioX++;    
                             }              
@@ -123,7 +123,9 @@ function colocarPosicionesAleatorias(numNaves){
         Matriz[arrayNavesEnemigas[i]][arrayNavesEnemigas[i+1]] = 1; 
     }
     ponerLasNavesEnLaMatriz(Matriz)
-    const nave = new PersonajePrincipal (arrayNavesEnemigas[0], arrayNavesEnemigas[1],Matriz);
+    console.log(arrayNavesEnemigas)
+    console.log(arrayNavesEnemigas[0])
+    const nave = new PersonajePrincipal (arrayNavesEnemigas[1], arrayNavesEnemigas[0],Matriz);
     nave.mover()
    
 }
