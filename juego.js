@@ -43,7 +43,7 @@ class PersonajePrincipal{
                             }
                     break;
                 case "KeyD": if (inicioX == limit-1) {
-                                inicioX = limit-1;
+                                inicioX = 0;
                             } else {
                                 inicioX++;    
                             }              
@@ -59,6 +59,7 @@ class PersonajePrincipal{
 ////-------------------------------------------------------------------------------------------------------
 ////-------------------------------------------------------------------------------------------------------
 function dibujarReticula(){//funcion que se puede quitar cuando se pase el juego
+    ///Solo sirve aqui en canvas esta funcion se ira muy lejos jajajaja
     //vertical
     for(let i = 0; i <= tamCanvas; i+=(tamCanvas/limit)){
         lienzoBase.moveTo(i, 0);
@@ -72,6 +73,7 @@ function dibujarReticula(){//funcion que se puede quitar cuando se pase el juego
     lienzoBase.stroke();//el que las dibuja
 }
 function ponerLasNavesEnLaMatriz(matrizDeclarada){//cada que se mueva se tendra que correr esta
+    ///Matriz solo de la de canvas
     // funcion para refrescar todo  //solo es para pintarla
     for(let i=0; i<limit; i++){ //colocar las cosas en su lugar
         for(let e=0; e<limit; e++){
@@ -91,9 +93,10 @@ function ponerLasNavesEnLaMatriz(matrizDeclarada){//cada que se mueva se tendra 
 
 }
 function LimpiarLaMatriz(PosInicial, PosFinal){ //funcion para limpiar la pos anterior
+    ///Funcion que hace que hace que se borre el rastro de la nave en la matriz de canvas
     lienzoBase.beginPath();//EMPEZAR EL DIBUJO
         lienzoBase.fillStyle = "white";//color que quieran
-    lienzoBase.rect((e*10), (i*10), 10, 10);//poner las cuadrados tal ves hay que
+    lienzoBase.rect((PosFinal*10), (PosInicial*10), 9, 9);//poner las cuadrados tal ves hay que
     lienzoBase.fill();// poder rellenar de color el fondo del canvas
     lienzoBase.closePath();
 }
@@ -110,7 +113,8 @@ function MatrizBase(){
     return MatrizPrincipal;
 }
  //poner posiones de las naves y ver donde vas a empezar funcion importante xd
-function colocarPosicionesAleatorias(numNaves){
+function colocarPosicionesAleatorias(numNaves){//saber donde estaran las naves al inicio
+    //tambien es medio la base de todo el juego espero que esto cambie
    var Matriz = MatrizBase()
         var arrayNavesEnemigas = new Array(numNaves * 2)
         for(let i = 0; i < (numNaves *2); i++){
