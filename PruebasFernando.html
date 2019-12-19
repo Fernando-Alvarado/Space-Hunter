@@ -11,7 +11,18 @@
         
         <canvas id="fernando" width="300" height="300" style="border: 1px solid #000000;"></canvas>
         <script>
-
+                function MatrizBase(){
+      var MatrizPrincipal = new Array(limit);
+        for (let i = 0; i < limit; i++) {///----------------
+            MatrizPrincipal[i]=new Array(limit);
+        }//--------------------------------
+        for (i=0; i<limit; i++){//rellenar de ceros las cosas los 1 seran la nave buena
+            for (e=0; e<limit; e++){
+                MatrizPrincipal[i][e] = 0;
+            }
+        }//------------------------------Reyenar el arreglo de ceros
+    return MatrizPrincipal;
+}
         </script>
 </body>
 </html>
