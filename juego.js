@@ -20,10 +20,8 @@ class PersonajePrincipal{
         var inicioY = this.inicioY;
         var matrizDondeSeTrabaja = this.matrizDondeSeTrabaja;
     document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
-       
-          //  console.log(lol)
-            console.log('----------------------')
             matrizDondeSeTrabaja[inicioY][inicioX] = 0;
+            LimpiarLaMatriz(inicioY, inicioX);
         //y que la nave pueda moverse   ----  inicioX     inicioY  
         switch(event.code){
                 case "KeyW": if (inicioY == 0) {
@@ -50,9 +48,10 @@ class PersonajePrincipal{
                                 inicioX++;    
                             }              
                     break;
-        }   
-         matrizDondeSeTrabaja[inicioY][inicioX] = 1;
-        console.log(matrizDondeSeTrabaja);
+        } 
+         matrizDondeSeTrabaja[inicioY][inicioX] = 2;
+         ponerLasNavesEnLaMatriz(matrizDondeSeTrabaja);
+        console.log(event.code);
     });
     }
     }
@@ -73,7 +72,7 @@ function dibujarReticula(){//funcion que se puede quitar cuando se pase el juego
     lienzoBase.stroke();//el que las dibuja
 }
 function ponerLasNavesEnLaMatriz(matrizDeclarada){//cada que se mueva se tendra que correr esta
-    // funcion para refrescar todo
+    // funcion para refrescar todo  //solo es para pintarla
     for(let i=0; i<limit; i++){ //colocar las cosas en su lugar
         for(let e=0; e<limit; e++){
             if(matrizDeclarada[i][e] != 0){
@@ -90,6 +89,13 @@ function ponerLasNavesEnLaMatriz(matrizDeclarada){//cada que se mueva se tendra 
         } 
     }
 
+}
+function LimpiarLaMatriz(PosInicial, PosFinal){ //funcion para limpiar la pos anterior
+    lienzoBase.beginPath();//EMPEZAR EL DIBUJO
+        lienzoBase.fillStyle = "white";//color que quieran
+    lienzoBase.rect((e*10), (i*10), 10, 10);//poner las cuadrados tal ves hay que
+    lienzoBase.fill();// poder rellenar de color el fondo del canvas
+    lienzoBase.closePath();
 }
 function MatrizBase(){
       var MatrizPrincipal = new Array(limit);
@@ -117,21 +123,18 @@ function colocarPosicionesAleatorias(numNaves){
         Matriz[arrayNavesEnemigas[i]][arrayNavesEnemigas[i+1]] = 1; 
     }
     ponerLasNavesEnLaMatriz(Matriz)
-    return arrayNavesEnemigas;
+    const nave = new PersonajePrincipal (arrayNavesEnemigas[0], arrayNavesEnemigas[1],Matriz);
+    nave.mover()
+   
 }
 
 ///-----------------------------------------------------------------------------------------------
 ///--------------------Ejecuciones----------------------------------------------------------------
 ///-----------------------------------------------------------------------------------------------
-//MatrizBase(); ///this will be a mess
 
-
-colocarPosicionesAleatorias(8);//si solo se pone 1, sera la principal xd
-//console.log(colocarPosicionesAleatorias(8));
-console.log('------')
-console.log(colocarPosicionesAleatorias(8))
-/*const nave = new PersonajePrincipal (3,3,MatrizPrincipal);
-nave.mover()*/
+//
+colocarPosicionesAleatorias(8)//esta ganando mucha importancia esta funcion 
+//tal vez sea la principal el juego idk
 
 //console.log()
 
