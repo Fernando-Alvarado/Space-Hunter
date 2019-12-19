@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <h1>Mis pruebas cause im a idiot</h1>
+            
+        <script>
+            //por si lo llego a volver a usar DX
+/*            var limit = 10;
+                function MatrizBase(){
+      var MatrizPrincipal = new Array(limit);
+        for (let i = 0; i < limit; i++) {///----------------
+            MatrizPrincipal[i]=new Array(limit);
+        }//--------------------------------
+        for (i=0; i<limit; i++){//rellenar de ceros las cosas los 1 seran la nave buena
+            for (e=0; e<limit; e++){
+                MatrizPrincipal[i][e] = 0;
+            }
+        }//------------------------------Reyenar el arreglo de ceros
+    return MatrizPrincipal;
+}*/
+
+
+function DondeCorreraTodoElJuego(){///funcion que simula donde corre el juego
+    document.addEventListener('keydown', function(event){
+        console.log("bip dubip dup");
+    });
+}
+//console.log(MatrizBase());
+//setTimeout(function(){ console.log('se mueve 1 nave enemiga') }, 1000);
+
+function JuegoBucle(){ //Aqui se tendra que correr el bucle
+    setTimeout(function(){ 
+        console.log("Hello"); 
+        JuegoBucle();
+    }, 1000);
+}
+//JuegoBucle();
+//DondeCorreraTodoElJuego();
+
+class preuba{
+    constructor(numero, ejeY, ejeX){
+        this.numero = numero;
+        this.ejeY = ejeY;
+        this.ejeX = ejeX;
+    }
+    JustTheCreator(){//este metodo ara que las naves se muevan y  si tiempo que disparen
+            
+    }
+}
+var declaracionDeObjetos = new Array(3)//numero que tiene que cambiar
+
+for(var i = 0; i<3; i++){
+    declaracionDeObjetos[i] = new preuba(i)
+}
+for(var i = 0; i<3; i++){
+    declaracionDeObjetos[i].proof()
+}
+
+        </script>
+</body>
+</html>

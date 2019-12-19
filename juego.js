@@ -16,48 +16,54 @@ class PersonajePrincipal{
         this.matrizDondeSeTrabaja[this.inicioY][this.inicioX] = 2;
     }
     mover(){
-        var inicioX = this.inicioX;
+        var inicioX = this.inicioX;///si no
         var inicioY = this.inicioY;
         var matrizDondeSeTrabaja = this.matrizDondeSeTrabaja;
     document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
-            matrizDondeSeTrabaja[inicioY][inicioX] = 0;
-            LimpiarLaMatriz(inicioY, inicioX);
-        //y que la nave pueda moverse   ----  inicioX     inicioY  
-        switch(event.code){
-                case "KeyW": if (inicioY == 0) {
-                                inicioY = limit-1;
-                            }else{
-                                inicioY--;
-                            }
-                    break;
-                case "KeyS": if (inicioY == limit-1) {
-                                inicioY = 0;
-                            }else{
-                                 inicioY++;
-                            }
-                    break;
-                case "KeyA": if (inicioX == 0) {
-                                 inicioX = limit-1;
-                            }else{
-                                 inicioX--;   
-                            }
-                    break;
-                case "KeyD": if (inicioX == limit-1) {
-                                inicioX = 0;
-                            } else {
-                                inicioX++;    
-                            }              
-                    break;
-        } 
-         matrizDondeSeTrabaja[inicioY][inicioX] = 2;
-         ponerLasNavesEnLaMatriz(matrizDondeSeTrabaja);
-        console.log(event.code);
-    });
+          //aqui va el switch que puse DX
+        var corriendo =  ChooseWhereToMove(matrizDondeSeTrabaja, inicioY, inicioX, event.code, 2, "KeyW", "KeyS", "KeyA", "KeyD");
+        inicioY=corriendo[0];
+        inicioX=corriendo[1];
+        });
     }
     }
 ////-------------------------------------------------------------------------------------------------------
 ////-------------------------------------------------------------------------------------------------------
 ////-------------------------------------------------------------------------------------------------------
+function ChooseWhereToMove(matriz, y, x, event, value, argu1, argu2, argu3, argu4){//switch para elegir 
+    //donde se va a mover cada nave, servira para la principal y para las naves enemigas
+    matriz[y][x] = 0;
+LimpiarLaMatriz(y, x);
+//y que la nave pueda moverse   ----  inicioX     inicioY  
+switch(event){
+    case argu1:if(y==0)
+                    y=limit-1;
+                else
+                    y--;
+        break;
+    case argu2: if(y==limit-1)
+                    y=0;
+                else
+                    y++;
+        break;
+    case argu3: if (x==0)
+                    x = limit-1;
+                else
+                    x--;   
+        break;
+    case argu4: if(x==limit-1)
+                    x=0;
+                else
+                    x++;                 
+        break;
+} 
+matriz[y][x] = value;
+ponerLasNavesEnLaMatriz(matriz);
+var regreso = new Array(2);
+regreso[0]=y;
+regreso[1]=x;
+return regreso;
+}
 function dibujarReticula(){//funcion que se puede quitar cuando se pase el juego
     ///Solo sirve aqui en canvas esta funcion se ira muy lejos jajajaja
     //vertical
@@ -112,13 +118,16 @@ function MatrizBase(){
         }//------------------------------Reyenar el arreglo de ceros
     return MatrizPrincipal;
 }
+function NumerosAleatorios(tope){
+    return Math.floor((Math.random()*tope))+1
+}
  //poner posiones de las naves y ver donde vas a empezar funcion importante xd
 function colocarPosicionesAleatorias(numNaves){//saber donde estaran las naves al inicio
     //tambien es medio la base de todo el juego espero que esto cambie
    var Matriz = MatrizBase()
         var arrayNavesEnemigas = new Array(numNaves * 2)
         for(let i = 0; i < (numNaves *2); i++){
-            arrayNavesEnemigas[i] = Math.floor((Math.random()*50)+1)
+            arrayNavesEnemigas[i] = NumerosAleatorios(50);
         }        
     //colocando posicion de la nave principla
         Matriz[arrayNavesEnemigas[0]][arrayNavesEnemigas[1]] = 2;    
