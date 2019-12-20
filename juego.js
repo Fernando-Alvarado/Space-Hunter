@@ -42,7 +42,8 @@ class NavesEnemigas{
             function MainBucle(velocidad, matriz, y, x,num, move, ar1, ar2, ar3, ar4){ //Aqui se tendra que correr el bucle de las naves
                 setTimeout(function(){ 
                     var itsRunnig = ChooseWhereToMove(matriz, y, x,num, move, ar1, ar2, ar3, ar4);
-                    MainBucle(1000, this.matrizDondeSeTrabaja, itsRunnig[0], itsRunnig[1], this.numero, 1, 1, 2, 3, 4);
+                   var numero = NumerosAleatorios(4)                  
+                    MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1],numero, move, ar1, ar2, ar3, ar4);
                 }, velocidad);
             }
             MainBucle(1000, this.matrizDondeSeTrabaja, this.ejeY, this.ejeX, this.numero, 1, 1, 2, 3, 4);
@@ -167,11 +168,10 @@ function colocarPosicionesAleatorias(numNaves){//saber donde estaran las naves a
     for(let i = 0; i< numNaves-1; i++){//funcion para que los objetos se instancien con sus propiedades
         ArrayObjetos[i] = new NavesEnemigas(arrayNavesEnemigas[(i*1)+2+i], arrayNavesEnemigas[(i*1)+3+i],Matriz);
     }
-  /*  for(let i = 0; i<numNaves-1; i++){//hacer que mi poderoso metodo funciones
+    //PONER EN EJECUCION TODAS LA NAVES ROJAS
+  /*for(let i = 0; i<numNaves-1; i++){//hacer que mi poderoso metodo funciones
         ArrayObjetos[i].JustTheCreator()//jalando
     }*/
-    console.log(ArrayObjetos[0]);
-    ArrayObjetos[0].JustTheCreator();
     ///   constructor(ejeX, ejeY, matrizDondeSeTrabaja)   
 }
 ///-----------------------------------------------------------------------------------------------
