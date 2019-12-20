@@ -1,6 +1,7 @@
 //-------------DEclaracion de variables 
 var limit = 50;//Numero de casillas de la matriz
 var tamCanvas= 500;//Tama;o del canvas
+var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
 var matrizPrincipal = document.getElementById('matrizBase');//puede ser o no el canvas principal xd
 var lienzoBase = matrizPrincipal.getContext('2d');
 
@@ -9,60 +10,84 @@ var lienzoBase = matrizPrincipal.getContext('2d');
 //---------------------------------------------------------------------------------------------------
 
 class PersonajePrincipal{
-    constructor (inicioX, inicioY, matrizDondeSeTrabaja) {
-        this.inicioX = inicioX;
-        this.inicioY = inicioY;              
-        this.matrizDondeSeTrabaja = matrizDondeSeTrabaja;             
-        this.matrizDondeSeTrabaja[this.inicioY][this.inicioX] = 2;
+       constructor (inicioX, inicioY, matrizDondeSeTrabaja) {
+            this.inicioX = inicioX;
+            this.inicioY = inicioY;              
+            this.matrizDondeSeTrabaja = matrizDondeSeTrabaja;             
+            this.matrizDondeSeTrabaja[this.inicioY][this.inicioX] = 2;
+        }
+        mover(){
+            var inicioX = this.inicioX;///si no
+            var inicioY = this.inicioY;
+            var matrizDondeSeTrabaja = this.matrizDondeSeTrabaja;
+            document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
+                 //aqui va el switch que puse DX
+            var corriendo =  ChooseWhereToMove(matrizDondeSeTrabaja, inicioY, inicioX, event.code, 2, "KeyW", "KeyS", "KeyA", "KeyD");
+            inicioY=corriendo[0];//se reinia la cuenta para que se pueda mover la neve
+            inicioX=corriendo[1];//es algo idiota pero funciona jajajaja
+            });
+        }
     }
-    mover(){
-        var inicioX = this.inicioX;///si no
-        var inicioY = this.inicioY;
-        var matrizDondeSeTrabaja = this.matrizDondeSeTrabaja;
-    document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
-          //aqui va el switch que puse DX
-        var corriendo =  ChooseWhereToMove(matrizDondeSeTrabaja, inicioY, inicioX, event.code, 2, "KeyW", "KeyS", "KeyA", "KeyD");
-        inicioY=corriendo[0];
-        inicioX=corriendo[1];
-        });
-    }
+class NavesEnemigas{
+        constructor(ejeY, ejeX, matrizDondeSeTrabaja){//el
+            this.matrizDondeSeTrabaja = matrizDondeSeTrabaja;
+            this.ejeY = ejeY;
+            this.ejeX = ejeX;
+            this.numero =  NumerosAleatorios(4);//luego esto tengra que cambiar a 5 para que puedan
+            //disparar
+        }
+        JustTheCreator(){//este metodo ara que las naves se muevan y  si tiempo que disparen
+            //usara la funcion switch que cree
+            console.log(this.ejeX)
+            function MainBucle(velocidad){ //Aqui se tendra que correr el bucle de las naves
+                setTimeout(function(){ 
+                    var itsRunnig = ChooseWhereToMove(this.matrizDondeSeTrabaja, this.ejeY, this.ejeX, this.numero, 1, 1, 2, 3, 4);
+                    this.ejeY = itsRunnig[0];
+                    this.ejeX = itsRunnig[1];
+                    MainBucle();
+                }, velocidad);
+            }
+            MainBucle(1000);
+        }
     }
 ////-------------------------------------------------------------------------------------------------------
 ////-------------------------------------------------------------------------------------------------------
 ////-------------------------------------------------------------------------------------------------------
+
+
 function ChooseWhereToMove(matriz, y, x, event, value, argu1, argu2, argu3, argu4){//switch para elegir 
     //donde se va a mover cada nave, servira para la principal y para las naves enemigas
     matriz[y][x] = 0;
-LimpiarLaMatriz(y, x);
-//y que la nave pueda moverse   ----  inicioX     inicioY  
-switch(event){
-    case argu1:if(y==0)
-                    y=limit-1;
-                else
-                    y--;
-        break;
-    case argu2: if(y==limit-1)
-                    y=0;
-                else
-                    y++;
-        break;
-    case argu3: if (x==0)
-                    x = limit-1;
-                else
-                    x--;   
-        break;
-    case argu4: if(x==limit-1)
-                    x=0;
-                else
-                    x++;                 
-        break;
-} 
-matriz[y][x] = value;
-ponerLasNavesEnLaMatriz(matriz);
-var regreso = new Array(2);
-regreso[0]=y;
-regreso[1]=x;
-return regreso;
+    LimpiarLaMatriz(y, x);
+    //y que la nave pueda moverse   ----  inicioX     inicioY  
+    switch(event){
+        case argu1:if(y==0)
+                        y=limit-1;
+                    else
+                        y--;
+           break;
+        case argu2: if(y==limit-1)
+                        y=0;
+                    else
+                        y++;
+            break;
+        case argu3: if (x==0)
+                        x = limit-1;
+                    else
+                        x--;   
+            break;
+        case argu4: if(x==limit-1)
+                        x=0;
+                    else
+                        x++;                 
+            break;
+    } 
+    matriz[y][x] = value;
+    ponerLasNavesEnLaMatriz(matriz);
+    var regreso = new Array(2);
+    regreso[0]=y;
+    regreso[1]=x;
+    return regreso;
 }
 function dibujarReticula(){//funcion que se puede quitar cuando se pase el juego
     ///Solo sirve aqui en canvas esta funcion se ira muy lejos jajajaja
@@ -124,25 +149,30 @@ function NumerosAleatorios(tope){
  //poner posiones de las naves y ver donde vas a empezar funcion importante xd
 function colocarPosicionesAleatorias(numNaves){//saber donde estaran las naves al inicio
     //tambien es medio la base de todo el juego espero que esto cambie
-   var Matriz = MatrizBase()
-        var arrayNavesEnemigas = new Array(numNaves * 2)
-        for(let i = 0; i < (numNaves *2); i++){
-            arrayNavesEnemigas[i] = NumerosAleatorios(50);
-        }        
-    //colocando posicion de la nave principla
-        Matriz[arrayNavesEnemigas[0]][arrayNavesEnemigas[1]] = 2;    
-    //  Colocar las naves en la matriz de las naves enemigas  
-   for(let i=2; i< (numNaves * 2); i+=2){   
+    var Matriz = MatrizBase();//tipo instanciando la matriz principal
+    var arrayNavesEnemigas = new Array(numNaves * 2)//Declaracion del array con las naves de todos
+    for(let i = 0; i < (numNaves *2); i++){//colocando las posiciones enemigas
+        arrayNavesEnemigas[i] = NumerosAleatorios(50);//metiendo esos valores
+    }        
+    Matriz[arrayNavesEnemigas[0]][arrayNavesEnemigas[1]] = 2;//colocando posicion de la nave principla       
+    for(let i=2; i< (numNaves * 2); i+=2){//  Colocar las naves en la matriz de las naves enemigas  
         Matriz[arrayNavesEnemigas[i]][arrayNavesEnemigas[i+1]] = 1; 
     }
     ponerLasNavesEnLaMatriz(Matriz)//ibujar la matriz de nuemeros en esta de canvas     
     //instanciando el objeto principal ----------------------
-    const nave = new PersonajePrincipal (arrayNavesEnemigas[1], arrayNavesEnemigas[0],Matriz);
-    ////--------------------------------------------
-    nave.mover()
-   
+    const nave = new PersonajePrincipal(arrayNavesEnemigas[1], arrayNavesEnemigas[0],Matriz);
+    nave.mover()//haciendo que el objeto funcione  las teclas
+    //-----------------Delcarando todas las naves enemigas que hay--------------------
+    var ArrayObjetos = new Array(numNaves-1);//aqui correran todos los objetos de las naves enemigas
+    console.log(arrayNavesEnemigas);
+    for(let i = 0; i< numNaves-1; i++){//funcion para que los objetos se instancien con sus propiedades
+        ArrayObjetos[i] = new NavesEnemigas(arrayNavesEnemigas[i+2], arrayNavesEnemigas[i+3],Matriz);
+    }
+    for(let i = 0; i<3; i++){//hacer que mi poderoso metodo funciones
+        ArrayObjetos[i].JustTheCreator()//jalando
+    }
+    ///   constructor(ejeX, ejeY, matrizDondeSeTrabaja)   
 }
-
 ///-----------------------------------------------------------------------------------------------
 ///--------------------Ejecuciones----------------------------------------------------------------
 ///-----------------------------------------------------------------------------------------------
@@ -166,5 +196,5 @@ colocarPosicionesAleatorias(8)//esta ganando mucha importancia esta funcion
 //-------------PURO CAMVAS------- (matriz de los monitos)--------------------------------
 lienzoBase.beginPath();//EMPEZAR EL DIBUJO
 //dibujar la reticula 
-dibujarReticula();
+dibujarReticula();//esta es la reticula del 
 lienzoBase.closePath();
