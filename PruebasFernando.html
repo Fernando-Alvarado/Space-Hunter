@@ -10,48 +10,29 @@
         <h1>Mis pruebas cause im a idiot</h1>
             
         <script>
-            //por si lo llego a volver a usar DX
-/*            var limit = 10;
-                function MatrizBase(){
-      var MatrizPrincipal = new Array(limit);
-        for (let i = 0; i < limit; i++) {///----------------
-            MatrizPrincipal[i]=new Array(limit);
-        }//--------------------------------
-        for (i=0; i<limit; i++){//rellenar de ceros las cosas los 1 seran la nave buena
-            for (e=0; e<limit; e++){
-                MatrizPrincipal[i][e] = 0;
-            }
-        }//------------------------------Reyenar el arreglo de ceros
-    return MatrizPrincipal;
-}*/
-
-
-function DondeCorreraTodoElJuego(){///funcion que simula donde corre el juego
-    document.addEventListener('keydown', function(event){
-        console.log("bip dubip dup");
-    });
-} //-----------------------------------ESTA FUNCION ES LA REPRESENTACION----------------------
-//console.log(MatrizBase());
-//setTimeout(function(){ console.log('se mueve 1 nave enemiga') }, 1000);
-
-function MainBucle(velocidad){ //Aqui se tendra que correr el bucle
-    setTimeout(function(){ 
-        console.log("Hello"); 
-        MainBucle();
-    }, velocidad);
+function NumerosAleatorios(tope){
+    return Math.floor((Math.random()*tope))+1
 }
-//JuegoBucle();
-//DondeCorreraTodoElJuego();
 
-///-----------------------------------Quite el objeto de las naves
-var declaracionDeObjetos = new Array(3)//numero que tiene que cambiar
+            function ArrayBaseDeLaNaves(numero){//declarando el array de las naves y sus posiciones
+    var MatrizPrincipal = new Array(numero);
+    for (let i = 0; i < numero; i++)
+        MatrizPrincipal[i]=new Array(3);//array que dira si es una nave enemiga y sus posiciones en 
+        //x,y  
+    for (i=0; i<numero; i++){
+        MatrizPrincipal[i][0] = 2;
+        for (e=1; e<3; e++){
+            MatrizPrincipal[i][e] = NumerosAleatorios(10);
+        }
+    }
+    MatrizPrincipal[0][0] = 1;
+  
+return MatrizPrincipal;
+}
+var Runni = ArrayBaseDeLaNaves(5);
 
-for(var i = 0; i<3; i++){
-    declaracionDeObjetos[i] = new preuba(i)
-}
-for(var i = 0; i<3; i++){
-    declaracionDeObjetos[i].proof()
-}
+console.log(Runni[3][2]);
+
 
         </script>
 </body>

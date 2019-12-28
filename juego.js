@@ -106,20 +106,17 @@ function dibujarReticula(){//funcion que se puede quitar cuando se pase el juego
 function ponerLasNavesEnLaMatriz(matrizDeclarada){//cada que se mueva se tendra que correr esta
     ///Matriz solo de la de canvas
     // funcion para refrescar todo  //solo es para pintarla
-    for(let i=0; i<limit; i++){ //colocar las cosas en su lugar
-        for(let e=0; e<limit; e++){
-            if(matrizDeclarada[i][e] != 0){
+
+    for(let i=0; i<matrizDeclarada.length; i++){ //colocar las cosas en su lugar
                 lienzoBase.beginPath();//EMPEZAR EL DIBUJO
-                if(matrizDeclarada[i][e] == 2)
+                if(matrizDeclarada[i][0] == 2)
                      lienzoBase.fillStyle = "black";//color que quieran
                 else
                     lienzoBase.fillStyle = "red";//color que quieran
-                lienzoBase.rect((e*10), (i*10), 10, 10);//poner las cuadrados tal ves hay que
+                lienzoBase.rect((matrizDeclarada[i][1]*10), (matrizDeclarada[i][2]*10), 10, 10);//poner las cuadrados tal ves hay que
                 //tal vez hay que cambiar el cuadro de los cuaros 10
                 lienzoBase.fill();// poder rellenar de color el fondo del canvas
                 lienzoBase.closePath();
-           }
-        } 
     }
 
 }
@@ -131,34 +128,31 @@ function LimpiarLaMatriz(PosInicial, PosFinal){ //funcion para limpiar la pos an
     lienzoBase.fill();// poder rellenar de color el fondo del canvas
     lienzoBase.closePath();
 }
-/*function MatrizBase(){
-      var MatrizPrincipal = new Array(limit);
-        for (let i = 0; i < limit; i++) {///----------------
-            MatrizPrincipal[i]=new Array(limit);
-        }//--------------------------------
-        for (i=0; i<limit; i++){//rellenar de ceros las cosas los 1 seran la nave buena
-            for (e=0; e<limit; e++){
-                MatrizPrincipal[i][e] = 0;
-            }
-        }//------------------------------Reyenar el arreglo de ceros
-    return MatrizPrincipal;
-}*/
+///----------------FUNCTIONS THAT I NEED TO COPY now they r modify---------------------------
 function NumerosAleatorios(tope){
     return Math.floor((Math.random()*tope))+1
+}
+function ArrayBaseDeLaNaves(numero){//declarando el array de las naves y sus posiciones
+    var MatrizPrincipal = new Array(numero);
+    for (let i = 0; i < numero; i++)
+        MatrizPrincipal[i]=new Array(3);//array que dira si es una nave enemiga y sus posiciones en X,Y 
+    for (i=0; i<numero; i++){
+        MatrizPrincipal[i][0] = 2;
+        for (e=1; e<3; e++){
+            MatrizPrincipal[i][e] = NumerosAleatorios(limit);
+        }
+    }
+    MatrizPrincipal[0][0] = 1;
+return MatrizPrincipal;
 }
  //poner posiones de las naves y ver donde vas a empezar funcion importante xd
 function colocarPosicionesAleatorias(numNaves){//saber donde estaran las naves al inicio
     //tambien es medio la base de todo el juego espero que esto cambie
-    var Matriz = MatrizBase();//tipo instanciando la matriz principal
-    var arrayNavesEnemigas = new Array(numNaves * 2)//Declaracion del array con las naves de todos
-    for(let i = 0; i < (numNaves *2); i++){//colocando las posiciones enemigas
-        arrayNavesEnemigas[i] = NumerosAleatorios(50);//metiendo esos valores
-    }        
-    Matriz[arrayNavesEnemigas[0]][arrayNavesEnemigas[1]] = 2;//colocando posicion de la nave principla       
-    for(let i=2; i< (numNaves * 2); i+=2){//  Colocar las naves en la matriz de las naves enemigas  
-        Matriz[arrayNavesEnemigas[i]][arrayNavesEnemigas[i+1]] = 1; 
-    }
-    ponerLasNavesEnLaMatriz(Matriz)//ibujar la matriz de nuemeros en esta de canvas     
+    var Matriz = ArrayBaseDeLaNaves(numNaves);//tipo instanciando la matriz principal
+    ponerLasNavesEnLaMatriz(Matriz)//ibujar la matriz de nuemeros en esta de canvas    
+    
+    
+    ///---------------No Funciona--------------------------------------------------------------
     //instanciando el objeto principal ----------------------
     const nave = new PersonajePrincipal(arrayNavesEnemigas[1], arrayNavesEnemigas[0],Matriz);
     nave.mover()//haciendo que el objeto funcione  las teclas
@@ -169,9 +163,9 @@ function colocarPosicionesAleatorias(numNaves){//saber donde estaran las naves a
         ArrayObjetos[i] = new NavesEnemigas(arrayNavesEnemigas[(i*1)+2+i], arrayNavesEnemigas[(i*1)+3+i],Matriz);
     }
     //PONER EN EJECUCION TODAS LA NAVES ROJAS
-  /*for(let i = 0; i<numNaves-1; i++){//hacer que mi poderoso metodo funciones
+  for(let i = 0; i<numNaves-1; i++){//hacer que mi poderoso metodo funciones
         ArrayObjetos[i].JustTheCreator()//jalando
-    }*/
+    }
     ///   constructor(ejeX, ejeY, matrizDondeSeTrabaja)   
 }
 ///-----------------------------------------------------------------------------------------------
