@@ -131,7 +131,7 @@ function LimpiarLaMatriz(PosInicial, PosFinal){ //funcion para limpiar la pos an
     lienzoBase.fill();// poder rellenar de color el fondo del canvas
     lienzoBase.closePath();
 }
-function MatrizBase(){
+/*function MatrizBase(){
       var MatrizPrincipal = new Array(limit);
         for (let i = 0; i < limit; i++) {///----------------
             MatrizPrincipal[i]=new Array(limit);
@@ -142,7 +142,7 @@ function MatrizBase(){
             }
         }//------------------------------Reyenar el arreglo de ceros
     return MatrizPrincipal;
-}
+}*/
 function NumerosAleatorios(tope){
     return Math.floor((Math.random()*tope))+1
 }
