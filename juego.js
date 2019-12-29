@@ -155,13 +155,8 @@ function colocarPosicionesAleatorias(numNaves){//saber donde estaran las naves a
 
     for(let i = 0; i< ArrayObjetos.length; i++){//funcion para que los objetos se instancien con sus propiedades
         ArrayObjetos[i] = new NavesEnemigas(Matriz, i+1);
-    }
-   
-    //PONER EN EJECUCION TODAS LA NAVES ROJAS
-  for(let i = 0; i<numNaves; i++){//hacer que mi poderoso metodo funciones
-        ArrayObjetos[i].JustTheCreator()//jalando
-    }
-    ///   constructor(ejeX, ejeY, matrizDondeSeTrabaja)   
+        ArrayObjetos[i].JustTheCreator();//Js es una mamada jajaja
+    } 
 }
 ///-----------------------------------------------------------------------------------------------
 ///--------------------Ejecuciones----------------------------------------------------------------
