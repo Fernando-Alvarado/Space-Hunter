@@ -4,15 +4,13 @@ var tamCanvas= 500;//Tama;o del canvas
 var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
 var matrizPrincipal = document.getElementById('matrizBase');//puede ser o no el canvas principal xd
 var lienzoBase = matrizPrincipal.getContext('2d');
-
 //--------------------------------OBJETOS------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------
 //Matriz[0][1], Matriz[0][2],
 class PersonajePrincipal{
        constructor (matrizDondeSeTrabaja) {           
-            this.matrizDondeSeTrabaja = matrizDondeSeTrabaja;     
-            console.log(matrizDondeSeTrabaja)        
+            this.matrizDondeSeTrabaja = matrizDondeSeTrabaja;         
         }
         mover(){
             var matrizDondeSeTrabaja = this.matrizDondeSeTrabaja;
@@ -28,7 +26,6 @@ class NavesEnemigas{
         constructor(matrizDondeSeTrabaja, number){//el 
             this.workingMat = matrizDondeSeTrabaja;
             this.number = number;
-            console.log(this.number)
             this.numero =  NumerosAleatorios(4);//luego esto tengra que cambiar a 5 para que puedan
             //disparar
         }
@@ -47,8 +44,6 @@ class NavesEnemigas{
 ////-------------------------------------------------------------------------------------------------------
 ////-------------------------------------------------------------------------------------------------------
 ////-------------------------------------------------------------------------------------------------------
-
-
 function ChooseWhereToMove(color,matriz,y, x, event, argu1, argu2, argu3, argu4){//switch para elegir 
     //donde se va a mover cada nave, servira para la principal y para las naves enemigas
     LimpiarLaMatriz(y, x, "white");
@@ -117,14 +112,14 @@ function ponerLasNavesEnLaMatriz(matrizDeclarada){//cada que se mueva se tendra 
 function LimpiarLaMatriz(y, x, color){ //funcion para limpiar la pos anterior
     ///Funcion que hace que hace que se borre el rastro de la nave en la matriz de canvas
     lienzoBase.beginPath();//EMPEZAR EL DIBUJO
-        lienzoBase.fillStyle = color;//color que quieran
+    lienzoBase.fillStyle = color;//color que quieran
     lienzoBase.rect((x*10), (y*10), 9, 9);//poner las cuadrados tal ves hay que
     lienzoBase.fill();// poder rellenar de color el fondo del canvas
     lienzoBase.closePath();
 }
 ///----------------FUNCTIONS THAT I NEED TO COPY now they r modify---------------------------
 function NumerosAleatorios(tope){
-    return Math.floor((Math.random()*tope))+1
+    return Math.floor((Math.random()*tope))+1;
 }
 function ArrayBaseDeLaNaves(numero){//declarando el array de las naves y sus posiciones
     var MatrizPrincipal = new Array(numero);
@@ -143,16 +138,12 @@ return MatrizPrincipal;
 function colocarPosicionesAleatorias(numNaves){//saber donde estaran las naves al inicio
     //tambien es medio la base de todo el juego espero que esto cambie
     var Matriz = ArrayBaseDeLaNaves(numNaves);//tipo instanciando la matriz principal
-    ponerLasNavesEnLaMatriz(Matriz)//ibujar la matriz de nuemeros en esta de canvas    
-    
-    
-    ///---------------No Funciona--------------------------------------------------------------
+    ponerLasNavesEnLaMatriz(Matriz)//ibujar la matriz de nuemeros en esta de canvas        
     //instanciando el objeto principal ----------------------
     const nave = new PersonajePrincipal(Matriz);
     nave.mover()//haciendo que el objeto funcione  las teclas
     //-----------------Delcarando todas las naves enemigas que hay--------------------
     var ArrayObjetos = new Array(numNaves-1);//aqui correran todos los objetos de las naves enemigas
-
     for(let i = 0; i< ArrayObjetos.length; i++){//funcion para que los objetos se instancien con sus propiedades
         ArrayObjetos[i] = new NavesEnemigas(Matriz, i+1);
         ArrayObjetos[i].JustTheCreator();//Js es una mamada jajaja
@@ -161,22 +152,10 @@ function colocarPosicionesAleatorias(numNaves){//saber donde estaran las naves a
 ///-----------------------------------------------------------------------------------------------
 ///--------------------Ejecuciones----------------------------------------------------------------
 ///-----------------------------------------------------------------------------------------------
-
-//
+//               Funcion principal que corre todo el juego
 colocarPosicionesAleatorias(8)//esta ganando mucha importancia esta funcion 
-//tal vez sea la principal el juego idk
-
-//console.log()
-
-//---Creo que necesitaremos poner un funcion como setTimeout(function(){ alert("Hello"); }, 3000); --
-//como ciclo principal
 
 
-
-
-
-
-//------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------
 //-------------PURO CAMVAS------- (matriz de los monitos)--------------------------------
 lienzoBase.beginPath();//EMPEZAR EL DIBUJO
