@@ -8,23 +8,19 @@ var lienzoBase = matrizPrincipal.getContext('2d');
 //--------------------------------OBJETOS------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------
-
+//Matriz[0][1], Matriz[0][2],
 class PersonajePrincipal{
-       constructor (inicioX, inicioY, matrizDondeSeTrabaja) {
-            this.inicioX = inicioX;
-            this.inicioY = inicioY;              
-            this.matrizDondeSeTrabaja = matrizDondeSeTrabaja;             
-            this.matrizDondeSeTrabaja[this.inicioY][this.inicioX] = 2;
+       constructor (matrizDondeSeTrabaja) {           
+            this.matrizDondeSeTrabaja = matrizDondeSeTrabaja;     
+            console.log(matrizDondeSeTrabaja)        
         }
         mover(){
-            var inicioX = this.inicioX;///si no
-            var inicioY = this.inicioY;
             var matrizDondeSeTrabaja = this.matrizDondeSeTrabaja;
             document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
-                 //aqui va el switch que puse DX
-            var corriendo =  ChooseWhereToMove(matrizDondeSeTrabaja, inicioY, inicioX, event.code, 2, "KeyW", "KeyS", "KeyA", "KeyD");
-            inicioY=corriendo[0];//se reinia la cuenta para que se pueda mover la neve
-            inicioX=corriendo[1];//es algo idiota pero funciona jajajaja
+            var corriendo =  ChooseWhereToMove("black",matrizDondeSeTrabaja, matrizDondeSeTrabaja[0][2], matrizDondeSeTrabaja[0][1], event.code,"KeyW", "KeyS", "KeyA", "KeyD");
+            matrizDondeSeTrabaja[0][2]=corriendo[0];//se reinia la cuenta para que se pueda mover la neve
+            matrizDondeSeTrabaja[0][1]=corriendo[1];//es algo idiota pero funciona jajajaja
+         
             });
         }
     }
@@ -38,15 +34,14 @@ class NavesEnemigas{
         }
         JustTheCreator(){//este metodo ara que las naves se muevan y  si tiempo que disparen
             //usara la funcion switch que cree
-            console.log(this.ejeY)
-            function MainBucle(velocidad, matriz, y, x,num, move, ar1, ar2, ar3, ar4){ //Aqui se tendra que correr el bucle de las naves
+            function MainBucle(velocidad, matriz, y, x ,move, ar1, ar2, ar3, ar4){ //Aqui se tendra que correr el bucle de las naves
                 setTimeout(function(){ 
-                    var itsRunnig = ChooseWhereToMove(matriz, y, x,num, move, ar1, ar2, ar3, ar4);
+                    var itsRunnig = ChooseWhereToMove("red",matriz, y, x,num, move, ar1, ar2, ar3, ar4);
                    var numero = NumerosAleatorios(4)                  
                     MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1],numero, move, ar1, ar2, ar3, ar4);
                 }, velocidad);
             }
-            MainBucle(1000, this.matrizDondeSeTrabaja, this.ejeY, this.ejeX, this.numero, 1, 1, 2, 3, 4);
+            MainBucle(1000, this.matrizDondeSeTrabaja, this.ejeY, this.ejeX, this.numero, 1, 2, 3, 4);
         }
     }
 ////-------------------------------------------------------------------------------------------------------
@@ -54,11 +49,9 @@ class NavesEnemigas{
 ////-------------------------------------------------------------------------------------------------------
 
 
-function ChooseWhereToMove(matriz, y, x, event, value, argu1, argu2, argu3, argu4){//switch para elegir 
+function ChooseWhereToMove(color,matriz,y, x, event, argu1, argu2, argu3, argu4){//switch para elegir 
     //donde se va a mover cada nave, servira para la principal y para las naves enemigas
-   // console.log(matriz)
-    matriz[y][x] = 0;
-    LimpiarLaMatriz(y, x);
+    LimpiarLaMatriz(y, x, "white");
     //y que la nave pueda moverse   ----  inicioX     inicioY  
     switch(event){
         case argu1:if(y==0)
@@ -82,12 +75,12 @@ function ChooseWhereToMove(matriz, y, x, event, value, argu1, argu2, argu3, argu
                         x++;                 
             break;
     } 
-    matriz[y][x] = value;
-    ponerLasNavesEnLaMatriz(matriz);
+    //ponerLasNavesEnLaMatriz(matriz);/////////////////////////////////Arreglar
+    LimpiarLaMatriz(y, x, color);
     var regreso = new Array(2);
-    regreso[0]=y;
-    regreso[1]=x;
-    return regreso;
+   regreso = [y, x, matriz];
+   return regreso
+  
 }
 function dibujarReticula(){//funcion que se puede quitar cuando se pase el juego
     ///Solo sirve aqui en canvas esta funcion se ira muy lejos jajajaja
@@ -106,7 +99,8 @@ function dibujarReticula(){//funcion que se puede quitar cuando se pase el juego
 function ponerLasNavesEnLaMatriz(matrizDeclarada){//cada que se mueva se tendra que correr esta
     ///Matriz solo de la de canvas
     // funcion para refrescar todo  //solo es para pintarla
-
+    /*console.log('dipdup')
+    console.log(matrizDeclarada)*/
     for(let i=0; i<matrizDeclarada.length; i++){ //colocar las cosas en su lugar
                 lienzoBase.beginPath();//EMPEZAR EL DIBUJO
                 if(matrizDeclarada[i][0] == 2)
@@ -120,11 +114,13 @@ function ponerLasNavesEnLaMatriz(matrizDeclarada){//cada que se mueva se tendra 
     }
 
 }
-function LimpiarLaMatriz(PosInicial, PosFinal){ //funcion para limpiar la pos anterior
+function LimpiarLaMatriz(y, x, color){ //funcion para limpiar la pos anterior
+    console.log(x)
+    console.log(y)
     ///Funcion que hace que hace que se borre el rastro de la nave en la matriz de canvas
     lienzoBase.beginPath();//EMPEZAR EL DIBUJO
-        lienzoBase.fillStyle = "white";//color que quieran
-    lienzoBase.rect((PosFinal*10), (PosInicial*10), 9, 9);//poner las cuadrados tal ves hay que
+        lienzoBase.fillStyle = color;//color que quieran
+    lienzoBase.rect((x*10), (y*10), 9, 9);//poner las cuadrados tal ves hay que
     lienzoBase.fill();// poder rellenar de color el fondo del canvas
     lienzoBase.closePath();
 }
@@ -137,12 +133,12 @@ function ArrayBaseDeLaNaves(numero){//declarando el array de las naves y sus pos
     for (let i = 0; i < numero; i++)
         MatrizPrincipal[i]=new Array(3);//array que dira si es una nave enemiga y sus posiciones en X,Y 
     for (i=0; i<numero; i++){
-        MatrizPrincipal[i][0] = 2;
+        MatrizPrincipal[i][0] = 1;
         for (e=1; e<3; e++){
             MatrizPrincipal[i][e] = NumerosAleatorios(limit);
         }
     }
-    MatrizPrincipal[0][0] = 1;
+    MatrizPrincipal[0][0] = 2;
 return MatrizPrincipal;
 }
  //poner posiones de las naves y ver donde vas a empezar funcion importante xd
@@ -154,18 +150,18 @@ function colocarPosicionesAleatorias(numNaves){//saber donde estaran las naves a
     
     ///---------------No Funciona--------------------------------------------------------------
     //instanciando el objeto principal ----------------------
-    const nave = new PersonajePrincipal(arrayNavesEnemigas[1], arrayNavesEnemigas[0],Matriz);
+    const nave = new PersonajePrincipal(Matriz);
     nave.mover()//haciendo que el objeto funcione  las teclas
     //-----------------Delcarando todas las naves enemigas que hay--------------------
-    var ArrayObjetos = new Array(numNaves-1);//aqui correran todos los objetos de las naves enemigas
-    console.log(arrayNavesEnemigas);
-    for(let i = 0; i< numNaves-1; i++){//funcion para que los objetos se instancien con sus propiedades
-        ArrayObjetos[i] = new NavesEnemigas(arrayNavesEnemigas[(i*1)+2+i], arrayNavesEnemigas[(i*1)+3+i],Matriz);
+  /*  var ArrayObjetos = new Array(numNaves-1);//aqui correran todos los objetos de las naves enemigas
+
+    for(let i = 1; i< numNaves-1; i++){//funcion para que los objetos se instancien con sus propiedades
+        ArrayObjetos[i] = new NavesEnemigas(Matriz[i][1], Matriz[i][2],Matriz);
     }
     //PONER EN EJECUCION TODAS LA NAVES ROJAS
   for(let i = 0; i<numNaves-1; i++){//hacer que mi poderoso metodo funciones
         ArrayObjetos[i].JustTheCreator()//jalando
-    }
+    }*/
     ///   constructor(ejeX, ejeY, matrizDondeSeTrabaja)   
 }
 ///-----------------------------------------------------------------------------------------------
