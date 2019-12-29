@@ -1,15 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-        <h1>Mis pruebas cause im a idiot</h1>
-            
-        <script>
 function NumerosAleatorios(tope){
     return Math.floor((Math.random()*tope))+1
 }
@@ -30,10 +18,10 @@ function NumerosAleatorios(tope){
 return MatrizPrincipal;
 }
 var Runni = ArrayBaseDeLaNaves(5);
-
-console.log(Runni[3][2]);
-
-
-        </script>
-</body>
-</html>
+/*
+Crear una cookie
+document.cookie = “name=valor”;
+document.cookie = “name=valor; expires=fecha en UTC”;
+Obtener cookies
+document.cookie; //obtiene una cadena con todas las cookies
+*/
