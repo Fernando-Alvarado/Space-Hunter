@@ -25,10 +25,10 @@ class PersonajePrincipal{
         }
     }
 class NavesEnemigas{
-        constructor(ejeY, ejeX, matrizDondeSeTrabaja){//el 
-            this.matrizDondeSeTrabaja = matrizDondeSeTrabaja;
-            this.ejeY = ejeY;
-            this.ejeX = ejeX;
+        constructor(matrizDondeSeTrabaja, number){//el 
+            this.workingMat = matrizDondeSeTrabaja;
+            this.number = number;
+            console.log(this.number)
             this.numero =  NumerosAleatorios(4);//luego esto tengra que cambiar a 5 para que puedan
             //disparar
         }
@@ -36,12 +36,12 @@ class NavesEnemigas{
             //usara la funcion switch que cree
             function MainBucle(velocidad, matriz, y, x ,move, ar1, ar2, ar3, ar4){ //Aqui se tendra que correr el bucle de las naves
                 setTimeout(function(){ 
-                    var itsRunnig = ChooseWhereToMove("red",matriz, y, x,num, move, ar1, ar2, ar3, ar4);
+                    var itsRunnig = ChooseWhereToMove("red",matriz, y, x, move, ar1, ar2, ar3, ar4);
                    var numero = NumerosAleatorios(4)                  
-                    MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1],numero, move, ar1, ar2, ar3, ar4);
+                    MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], numero, ar1, ar2, ar3, ar4);
                 }, velocidad);
             }
-            MainBucle(1000, this.matrizDondeSeTrabaja, this.ejeY, this.ejeX, this.numero, 1, 2, 3, 4);
+        MainBucle(1000, this.workingMat, this.workingMat[this.number][2], this.workingMat[this.number][1], this.numero, 1, 2, 3, 4);
         }
     }
 ////-------------------------------------------------------------------------------------------------------
@@ -115,8 +115,6 @@ function ponerLasNavesEnLaMatriz(matrizDeclarada){//cada que se mueva se tendra 
 
 }
 function LimpiarLaMatriz(y, x, color){ //funcion para limpiar la pos anterior
-    console.log(x)
-    console.log(y)
     ///Funcion que hace que hace que se borre el rastro de la nave en la matriz de canvas
     lienzoBase.beginPath();//EMPEZAR EL DIBUJO
         lienzoBase.fillStyle = color;//color que quieran
@@ -153,15 +151,16 @@ function colocarPosicionesAleatorias(numNaves){//saber donde estaran las naves a
     const nave = new PersonajePrincipal(Matriz);
     nave.mover()//haciendo que el objeto funcione  las teclas
     //-----------------Delcarando todas las naves enemigas que hay--------------------
-  /*  var ArrayObjetos = new Array(numNaves-1);//aqui correran todos los objetos de las naves enemigas
+    var ArrayObjetos = new Array(numNaves-1);//aqui correran todos los objetos de las naves enemigas
 
-    for(let i = 1; i< numNaves-1; i++){//funcion para que los objetos se instancien con sus propiedades
-        ArrayObjetos[i] = new NavesEnemigas(Matriz[i][1], Matriz[i][2],Matriz);
+    for(let i = 0; i< ArrayObjetos.length; i++){//funcion para que los objetos se instancien con sus propiedades
+        ArrayObjetos[i] = new NavesEnemigas(Matriz, i+1);
     }
+   
     //PONER EN EJECUCION TODAS LA NAVES ROJAS
-  for(let i = 0; i<numNaves-1; i++){//hacer que mi poderoso metodo funciones
+  for(let i = 0; i<numNaves; i++){//hacer que mi poderoso metodo funciones
         ArrayObjetos[i].JustTheCreator()//jalando
-    }*/
+    }
     ///   constructor(ejeX, ejeY, matrizDondeSeTrabaja)   
 }
 ///-----------------------------------------------------------------------------------------------
