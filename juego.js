@@ -4,6 +4,7 @@ var tamCanvas= 500;//Tama;o del canvas
 var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
 var matrizPrincipal = document.getElementById('matrizBase');//puede ser o no el canvas principal xd
 var lienzoBase = matrizPrincipal.getContext('2d');
+var Matriz = ArrayBaseDeLaNaves(8);//tipo instanciando la matriz principal
 //--------------------------------OBJETOS------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------
@@ -74,6 +75,7 @@ function ChooseWhereToMove(color,matriz,y, x, event, argu1, argu2, argu3, argu4)
     LimpiarLaMatriz(y, x, color);
     var regreso = new Array(2);
    regreso = [y, x, matriz];
+   console.log(Matriz)
    return regreso
   
 }
@@ -137,7 +139,7 @@ return MatrizPrincipal;
  //poner posiones de las naves y ver donde vas a empezar funcion importante xd
 function colocarPosicionesAleatorias(numNaves){//saber donde estaran las naves al inicio
     //tambien es medio la base de todo el juego espero que esto cambie
-    var Matriz = ArrayBaseDeLaNaves(numNaves);//tipo instanciando la matriz principal
+   // var Matriz = ArrayBaseDeLaNaves(numNaves);//tipo instanciando la matriz principal
     ponerLasNavesEnLaMatriz(Matriz)//ibujar la matriz de nuemeros en esta de canvas        
     //instanciando el objeto principal ----------------------
     const nave = new PersonajePrincipal(Matriz);
