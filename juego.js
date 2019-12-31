@@ -4,7 +4,8 @@ var tamCanvas= 500;//Tama;o del canvas
 var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
 var matrizPrincipal = document.getElementById('matrizBase');//puede ser o no el canvas principal xd
 var lienzoBase = matrizPrincipal.getContext('2d');
-var Matriz = ArrayBaseDeLaNaves(8);//tipo instanciando la matriz principal
+var numnaves = 8; //numero de naves que hay declaradas 
+var MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves);//tipo instanciando la matriz principal
 //--------------------------------OBJETOS------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------
@@ -16,7 +17,7 @@ class PersonajePrincipal{
         mover(){
             var matrizDondeSeTrabaja = this.matrizDondeSeTrabaja;
             document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
-            var corriendo =  ChooseWhereToMove("black",matrizDondeSeTrabaja, matrizDondeSeTrabaja[0][2], matrizDondeSeTrabaja[0][1], event.code,"KeyW", "KeyS", "KeyA", "KeyD");
+            var corriendo =  ChooseWhereToMove("black",matrizDondeSeTrabaja, matrizDondeSeTrabaja[0][2], matrizDondeSeTrabaja[0][1], event.code,"KeyW", "KeyS", "KeyA", "KeyD", 0);
             matrizDondeSeTrabaja[0][2]=corriendo[0];//se reinia la cuenta para que se pueda mover la neve
             matrizDondeSeTrabaja[0][1]=corriendo[1];//es algo idiota pero funciona jajajaja
          
@@ -26,26 +27,28 @@ class PersonajePrincipal{
 class NavesEnemigas{
         constructor(matrizDondeSeTrabaja, number){//el 
             this.workingMat = matrizDondeSeTrabaja;
-            this.number = number;
+            this.number = number;//indice dentro de la matriz principal donde se guardara la nave
             this.numero =  NumerosAleatorios(4);//luego esto tengra que cambiar a 5 para que puedan
             //disparar
         }
         JustTheCreator(){//este metodo ara que las naves se muevan y  si tiempo que disparen
             //usara la funcion switch que cree
-            function MainBucle(velocidad, matriz, y, x ,move, ar1, ar2, ar3, ar4){ //Aqui se tendra que correr el bucle de las naves
+            function MainBucle(velocidad, matriz, y, x ,move, ar1, ar2, ar3, ar4, position){ //Aqui se tendra que correr el bucle de las naves
                 setTimeout(function(){ 
-                    var itsRunnig = ChooseWhereToMove("red",matriz, y, x, move, ar1, ar2, ar3, ar4);
-                   var numero = NumerosAleatorios(4)                  
-                    MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], numero, ar1, ar2, ar3, ar4);
+                    var itsRunnig = ChooseWhereToMove("red",matriz, y, x, move, ar1, ar2, ar3, ar4, position);
+                   var numero = NumerosAleatorios(4);                  
+                    MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], numero, ar1, ar2, ar3, ar4, position);
                 }, velocidad);
             }
-        MainBucle(1000, this.workingMat, this.workingMat[this.number][2], this.workingMat[this.number][1], this.numero, 1, 2, 3, 4);
+        //console.log(this.number)
+        MainBucle(1000, this.workingMat, this.workingMat[this.number][2], this.workingMat[this.number][1], this.numero, 1, 2, 3, 4, this.number);
         }
     }
 ////-------------------------------------------------------------------------------------------------------
 ////-------------------------------------------------------------------------------------------------------
-////-------------------------------------------------------------------------------------------------------
-function ChooseWhereToMove(color,matriz,y, x, event, argu1, argu2, argu3, argu4){//switch para elegir 
+////---------------------------------------------------------------------------------------------------
+//  value valie sirve para saber el indice donde se guardara el incie de la matriz que me hace llorar
+function ChooseWhereToMove(color,matriz,y, x, event, argu1, argu2, argu3, argu4, value){//switch para elegir 
     //donde se va a mover cada nave, servira para la principal y para las naves enemigas
     LimpiarLaMatriz(y, x, "white");
     //y que la nave pueda moverse   ----  inicioX     inicioY  
@@ -75,7 +78,9 @@ function ChooseWhereToMove(color,matriz,y, x, event, argu1, argu2, argu3, argu4)
     LimpiarLaMatriz(y, x, color);
     var regreso = new Array(2);
    regreso = [y, x, matriz];
-   console.log(Matriz)
+   MatrizThatMakeMeCry[value][1] = x;//reasignando los valores x y de a el array
+   MatrizThatMakeMeCry[value][2] = y;//principl
+   //console.log(MatrizThatMakeMeCry)
    return regreso
   
 }
@@ -140,14 +145,14 @@ return MatrizPrincipal;
 function colocarPosicionesAleatorias(numNaves){//saber donde estaran las naves al inicio
     //tambien es medio la base de todo el juego espero que esto cambie
    // var Matriz = ArrayBaseDeLaNaves(numNaves);//tipo instanciando la matriz principal
-    ponerLasNavesEnLaMatriz(Matriz)//ibujar la matriz de nuemeros en esta de canvas        
+    ponerLasNavesEnLaMatriz(MatrizThatMakeMeCry)//ibujar la matriz de nuemeros en esta de canvas        
     //instanciando el objeto principal ----------------------
-    const nave = new PersonajePrincipal(Matriz);
+    const nave = new PersonajePrincipal(MatrizThatMakeMeCry);
     nave.mover()//haciendo que el objeto funcione  las teclas
     //-----------------Delcarando todas las naves enemigas que hay--------------------
     var ArrayObjetos = new Array(numNaves-1);//aqui correran todos los objetos de las naves enemigas
     for(let i = 0; i< ArrayObjetos.length; i++){//funcion para que los objetos se instancien con sus propiedades
-        ArrayObjetos[i] = new NavesEnemigas(Matriz, i+1);
+        ArrayObjetos[i] = new NavesEnemigas(MatrizThatMakeMeCry, i+1);
         ArrayObjetos[i].JustTheCreator();//Js es una mamada jajaja
     } 
 }
@@ -155,7 +160,7 @@ function colocarPosicionesAleatorias(numNaves){//saber donde estaran las naves a
 ///--------------------Ejecuciones----------------------------------------------------------------
 ///-----------------------------------------------------------------------------------------------
 //               Funcion principal que corre todo el juego
-colocarPosicionesAleatorias(8)//esta ganando mucha importancia esta funcion 
+colocarPosicionesAleatorias(numnaves)//esta ganando mucha importancia esta funcion 
 
 
 //------------------------------------------------------------------------------------------------
