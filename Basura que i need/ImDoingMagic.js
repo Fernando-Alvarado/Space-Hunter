@@ -22,51 +22,36 @@ return MatrizPrincipal;
 ////----------------------------------------------------------------------------------------
 class balas{
     //matriz donde corre el juego || cordenadas conde empezo a disparar || coordenadas a donde va
-    constructor(PrincipalMat, whereX, whereY, ObjX, ObjY, Killed){ //kileed se refiere a la nave a
+    constructor(PrincipalMat, whereX, whereY, ObjX, ObjY, Killed, limiteCampoJuego){ //kileed se refiere a la nave a
         //que se le espero disparas, no se si quieran que se permita el fuego amigo    
-     this.Matriz = PrincipalMat;
-     this.WherX = whereX;
+     this.Matriz = PrincipalMat;//matris donde estan declaradas todas las naves
+     this.WherX = whereX;//coordenadas iniciales
      this.WherY = whereY;
-     this.ObjX = ObjX;
+     this.ObjX = ObjX;//cordenadas a lo que se le disparo
      this.ObjY = ObjY;
-     this.Killed = Killed;
+     this.Killed = Killed;///a que va a matar, si es nave enemiga o no
+     this.limCampJue = limiteCampoJuego;///limite de las dimensiones del campo de batalla
      }
     MidnightBlame(){
-        function GodsLoop(){
-            setTimeout(function(){ 
-                       
-                GodsLoop();
-            }, 100);
+        function graficadora(x1, y1, x2, y2, limite){
+            var BalasDeLaMatriz = [new Array(50), new Array(50)];//sera el array de las balas la longitud que 
+            //recorreran sera la longitud del array
+            var m = (y2-y1)/(x2-x1);
+            for (var i=x1; i<(50+x1); i++){
+                ///el limite es de la matriz para que no haga un gasto innecesario de memoria
+               if(i != limite){
+                   console.log('bipbup')
+                BalasDeLaMatriz[0][(i-x1)] = i;
+                BalasDeLaMatriz[1][(i-x1)] = Math.round((m*(i))+y1);
+               }else{
+                   i= 50+x1
+               }
+               
+            }
+            return BalasDeLaMatriz;
         }
-        GodsLoop(); 
-    }  
- }
-////---------------------------------------------------------------------------------------------------
-///----------------------------------------------------------------------------------------------------
-function graficadora(x1, y1, x2, y2){
-    var m = (y2-y1)/(x2-x1)
-    return m;
-}
-var prueba = graficadora(2,3,4,5)
-
-console.log('iono')
-
-for (i=2; i<=10; i++){
-    var yo = (prueba*i)+4;
-    console.log(yo)
-}
-console.log('io')
-
-
-
-//var Runni = ArrayBaseDeLaNaves(4);
-
-
-
-/*for (i=x1; i>=10; i++){
-    console.log((m*i)+y1)
-  }*/
-/*
+        var prueba = graficadora(this.WherX, this.WherY, this.ObjX, this.ObjY, this.limCampJue)
+        /*
 the gods loop
    function GodsLoop(){
                 setTimeout(function(){ 
@@ -77,6 +62,29 @@ the gods loop
         MainBucle();
         }
 */
+    }  
+ }
+////---------------------------------------------------------------------------------------------------
+///----------------------------------------------------------------------------------------------------
+var tontaVariable = NumerosAleatorios(10);
+//PrincipalMat, whereX, whereY, ObjX, ObjY, Killed, limiteCampoJuego
+var fernando = new balas(tontaVariable, 1,1,8,4,2,51)
+fernando.Prueba();
+
+
+
+//console.log()
+
+
+
+//var Runni = ArrayBaseDeLaNaves(4);
+
+
+
+/*for (i=x1; i>=10; i++){
+    console.log((m*i)+y1)
+  }*/
+
 /*
 Crear una cookie
 document.cookie = “name=valor”;

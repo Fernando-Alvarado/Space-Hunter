@@ -44,6 +44,47 @@ class NavesEnemigas{
         MainBucle(1000, this.workingMat, this.workingMat[this.number][2], this.workingMat[this.number][1], this.numero, 1, 2, 3, 4, this.number);
         }
     }
+class balas{
+        //matriz donde corre el juego || cordenadas conde empezo a disparar || coordenadas a donde va
+        constructor(PrincipalMat, whereX, whereY, ObjX, ObjY, Killed, limiteCampoJuego){ //kileed se refiere a la nave a
+        //que se le espero disparas, no se si quieran que se permita el fuego amigo    
+            this.Matriz = PrincipalMat;//matris donde estan declaradas todas las naves
+            this.WherX = whereX;//coordenadas iniciales
+            this.WherY = whereY;
+            this.ObjX = ObjX;//cordenadas a lo que se le disparo
+            this.ObjY = ObjY;
+            this.Killed = Killed;///a que va a matar, si es nave enemiga o no
+            this.limCampJue = limiteCampoJuego;///limite de las dimensiones del campo de batalla
+         }
+        MidnightBlame(){
+            function graficadora(x1, y1, x2, y2, limite){
+                var BalasDeLaMatriz = [new Array(50), new Array(50)];//sera el array de las balas la longitud que 
+                //recorreran sera la longitud del array
+                var m = (y2-y1)/(x2-x1);//sacar la pendiente de la funcion jaja
+                for (var i=x1; i<(50+x1); i++){///50 es el limite
+                    ///el limite es de la matriz para que no haga un gasto innecesario de memoria
+                   if(i != limite){
+                        BalasDeLaMatriz[0][(i-x1)] = i;//posiciones en el eje x
+                        BalasDeLaMatriz[1][(i-x1)] = Math.round((m*(i))+y1);//posiciones en el eje y
+                    }else{
+                        i= 50+x1/// en caso de que se llegue a limite del mapa
+                    }                  
+                }
+                return BalasDeLaMatriz;
+            }
+            var prueba = graficadora(this.WherX, this.WherY, this.ObjX, this.ObjY, this.limCampJue)
+            /*
+            //Este sera el loop donde se irea coparando las matrices para chacar coliciones
+            function GodsLoop(){
+                setTimeout(function(){ 
+                 ///codigo donde ira la comparacion              
+                    GodsLoop();
+                },100);//velocidad
+            }
+            MainBucle();           
+                */              
+            }
+}
 ////-------------------------------------------------------------------------------------------------------
 ////-------------------------------------------------------------------------------------------------------
 ////---------------------------------------------------------------------------------------------------
