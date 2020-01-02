@@ -64,7 +64,7 @@ class balas{
                             GodsLoop(MatBalas, MatOfGame, WhatIs, Coun);
                         }                                              
                     }else{
-                         for(i=1; i<MatOfGame.length; i++)//checar la matriz del juego para poder comparar si hay un impacto
+                         for(i=1; i< MatOfGame.length; i++)//checar la matriz del juego para poder comparar si hay un impacto
                             if(MatBalas[0][Coun]==MatOfGame[i][1] && MatBalas[1][Coun]==MatOfGame[i][2]){//saber si impactaste
                                  console.log('impacto a una nave enemiga')///codigo del impacto
                             }//no se cuento se alargue este, creo que hare otro objeto para la destruccion
