@@ -17,7 +17,7 @@ class PersonajePrincipal{
         mover(){
             var matrizDondeSeTrabaja = this.matrizDondeSeTrabaja;
             document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
-            var corriendo =  ChooseWhereToMove("black",matrizDondeSeTrabaja, matrizDondeSeTrabaja[0][2], matrizDondeSeTrabaja[0][1], event.code,"KeyW", "KeyS", "KeyA", "KeyD", 0);
+            var corriendo =  ChooseWhereToMove("black",matrizDondeSeTrabaja, matrizDondeSeTrabaja[0][2], matrizDondeSeTrabaja[0][1], event.code,"KeyW", "KeyS", "KeyA", "KeyD", "KeyE", 0);
             matrizDondeSeTrabaja[0][2]=corriendo[0];//se reinia la cuenta para que se pueda mover la neve
             matrizDondeSeTrabaja[0][1]=corriendo[1];//es algo idiota pero funciona jajajaja
          
@@ -28,20 +28,22 @@ class NavesEnemigas{
         constructor(matrizDondeSeTrabaja, number){//el 
             this.workingMat = matrizDondeSeTrabaja;
             this.number = number;//indice dentro de la matriz principal donde se guardara la nave
-            this.numero =  NumerosAleatorios(4);//luego esto tengra que cambiar a 5 para que puedan
+            this.numero =  NumerosAleatorios(5);//luego esto tengra que cambiar a 5 para que puedan
             //disparar
         }
         JustTheCreator(){//este metodo ara que las naves se muevan y  si tiempo que disparen
             //usara la funcion switch que cree
-            function MainBucle(velocidad, matriz, y, x ,move, ar1, ar2, ar3, ar4, position){ //Aqui se tendra que correr el bucle de las naves
+            function MainBucle(velocidad, matriz, y, x ,move, ar1, ar2, ar3, ar4, ar5, position){ //Aqui se tendra que correr el bucle de las naves
                 setTimeout(function(){ 
-                    var itsRunnig = ChooseWhereToMove("red",matriz, y, x, move, ar1, ar2, ar3, ar4, position);
-                   var numero = NumerosAleatorios(4);                  
-                    MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], numero, ar1, ar2, ar3, ar4, position);
+                    //El parametro primer parametro sera cambiado por quien disparo xd, pero siento que se tendra que pasar
+                    //un evento para disparar con el mouse
+                    var itsRunnig = ChooseWhereToMove("red",matriz, y, x, move, ar1, ar2, ar3, ar4, ar5, position);
+                   var numero = NumerosAleatorios(5);                  
+                    MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], numero, ar1, ar2, ar3, ar4, ar5, position);
                 }, velocidad);
             }
         //console.log(this.number)
-        MainBucle(1000, this.workingMat, this.workingMat[this.number][2], this.workingMat[this.number][1], this.numero, 1, 2, 3, 4, this.number);
+        MainBucle(1000, this.workingMat, this.workingMat[this.number][2], this.workingMat[this.number][1], this.numero, 1, 2, 3, 4, 5, this.number);
         }
     }
 class balas{
@@ -72,6 +74,7 @@ class balas{
                 return BalasDeLaMatriz;
             }
         this.MatBalas = graficadora(this.WherX, this.WherY, this.ObjX, this.ObjY, this.limCampJue)
+        console.log(this.MatBalas);
      }
     MidnightBlame(){
         var Coun = 0;
@@ -93,7 +96,7 @@ class balas{
                                  console.log('impacto a una nave enemiga')///codigo del impacto
                             }//no se cuento se alargue este, creo que hare otro objeto para la destruccion
                             else{
-                            MatOfGame = MatrizThatMakeMeCry //las matriz del juego necesito hacer que sea la mas actualizada
+                            MatOfGame = MatrizThatMakeMeCry; //las matriz del juego necesito hacer que sea la mas actualizada
                                 GodsLoop(MatBalas, MatOfGame, WhatIs, Coun);
                             }
                               
@@ -113,7 +116,7 @@ class balas{
 ////-------------------------------------------------------------------------------------------------------
 ////---------------------------------------------------------------------------------------------------
 //  value valie sirve para saber el indice donde se guardara el incie de la matriz que me hace llorar
-function ChooseWhereToMove(color,matriz,y, x, event, argu1, argu2, argu3, argu4, value){//switch para elegir 
+function ChooseWhereToMove(color,matriz,y, x, event, argu1, argu2, argu3, argu4, argu5, value){//switch para elegir 
     //donde se va a mover cada nave, servira para la principal y para las naves enemigas
     LimpiarLaMatriz(y, x, "white");
     //y que la nave pueda moverse   ----  inicioX     inicioY  
@@ -137,6 +140,13 @@ function ChooseWhereToMove(color,matriz,y, x, event, argu1, argu2, argu3, argu4,
                         x=0;
                     else
                         x++;                 
+            break;
+        case argu5: if(color == "red"){//aqui ira el evento de disparo para las naves enemigas
+                        var ejecucion = new balas(MatrizThatMakeMeCry, x, y, MatrizThatMakeMeCry[0][1], MatrizThatMakeMeCry[0][1], 2, 50);
+                        ejecucion.MidnightBlame();
+                    }else{ //aqui el evento de disparo de nuestra nave, son diferentes por su algoritmo de disparo
+                        console.log("la nave disparo pero no puedo"); //se lo pondre con una parte de la interfaz grafica
+                    }             
             break;
     } 
     //ponerLasNavesEnLaMatriz(matriz);/////////////////////////////////Arreglar
