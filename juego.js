@@ -5,7 +5,7 @@ var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
 var matrizPrincipal = document.getElementById('matrizBase');//puede ser o no el canvas principal xd
 var lienzoBase = matrizPrincipal.getContext('2d');
 var numnaves = 10; //numero de naves que hay declaradas
-var rango = 7; //Nos dice que tanto ven las naves enemigas a su alrdedor
+var rango = 8; //Nos dice que tanto ven las naves enemigas a su alrdedor
 var MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves);//tipo instanciando la matriz principal
 var patterns = new Array( //Array con todos los diferentes patrones, el primer número es la velocidad
                   new Array(300,1,1,1,2,2,2),
@@ -70,7 +70,7 @@ class NavesEnemigas{
                     }
                     else{
                       numero = ChasePlayer(matriz,x,y);
-                      velocidad = 300;
+                      velocidad = 200;
                     }
                   }
                   else{
