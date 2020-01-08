@@ -1,12 +1,12 @@
 //-------------DEclaracion de variables
-var limit = 50;//Numero de casillas de la matriz
+var limit = 30;//Numero de casillas de la matriz
 var tamCanvas= 500;//Tama;o del canvas
 var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
 var matrizPrincipal = document.getElementById('matrizBase');//puede ser o no el canvas principal xd
 var lienzoBase = matrizPrincipal.getContext('2d');
-var numnaves = 50; //numero de naves que hay declaradas
+var numnaves = 100; //numero de naves que hay declaradas
 var rango = 8; //Nos dice que tanto ven las naves enemigas a su alrdedor
-var numasteroides = 50; //Cuantos asteroides se crean
+var numasteroides = 100; //Cuantos asteroides se crean
 var MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides);//tipo instanciando la matriz principal
 var ArrayObjetos; //Aquí se guardan todas las naves y asteroides.
 var patterns = new Array( //Array con todos los diferentes patrones, el primer número es la velocidad
@@ -173,7 +173,7 @@ function ChooseWhereToMove(color,matriz,y, x, event, argu1, argu2, argu3, argu4,
     if (type!=0){
       switch(event){
           case argu1:if(y==0)
-                          y=limit-1;
+                          y = limit-1;
                       else
                           y--;
              break;
@@ -233,7 +233,8 @@ function ponerLasNavesEnLaMatriz(matrizDeclarada){//cada que se mueva se tendra 
                 else if(matrizDeclarada[i][0] == 3)
                   lienzoBase.fillStyle = "black"; //Color de asteroides
 
-                lienzoBase.rect((matrizDeclarada[i][1]*10), (matrizDeclarada[i][2]*10), 10, 10);//poner las cuadrados tal ves hay que
+                var proporción = (tamCanvas/limit);
+                lienzoBase.rect((matrizDeclarada[i][1]*(proporción)+(proporción/13)), (matrizDeclarada[i][2]*(proporción)+(proporción/13)), (proporción)-(proporción/10), (proporción)-(proporción/10));//poner las cuadrados tal ves hay que
                 //tal vez hay que cambiar el cuadro de los cuaros 10
                 lienzoBase.fill();// poder rellenar de color el fondo del canvas
                 lienzoBase.closePath();
@@ -246,7 +247,8 @@ function LimpiarLaMatriz(y, x, color){ //funcion para limpiar la pos anterior
     lienzoBase.beginPath();//EMPEZAR EL DIBUJO
     lienzoBase.fillStyle = color;//color que quieran
 
-    lienzoBase.rect((x*10), (y*10), 9, 9);//poner las cuadrados tal ves hay que
+    var proporción = (tamCanvas/limit);
+    lienzoBase.rect(((x*(proporción))+(proporción/13)), ((y*(proporción))+(proporción/13)), (proporción)-(proporción/10), (proporción)-(proporción/10));//poner las cuadrados tal ves hay que
     lienzoBase.fill();// poder rellenar de color el fondo del canvas
     lienzoBase.closePath();
 }
@@ -318,3 +320,4 @@ lienzoBase.beginPath();//EMPEZAR EL DIBUJO
 //dibujar la reticula
 dibujarReticula();//esta es la reticula del
 lienzoBase.closePath();
+console.log(MatrizThatMakeMeCry);
