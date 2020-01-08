@@ -4,9 +4,10 @@ var tamCanvas= 500;//Tama;o del canvas
 var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
 var matrizPrincipal = document.getElementById('matrizBase');//puede ser o no el canvas principal xd
 var lienzoBase = matrizPrincipal.getContext('2d');
-var numnaves = 100; //numero de naves que hay declaradas
+var numnaves = 2; //numero de naves que hay declaradas
 var rango = 8; //Nos dice que tanto ven las naves enemigas a su alrdedor
-var numasteroides = 100; //Cuantos asteroides se crean
+var velDisparo = 1000; //Velocidad de disparo de las naves.
+var numasteroides = 0; //Cuantos asteroides se crean
 var MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides);//tipo instanciando la matriz principal
 var ArrayObjetos; //Aquí se guardan todas las naves y asteroides.
 var patterns = new Array( //Array con todos los diferentes patrones, el primer número es la velocidad
@@ -69,6 +70,7 @@ class NavesEnemigas{
                     var numero = 0;
                     if(this.dist_player <=rango){
                       if(this.dist_player <= 3){
+                          velocidad = velDisparo;
                          console.log("pium");  //Aquí dispararía vavava ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                          numero = 0;
                       }
