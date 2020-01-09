@@ -4,10 +4,10 @@ var tamCanvas= 500;//Tama;o del canvas
 var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
 var matrizPrincipal = document.getElementById('matrizBase');//puede ser o no el canvas principal xd
 var lienzoBase = matrizPrincipal.getContext('2d');
-var numnaves = 2; //numero de naves que hay declaradas
+var numnaves = 25; //numero de naves que hay declaradas
 var rango = 8; //Nos dice que tanto ven las naves enemigas a su alrdedor
 var velDisparo = 1000; //Velocidad de disparo de las naves.
-var numasteroides = 0; //Cuantos asteroides se crean
+var numasteroides = 10; //Cuantos asteroides se crean
 var MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides);//tipo instanciando la matriz principal
 var ArrayObjetos; //Aquí se guardan todas las naves y asteroides.
 var patterns = new Array( //Array con todos los diferentes patrones, el primer número es la velocidad
@@ -40,7 +40,7 @@ class PersonajePrincipal{
         mover(){
             var matrizDondeSeTrabaja = this.matrizDondeSeTrabaja;
             document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
-            var corriendo =  ChooseWhereToMove("blue",matrizDondeSeTrabaja, matrizDondeSeTrabaja[0][2], matrizDondeSeTrabaja[0][1], event.code,"KeyW", "KeyS", "KeyA", "KeyD", 0);
+            var corriendo =  ChooseWhereToMove('#00e0ff',matrizDondeSeTrabaja, matrizDondeSeTrabaja[0][2], matrizDondeSeTrabaja[0][1], event.code,"KeyW", "KeyS", "KeyA", "KeyD", 0);
             matrizDondeSeTrabaja[0][2]=corriendo[0];//se reinia la cuenta para que se pueda mover la neve
             matrizDondeSeTrabaja[0][1]=corriendo[1];//es algo idiota pero funciona jajajaja
 
@@ -89,8 +89,7 @@ class NavesEnemigas{
                       velocidad = patterns[current_pattern][0];
                     }
 
-
-                    var itsRunnig = ChooseWhereToMove("red",matriz, y, x, move, ar1, ar2, ar3, ar4, position);
+                    var itsRunnig = ChooseWhereToMove('red',matriz, y, x, move, ar1, ar2, ar3, ar4, position);
                     MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], numero, ar1, ar2, ar3, ar4, position,current_pattern,pattern_move,patterns);
                   }, velocidad);
                 }
@@ -230,8 +229,9 @@ function ponerLasNavesEnLaMatriz(matrizDeclarada){//cada que se mueva se tendra 
                 lienzoBase.beginPath();//EMPEZAR EL DIBUJO
                 if(matrizDeclarada[i][0] == 2)
                      lienzoBase.fillStyle = "blue";//color que quieran
-                else if(matrizDeclarada[i][0] == 1)
-                    lienzoBase.fillStyle = "red";//color que quieran
+                else if(matrizDeclarada[i][0] == 1){
+                  lienzoBase.fillStyle =  "red";//color que quieran
+                }
                 else if(matrizDeclarada[i][0] == 3)
                   lienzoBase.fillStyle = "black"; //Color de asteroides
 
@@ -270,14 +270,14 @@ function ArrayBaseDeLaNaves(numnaves,numast){//declarando el array de las naves 
     for (i=0; i<numnaves; i++){
         MatrizPrincipal[i][0] = 1;
         for (e=1; e<3; e++){
-            MatrizPrincipal[i][e] = NumerosAleatorios(limit);
+            MatrizPrincipal[i][e] = NumerosAleatorios(limit)-1;
         }
     }
     //Colocar asteroides
     for (i=numnaves; i<total; i++){
         MatrizPrincipal[i][0] = 3;
         for (e=1; e<3; e++){
-            MatrizPrincipal[i][e] = NumerosAleatorios(limit);
+            MatrizPrincipal[i][e] = NumerosAleatorios(limit)-1;
         }
     }
 
