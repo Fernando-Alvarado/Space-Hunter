@@ -120,3 +120,6 @@ console.log(tontaVariable);
 //PrincipalMat, whereX, whereY, ObjX, ObjY, Killed, limiteCampoJuego
 var fernando = new balas(tontaVariable, tontaVariable[1][1], tontaVariable[1][2], tontaVariable[1][3], tontaVariable[0][1], tontaVariable[0][2],tontaVariable[0][3],2,51)
 //fernando.MidnightBlame();
+
+//Formula distancia entre pintos 3d
+//dist(x,y,z)=raiz( (x^2)+(y^2)+(z^2) )

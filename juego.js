@@ -1,16 +1,26 @@
 //-------------DEclaracion de variables
-var limit = 30;//Numero de casillas de la matriz
-var tamCanvas= 500;//Tama;o del canvas
+var limit = 10;//Numero de casillas de la matriz
+var tamCanvas= 100;//Tama;o del canvas
 var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
 var matrizPrincipal = document.getElementById('matrizBase');//puede ser o no el canvas principal xd
-var lienzoBase = matrizPrincipal.getContext('2d');
-var numnaves = 25; //numero de naves que hay declaradas
-var rango = 8; //Nos dice que tanto ven las naves enemigas a su alrdedor
+var numnaves = 2; //numero de naves que hay declaradas
+var rango = 1; //Nos dice que tanto ven las naves enemigas a su alrdedor
 var velDisparo = 1000; //Velocidad de disparo de las naves.
-var numasteroides = 10; //Cuantos asteroides se crean
+var numasteroides = 0; //Cuantos asteroides se crean
 var MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides);//tipo instanciando la matriz principal
+
+//Declarar canvas para tres dimensiones
+var matricesPrincipales= new Array();
+for(let i=1; i<=limit; i++){
+  matricesPrincipales[i-1] = document.getElementById('matrizBase'+i);
+}
+var lienzosBase = new Array();
+for(let i in matricesPrincipales){
+  lienzosBase[i]=matricesPrincipales[i].getContext('2d');
+}
+
 var ArrayObjetos; //Aquí se guardan todas las naves y asteroides.
-var patterns = new Array( //Array con todos los diferentes patrones, el primer número es la velocidad
+var patterns = new Array( //Array con todos los diferentes patrones, el primer número es la velocidadf
                   new Array(100,2,2),
                   new Array(100,1,1),
                   new Array(100,3,3),
@@ -40,9 +50,10 @@ class PersonajePrincipal{
         mover(){
             var matrizDondeSeTrabaja = this.matrizDondeSeTrabaja;
             document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
-            var corriendo =  ChooseWhereToMove('#00e0ff',matrizDondeSeTrabaja, matrizDondeSeTrabaja[0][2], matrizDondeSeTrabaja[0][1], event.code,"KeyW", "KeyS", "KeyA", "KeyD", 0);
-            matrizDondeSeTrabaja[0][2]=corriendo[0];//se reinia la cuenta para que se pueda mover la neve
-            matrizDondeSeTrabaja[0][1]=corriendo[1];//es algo idiota pero funciona jajajaja
+            var corriendo =  ChooseWhereToMove('#00e0ff',matrizDondeSeTrabaja, matrizDondeSeTrabaja[0][1], matrizDondeSeTrabaja[0][2],matrizDondeSeTrabaja[0][3], event.code,"KeyW", "KeyS", "KeyA", "KeyD","KeyR","KeyF", 0);
+            matrizDondeSeTrabaja[0][1]=corriendo[0];//se reinia la cuenta para que se pueda mover la neve
+            matrizDondeSeTrabaja[0][2]=corriendo[1];//es algo idiota pero funciona jajajaja
+            matrizDondeSeTrabaja[0][3]=corriendo[2];//es algo idiota pero funciona jajajaja
 
             });
         }
@@ -61,10 +72,10 @@ class NavesEnemigas{
         }
         JustTheCreator(){//este metodo ara que las naves se muevan y  si tiempo que disparen
             //usara la funcion switch que cree
-            function MainBucle(velocidad, matriz, y, x ,move, ar1, ar2, ar3, ar4, position,current_pattern,pattern_move,patterns){ //Aqui se tendra que correr el bucle de las naves
+            function MainBucle(velocidad, matriz, x, y , z,move, ar1, ar2, ar3, ar4,ar5,ar6, position,current_pattern,pattern_move,patterns){ //Aqui se tendra que correr el bucle de las naves
                 if(matriz[position][0]!=0){
                   setTimeout(function(){
-                    this.dist_player=DistFromPlayer(matriz,y,x);
+                    this.dist_player=DistFromPlayer(matriz,x,y,z);
                     //El parametro primer parametro sera cambiado por quien disparo xd, pero siento que se tendra que pasar
                     //un evento para disparar con el mouse
                     var numero = 0;
@@ -75,7 +86,7 @@ class NavesEnemigas{
                          numero = 0;
                       }
                       else{
-                        numero = ChasePlayer(matriz,x,y);
+                        numero = ChasePlayer(matriz,x,y,z);
                         velocidad = 200;
                       }
                     }
@@ -89,37 +100,44 @@ class NavesEnemigas{
                       velocidad = patterns[current_pattern][0];
                     }
 
-                    var itsRunnig = ChooseWhereToMove('red',matriz, y, x, move, ar1, ar2, ar3, ar4, position);
-                    MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], numero, ar1, ar2, ar3, ar4, position,current_pattern,pattern_move,patterns);
+                    var itsRunnig = ChooseWhereToMove('red',matriz, x, y, z, move, ar1, ar2, ar3, ar4, ar5, ar6, position);
+                    MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], itsRunnig[2],numero, ar1, ar2, ar3, ar4, ar5, ar6, position,current_pattern,pattern_move,patterns);
                   }, velocidad);
                 }
             }
 
-            function DistFromPlayer(matrizDondeSeTrabaja,y,x,rango){ //Nos da la distancia al jugador
-              var dist = Math.pow((matrizDondeSeTrabaja[0][1]-x),2) + Math.pow((matrizDondeSeTrabaja[0][2]-y),2);
+            function DistFromPlayer(matrizDondeSeTrabaja,x,y,z,rango){ //Nos da la distancia al jugador
+              var dist = Math.pow((matrizDondeSeTrabaja[0][1]-x),2) + Math.pow((matrizDondeSeTrabaja[0][2]-y),2) + Math.pow((matrizDondeSeTrabaja[0][3]-z),2);
               dist = Math.sqrt(dist);
               return dist;
             }
-            function ChasePlayer(matrizDondeSeTrabaja,x,y){ //Nos dice como perseguir al jugador
-              var dy = matrizDondeSeTrabaja[0][2]-y;
-              var dx = matrizDondeSeTrabaja[0][1]-x;
+            function ChasePlayer(matrizDondeSeTrabaja,x,y,z){ //Nos dice como perseguir al jugador, elige la distancia que sea menor entre los ejes x, y y z
+              var dy = matrizDondeSeTrabaja[0][1]-y;
+              var dx = matrizDondeSeTrabaja[0][2]-x;
+              var dz = matrizDondeSeTrabaja[0][3]-z;
               var retur = 0;
-              if((Math.abs(dx) <= Math.abs(dy)) || dy ==0){
+              if( ( (Math.abs(dx) <= Math.abs(dy))  && (Math.abs(dx) <= Math.abs(dz)) ) || dy ==0){
                 if(dx < 0)
                   retur=3;
                 if(dx > 0)
                   retur=4;
               }
-              if((Math.abs(dy) < Math.abs(dx)) || dx == 0){
+              if( ( (Math.abs(dy) < Math.abs(dx))  && (Math.abs(dy) < Math.abs(dz)) ) || dx ==0){
                 if(dy < 0)
                   retur=1;
                 if(dy > 0)
                   retur=2;
               }
+              if( ( (Math.abs(dz) < Math.abs(dy))  && (Math.abs(dz) < Math.abs(dx)) ) || dz == 0){
+                if(dz < 0)
+                  retur=5;
+                if(dz > 0)
+                  retur=6;
+              }
               return retur;
             }
         //console.log(this.number)
-        MainBucle(1000, this.workingMat, this.workingMat[this.number][2], this.workingMat[this.number][1], this.numero, 1, 2, 3, 4, this.number,this.current_pattern, this.pattern_move,patterns);
+        MainBucle(1000, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.numero, 1, 2, 3, 4, 5, 6, this.number,this.current_pattern, this.pattern_move,patterns);
         }
 
     }
@@ -133,22 +151,23 @@ class NavesEnemigas{
             }
             JustTheCreator(){//este metodo ara que las naves se muevan y  si tiempo que disparen
                 //usara la funcion switch que cree
-                function MainBucle(velocidad, matriz, y, x ,move, ar1, ar2, ar3, ar4, position){ //Aqui se tendra que correr el bucle de las naves
+                function MainBucle(velocidad, matriz, x, y, z, move, ar1, ar2, ar3, ar4, ar5,ar6,position){ //Aqui se tendra que correr el bucle de las naves
                   if(matriz[position][0]!=0){
                     setTimeout(function(){
-                      var itsRunnig = ChooseWhereToMove("black",matriz, y, x, move, ar1, ar2, ar3, ar4, position);
-                      MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], move, ar1, ar2, ar3, ar4, position);
+                      var itsRunnig = ChooseWhereToMove("black",matriz, x, y, z, move, ar1, ar2, ar3, ar4, ar5, ar6, position);
+                      MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], itsRunnig[2], move, ar1, ar2, ar3, ar4, ar5, ar6, position);
                     }, velocidad);
                   }
                 }
             //console.log(this.number)
-            MainBucle(1000, this.workingMat, this.workingMat[this.number][2], this.workingMat[this.number][1], this.direction, 1, 2, 3, 4, this.number);
+            MainBucle(1000, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.direction, 1, 2, 3, 4, 5, 6, this.number);
             }
       }
+
       class balas{
         //matriz donde corre el juego || cordenadas conde empezo a disparar || coordenadas a donde va
         constructor(PrincipalMat, whereX, whereY, ObjX, ObjY, Killed, limiteCampoJuego){ //kileed se refiere a la nave a
-            //que se le espero disparas, no se si quieran que se permita el fuego amigo    
+            //que se le espero disparas, no se si quieran que se permita el fuego amigo
             this.Matriz = PrincipalMat;//matris donde estan declaradas todas las naves
             this.WherX = whereX;//coordenadas iniciales
             this.WherY = whereY;
@@ -158,7 +177,7 @@ class NavesEnemigas{
             this.limCampJue = limiteCampoJuego;///limite de las dimensiones del campo de batalla
             function graficadora(x1, y1, x2, y2, limite){//Matriz de las balas
                 var m = (y2-y1)/(x2-x1);
-                const BalasDeLaMatriz = [new Array(0), new Array(0)];//sera el array de las balas la longitud que 
+                const BalasDeLaMatriz = [new Array(0), new Array(0)];//sera el array de las balas la longitud que
                 var i = x1;
                 while(i != limite && BalasDeLaMatriz[1][BalasDeLaMatriz[1].length-1] != limite){
                     if(m <= 2.5){
@@ -173,8 +192,8 @@ class NavesEnemigas{
                         i--;
                         if(i == 0 || BalasDeLaMatriz[1][BalasDeLaMatriz[1].length-1] == 0)///para que encuentre el limite y no se haga
                             i = limite//un blucle infinito
-                    }       
-                    else 
+                    }
+                    else
                     i++;
                }//aqui se acaba la llave del while
                 return BalasDeLaMatriz;
@@ -185,7 +204,7 @@ class NavesEnemigas{
         MidnightBlame(){
             var Coun = 0;
             function GodsLoop(MatBalas, MatOfGame, WhatIs, Coun){
-                setTimeout(function(){ 
+                setTimeout(function(){
                     if(Coun != MatBalas[1].length){//Para que el bucle no se haga infinito
                         if(WhatIs == 2){//para chcar si es nave enemiga o amiga
                             if(MatBalas[0][Coun] == MatOfGame[0][1] && MatBalas[1][Coun] == MatOfGame[0][2]){
@@ -194,7 +213,7 @@ class NavesEnemigas{
                             MatOfGame = MatrizThatMakeMeCry; //a las matriz del juego necesito hacer que sea la mas actualizada
                             Coun++;
                                 GodsLoop(MatBalas, MatOfGame, WhatIs, Coun);
-                            }                                              
+                            }
                         }else{
                              for(i=1; i< MatOfGame.length; i++)//checar la matriz del juego para poder comparar si hay un impacto
                                 if(MatBalas[0][Coun]==MatOfGame[i][1] && MatBalas[1][Coun]==MatOfGame[i][2]){//saber si impactaste
@@ -205,38 +224,40 @@ class NavesEnemigas{
                                 Coun++;
                                     GodsLoop(MatBalas, MatOfGame, WhatIs, Coun);
                                 }
-                                  
+
                         }
-                    }     
+                    }
                 },100);//velocidad de las balas se puede cambiar
             }//Where func ends   PARAMETROS || MatRIZbALAS Balas, Matratriz del juego, WhatIs, Coun
             console.log("The object start");///solo para ver si sirve
             GodsLoop(this.MatBalas, this.Matriz, this.Killed, Coun);
-        }//llave del fin del metodo  
+        }//llave del fin del metodo
      }
 
 ////-----------------------------------------------------------------------------------------------------------------------
 ////----------------------------FUNCIONES----------------------------------------------------------------------------------
 ////-----------------------------------------------------------------------------------------------------------------------
 //  value valie sirve para saber el indice donde se guardara el incie de la matriz que me hace llorar
-function ChooseWhereToMove(color,matriz,y, x, event, argu1, argu2, argu3, argu4, value){//switch para elegir
+function ChooseWhereToMove(color,matriz, x, y, z, event, argu1, argu2, argu3, argu4, argu5, argu6, value){//switch para elegir
     //donde se va a mover cada nave, servira para la principal y para las naves enemigas
-    LimpiarLaMatriz(y, x, "white");
+    LimpiarLaMatriz(x, y, z, "white");
     //y que la nave pueda moverse   ----  inicioX     inicioY
     var type =MatrizThatMakeMeCry[value][0];
-    regreso = [null,null,0];
+    regreso = [null,null,null,0];
 
     for(var i in MatrizThatMakeMeCry){
-      if(MatrizThatMakeMeCry[i][1]==x && MatrizThatMakeMeCry[i][2]==y){
+      if(MatrizThatMakeMeCry[i][1]==x && MatrizThatMakeMeCry[i][2]==y && MatrizThatMakeMeCry[i][3]==z){
+
         if(MatrizThatMakeMeCry[i][0]!=MatrizThatMakeMeCry[value][0]){
           if(MatrizThatMakeMeCry[i][0]!=2)
-            MatrizThatMakeMeCry[i]=[0,null,null];
+            MatrizThatMakeMeCry[i]=[0,null,null,null];
           if(MatrizThatMakeMeCry[value][0]!=2)
             type = 0;
           if(MatrizThatMakeMeCry[value][0]==2||MatrizThatMakeMeCry[i][0]==2)
             console.log("perdiste");
           color = "white";
         }
+
       }
    }
 
@@ -262,31 +283,42 @@ function ChooseWhereToMove(color,matriz,y, x, event, argu1, argu2, argu3, argu4,
                       else
                           x++;
               break;
+          case argu5: if(z==0)
+                          z = limit-1;
+                      else
+                          z--;
+              break;
+          case argu6: if(z==limit-1)
+                          z=0;
+                      else
+                          z++;
+              break;
       }
-      regreso = [y, x, type];
+
+      regreso = [x, y, z, type];
       //ponerLasNavesEnLaMatriz(matriz);/////////////////////////////////Arreglar
   }
-  MatrizThatMakeMeCry[value] = [regreso[2],regreso[1],regreso[0]];
+  MatrizThatMakeMeCry[value] = [regreso[3],regreso[0],regreso[1],regreso[2]];
   if(type!=0)
-    LimpiarLaMatriz(y, x, color);
+    LimpiarLaMatriz(x, y, z, color);
   //console.log(MatrizThatMakeMeCry)
    return regreso
 
 }
 
-function dibujarReticula(){//funcion que se puede quitar cuando se pase el juego
+function dibujarReticula(lienzo){//funcion que se puede quitar cuando se pase el juego
     ///Solo sirve aqui en canvas esta funcion se ira muy lejos jajajaja
     //vertical
     for(let i = 0; i <= tamCanvas; i+=(tamCanvas/limit)){
-        lienzoBase.moveTo(i, 0);
-        lienzoBase.lineTo(i, tamCanvas);
+        lienzo.moveTo(i, 0);
+        lienzo.lineTo(i, tamCanvas);
     }
     //horizontal
     for(let i = 0; i <= tamCanvas; i+=(tamCanvas/limit)){
-        lienzoBase.moveTo(0,i);
-        lienzoBase.lineTo(tamCanvas, i);
+        lienzo.moveTo(0,i);
+        lienzo.lineTo(tamCanvas, i);
     }
-    lienzoBase.stroke();//el que las dibuja
+    lienzo.stroke();//el que las dibuja
 }
 
 function ponerLasNavesEnLaMatriz(matrizDeclarada){//cada que se mueva se tendra que correr esta
@@ -295,33 +327,36 @@ function ponerLasNavesEnLaMatriz(matrizDeclarada){//cada que se mueva se tendra 
     /*console.log('dipdup')
     console.log(matrizDeclarada)*/
     for(let i=0; i<matrizDeclarada.length; i++){ //colocar las cosas en su lugar
-                lienzoBase.beginPath();//EMPEZAR EL DIBUJO
-                if(matrizDeclarada[i][0] == 2)
-                     lienzoBase.fillStyle = "blue";//color que quieran
-                else if(matrizDeclarada[i][0] == 1){
-                  lienzoBase.fillStyle =  "red";//color que quieran
-                }
-                else if(matrizDeclarada[i][0] == 3)
-                  lienzoBase.fillStyle = "black"; //Color de asteroides
+        var lienzo = lienzosBase[matrizDeclarada[i][3]];
 
-                var proporción = (tamCanvas/limit);
-                lienzoBase.rect((matrizDeclarada[i][1]*(proporción)+(proporción/13)), (matrizDeclarada[i][2]*(proporción)+(proporción/13)), (proporción)-(proporción/10), (proporción)-(proporción/10));//poner las cuadrados tal ves hay que
-                //tal vez hay que cambiar el cuadro de los cuaros 10
-                lienzoBase.fill();// poder rellenar de color el fondo del canvas
-                lienzoBase.closePath();
+        lienzo.beginPath();//EMPEZAR EL DIBUJO
+        if(matrizDeclarada[i][0] == 2)
+             lienzo.fillStyle = "blue";//color que quieran
+        else if(matrizDeclarada[i][0] == 1){
+              lienzo.fillStyle =  "red";//color que quieran
+        }
+        else if(matrizDeclarada[i][0] == 3)
+              lienzo.fillStyle = "black"; //Color de asteroides
+
+        var proporción = (tamCanvas/limit);
+        lienzo.rect((matrizDeclarada[i][1]*(proporción)+(proporción/13)), (matrizDeclarada[i][2]*(proporción)+(proporción/13)), (proporción)-(proporción/10), (proporción)-(proporción/10));//poner las cuadrados tal ves hay que
+        //tal vez hay que cambiar el cuadro de los cuaros 10
+        lienzo.fill();// poder rellenar de color el fondo del canvas
+        lienzo.closePath();
     }
 
 }
 
-function LimpiarLaMatriz(y, x, color){ //funcion para limpiar la pos anterior
+function LimpiarLaMatriz(x, y, z, color){ //funcion para limpiar la pos anterior
     ///Funcion que hace que hace que se borre el rastro de la nave en la matriz de canvas
-    lienzoBase.beginPath();//EMPEZAR EL DIBUJO
-    lienzoBase.fillStyle = color;//color que quieran
+    var lienzo = lienzosBase[z];
+    lienzo.beginPath();//EMPEZAR EL DIBUJO
+    lienzo.fillStyle = color;//color que quieran
 
     var proporción = (tamCanvas/limit);
-    lienzoBase.rect(((x*(proporción))+(proporción/13)), ((y*(proporción))+(proporción/13)), (proporción)-(proporción/10), (proporción)-(proporción/10));//poner las cuadrados tal ves hay que
-    lienzoBase.fill();// poder rellenar de color el fondo del canvas
-    lienzoBase.closePath();
+    lienzo.rect(((x*(proporción))+(proporción/13)), ((y*(proporción))+(proporción/13)), (proporción)-(proporción/10), (proporción)-(proporción/10));//poner las cuadrados tal ves hay que
+    lienzo.fill();// poder rellenar de color el fondo del canvas
+    lienzo.closePath();
 }
 
 ///----------------FUNCTIONS THAT I NEED TO COPY now they r modify---------------------------
@@ -333,19 +368,19 @@ function ArrayBaseDeLaNaves(numnaves,numast){//declarando el array de las naves 
     var total = numnaves + numast;
     var MatrizPrincipal = new Array(total);
     for (let i = 0; i < total; i++)
-        MatrizPrincipal[i]=new Array(3);//array que dira si es una nave enemiga y sus posiciones en X,Y
+        MatrizPrincipal[i]=new Array(4);//array que dira si es una nave enemiga y sus posiciones en X,Y y Z
 
     //Colocar naves
     for (i=0; i<numnaves; i++){
         MatrizPrincipal[i][0] = 1;
-        for (e=1; e<3; e++){
+        for (e=1; e<4; e++){
             MatrizPrincipal[i][e] = NumerosAleatorios(limit)-1;
         }
     }
     //Colocar asteroides
     for (i=numnaves; i<total; i++){
         MatrizPrincipal[i][0] = 3;
-        for (e=1; e<3; e++){
+        for (e=1; e<4; e++){
             MatrizPrincipal[i][e] = NumerosAleatorios(limit)-1;
         }
     }
@@ -387,8 +422,10 @@ colocarPosicionesAleatorias(numnaves,numasteroides)//esta ganando mucha importan
 
 //------------------------------------------------------------------------------------------------
 //-------------PURO CAMVAS------- (matriz de los monitos)--------------------------------
-lienzoBase.beginPath();//EMPEZAR EL DIBUJO
-//dibujar la reticula
-dibujarReticula();//esta es la reticula del
-lienzoBase.closePath();
-console.log(MatrizThatMakeMeCry);
+
+for(var i in lienzosBase){
+  lienzosBase[i].beginPath();//EMPEZAR EL DIBUJO
+  //dibujar la reticula
+  dibujarReticula(lienzosBase[i]);
+  lienzosBase[i].closePath();
+}
