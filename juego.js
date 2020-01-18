@@ -1,3 +1,20 @@
+///Apartado de notas jajaja pondre lo que voy a hacer
+
+//-------Fer-------
+///poner evento para que la nave pueda moverse hacia harriba y abajo con el pntero del mouse y uqe pueda dar vuelta
+//mezclar lo de beto y lo mio para la rotacion de la camara
+//Pegar el objeto balas *******
+//Haver el objeto explosion que eliminara de la matriz del arreglo
+//ver tree.js
+
+
+//--------Diego---------
+
+////------Beto-------------
+
+//-------IDEAS que tenga--------------
+
+///-------
 //-------------DEclaracion de variables
 var limit = 10;//Numero de casillas de la matriz
 var tamCanvas= 100;//Tama;o del canvas

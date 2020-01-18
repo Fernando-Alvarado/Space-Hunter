@@ -16,57 +16,9 @@
     </div>
     <script>
     //Ill try to make the algorithm of the bullets
-    function NumerosAleatorios(tope){
-    return Math.floor((Math.random()*tope))+1
-}
-
-            function ArrayBaseDeLaNaves(numero){//declarando el array de las naves y sus posiciones
-    var MatrizPrincipal = new Array(numero);
-    for (let i = 0; i < numero; i++)
-        MatrizPrincipal[i]=new Array(4);//array que dira si es una nave enemiga y sus posiciones en
-        //x,y
-    for (i=0; i<numero; i++){
-        MatrizPrincipal[i][0] = 1;
-        for (e=1; e<4; e++){
-            MatrizPrincipal[i][e] = NumerosAleatorios(10);
-        }
-    }
-    MatrizPrincipal[0][0] = 2;
-
-return MatrizPrincipal;
-}
-var Array3d = ArrayBaseDeLaNaves(4);
+  
 //x is the initial point and x2 the other xd
-function graficadoraBullet(x,y,z,x2,y2,z2, limite){
-    var cont = x;
-    var VectorDirector = [x2-x,y2-y,z2-z];//vector que dara la direccion 
-    var ArrayX = new Array(0);//okey so, here i should push negative numbers that would be dump
-    var ArrayY = new Array(0);
-    var ArrayZ = new Array(0);
-    if(x2 < x)
-        while(cont != 0){
-            ArrayX.push(cont);
-            cont--;
-        }
-    else
-        while(cont != limite){
-            ArrayX.push(cont);
-            cont++;   
-        }////
-    for (let i = 0; i < ArrayX.length; i++){//loop of arrayY
-        if(VectorDirector[0]!= 0){
-        ArrayY.push(Math.round((VectorDirector[1]*((ArrayX[i]-x)/VectorDirector[0]))+y));    
-        ArrayZ.push(Math.round((VectorDirector[2]*((ArrayX[i]-x)/VectorDirector[0]))+z));      
-        }else{
-            ArrayY.push(y)
-            ArrayZ.push(z)
-        }
-    }
-    //we are going to return 3 arrayS
-    var TheRegret = [ArrayX, ArrayY, ArrayZ] ;
-    return TheRegret;
 
-}
 //var Salio = graficadoraBullet(3,8,20,10,18,28,30)
 var Salio = graficadoraBullet(Array3d[0][1],Array3d[0][2],Array3d[0][3],Array3d[1][1],Array3d[1][2],Array3d[1][3],21)
 console.log(Salio);
