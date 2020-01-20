@@ -77,13 +77,77 @@
           }
           break;
         case "der":
-          // code block
+
+          for(let ran=1;ran<=rango;ran++) //hará este ciclo tantas veces como pueda por el rango.
+            {
+              if(columna+ran<columnas_de_matriz) //preguntamos si no buscará en una columna menor al índice cero, ninguna matriz tiene "matriz[0][-1]" o menor.
+              {
+                for(let rec_vertical=fila-(ran*pendiente);rec_vertical<=fila+(ran*pendiente);rec_vertical++) //aquí comienza a recorrer verticalmente
+                //las columnas (una columna es vertical), no puedes ver lo que hay en el punto en el que estás parado, por lo que empieza en la siguiente
+                //columna a la que estás parado en la dirección que estás mirando, la fila en la que empieza es en la que está - (columna de separación * pendiente),
+                //por lo tanto, si está a una columna de separación con una pendiente de dos empezará dos filas antes; terminará de revisar la columna de una
+                //forma similar, la última fila de esa columna será la fila actual + (columnas de separación * pendiente), por lo tanto, si está separado
+                //a dos columnas y la pendiente es 3, terminará de revisar 6 filas más                                                                                                          
+                {
+                  // console.log("Inicio de rec_vertical "+rec_vertical);
+                  // console.log("fin de rec_vertical= "+fila+(ran*pendiente));
+                  if(rec_vertical>=0&&rec_vertical<filas_de_matriz)
+                  //se valida que no se pase de los límites de la matriz
+                  {
+                    console.log(matriz[rec_vertical][columna+ran])
+                    //A pantalla los valores de la matriz en esa coordenada.
+                  }
+                }
+              }
+            }
           break;
         case "arr":
-          // code block
+          for(let ran=1;ran<=rango;ran++) //hará este ciclo tantas veces como pueda por el rango.
+            {
+              if(fila-ran>=0) //preguntamos si no buscará en una fila menor al índice cero, ninguna matriz tiene "matriz[-1][0]" o menor.
+              {
+                for(let rec_horizontal=columna-(ran*pendiente);rec_horizontal<=columna+(ran*pendiente);rec_horizontal++) //aquí comienza a recorrer horizontalmente
+                //las filas (una columna es horizontal), no puedes ver lo que hay en el punto en el que estás parado, por lo que empieza en la siguiente
+                //fila a la que estás parado en la dirección que estás mirando, la columna en la que empieza es en la que está - (fila de separación * pendiente),
+                //por lo tanto, si está a una fila de separación con una pendiente de dos empezará dos filas antes; terminará de revisar la columna de una
+                //forma similar, la última fila de esa columna será la fila actual + (columnas de separación * pendiente), por lo tanto, si está separado
+                //a dos columnas y la pendiente es 3, terminará de revisar 6 filas más                                                                                                          
+                {
+                  // console.log("Inicio de rec_vertical "+rec_vertical);
+                  // console.log("fin de rec_vertical= "+fila+(ran*pendiente));
+                  if(rec_horizontal>=0&&rec_horizontal<columnas_de_matriz)
+                  //se valida que no se pase de los límites de la matriz
+                  {
+                    console.log(matriz[fila-ran][rec_horizontal]);
+                    //A pantalla los valores de la matriz en esa coordenada.
+                  }
+                }
+              }
+            }
           break;
         case "aba":
-          // code block
+            for(let ran=1;ran<=rango;ran++) //hará este ciclo tantas veces como pueda por el rango.
+            {
+              if(fila+ran<filas_de_matriz) //preguntamos si no buscará en una fila menor al índice cero, ninguna matriz tiene "matriz[-1][0]" o menor.
+              {
+                for(let rec_horizontal=columna-(ran*pendiente);rec_horizontal<=columna+(ran*pendiente);rec_horizontal++) //aquí comienza a recorrer horizontalmente
+                //las filas (una columna es horizontal), no puedes ver lo que hay en el punto en el que estás parado, por lo que empieza en la siguiente
+                //fila a la que estás parado en la dirección que estás mirando, la columna en la que empieza es en la que está - (fila de separación * pendiente),
+                //por lo tanto, si está a una fila de separación con una pendiente de dos empezará dos filas antes; terminará de revisar la columna de una
+                //forma similar, la última fila de esa columna será la fila actual + (columnas de separación * pendiente), por lo tanto, si está separado
+                //a dos columnas y la pendiente es 3, terminará de revisar 6 filas más                                                                                                          
+                {
+                  // console.log("Inicio de rec_vertical "+rec_vertical);
+                  // console.log("fin de rec_vertical= "+fila+(ran*pendiente));
+                  if(rec_horizontal>=0&&rec_horizontal<columnas_de_matriz)
+                  //se valida que no se pase de los límites de la matriz
+                  {
+                    console.log(matriz[fila+ran][rec_horizontal]);
+                    //A pantalla los valores de la matriz en esa coordenada.
+                  }
+                }
+              }
+            }
           break;
 
       }
