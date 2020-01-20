@@ -1,3 +1,19 @@
+///Apartado de notas jajaja pondre lo que voy a hacer
+
+//-------Fer-------
+///poner evento para que la nave pueda moverse hacia harriba y abajo con el pntero del mouse y uqe pueda dar vuelta
+//mezclar lo de beto y lo mio para la rotacion de la camara
+//Haver el objeto explosion que eliminara de la matriz del arreglo
+//ver tree.js
+//Acabar el objeto balas jajajaj
+
+//--------Diego---------
+//ver tree.js
+////------Beto-------------
+//ver tree.js
+//-------IDEAS que tenga--------------
+
+///-------
 //-------------DEclaracion de variables
 var limit = 20;//Numero de casillas de la matriz
 var tamCanvas= 200;//Tama;o del canvas
@@ -167,77 +183,72 @@ class NavesEnemigas{
             MainBucle(1000, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.direction, 1, 2, 3, 4, 5, 6, this.number);
             }
       }
-
-      class balas{
-        //matriz donde corre el juego || cordenadas conde empezo a disparar || coordenadas a donde va
-        constructor(PrincipalMat, whereX, whereY, ObjX, ObjY, Killed, limiteCampoJuego){ //kileed se refiere a la nave a
-            //que se le espero disparas, no se si quieran que se permita el fuego amigo
-            this.Matriz = PrincipalMat;//matris donde estan declaradas todas las naves
-            this.WherX = whereX;//coordenadas iniciales
-            this.WherY = whereY;
-            this.ObjX = ObjX;//cordenadas a lo que se le disparo
-            this.ObjY = ObjY;
-            this.Killed = Killed;///a que va a matar, si es nave enemiga o no
-            this.limCampJue = limiteCampoJuego;///limite de las dimensiones del campo de batalla
-            function graficadora(x1, y1, x2, y2, limite){//Matriz de las balas
-                var m = (y2-y1)/(x2-x1);
-                const BalasDeLaMatriz = [new Array(0), new Array(0)];//sera el array de las balas la longitud que
-                var i = x1;
-                while(i != limite && BalasDeLaMatriz[1][BalasDeLaMatriz[1].length-1] != limite){
-                    if(m <= 2.5){
-                        BalasDeLaMatriz[0].push(i);
-                        BalasDeLaMatriz[1].push(Math.round((m*(i-x1))+y1));//la primera locacion siempre sera la nave donde
-                        //se disparo
-                    }else{
-                        BalasDeLaMatriz[0].push(Math.round(i*.1));
-                        BalasDeLaMatriz[1].push(Math.round(((m*(i-x1))+y1)*.1));
-                    }
-                    if(x1 > x2 && y1 > y2){//en caso de que la nave enemiga este a la izquierda
-                        i--;
-                        if(i == 0 || BalasDeLaMatriz[1][BalasDeLaMatriz[1].length-1] == 0)///para que encuentre el limite y no se haga
-                            i = limite//un blucle infinito
-                    }
-                    else
-                    i++;
-               }//aqui se acaba la llave del while
-                return BalasDeLaMatriz;
+      class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por que necesito que sea la actualizada para
+        //la comparacion de las colisiones
+//matriz donde corre el juego || cordenadas conde empezo a disparar || coordenadas a donde va
+constructor(whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego){
+ //kileed se refiere al indicador de la nave que se quiere matar
+    function graficadoraBullet(x,y,z,x2,y2,z2, limite){
+        var cont = x;
+        var VectorDirector = [x2-x,y2-y,z2-z];//vector que dara la direccion 
+        var ArrayX = new Array(0);//okey so, here i should push negative numbers that would be dump
+        var ArrayY = new Array(0);
+        var ArrayZ = new Array(0);
+        if(x2 < x)
+            while(cont != 0){
+                ArrayX.push(cont);
+                cont--;
             }
-            this.MatBalas = graficadora(this.WherX, this.WherY, this.ObjX, this.ObjY, this.limCampJue)
-            console.log(this.MatBalas)
-         }
-        MidnightBlame(){
-            var Coun = 0;
-            function GodsLoop(MatBalas, MatOfGame, WhatIs, Coun){
-                setTimeout(function(){
-                    if(Coun != MatBalas[1].length){//Para que el bucle no se haga infinito
-                        if(WhatIs == 2){//para chcar si es nave enemiga o amiga
-                            if(MatBalas[0][Coun] == MatOfGame[0][1] && MatBalas[1][Coun] == MatOfGame[0][2]){
-                                console.log('impacto a una nave')
-                            }else{
-                            MatOfGame = MatrizThatMakeMeCry; //a las matriz del juego necesito hacer que sea la mas actualizada
-                            Coun++;
-                                GodsLoop(MatBalas, MatOfGame, WhatIs, Coun);
-                            }
-                        }else{
-                             for(i=1; i< MatOfGame.length; i++)//checar la matriz del juego para poder comparar si hay un impacto
-                                if(MatBalas[0][Coun]==MatOfGame[i][1] && MatBalas[1][Coun]==MatOfGame[i][2]){//saber si impactaste
-                                     console.log('impacto a una nave enemiga')///codigo del impacto
-                                }//no se cuento se alargue este, creo que hare otro objeto para la destruccion
-                                else{
-                                MatOfGame = MatrizThatMakeMeCry //a las matriz del juego necesito hacer que sea la mas actualizada
-                                Coun++;
-                                    GodsLoop(MatBalas, MatOfGame, WhatIs, Coun);
-                                }
+        else
+            while(cont != limite){
+                ArrayX.push(cont);
+                cont++;   
+            }////
+        for (let i = 0; i < ArrayX.length; i++){//loop of arrayY
+            if(VectorDirector[0]!= 0){
+                ArrayY.push(Math.round((VectorDirector[1]*((ArrayX[i]-x)/VectorDirector[0]))+y));    
+                ArrayZ.push(Math.round((VectorDirector[2]*((ArrayX[i]-x)/VectorDirector[0]))+z));      
+            }else{
+                ArrayY.push(y)
+                ArrayZ.push(z)
+            }
+        }       
+        var TheRegret = [ArrayX, ArrayY, ArrayZ] ;  //we are going to return 3 arrayS
+        return TheRegret;
 
-                        }
-                    }
-                },100);//velocidad de las balas se puede cambiar
-            }//Where func ends   PARAMETROS || MatRIZbALAS Balas, Matratriz del juego, WhatIs, Coun
-            console.log("The object start");///solo para ver si sirve
-            GodsLoop(this.MatBalas, this.Matriz, this.Killed, Coun);
-        }//llave del fin del metodo
-     }
-
+    }
+this.MatrizBalas3d = graficadoraBullet(whereX, whereY, whereZ, ObjX, ObjY, ObjZ,limiteCampoJuego);
+this.WhoToKill = Killed;//esto sera para que no exista el fuego amigo
+console.log(this.MatrizBalas3d);
+}
+MidnightBlame(){ //NOTE: la varaible de las naves es global tinee que estar declarada arriba
+var Coun = 0;
+function GodsLoop(MatBalas, Coun, WhoToKill){
+    
+ 
+    setTimeout(function(){
+        if(Coun < MatBalas[0].length){
+           
+            var Everything = tontaVariable; //Aqui tengo que poner la matriz de IWannaCry
+            if( WhoToKill== 2){//cuendo le disparen a la nave principal
+                console.log('Im in')//ver si se mete al buble
+                //Everything es la matriz donde estan todas la anves
+                if(MatBalas[0][Coun]==Everything[0][1]&&MatBalas[1][Coun]==Everything[0][2]&&MatBalas[2][Coun]==Everything[0][3]){
+                    console.log('impacto a una nave')
+                }else{
+                    Coun++;
+                    GodsLoop(MatBalas, Coun, WhoToKill);
+                }  
+            }else if(this.WhoToKill == 1){//cuando le dispare a una nave enemiga
+                console.log('no se por que se  metio')
+            }
+        }        
+    },100);//velocidad de las balas se puede cambiar
+}
+GodsLoop(this.MatrizBalas3d ,Coun,this.WhoToKill);
+}//llave del fin del metodo
+}
+     ////-----------------------------JIJIJIIJIJ aQUI IRA EL OBJETO DE LAS BALAS
 ////-----------------------------------------------------------------------------------------------------------------------
 ////----------------------------FUNCIONES----------------------------------------------------------------------------------
 ////-----------------------------------------------------------------------------------------------------------------------

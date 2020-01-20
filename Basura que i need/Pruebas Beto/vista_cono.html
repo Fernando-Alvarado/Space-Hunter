@@ -1,0 +1,223 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Visión cono</title>
+    <style>
+      #contenedor_tble{
+        width: 80%;
+        left: 10%;
+      }
+
+    </style>
+  </head>
+  <body>
+    <label for="">Número de filas</label>
+    <input type="text" id="filas"> <br>
+    <label for="">Número de columnas</label>
+    <input type="text" id="columnas"> <br>
+
+    <label for="">Coordenada de la nave en X:</label>
+    <input type="text" id="c_en_x"> <br>
+    <label for="">Coordenada de la nave en Y:</label>
+    <input type="text" id="c_en_y"> <br>
+    <select name="" id="direccion">
+      <option value="izq">Izquierda</option>
+      <option value="der">Derecha</option>
+      <option value="arr">Arriba</option>
+      <option value="aba">Abajo</option>
+    </select>
+    <button type="button" name="button" id="button_table">Crear mat.</button> <br>
+    <div id="contenedor_tble"></div>
+    <tb id="table">
+
+    </tb>
+    <div></div>
+  </body>
+  <script type="text/javascript" src="./jquery-3.4.1.js"></script>
+  <script>
+
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min)) + min; //El máximo es exclusivo y el mínimo es inclusivo
+    }
+
+
+    function busca_elementos(direccion,fila,columna,rango,pendiente,filas_de_matriz,columnas_de_matriz,matriz)//dirección es hacia dónde mira el jugador, fila es la unbicación en y
+    // de la nave, columna es la ubicacion_x de la nave, rango es hasta dónde verá, pendiente cuánta apertura tiene la vista, filas de de matriz es cuántas filas tiene la matriz,
+    //columnas de matriz es la cantidad de columnas de la matriz.
+    {
+      switch(direccion)
+      {
+        case "izq":  //si ve hacia la izquierda
+          for(let ran=1;ran<=rango;ran++) //hará este ciclo tantas veces como pueda por el rango.
+          {
+            if(columna-ran>=0) //preguntamos si no buscará en una columna menor al índice cero, ninguna matriz tiene "matriz[0][-1]" o menor.
+            {
+              for(let rec_vertical=fila-(ran*pendiente);rec_vertical<=fila+(ran*pendiente);rec_vertical++) //aquí comienza a recorrer verticalmente
+              //las columnas (una columna es vertical), no puedes ver lo que hay en el punto en el que estás parado, por lo que empieza en la siguiente
+              //columna a la que estás parado en la dirección que estás mirando, la fila en la que empieza es en la que está - (columna de separación * pendiente),
+              //por lo tanto, si está a una columna de separación con una pendiente de dos empezará dos filas antes; terminará de revisar la columna de una
+              //forma similar, la última fila de esa columna será la fila actual + (columnas de separación * pendiente), por lo tanto, si está separado
+              //a dos columnas y la pendiente es 3, terminará de revisar 6 filas más                                                                                                          
+              {
+                // console.log("Inicio de rec_vertical "+rec_vertical);
+                // console.log("fin de rec_vertical= "+fila+(ran*pendiente));
+                if(rec_vertical>=0&&rec_vertical<filas_de_matriz)
+                //se valida que no se pase de los límites de la matriz
+                {
+                  console.log(matriz[rec_vertical][columna-ran])
+                  //A pantalla los valores de la matriz en esa coordenada.
+                }
+              }
+            }
+          }
+          break;
+        case "der":
+
+          for(let ran=1;ran<=rango;ran++) //hará este ciclo tantas veces como pueda por el rango.
+            {
+              if(columna+ran<columnas_de_matriz) //preguntamos si no buscará en una columna menor al índice cero, ninguna matriz tiene "matriz[0][-1]" o menor.
+              {
+                for(let rec_vertical=fila-(ran*pendiente);rec_vertical<=fila+(ran*pendiente);rec_vertical++) //aquí comienza a recorrer verticalmente
+                //las columnas (una columna es vertical), no puedes ver lo que hay en el punto en el que estás parado, por lo que empieza en la siguiente
+                //columna a la que estás parado en la dirección que estás mirando, la fila en la que empieza es en la que está - (columna de separación * pendiente),
+                //por lo tanto, si está a una columna de separación con una pendiente de dos empezará dos filas antes; terminará de revisar la columna de una
+                //forma similar, la última fila de esa columna será la fila actual + (columnas de separación * pendiente), por lo tanto, si está separado
+                //a dos columnas y la pendiente es 3, terminará de revisar 6 filas más                                                                                                          
+                {
+                  // console.log("Inicio de rec_vertical "+rec_vertical);
+                  // console.log("fin de rec_vertical= "+fila+(ran*pendiente));
+                  if(rec_vertical>=0&&rec_vertical<filas_de_matriz)
+                  //se valida que no se pase de los límites de la matriz
+                  {
+                    console.log(matriz[rec_vertical][columna+ran])
+                    //A pantalla los valores de la matriz en esa coordenada.
+                  }
+                }
+              }
+            }
+          break;
+        case "arr":
+          for(let ran=1;ran<=rango;ran++) //hará este ciclo tantas veces como pueda por el rango.
+            {
+              if(fila-ran>=0) //preguntamos si no buscará en una fila menor al índice cero, ninguna matriz tiene "matriz[-1][0]" o menor.
+              {
+                for(let rec_horizontal=columna-(ran*pendiente);rec_horizontal<=columna+(ran*pendiente);rec_horizontal++) //aquí comienza a recorrer horizontalmente
+                //las filas (una columna es horizontal), no puedes ver lo que hay en el punto en el que estás parado, por lo que empieza en la siguiente
+                //fila a la que estás parado en la dirección que estás mirando, la columna en la que empieza es en la que está - (fila de separación * pendiente),
+                //por lo tanto, si está a una fila de separación con una pendiente de dos empezará dos filas antes; terminará de revisar la columna de una
+                //forma similar, la última fila de esa columna será la fila actual + (columnas de separación * pendiente), por lo tanto, si está separado
+                //a dos columnas y la pendiente es 3, terminará de revisar 6 filas más                                                                                                          
+                {
+                  // console.log("Inicio de rec_vertical "+rec_vertical);
+                  // console.log("fin de rec_vertical= "+fila+(ran*pendiente));
+                  if(rec_horizontal>=0&&rec_horizontal<columnas_de_matriz)
+                  //se valida que no se pase de los límites de la matriz
+                  {
+                    console.log(matriz[fila-ran][rec_horizontal]);
+                    //A pantalla los valores de la matriz en esa coordenada.
+                  }
+                }
+              }
+            }
+          break;
+        case "aba":
+            for(let ran=1;ran<=rango;ran++) //hará este ciclo tantas veces como pueda por el rango.
+            {
+              if(fila+ran<filas_de_matriz) //preguntamos si no buscará en una fila menor al índice cero, ninguna matriz tiene "matriz[-1][0]" o menor.
+              {
+                for(let rec_horizontal=columna-(ran*pendiente);rec_horizontal<=columna+(ran*pendiente);rec_horizontal++) //aquí comienza a recorrer horizontalmente
+                //las filas (una columna es horizontal), no puedes ver lo que hay en el punto en el que estás parado, por lo que empieza en la siguiente
+                //fila a la que estás parado en la dirección que estás mirando, la columna en la que empieza es en la que está - (fila de separación * pendiente),
+                //por lo tanto, si está a una fila de separación con una pendiente de dos empezará dos filas antes; terminará de revisar la columna de una
+                //forma similar, la última fila de esa columna será la fila actual + (columnas de separación * pendiente), por lo tanto, si está separado
+                //a dos columnas y la pendiente es 3, terminará de revisar 6 filas más                                                                                                          
+                {
+                  // console.log("Inicio de rec_vertical "+rec_vertical);
+                  // console.log("fin de rec_vertical= "+fila+(ran*pendiente));
+                  if(rec_horizontal>=0&&rec_horizontal<columnas_de_matriz)
+                  //se valida que no se pase de los límites de la matriz
+                  {
+                    console.log(matriz[fila+ran][rec_horizontal]);
+                    //A pantalla los valores de la matriz en esa coordenada.
+                  }
+                }
+              }
+            }
+          break;
+
+      }
+
+    }
+    var select_dir= document.getElementById("direccion");
+    console.log("Valor del select: "+select_dir.value);
+    var button_tabla= document.getElementById("button_table");
+    var input_filas=document.getElementById("filas");
+    var input_columnas=document.getElementById("columnas");
+    var input_coord_x=document.getElementById("c_en_x");
+    var input_coord_y=document.getElementById("c_en_y");
+
+    var rango=2;
+    var pendiente=1;
+
+    var div_cont=document.getElementById("contenedor_tble");
+    var table=document.getElementById("table");
+    button_tabla.addEventListener("click",function(){
+
+      num_filas=input_filas.value;
+      num_column=input_columnas.value;
+      if(num_filas!=""&&num_column!=""&&c_en_x!=""&&c_en_y!="")
+      {
+        var tabla_pantalla=document.createElement("table");
+        var matriz=new Array(num_filas);
+        c_en_x=$("#c_en_x").val();
+        c_en_y=$("#c_en_y").val();
+
+        for(let f=0;f<num_filas;f++)
+        {
+          matriz[f]= new Array(num_column);
+          for(let c=0;c<num_column;c++)
+          {
+            matriz[f][c]=0;
+          }
+        }
+        for(let i=0;i<num_filas;i++)
+        {
+          let fila=document.createElement("tr");
+          for(let j=0;j<num_column;j++)
+          {
+            let columna_de_fila=document.createElement("td");
+            let num=getRandomInt(0,80);
+            if(j==c_en_x&&i==c_en_y)
+            {
+              $(columna_de_fila).css("color","red");
+              alert("Sí entra");
+            }
+            columna_de_fila.innerText=num;
+            console.log(num);
+            matriz[i][j]=num;
+            fila.appendChild(columna_de_fila);
+
+          }
+          tabla_pantalla.appendChild(fila);
+        }
+        console.log(matriz);
+      }
+      else
+      {
+        alert("Llénalos todos, culero.")
+      }
+      div_cont.appendChild(tabla_pantalla);
+
+      busca_elementos(select_dir.value,parseInt(c_en_y),parseInt(c_en_x),rango,pendiente,num_filas,num_column,matriz);
+      // function busca_elementos(direccion,fila,columna,rango,pendiente,filas_de_matriz,columnas_de_matriz)//dirección es hacia dónde mira el jugador, fila es la unbicación en y
+      // // de la nave, columna es la ubicacion_x de la nave, rango es hasta dónde verá, pendiente cuánta apertura tiene la vista, filas de de matriz es cuántas filas tiene la matriz,
+      // //columnas de matriz es la cantidad de columnas de la matriz.
+    })
+
+  </script>
+  </html>
