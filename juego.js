@@ -1,12 +1,12 @@
 //-------------DEclaracion de variables
-var limit = 10;//Numero de casillas de la matriz
-var tamCanvas= 100;//Tama;o del canvas
+var limit = 20;//Numero de casillas de la matriz
+var tamCanvas= 200;//Tama;o del canvas
 var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
 var matrizPrincipal = document.getElementById('matrizBase');//puede ser o no el canvas principal xd
-var numnaves = 2; //numero de naves que hay declaradas
+var numnaves = 20; //numero de naves que hay declaradas
 var rango = 1; //Nos dice que tanto ven las naves enemigas a su alrdedor
 var velDisparo = 1000; //Velocidad de disparo de las naves.
-var numasteroides = 0; //Cuantos asteroides se crean
+var numasteroides = 20; //Cuantos asteroides se crean
 var MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides);//tipo instanciando la matriz principal
 
 //Declarar canvas para tres dimensiones
@@ -30,9 +30,13 @@ var patterns = new Array( //Array con todos los diferentes patrones, el primer n
                   new Array(100,2,2,2,2,2,2,2),
                   new Array(100,3,3,3,3,3,3,3),
                   new Array(100,4,4,4,4,4,4,4),
+                  new Array(100,5,5,5,5,5,5,5),
+                  new Array(100,6,6,6,6,6,6,6),
                   new Array(300,1,1,1,2,2,2),
                   new Array(300,3,3,3,4,4,4),
                   new Array(300,1,1,2,2,3,3),
+                  new Array(100,3,3,5,5,5,1,1),
+                  new Array(100,4,4,6,6,6,2,2),
                   new Array(300,1,1,1,1,3,3,3,3,2,2,2,4,4,4),
                   new Array(100,2,2,2,2,2,2,2,4,4,4,4,3),
                   new Array(200,3,3,3,3,3,4,4,3,2,1,2,1)
@@ -146,7 +150,7 @@ class NavesEnemigas{
             constructor(matrizDondeSeTrabaja, number){//el
                 this.workingMat = matrizDondeSeTrabaja;
                 this.number = number;//indice dentro de la matriz principal donde se guardara el asteroide
-                this.direction = NumerosAleatorios(4); //Dice hacia donde se mueve
+                this.direction = NumerosAleatorios(6); //Dice hacia donde se mueve
                 //disparar
             }
             JustTheCreator(){//este metodo ara que las naves se muevan y  si tiempo que disparen
