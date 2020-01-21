@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body { margin: 0; }    /*  pantalla completa, canvas al 100% */
+        canvas { width: 100%; height: 100% }
+
+    </style>
+</head>
+
+<body>
+    <script src="../../Librerías/three.js"></script>
+    <script>
+        // Es básico hacer 3 cosas, instanciar la escena, la cámara y el renderer
+
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        // THREE.PerspectiveCamera: primer parámetro es la apertura de la cámara en grados, el segundo es el 
+        // aspect ratio, una buena explicación aquí  https://es.wikipedia.org/wiki/Relaci%C3%B3n_de_aspecto
+        //https://scsarquitecto.cl/importancia-relacion-aspecto/
+        // ,se puede dejar ese parámetro o el más usado 16:9; el siguiente es cercanía y el cuarto es lejanía,
+        //significa que nos se renderearan (shit of translation DX) objetos más cercanos al valor de cercanía 
+        //ni objetos más lejanos al valor de lejanía.
+
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        //Es necesario determinar el tamaño del rendereado, el aspect ratio es sólo una escala, aquí daremos las
+        //dimensiones. El primer parámetro es el tamaño horizontal, el segundo vertical, hay un tercer parámetro,
+        //el cual es true o false, en caso de ser false, se ejecutará el render con la mitad de la calidad 
+        //(suponiendo que las dimensiones del canvas son de 100% x 100%), si no se pasa parámetro, se considera 
+        //que es true y se ejecuta el render con resolución normal.
+        document.body.appendChild( renderer.domElement );
+
+
+        var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+        var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+
+        var cube = new THREE.Mesh( geometry, material );
+        // Instanciamos un cubo con base en los parámetros anteriores
+        scene.add( cube );
+        //lo añadimos a la escena.
+
+        camera.position.z = 8;
+        //ya que a cámara por default empieza en la coordenada (0,0,0), se le asigna un valor en el eje z,
+        //ya que por el parámetro dado más atrás, no lo renderearía por la cercanía (el cubo también empieza
+        //en (0,0,0) ).
+
+        function animate(){
+            requestAnimationFrame( animate );
+            //el request animationFrame de toda la vida, recursivo, aprox. 60 ciclos por segundo, también deja
+            //de ejecutarse la animación cuando no estás en la pestaña por lo que ahorras procesamiento
+            //y batería usada.
+
+            cube.rotation.x += 0.02;
+            cube.rotation.y += 0.02;
+
+
+
+
+            //El reto aquí será modificar camera.position.z con base en algún botón que toque, por ejemplo, si toca 
+            // s que se vaya la cámara hacia atrás, si toca w hacia adelante.
+
+            //Add event listener aquí xd...
+
+
+
+
+                
+            renderer.render( scene, camera );
+            //ya que está la cámara y la escena, las ejecuta el render, boila.
+        }
+        animate();
+    
+    
+    
+    </script>
+</body>
+</html>
