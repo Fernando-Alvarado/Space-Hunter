@@ -18,7 +18,8 @@ var rotcionCamara = document.getElementById('rotacionCamara')
 var vistasDefinidas = [0,90,180,270];//todos los valores que puede tomar la camara
 //---Otras variables que necesito
 var altura = 200; //es la altura del canvas
-var ancho = 200 
+var ancho = 200;//este valor se puede cambiar en un futurp
+var posInicial = 1;
 var gradosPantalla = 0; //Estos son los grdos donde inicialmnte empieza a ver e tipo
 //--------------Here it ends
 AlturaPantalla.innerText=altura///Solo para representar la altura en pantalla
@@ -26,20 +27,38 @@ AnchoPantalla.innerText=ancho//solo queiro saber que pedo con el nacho de la pan
 
 //Funciones de enventos, creo que solo necesito 2 y luego hare una funcion para que la nave suba o baje
 canvas.addEventListener('mousemove', function(event){
-    var WhereIsTheMouse = [event.pageX - 10,event.pageY -8]//Lo que
+    let anotherCounter = 0;
+    var WhereIsTheMouse = [event.pageX - 10,event.pageY -8]//Lo que se tiene que borrar par auqe se adapte vien a la pantalla
    if(WhereIsTheMouse[1] < (altura)/3)
         var parametro = 0;
     else if(WhereIsTheMouse[1] > ((altura)/3)*2)
         var parametro = 1;   
     subeOBaja.innerText= parametro;
-    if(WhereIsTheMouse[0]< (altura)/4)//girara a la derecha
+ 
+        if(WhereIsTheMouse[0]< (altura)/4 && anotherCounter == 0){//girar a la derecha
+            anotherCounter = 1;
+            setTimeout(function(){ 
+                if(gradosPantalla == 0)
+                    gradosPantalla = 3;
+                gradosPantalla--;
+                anotherCounter = 0
+            }, 1000);
+        }
+        if(WhereIsTheMouse[0]< ((altura)/4)*3 && anotherCounter == 0){//girara a la girar a la izquierda 
+            anotherCounter = 1;
+            setTimeout(function(){ 
+                if(gradosPantalla == 3)
+                    gradosPantalla = 0;
+                gradosPantalla++;
+                anotherCounter = 0
+            }, 1000);
+        } 
+         
+        rotcionCamara.innerText= vistasDefinidas[gradosPantalla]   
     setTimeout(function(){ 
-        gradosPantalla -= 90
-        rotcionCamara.innerText= gradosPantalla;
-    }, 1000);
-  
+   }, 1000);
+    
     coordenadasPantalla.innerText= 'x= '+WhereIsTheMouse[0]+' Y= '+WhereIsTheMouse[1]
-    return WhereIsTheMouse;
 });
 
 document.addEventListener('keydown', function(){
