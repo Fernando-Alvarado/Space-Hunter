@@ -26,14 +26,29 @@ AlturaPantalla.innerText=altura///Solo para representar la altura en pantalla
 AnchoPantalla.innerText=ancho//solo queiro saber que pedo con el nacho de la pantalla
 
 //Funciones de enventos, creo que solo necesito 2 y luego hare una funcion para que la nave suba o baje
+class RotacionTorreta {//cosa para que las neves puedan rotar y moverse hacia arriba y abajo
+    constructor(borrarEnX, borrarEnY){//solo necesito el evento que haga que me regrese los valores de las posiciones del mouse
+        ///aqui hayq ue poner la pantalla y no el canvas para
+        this.Posiciones = canvas.addEventListener('mousemove', function(event){
+            var WhereIsTheMouse = [event.pageX - 10,event.pageY -8]
+            return WhereIsTheMouse
+        })
+    }
+    subir(){
+        if(WhereIsTheMouse[1] < (altura)/3)
+             var parametro = 0;
+        else if(WhereIsTheMouse[1] > ((altura)/3)*2)
+            var parametro = 1;   
+        subeOBaja.innerText= parametro;
+    }
+    rotacion360()
+}
+
+
 canvas.addEventListener('mousemove', function(event){
     let anotherCounter = 0;
     var WhereIsTheMouse = [event.pageX - 10,event.pageY -8]//Lo que se tiene que borrar par auqe se adapte vien a la pantalla
-   if(WhereIsTheMouse[1] < (altura)/3)
-        var parametro = 0;
-    else if(WhereIsTheMouse[1] > ((altura)/3)*2)
-        var parametro = 1;   
-    subeOBaja.innerText= parametro;
+  /////--------------------
  
         if(WhereIsTheMouse[0]< (altura)/4 && anotherCounter == 0){//girar a la derecha
             anotherCounter = 1;
@@ -57,6 +72,12 @@ canvas.addEventListener('mousemove', function(event){
         rotcionCamara.innerText= vistasDefinidas[gradosPantalla]   
     setTimeout(function(){ 
    }, 1000);
+
+   function LoopOfMouse(){
+    setTimeout(function(){ 
+
+     }, 2000);
+   }
     
     coordenadasPantalla.innerText= 'x= '+WhereIsTheMouse[0]+' Y= '+WhereIsTheMouse[1]
 });
