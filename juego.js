@@ -9,12 +9,12 @@
 //tree.js
 
 //-------------DEclaracion de variables
-var limit = 20;//Numero de casillas de la matriz
+var limit = 250;//Numero de casillas de la matriz
 var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
-var numnaves = 20; //numero de naves que hay declaradas
-var rango = 1; //Nos dice que tanto ven las naves enemigas a su alrdedor
+var numnaves = 1000; //numero de naves que hay declaradas
+var rango = 240; //Nos dice que tanto ven las naves enemigas a su alrdedor
 var velDisparo = 1000; //Velocidad de disparo de las naves.
-var numasteroides = 20; //Cuantos asteroides se crean
+var numasteroides = 0; //Cuantos asteroides se crean
 
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -38,7 +38,7 @@ document.body.appendChild( renderer.domElement );
 var MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides, scene);//tipo instanciando la matriz principal
 camera.position.x = MatrizThatMakeMeCry[0][1];
 camera.position.y = MatrizThatMakeMeCry[0][2];
-camera.position.z = 30;
+camera.position.z = 260;
 
 var ArrayObjetos; //Aquí se guardan todas las naves y asteroides.
 var patterns = new Array( //Array con todos los diferentes patrones, el primer número es la velocidadf
@@ -74,12 +74,9 @@ class PersonajePrincipal{
         }
 
     //Quitare la funcion choose  where to move del mono, por que ya no es necesaria xd
-       mover(){ 
-          //  MatrizThatMakeMeCry   //esta es la matriz con todas la posiciones 
-            document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
-           
-              //Diego aqui iria tu codigo, que corria el movimiento de la camara
-            });
+       mover(){
+          //  MatrizThatMakeMeCry   //esta es la matriz con todas la posiciones
+
 
             //Aqui iria el codigo del evento del mouse, pa que se mueva la camara con el mouse
         }
@@ -127,11 +124,12 @@ class NavesEnemigas{
                     }
 
                     var itsRunnig = ChooseWhereToMove( x, y, z, move,  position);
-
                     //NMovemos el render
-                    MatrizThatMakeMeCry[position][4].position.x = itsRunnig[0];
-                    MatrizThatMakeMeCry[position][4].position.y = itsRunnig[1];
-                    MatrizThatMakeMeCry[position][4].position.z = itsRunnig[2];
+                    if(itsRunnig[0]!=null){
+                      MatrizThatMakeMeCry[position][4].position.x = itsRunnig[0];
+                      MatrizThatMakeMeCry[position][4].position.y = itsRunnig[1];
+                      MatrizThatMakeMeCry[position][4].position.z = itsRunnig[2];
+                    }
                     //lo añadimos a la escena
                     MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], itsRunnig[2],numero,  position,current_pattern,pattern_move,patterns);
                   }, velocidad);
@@ -171,7 +169,7 @@ class NavesEnemigas{
         //console.log(this.number)
 
         //'red',matriz, x, y, z, move, ar1, ar2, ar3, ar4, ar5, ar6, position
-        MainBucle(1000, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.numero, 1, 2, 3, 4, 5, 6, this.number,this.current_pattern, this.pattern_move,patterns);
+        MainBucle(1000, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.numero, this.number,this.current_pattern, this.pattern_move,patterns);
         }
 
     }
@@ -190,15 +188,17 @@ class NavesEnemigas{
                     setTimeout(function(){
                       var itsRunnig = ChooseWhereToMove(x, y, z, move,  position);//quite todos los parametros inecesarios
                       //Movemos el render
-                      MatrizThatMakeMeCry[position][4].position.x = itsRunnig[0];/////----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                      MatrizThatMakeMeCry[position][4].position.y = itsRunnig[1];
-                      MatrizThatMakeMeCry[position][4].position.z = itsRunnig[2];
+                      if(itsRunnig[0]!=null){
+                        MatrizThatMakeMeCry[position][4].position.x = itsRunnig[0];
+                        MatrizThatMakeMeCry[position][4].position.y = itsRunnig[1];
+                        MatrizThatMakeMeCry[position][4].position.z = itsRunnig[2];
+                      }
                       MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], itsRunnig[2], move,  position);
                     }, velocidad);
                   }
                 }
             //console.log(this.number)
-            MainBucle(1000, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.direction, 1, 2, 3, 4, 5, 6, this.number);
+            MainBucle(1000, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.direction, this.number);
             }
       }
       class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por que necesito que sea la actualizada para
@@ -276,7 +276,6 @@ function ChooseWhereToMove(x, y, z, event, value){//switch para elegir
     //y que la nave pueda moverse   ----  inicioX     inicioY
     var type =MatrizThatMakeMeCry[value][0];
     regreso = [null,null,null,0];
-    console.log('im in')
     for(var i in MatrizThatMakeMeCry){
       if(MatrizThatMakeMeCry[i][1]==x && MatrizThatMakeMeCry[i][2]==y && MatrizThatMakeMeCry[i][3]==z){
 
@@ -330,8 +329,6 @@ function ChooseWhereToMove(x, y, z, event, value){//switch para elegir
       //ponerLasNavesEnLaMatriz(matriz);/////////////////////////////////Arreglar
   }
   MatrizThatMakeMeCry[value] = [regreso[3],regreso[0],regreso[1],regreso[2],MatrizThatMakeMeCry[value][4]];
-  if(type!=0)
-  //console.log(MatrizThatMakeMeCry)
    return regreso
 
 }
@@ -439,5 +436,30 @@ colocarPosicionesAleatorias(numnaves,numasteroides)//esta ganando mucha importan
   dibujarReticula(lienzosBase[i]);
   lienzosBase[i].closePath();
 }*/
+
+document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
+  switch(event.code){
+    case 'KeyW': camera.position.y += 1;
+      break;
+    case 'KeyS': camera.position.y -= 1;
+      break;
+    case 'KeyA': camera.position.x += 1;
+      break;
+    case 'KeyD': camera.position.x -= 1;
+      break;
+    case 'KeyR': camera.position.z += 1;
+      break;
+    case 'KeyF': camera.position.z -= 1;
+      break;
+    case 'ArrowUp': camera.rotation.x += .01;
+      break;
+    case 'ArrowDown': camera.rotation.x -= .01;
+      break;
+    case 'ArrowLeft': camera.rotation.y += .01;
+      break;
+    case 'ArrowRight': camera.rotation.y -= .01;
+  }
+  //Diego aqui iria tu codigo, que corria el movimiento de la camara
+});
 
 animate();
