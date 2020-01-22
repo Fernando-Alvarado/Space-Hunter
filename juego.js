@@ -14,6 +14,9 @@
 //-------IDEAS que tenga--------------
 
 ///-------
+//-------------Bibliotecas
+
+
 //-------------DEclaracion de variables
 var limit = 20;//Numero de casillas de la matriz
 var tamCanvas= 200;//Tama;o del canvas
@@ -23,8 +26,30 @@ var numnaves = 20; //numero de naves que hay declaradas
 var rango = 1; //Nos dice que tanto ven las naves enemigas a su alrdedor
 var velDisparo = 1000; //Velocidad de disparo de las naves.
 var numasteroides = 20; //Cuantos asteroides se crean
-var MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides);//tipo instanciando la matriz principal
 
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+// THREE.PerspectiveCamera: primer parámetro es la apertura de la cámara en grados, el segundo es el
+// aspect ratio, una buena explicación aquí  https://es.wikipedia.org/wiki/Relaci%C3%B3n_de_aspecto
+//https://scsarquitecto.cl/importancia-relacion-aspecto/
+// ,se puede dejar ese parámetro o el más usado 16:9; el siguiente es cercanía y el cuarto es lejanía,
+//significa que nos se renderearan (shit of translation DX) objetos más cercanos al valor de cercanía
+//ni objetos más lejanos al valor de lejanía.
+
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize( window.innerWidth, window.innerHeight );
+//Es necesario determinar el tamaño del rendereado, el aspect ratio es sólo una escala, aquí daremos las
+//dimensiones. El primer parámetro es el tamaño horizontal, el segundo vertical, hay un tercer parámetro,
+//el cual es true o false, en caso de ser false, se ejecutará el render con la mitad de la calidad
+//(suponiendo que las dimensiones del canvas son de 100% x 100%), si no se pasa parámetro, se considera
+//que es true y se ejecuta el render con resolución normal.
+document.body.appendChild( renderer.domElement );
+
+
+var MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides, scene);//tipo instanciando la matriz principal
+camera.position.x = MatrizThatMakeMeCry[0][1];
+camera.position.y = MatrizThatMakeMeCry[0][2];
+camera.position.z = 30;
 //Declarar canvas para tres dimensiones
 var matricesPrincipales= new Array();
 for(let i=1; i<=limit; i++){
@@ -121,6 +146,12 @@ class NavesEnemigas{
                     }
 
                     var itsRunnig = ChooseWhereToMove('red',matriz, x, y, z, move, ar1, ar2, ar3, ar4, ar5, ar6, position);
+
+                    //NMovemos el render
+                    MatrizThatMakeMeCry[position][4].position.x = itsRunnig[0];
+                    MatrizThatMakeMeCry[position][4].position.y = itsRunnig[1];
+                    MatrizThatMakeMeCry[position][4].position.z = itsRunnig[2];
+                    //lo añadimos a la escena
                     MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], itsRunnig[2],numero, ar1, ar2, ar3, ar4, ar5, ar6, position,current_pattern,pattern_move,patterns);
                   }, velocidad);
                 }
@@ -175,6 +206,10 @@ class NavesEnemigas{
                   if(matriz[position][0]!=0){
                     setTimeout(function(){
                       var itsRunnig = ChooseWhereToMove("black",matriz, x, y, z, move, ar1, ar2, ar3, ar4, ar5, ar6, position);
+                      //Movemos el render
+                      MatrizThatMakeMeCry[position][4].position.x = itsRunnig[0];
+                      MatrizThatMakeMeCry[position][4].position.y = itsRunnig[1];
+                      MatrizThatMakeMeCry[position][4].position.z = itsRunnig[2];
                       MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], itsRunnig[2], move, ar1, ar2, ar3, ar4, ar5, ar6, position);
                     }, velocidad);
                   }
@@ -190,7 +225,7 @@ constructor(whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego){
  //kileed se refiere al indicador de la nave que se quiere matar
     function graficadoraBullet(x,y,z,x2,y2,z2, limite){
         var cont = x;
-        var VectorDirector = [x2-x,y2-y,z2-z];//vector que dara la direccion 
+        var VectorDirector = [x2-x,y2-y,z2-z];//vector que dara la direccion
         var ArrayX = new Array(0);//okey so, here i should push negative numbers that would be dump
         var ArrayY = new Array(0);
         var ArrayZ = new Array(0);
@@ -202,17 +237,17 @@ constructor(whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego){
         else
             while(cont != limite){
                 ArrayX.push(cont);
-                cont++;   
+                cont++;
             }////
         for (let i = 0; i < ArrayX.length; i++){//loop of arrayY
             if(VectorDirector[0]!= 0){
-                ArrayY.push(Math.round((VectorDirector[1]*((ArrayX[i]-x)/VectorDirector[0]))+y));    
-                ArrayZ.push(Math.round((VectorDirector[2]*((ArrayX[i]-x)/VectorDirector[0]))+z));      
+                ArrayY.push(Math.round((VectorDirector[1]*((ArrayX[i]-x)/VectorDirector[0]))+y));
+                ArrayZ.push(Math.round((VectorDirector[2]*((ArrayX[i]-x)/VectorDirector[0]))+z));
             }else{
                 ArrayY.push(y)
                 ArrayZ.push(z)
             }
-        }       
+        }
         var TheRegret = [ArrayX, ArrayY, ArrayZ] ;  //we are going to return 3 arrayS
         return TheRegret;
 
@@ -224,11 +259,11 @@ console.log(this.MatrizBalas3d);
 MidnightBlame(){ //NOTE: la varaible de las naves es global tinee que estar declarada arriba
 var Coun = 0;
 function GodsLoop(MatBalas, Coun, WhoToKill){
-    
- 
+
+
     setTimeout(function(){
         if(Coun < MatBalas[0].length){
-           
+
             var Everything = tontaVariable; //Aqui tengo que poner la matriz de IWannaCry
             if( WhoToKill== 2){//cuendo le disparen a la nave principal
                 console.log('Im in')//ver si se mete al buble
@@ -238,11 +273,11 @@ function GodsLoop(MatBalas, Coun, WhoToKill){
                 }else{
                     Coun++;
                     GodsLoop(MatBalas, Coun, WhoToKill);
-                }  
+                }
             }else if(this.WhoToKill == 1){//cuando le dispare a una nave enemiga
                 console.log('no se por que se  metio')
             }
-        }        
+        }
     },100);//velocidad de las balas se puede cambiar
 }
 GodsLoop(this.MatrizBalas3d ,Coun,this.WhoToKill);
@@ -313,7 +348,7 @@ function ChooseWhereToMove(color,matriz, x, y, z, event, argu1, argu2, argu3, ar
       regreso = [x, y, z, type];
       //ponerLasNavesEnLaMatriz(matriz);/////////////////////////////////Arreglar
   }
-  MatrizThatMakeMeCry[value] = [regreso[3],regreso[0],regreso[1],regreso[2]];
+  MatrizThatMakeMeCry[value] = [regreso[3],regreso[0],regreso[1],regreso[2],MatrizThatMakeMeCry[value][4]];
   if(type!=0)
     LimpiarLaMatriz(x, y, z, color);
   //console.log(MatrizThatMakeMeCry)
@@ -379,11 +414,11 @@ function NumerosAleatorios(tope){
     return Math.floor((Math.random()*tope))+1;
 }
 
-function ArrayBaseDeLaNaves(numnaves,numast){//declarando el array de las naves y sus posiciones
+function ArrayBaseDeLaNaves(numnaves,numast,scene){//declarando el array de las naves y sus posiciones
     var total = numnaves + numast;
     var MatrizPrincipal = new Array(total);
     for (let i = 0; i < total; i++)
-        MatrizPrincipal[i]=new Array(4);//array que dira si es una nave enemiga y sus posiciones en X,Y y Z
+        MatrizPrincipal[i]=new Array(5);//array que dira si es una nave enemiga y sus posiciones en X,Y y Z
 
     //Colocar naves
     for (i=0; i<numnaves; i++){
@@ -391,6 +426,15 @@ function ArrayBaseDeLaNaves(numnaves,numast){//declarando el array de las naves 
         for (e=1; e<4; e++){
             MatrizPrincipal[i][e] = NumerosAleatorios(limit)-1;
         }
+        var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+        var material = new THREE.MeshBasicMaterial( { color: 0xFF0000, wireframe: true } );
+        MatrizPrincipal[i][4] = new THREE.Mesh(geometry, material);
+        // Instanciamos un cubo con base en los parámetros anteriores
+        scene.add(MatrizPrincipal[i][4]);
+        MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][1];
+        MatrizPrincipal[i][4].position.y = MatrizPrincipal[i][2];
+        MatrizPrincipal[i][4].position.z = MatrizPrincipal[i][3];
+        //lo añadimos a la escena
     }
     //Colocar asteroides
     for (i=numnaves; i<total; i++){
@@ -398,6 +442,16 @@ function ArrayBaseDeLaNaves(numnaves,numast){//declarando el array de las naves 
         for (e=1; e<4; e++){
             MatrizPrincipal[i][e] = NumerosAleatorios(limit)-1;
         }
+        let geometry = new THREE.BoxGeometry( 1, 1, 1 );
+        let material = new THREE.MeshBasicMaterial( { color: 0x0000FF, wireframe: true } );
+        MatrizPrincipal[i][4] = new THREE.Mesh( geometry, material );
+        // Instanciamos un cubo con base en los parámetros anteriores
+        scene.add(MatrizPrincipal[i][4]);
+        MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][1];
+        MatrizPrincipal[i][4].position.y = MatrizPrincipal[i][2];
+        MatrizPrincipal[i][4].position.z = MatrizPrincipal[i][3];
+        //lo añadimos a la escena
+
     }
 
     MatrizPrincipal[0][0] = 2;
@@ -428,6 +482,24 @@ function colocarPosicionesAleatorias(numNaves,numAst){//saber donde estaran las 
     }
 
 }
+
+function animate(){
+    requestAnimationFrame( animate );
+    //el request animationFrame de toda la vida, recursivo, aprox. 60 ciclos por segundo, también deja
+    //de ejecutarse la animación cuando no estás en la pestaña por lo que ahorras procesamiento
+    //y batería usada.
+
+    // cube.rotation.x += 0.02;
+    // cube.rotation.y += 0.02;
+    //El reto aquí será modificar camera.position.z con base en algún botón que toque, por ejemplo, si toca
+    // s que se vaya la cámara hacia atrás, si toca w hacia adelante.
+
+    //Add event listener aquí xd...
+
+    renderer.render( scene, camera );
+    //ya que está la cámara y la escena, las ejecuta el render, boila.
+}
+
 ///-----------------------------------------------------------------------------------------------
 ///--------------------Ejecuciones----------------------------------------------------------------
 ///-----------------------------------------------------------------------------------------------
@@ -444,3 +516,5 @@ for(var i in lienzosBase){
   dibujarReticula(lienzosBase[i]);
   lienzosBase[i].closePath();
 }
+
+animate();

@@ -15,34 +15,60 @@
 <body>
     <script src="../../Librerías/three.js"></script>
     <script>
+        function NumerosAleatorios(tope){
+            return Math.floor((Math.random()*tope))+1
+        }
+
+        function ArrayBaseDeLaNaves(numero){//declarando el array de las naves y sus posiciones
+            var MatrizPrincipal = new Array(numero);
+            for (let i = 0; i < numero; i++)
+                MatrizPrincipal[i]=new Array(4);//array que dira si es una nave enemiga y sus posiciones en
+                //x,y
+            for (i=0; i<numero; i++){
+                MatrizPrincipal[i][0] = 1;
+                for (e=1; e<4; e++){
+                    MatrizPrincipal[i][e] = NumerosAleatorios(5);
+                }
+            }
+            MatrizPrincipal[0][0] = 2;
+
+        return MatrizPrincipal;
+        }
+
+        var num_cubes = 6;
+        var Matriznaves = ArrayBaseDeLaNaves(num_cubes);
         // Es básico hacer 3 cosas, instanciar la escena, la cámara y el renderer
 
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-        // THREE.PerspectiveCamera: primer parámetro es la apertura de la cámara en grados, el segundo es el 
+        // THREE.PerspectiveCamera: primer parámetro es la apertura de la cámara en grados, el segundo es el
         // aspect ratio, una buena explicación aquí  https://es.wikipedia.org/wiki/Relaci%C3%B3n_de_aspecto
         //https://scsarquitecto.cl/importancia-relacion-aspecto/
         // ,se puede dejar ese parámetro o el más usado 16:9; el siguiente es cercanía y el cuarto es lejanía,
-        //significa que nos se renderearan (shit of translation DX) objetos más cercanos al valor de cercanía 
+        //significa que nos se renderearan (shit of translation DX) objetos más cercanos al valor de cercanía
         //ni objetos más lejanos al valor de lejanía.
 
         var renderer = new THREE.WebGLRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
         //Es necesario determinar el tamaño del rendereado, el aspect ratio es sólo una escala, aquí daremos las
         //dimensiones. El primer parámetro es el tamaño horizontal, el segundo vertical, hay un tercer parámetro,
-        //el cual es true o false, en caso de ser false, se ejecutará el render con la mitad de la calidad 
-        //(suponiendo que las dimensiones del canvas son de 100% x 100%), si no se pasa parámetro, se considera 
+        //el cual es true o false, en caso de ser false, se ejecutará el render con la mitad de la calidad
+        //(suponiendo que las dimensiones del canvas son de 100% x 100%), si no se pasa parámetro, se considera
         //que es true y se ejecuta el render con resolución normal.
         document.body.appendChild( renderer.domElement );
 
-
-        var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-        var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-
-        var cube = new THREE.Mesh( geometry, material );
-        // Instanciamos un cubo con base en los parámetros anteriores
-        scene.add( cube );
-        //lo añadimos a la escena.
+        var arrayCubes = new Array();
+        for(i = 0; i<num_cubes; i++){
+          let geometry = new THREE.BoxGeometry( 1, 1, 1 );
+          let material = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe: true } );
+          arrayCubes[i] = new THREE.Mesh( geometry, material );
+          // Instanciamos un cubo con base en los parámetros anteriores
+          scene.add(arrayCubes[i]);
+          arrayCubes[i].position.x = Matriznaves[i][1];
+          arrayCubes[i].position.y = Matriznaves[i][2];
+          arrayCubes[i].position.z = Matriznaves[i][3];
+          //lo añadimos a la escena
+        }
 
         camera.position.z = 8;
         //ya que a cámara por default empieza en la coordenada (0,0,0), se le asigna un valor en el eje z,
@@ -55,28 +81,43 @@
             //de ejecutarse la animación cuando no estás en la pestaña por lo que ahorras procesamiento
             //y batería usada.
 
-            cube.rotation.x += 0.02;
-            cube.rotation.y += 0.02;
-
-
-
-
-            //El reto aquí será modificar camera.position.z con base en algún botón que toque, por ejemplo, si toca 
+            // cube.rotation.x += 0.02;
+            // cube.rotation.y += 0.02;
+            //El reto aquí será modificar camera.position.z con base en algún botón que toque, por ejemplo, si toca
             // s que se vaya la cámara hacia atrás, si toca w hacia adelante.
 
             //Add event listener aquí xd...
 
-
-
-
-                
             renderer.render( scene, camera );
             //ya que está la cámara y la escena, las ejecuta el render, boila.
         }
         animate();
-    
-    
-    
+
+        document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
+          switch(event.code){
+            case 'KeyW': camera.position.y += .1;
+              break;
+            case 'KeyS': camera.position.y -= .1;
+              break;
+            case 'KeyA': camera.position.x += .1;
+              break;
+            case 'KeyD': camera.position.x -= .1;
+              break;
+            case 'KeyR': camera.position.z += .1;
+              break;
+            case 'KeyF': camera.position.z -= .1;
+              break;
+            case 'ArrowUp': camera.rotation.x += .01;
+              break;
+            case 'ArrowDown': camera.rotation.x -= .01;
+              break;
+            case 'ArrowLeft': camera.rotation.y += .01;
+              break;
+            case 'ArrowRight': camera.rotation.y -= .01;
+          }
+        });
+
+
     </script>
 </body>
 </html>
