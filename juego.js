@@ -72,15 +72,16 @@ class PersonajePrincipal{
        constructor (matrizDondeSeTrabaja) {
             this.matrizDondeSeTrabaja = matrizDondeSeTrabaja;
         }
-        mover(){
-            var matrizDondeSeTrabaja = this.matrizDondeSeTrabaja;
-            document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
-            var corriendo =  ChooseWhereToMove('#00e0ff',matrizDondeSeTrabaja, matrizDondeSeTrabaja[0][1], matrizDondeSeTrabaja[0][2],matrizDondeSeTrabaja[0][3], event.code,"KeyW", "KeyS", "KeyA", "KeyD","KeyR","KeyF", 0);
-            matrizDondeSeTrabaja[0][1]=corriendo[0];//se reinia la cuenta para que se pueda mover la neve
-            matrizDondeSeTrabaja[0][2]=corriendo[1];//es algo idiota pero funciona jajajaja
-            matrizDondeSeTrabaja[0][3]=corriendo[2];//es algo idiota pero funciona jajajaja
 
+    //Quitare la funcion choose  where to move del mono, por que ya no es necesaria xd
+       mover(){ 
+          //  MatrizThatMakeMeCry   //esta es la matriz con todas la posiciones 
+            document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
+           
+              //Diego aqui iria tu codigo, que corria el movimiento de la camara
             });
+
+            //Aqui iria el codigo del evento del mouse, pa que se mueva la camara con el mouse
         }
     }
 
@@ -97,7 +98,7 @@ class NavesEnemigas{
         }
         JustTheCreator(){//este metodo ara que las naves se muevan y  si tiempo que disparen
             //usara la funcion switch que cree
-            function MainBucle(velocidad, matriz, x, y , z,move, ar1, ar2, ar3, ar4,ar5,ar6, position,current_pattern,pattern_move,patterns){ //Aqui se tendra que correr el bucle de las naves
+            function MainBucle(velocidad, matriz, x, y , z,move, position,current_pattern,pattern_move,patterns){ //Aqui se tendra que correr el bucle de las naves
                 if(matriz[position][0]!=0){
                   setTimeout(function(){
                     this.dist_player=DistFromPlayer(matriz,x,y,z);
@@ -125,14 +126,14 @@ class NavesEnemigas{
                       velocidad = patterns[current_pattern][0];
                     }
 
-                    var itsRunnig = ChooseWhereToMove('red',matriz, x, y, z, move, ar1, ar2, ar3, ar4, ar5, ar6, position);
+                    var itsRunnig = ChooseWhereToMove( x, y, z, move,  position);
 
                     //NMovemos el render
                     MatrizThatMakeMeCry[position][4].position.x = itsRunnig[0];
                     MatrizThatMakeMeCry[position][4].position.y = itsRunnig[1];
                     MatrizThatMakeMeCry[position][4].position.z = itsRunnig[2];
                     //lo añadimos a la escena
-                    MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], itsRunnig[2],numero, ar1, ar2, ar3, ar4, ar5, ar6, position,current_pattern,pattern_move,patterns);
+                    MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], itsRunnig[2],numero,  position,current_pattern,pattern_move,patterns);
                   }, velocidad);
                 }
             }
@@ -168,6 +169,8 @@ class NavesEnemigas{
               return retur;
             }
         //console.log(this.number)
+
+        //'red',matriz, x, y, z, move, ar1, ar2, ar3, ar4, ar5, ar6, position
         MainBucle(1000, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.numero, 1, 2, 3, 4, 5, 6, this.number,this.current_pattern, this.pattern_move,patterns);
         }
 
@@ -182,15 +185,15 @@ class NavesEnemigas{
             }
             JustTheCreator(){//este metodo ara que las naves se muevan y  si tiempo que disparen
                 //usara la funcion switch que cree
-                function MainBucle(velocidad, matriz, x, y, z, move, ar1, ar2, ar3, ar4, ar5,ar6,position){ //Aqui se tendra que correr el bucle de las naves
+                function MainBucle(velocidad, matriz, x, y, z, move, position){ //Aqui se tendra que correr el bucle de las naves
                   if(matriz[position][0]!=0){
                     setTimeout(function(){
-                      var itsRunnig = ChooseWhereToMove("black",matriz, x, y, z, move, ar1, ar2, ar3, ar4, ar5, ar6, position);
+                      var itsRunnig = ChooseWhereToMove(x, y, z, move,  position);//quite todos los parametros inecesarios
                       //Movemos el render
                       MatrizThatMakeMeCry[position][4].position.x = itsRunnig[0];/////----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                       MatrizThatMakeMeCry[position][4].position.y = itsRunnig[1];
                       MatrizThatMakeMeCry[position][4].position.z = itsRunnig[2];
-                      MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], itsRunnig[2], move, ar1, ar2, ar3, ar4, ar5, ar6, position);
+                      MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], itsRunnig[2], move,  position);
                     }, velocidad);
                   }
                 }
@@ -268,12 +271,12 @@ GodsLoop(this.MatrizBalas3d ,Coun,this.WhoToKill);
 ////----------------------------FUNCIONES----------------------------------------------------------------------------------
 ////-----------------------------------------------------------------------------------------------------------------------
 //  value valie sirve para saber el indice donde se guardara el incie de la matriz que me hace llorar
-function ChooseWhereToMove(color,matriz, x, y, z, event, argu1, argu2, argu3, argu4, argu5, argu6, value){//switch para elegir
+function ChooseWhereToMove(x, y, z, event, value){//switch para elegir
     //donde se va a mover cada nave, servira para la principal y para las naves enemigas
     //y que la nave pueda moverse   ----  inicioX     inicioY
     var type =MatrizThatMakeMeCry[value][0];
     regreso = [null,null,null,0];
-
+    console.log('im in')
     for(var i in MatrizThatMakeMeCry){
       if(MatrizThatMakeMeCry[i][1]==x && MatrizThatMakeMeCry[i][2]==y && MatrizThatMakeMeCry[i][3]==z){
 
@@ -289,35 +292,34 @@ function ChooseWhereToMove(color,matriz, x, y, z, event, argu1, argu2, argu3, ar
 
       }
    }
-
     if (type!=0){
       switch(event){
-          case argu1:if(y==0)
+          case 1:if(y==0)
                           y = limit-1;
                       else
                           y--;
              break;
-          case argu2: if(y==limit-1)
+          case 2: if(y==limit-1)
                           y=0;
                       else
                           y++;
               break;
-          case argu3: if (x==0)
+          case 3: if (x==0)
                           x = limit-1;
                       else
                           x--;
               break;
-          case argu4: if(x==limit-1)
+          case 4: if(x==limit-1)
                           x=0;
                       else
                           x++;
               break;
-          case argu5: if(z==0)
+          case 5: if(z==0)
                           z = limit-1;
                       else
                           z--;
               break;
-          case argu6: if(z==limit-1)
+          case 6: if(z==limit-1)
                           z=0;
                       else
                           z++;
@@ -388,7 +390,7 @@ function colocarPosicionesAleatorias(numNaves,numAst){//saber donde estaran las 
    // var Matriz = ArrayBaseDeLaNaves(numNaves);//tipo instanciando la matriz principal
     //instanciando el objeto principal ----------------------
     const nave = new PersonajePrincipal(MatrizThatMakeMeCry);
-    nave.mover()//haciendo que el objeto funcione  las teclas
+  //  nave.mover()//haciendo que el objeto funcione  las teclas
     //-----------------Delcarando todas las naves enemigas que hay--------------------
     var total = numAst + numNaves;
     ArrayObjetos = new Array(total-1);//aqui correran todos los objetos de las naves enemigas
