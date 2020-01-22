@@ -2,26 +2,15 @@
 
 //-------Fer-------
 ///poner evento para que la nave pueda moverse hacia harriba y abajo con el pntero del mouse y uqe pueda dar vuelta
-//mezclar lo de beto y lo mio para la rotacion de la camara
-//Haver el objeto explosion que eliminara de la matriz del arreglo
 //ver tree.js
-//Acabar el objeto balas jajajaj
 
-//--------Diego---------
-//ver tree.js
-////------Beto-------------
-//ver tree.js
-//-------IDEAS que tenga--------------
 
-///-------
 //-------------Bibliotecas
-
+//tree.js
 
 //-------------DEclaracion de variables
 var limit = 20;//Numero de casillas de la matriz
-var tamCanvas= 200;//Tama;o del canvas
 var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
-var matrizPrincipal = document.getElementById('matrizBase');//puede ser o no el canvas principal xd
 var numnaves = 20; //numero de naves que hay declaradas
 var rango = 1; //Nos dice que tanto ven las naves enemigas a su alrdedor
 var velDisparo = 1000; //Velocidad de disparo de las naves.
@@ -50,15 +39,6 @@ var MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides, scene);//ti
 camera.position.x = MatrizThatMakeMeCry[0][1];
 camera.position.y = MatrizThatMakeMeCry[0][2];
 camera.position.z = 30;
-//Declarar canvas para tres dimensiones
-var matricesPrincipales= new Array();
-for(let i=1; i<=limit; i++){
-  matricesPrincipales[i-1] = document.getElementById('matrizBase'+i);
-}
-var lienzosBase = new Array();
-for(let i in matricesPrincipales){
-  lienzosBase[i]=matricesPrincipales[i].getContext('2d');
-}
 
 var ArrayObjetos; //Aquí se guardan todas las naves y asteroides.
 var patterns = new Array( //Array con todos los diferentes patrones, el primer número es la velocidadf
@@ -207,7 +187,7 @@ class NavesEnemigas{
                     setTimeout(function(){
                       var itsRunnig = ChooseWhereToMove("black",matriz, x, y, z, move, ar1, ar2, ar3, ar4, ar5, ar6, position);
                       //Movemos el render
-                      MatrizThatMakeMeCry[position][4].position.x = itsRunnig[0];
+                      MatrizThatMakeMeCry[position][4].position.x = itsRunnig[0];/////----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                       MatrizThatMakeMeCry[position][4].position.y = itsRunnig[1];
                       MatrizThatMakeMeCry[position][4].position.z = itsRunnig[2];
                       MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], itsRunnig[2], move, ar1, ar2, ar3, ar4, ar5, ar6, position);
@@ -290,7 +270,6 @@ GodsLoop(this.MatrizBalas3d ,Coun,this.WhoToKill);
 //  value valie sirve para saber el indice donde se guardara el incie de la matriz que me hace llorar
 function ChooseWhereToMove(color,matriz, x, y, z, event, argu1, argu2, argu3, argu4, argu5, argu6, value){//switch para elegir
     //donde se va a mover cada nave, servira para la principal y para las naves enemigas
-    LimpiarLaMatriz(x, y, z, "white");
     //y que la nave pueda moverse   ----  inicioX     inicioY
     var type =MatrizThatMakeMeCry[value][0];
     regreso = [null,null,null,0];
@@ -350,66 +329,10 @@ function ChooseWhereToMove(color,matriz, x, y, z, event, argu1, argu2, argu3, ar
   }
   MatrizThatMakeMeCry[value] = [regreso[3],regreso[0],regreso[1],regreso[2],MatrizThatMakeMeCry[value][4]];
   if(type!=0)
-    LimpiarLaMatriz(x, y, z, color);
   //console.log(MatrizThatMakeMeCry)
    return regreso
 
 }
-
-function dibujarReticula(lienzo){//funcion que se puede quitar cuando se pase el juego
-    ///Solo sirve aqui en canvas esta funcion se ira muy lejos jajajaja
-    //vertical
-    for(let i = 0; i <= tamCanvas; i+=(tamCanvas/limit)){
-        lienzo.moveTo(i, 0);
-        lienzo.lineTo(i, tamCanvas);
-    }
-    //horizontal
-    for(let i = 0; i <= tamCanvas; i+=(tamCanvas/limit)){
-        lienzo.moveTo(0,i);
-        lienzo.lineTo(tamCanvas, i);
-    }
-    lienzo.stroke();//el que las dibuja
-}
-
-function ponerLasNavesEnLaMatriz(matrizDeclarada){//cada que se mueva se tendra que correr esta
-    ///Matriz solo de la de canvas
-    // funcion para refrescar todo  //solo es para pintarla
-    /*console.log('dipdup')
-    console.log(matrizDeclarada)*/
-    for(let i=0; i<matrizDeclarada.length; i++){ //colocar las cosas en su lugar
-        var lienzo = lienzosBase[matrizDeclarada[i][3]];
-
-        lienzo.beginPath();//EMPEZAR EL DIBUJO
-        if(matrizDeclarada[i][0] == 2)
-             lienzo.fillStyle = "blue";//color que quieran
-        else if(matrizDeclarada[i][0] == 1){
-              lienzo.fillStyle =  "red";//color que quieran
-        }
-        else if(matrizDeclarada[i][0] == 3)
-              lienzo.fillStyle = "black"; //Color de asteroides
-
-        var proporción = (tamCanvas/limit);
-        lienzo.rect((matrizDeclarada[i][1]*(proporción)+(proporción/13)), (matrizDeclarada[i][2]*(proporción)+(proporción/13)), (proporción)-(proporción/10), (proporción)-(proporción/10));//poner las cuadrados tal ves hay que
-        //tal vez hay que cambiar el cuadro de los cuaros 10
-        lienzo.fill();// poder rellenar de color el fondo del canvas
-        lienzo.closePath();
-    }
-
-}
-
-function LimpiarLaMatriz(x, y, z, color){ //funcion para limpiar la pos anterior
-    ///Funcion que hace que hace que se borre el rastro de la nave en la matriz de canvas
-    var lienzo = lienzosBase[z];
-    lienzo.beginPath();//EMPEZAR EL DIBUJO
-    lienzo.fillStyle = color;//color que quieran
-
-    var proporción = (tamCanvas/limit);
-    lienzo.rect(((x*(proporción))+(proporción/13)), ((y*(proporción))+(proporción/13)), (proporción)-(proporción/10), (proporción)-(proporción/10));//poner las cuadrados tal ves hay que
-    lienzo.fill();// poder rellenar de color el fondo del canvas
-    lienzo.closePath();
-}
-
-///----------------FUNCTIONS THAT I NEED TO COPY now they r modify---------------------------
 function NumerosAleatorios(tope){
     return Math.floor((Math.random()*tope))+1;
 }
@@ -463,11 +386,9 @@ return MatrizPrincipal;
 function colocarPosicionesAleatorias(numNaves,numAst){//saber donde estaran las naves al inicio
     //tambien es medio la base de todo el juego espero que esto cambie
    // var Matriz = ArrayBaseDeLaNaves(numNaves);//tipo instanciando la matriz principal
-    ponerLasNavesEnLaMatriz(MatrizThatMakeMeCry)//ibujar la matriz de nuemeros en esta de canvas
     //instanciando el objeto principal ----------------------
     const nave = new PersonajePrincipal(MatrizThatMakeMeCry);
     nave.mover()//haciendo que el objeto funcione  las teclas
-
     //-----------------Delcarando todas las naves enemigas que hay--------------------
     var total = numAst + numNaves;
     ArrayObjetos = new Array(total-1);//aqui correran todos los objetos de las naves enemigas
@@ -510,11 +431,11 @@ colocarPosicionesAleatorias(numnaves,numasteroides)//esta ganando mucha importan
 //------------------------------------------------------------------------------------------------
 //-------------PURO CAMVAS------- (matriz de los monitos)--------------------------------
 
-for(var i in lienzosBase){
+/*for(var i in lienzosBase){
   lienzosBase[i].beginPath();//EMPEZAR EL DIBUJO
   //dibujar la reticula
   dibujarReticula(lienzosBase[i]);
   lienzosBase[i].closePath();
-}
+}*/
 
 animate();
