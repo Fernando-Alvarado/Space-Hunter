@@ -7,83 +7,77 @@ ctx.fillStyle = '#990000';
 
 ctx.strokeRect(0,0,200,200);
 
-
-
-////----All the shit i need to get from html
-var coordenadasPantalla = document.getElementById('coordenadas');//variable para poner las posiciones que saco
-var AlturaPantalla = document.getElementById('Altura');
-var AnchoPantalla =  document.getElementById('Ancho');
-var subeOBaja = document.getElementById('subeOBaja');
-var rotcionCamara = document.getElementById('rotacionCamara')
-var vistasDefinidas = [0,90,180,270];//todos los valores que puede tomar la camara
-//---Otras variables que necesito
 var altura = 200; //es la altura del canvas
 var ancho = 200;//este valor se puede cambiar en un futurp
 var posInicial = 1;
 var gradosPantalla = 0; //Estos son los grdos donde inicialmnte empieza a ver e tipo
 //--------------Here it ends
-AlturaPantalla.innerText=altura///Solo para representar la altura en pantalla
-AnchoPantalla.innerText=ancho//solo queiro saber que pedo con el nacho de la pantalla
 
 //Funciones de enventos, creo que solo necesito 2 y luego hare una funcion para que la nave suba o baje
-class RotacionTorreta {//cosa para que las neves puedan rotar y moverse hacia arriba y abajo
-    constructor(borrarEnX, borrarEnY){//solo necesito el evento que haga que me regrese los valores de las posiciones del mouse
+class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia arriba y abajo
+    constructor(borrarEnX, borrarEnY, alturaPantalla, anchoPantalla, canvas){//solo necesito el evento que haga que me regrese los valores de las posiciones del mouse
         ///aqui hayq ue poner la pantalla y no el canvas para
-        this.Posiciones = canvas.addEventListener('mousemove', function(event){
-            var WhereIsTheMouse = [event.pageX - 10,event.pageY -8]
-            return WhereIsTheMouse
-        })
+        this.RotationPosition = [0,15,30,45,60,75,90,105,120,135,150,165,180,195,210,225,240,255,270,285,300,315,330,345,360]
+        this.borrarEnX=borrarEnX
+        this.borrarEnY =borrarEnY
+        //si ancho y alto son iguales se va uno
+        this.alturaPantalla = alturaPantalla;//dive el valor de la pantalla del juego
+        this.anchoPantalla = anchoPantalla;//dice el ancho de la pantalla
+        this.inicioCamaraTorre = 5; //empieza a 90 grados jeje
+        //Aqui hay que ejecutar funcion pa que este en 90 grados
     }
-    subir(){
-        if(WhereIsTheMouse[1] < (altura)/3)
-             var parametro = 0;
-        else if(WhereIsTheMouse[1] > ((altura)/3)*2)
-            var parametro = 1;   
-        subeOBaja.innerText= parametro;
+    subir(){//todo tiene que se se un loop para que se pregunte a cada si lo hace o no
+        //si el mas esta a un tercio de la pantalla bajo, no se si sea mucho
+        console.log(this.alturaPantalla)
+        function LoopOfTheCamera(){
+            canvas.addEventListener('mousemove', function(event){
+            setTimeout(function(){       
+                    var WhereIsTheMouse = [event.pageX,event.pageY]//partes donde no se adapta bien la pantalla
+                    if(WhereIsTheMouse[1] < (200)/3){ //hace que la nave baja
+                        var parametro = 0;
+                        //aqui se hara que la nave suba
+                    }else if(WhereIsTheMouse[1] > ((200)/3)*2){//si esta arriba de 2/3 la nave empezara asubir
+                        var parametro = 1;  
+                        //Aqui se hara que la nave baje    
+                    }
+                    if(parametro == 1 || parametro == 0)//pa que no se impriman un chingo jajajajaj              
+                        console.log(parametro); 
+                        console.log('im in')
+                        LoopOfTheCamera()
+               
+            }, 4000);   
+        }); 
+        }
+           LoopOfTheCamera();//iniciando 
     }
-    rotacion360()
+    rotacion360(){
+        function LoopOfMouse(OriginalPosition){
+            setTimeout(function(){ 
+                if(this.Posiciones[0]< (this.anchoPantalla)/4){//girar a la derecha
+                    if(OriginalPosition == 0)
+                        OriginalPosition =  this.RotationPosition.length-1;
+                    OriginalPosition--;
+            }
+            if(this.Posiciones[0]> ((this.anchoPantalla)/4)*3){//girara a la girar a la izquierda 
+                    if(OriginalPosition == this.RotationPosition.length-1)
+                    OriginalPosition = 0;
+                    OriginalPosition++;
+            } 
+            console.log(this.RotationPosition[OriginalPosition])
+            LoopOfMouse(OriginalPosition)
+             }, 1500);
+           }
+        LoopOfMouse(this.inicioCamaraTorre);
+
+    }
 }
 
 
-canvas.addEventListener('mousemove', function(event){
-    let anotherCounter = 0;
-    var WhereIsTheMouse = [event.pageX - 10,event.pageY -8]//Lo que se tiene que borrar par auqe se adapte vien a la pantalla
-  /////--------------------
- 
-        if(WhereIsTheMouse[0]< (altura)/4 && anotherCounter == 0){//girar a la derecha
-            anotherCounter = 1;
-            setTimeout(function(){ 
-                if(gradosPantalla == 0)
-                    gradosPantalla = 3;
-                gradosPantalla--;
-                anotherCounter = 0
-            }, 1000);
-        }
-        if(WhereIsTheMouse[0]< ((altura)/4)*3 && anotherCounter == 0){//girara a la girar a la izquierda 
-            anotherCounter = 1;
-            setTimeout(function(){ 
-                if(gradosPantalla == 3)
-                    gradosPantalla = 0;
-                gradosPantalla++;
-                anotherCounter = 0
-            }, 1000);
-        } 
+        var fer = new CabinaDeControl(8,10,200,200, canvas);
+      fer.subir()
+     //   fer.rotacion360()
+       
          
-        rotcionCamara.innerText= vistasDefinidas[gradosPantalla]   
-    setTimeout(function(){ 
-   }, 1000);
-
-   function LoopOfMouse(){
-    setTimeout(function(){ 
-
-     }, 2000);
-   }
-    
-    coordenadasPantalla.innerText= 'x= '+WhereIsTheMouse[0]+' Y= '+WhereIsTheMouse[1]
-});
-
-document.addEventListener('keydown', function(){
-    console.log('aaauch')
-});
+       
 
 
