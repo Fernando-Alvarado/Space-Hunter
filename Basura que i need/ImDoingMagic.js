@@ -30,8 +30,9 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
         //si el mas esta a un tercio de la pantalla bajo, no se si sea mucho
         console.log(this.alturaPantalla)
         function LoopOfTheCamera(){
-            canvas.addEventListener('mousemove', function(event){
-            setTimeout(function(){       
+            
+            setTimeout(function(){ 
+                canvas.addEventListener('mousemove', function(event){      
                     var WhereIsTheMouse = [event.pageX,event.pageY]//partes donde no se adapta bien la pantalla
                     if(WhereIsTheMouse[1] < (200)/3){ //hace que la nave baja
                         var parametro = 0;
@@ -42,11 +43,10 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
                     }
                     if(parametro == 1 || parametro == 0)//pa que no se impriman un chingo jajajajaj              
                         console.log(parametro); 
-                        console.log('im in')
                         LoopOfTheCamera()
-               
+                    }); 
             }, 4000);   
-        }); 
+     
         }
            LoopOfTheCamera();//iniciando 
     }
