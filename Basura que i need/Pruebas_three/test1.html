@@ -71,9 +71,48 @@
         }
 
         camera.position.z = 8;
+        // camera.position.x = -6;
+
         //ya que a cámara por default empieza en la coordenada (0,0,0), se le asigna un valor en el eje z,
         //ya que por el parámetro dado más atrás, no lo renderearía por la cercanía (el cubo también empieza
         //en (0,0,0) ).
+
+        /* var heartShape = new THREE.Shape();
+
+        heartShape.moveTo( 25, 25 );
+        heartShape.bezierCurveTo( 25, 25, 20, 0, 0, 0 );
+        heartShape.bezierCurveTo( 30, 0, 30, 35,30,35 );
+        heartShape.bezierCurveTo( 30, 55, 10, 77, 25, 95 );
+        heartShape.bezierCurveTo( 60, 77, 80, 55, 80, 35 );
+        heartShape.bezierCurveTo( 80, 35, 80, 0, 50, 0 );
+        heartShape.bezierCurveTo( 35, 0, 25, 25, 25, 25 );
+
+        var extrudeSettings = { amount: 8, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+
+        var xd = new THREE.ExtrudeGeometry( heartShape, extrudeSettings );
+
+        var mesh = new THREE.Mesh( xd, new THREE.MeshPhongMaterial() );
+        mesh.position.x=2;
+        mesh.position.z=4;
+        scene.add(mesh);
+ */
+        /* var verticesOfCube = [
+            -1,-1,-1,    1,-1,-1,    1, 1,-1,    -1, 1,-1,
+            -1,-1, 1,    1,-1, 1,    1, 1, 1,    -1, 1, 1,
+        ];
+
+        var indicesOfFaces = [
+            2,1,0,    0,3,2,
+            0,4,7,    7,3,0,
+            0,1,5,    5,4,0,
+            1,2,6,    6,5,1,
+            2,3,7,    7,6,2,
+            4,5,6,    6,7,4
+        ];
+
+        var geometryC = new THREE.PolyhedronGeometry( verticesOfCube, indicesOfFaces, 6, 2 );
+        var cube1 = new THREE.Mesh( geometryC, material );
+        scene.add(cube1); */
 
         function animate(){
             requestAnimationFrame( animate );
@@ -81,9 +120,14 @@
             //de ejecutarse la animación cuando no estás en la pestaña por lo que ahorras procesamiento
             //y batería usada.
 
-            // cube.rotation.x += 0.02;
-            // cube.rotation.y += 0.02;
-            //El reto aquí será modificar camera.position.z con base en algún botón que toque, por ejemplo, si toca
+            /* cube.rotation.x += 0.02;
+            cube.rotation.y += 0.02; */
+            
+
+
+
+
+            //El reto aquí será modificar camera.position.z con base en algún botón que toque, por ejemplo, si toca 
             // s que se vaya la cámara hacia atrás, si toca w hacia adelante.
 
             //Add event listener aquí xd...
@@ -91,6 +135,35 @@
             renderer.render( scene, camera );
             //ya que está la cámara y la escena, las ejecuta el render, boila.
         }
+        document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
+            switch(event.code){
+            case "ArrowUp": 
+            console.log(event);
+
+                camera.rotation.y +=0.01;
+            break;
+            case "ArrowDown": 
+            console.log(event);
+
+                camera.rotation.y -=0.01;
+            break;
+            case "ArrowRight": 
+            console.log(event);
+
+                camera.translateX +=0.01;
+            break;
+            case "ArrowLeft": 
+            console.log(event);
+
+                camera.translateX -=0.01;
+            break;
+        
+
+            }
+            /* console.log('----------------------------');
+            MatrizPrincipal[inicioY][inicioX] = 1;
+            console.log(MatrizPrincipal); */
+            });
         animate();
 
         document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
