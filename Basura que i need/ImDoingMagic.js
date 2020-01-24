@@ -1,3 +1,7 @@
+//Pa que arranque lo de la camara
+//  <canvas id="myCanvas" height="201" width="201"></canvas>
+//<script src="ImDoingMagic.js"></script>
+
 ///EMPIEZO A TRABAJR EN LA funcion para poder subir y bajar en el juegos
 //agarrar elemento de html
 //All I need of canvas
