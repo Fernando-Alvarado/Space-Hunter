@@ -19,20 +19,25 @@ var enemiga1 = [33, 38, 50];
 //-----------------------------------------------------------------------
 function KnowWhereToMove(PosicionNave, AlturaMatriz){
     var borde = 60;
+    var cuantosPuntos =  10;
                     //X,  Y,  Z
      //x = altura
      //Y = lados  
 var puntoNaveEnemiga = [null, null, borde]; //eston cambiara cuando la nave gire
 //tomando que si aumentamos en y avanzamos acia delante
+//distancia entre el piso del juego y l
 
 //con esto saco el Ca
-var DistanciaNavePrinYBorde = Math.abs(borde - PosicionNave[2])//distancia que ay entre las dos
+/*var DistanciaNavePrinYBorde = Math.abs(borde - PosicionNave[2])//distancia que ay entre las dos
 //sacamos la hipotenusa con esto
-var distancia2Puntos = Math.sqrt(Math.pow(7, 2)+  Math.pow(7, 2)); 
+var distancia2Puntos = Math.sqrt(Math.pow(7, 2)+  Math.pow(7, 2)); */
 canvas.addEventListener("click", function(){
     console.log("la nave en X esta en "+ WhereOnX +" Posicon en Y "+  WhereOnY );
+
+    var puntoNaveEnemiga = [Math.round(WhereOnY/cuantosPuntos),Math.round(WhereOnX/cuantosPuntos),  borde]; 
+    console.log(puntoNaveEnemiga);
 });
 
-    return puntoNaveEnemiga;
+
 }
 KnowWhereToMove(navePrincipal);
