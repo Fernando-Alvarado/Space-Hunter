@@ -14,7 +14,7 @@ var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
 var numnaves = 1000; //numero de naves que hay declaradas
 var rango = 240; //Nos dice que tanto ven las naves enemigas a su alrdedor
 var velDisparo = 1000; //Velocidad de disparo de las naves.
-var numasteroides = 0; //Cuantos asteroides se crean
+var numasteroides = 5; //Cuantos asteroides se crean
 
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
