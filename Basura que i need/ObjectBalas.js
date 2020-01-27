@@ -40,7 +40,7 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
                 var ArrayX = new Array(0);//okey so, here i should push negative numbers that would be dump
                 var ArrayY = new Array(0);
                 var ArrayZ = new Array(0);
-                if(x2 < x)
+                if(x2 < x)//si la posicion de las dos naves es diferente 
                     while(cont != 0){
                         ArrayX.push(cont);
                         cont--;
@@ -79,6 +79,9 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
                     if( WhoToKill== 2){//cuendo le disparen a la nave principal
                         console.log('Im in')//ver si se mete al buble
                         //Everything es la matriz donde estan todas la anves
+                        //Aqui meteria el evento para que se dibuje la bala
+                        //que borre la anterior 
+                        // tomando los cooredanas de  MatBalas[0][Coun], MatBalas[1][Coun], MatBalas[2][Coun]
                         if(MatBalas[0][Coun]==Everything[0][1]&&MatBalas[1][Coun]==Everything[0][2]&&MatBalas[2][Coun]==Everything[0][3]){
                             console.log('impacto a una nave')
                         }else{
