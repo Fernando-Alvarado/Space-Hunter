@@ -10,12 +10,12 @@
 //tree.js
 
 //-------------DEclaracion de variables
-var limit = 100;//Numero de casillas de la matriz
+var limit = 150;//Numero de casillas de la matriz
 var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
-var numnaves = 10; //numero de naves que hay declaradas
-var rango = 2; //Nos dice que tanto ven las naves enemigas a su alrdedor
+var numnaves = 700; //numero de naves que hay declaradas
+var rango = 10; //Nos dice que tanto ven las naves enemigas a su alrdedor
 var velDisparo = 1000; //Velocidad de disparo de las naves.
-var numasteroides = 200; //Cuantos asteroides se crean
+var numasteroides = 20; //Cuantos asteroides se crean
 
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -36,12 +36,31 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
 
+//Creamos el fondo
+//Página generadora de fondos:
+//http://wwwtyro.github.io/space-3d/#animationSpeed=1&fov=45&nebulae=true&pointStars=true&resolution=1024&seed=Interprepas1erlugar&stars=true&sun=true
+{
+  const loader = new THREE.CubeTextureLoader();
+  const texture = loader.load([
+    'img/back.png',
+    'img/front.png',
+    'img/top.png',
+    'img/bottom.png',
+    'img/right.png',
+    'img/left.png',
+  ]);
+  scene.background = texture;
+}
+
+
+
 var MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides, scene);//tipo instanciando la matriz principal
+
+//Colocamos a el jugador en su posición Inicial
 camera.position.x = MatrizThatMakeMeCry[0][1];
 camera.position.y = MatrizThatMakeMeCry[0][2];
 camera.position.z = MatrizThatMakeMeCry[0][3];
 
-var ArrayObjetos; //Aquí se guardan todas las naves y asteroides.
 var patterns = new Array( //Array con todos los diferentes patrones, el primer número es la velocidadf
                   new Array(100,2,2),
                   new Array(100,1,1),
@@ -122,10 +141,10 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
           function CheckWhereTheHellIsIn(){
                   //esto es para que pueda rotar la pantalla del jugador
                   if(WhereOnX< (MedidaPantalla)/4){//girar a la derecha
-                      camera.rotation.y += .01;
+                      camera.rotation.y += .1;
                   }
                   else if(WhereOnX> ((MedidaPantalla)/4)*3){//girara a la girar a la izquierda
-                      camera.rotation.y -= .01;
+                      camera.rotation.y -= .1;
                   }
                    //   console.log(this.RotationPosition[OriginalPosition])
                   //the last thing to do
@@ -135,78 +154,41 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
             //para que la nave pueda subir o bajar
             if(WhereOnY < (MedidaEnY)/3 && camera.position.y != limit-1){ //hace que la nave baja
                 var parametro = 0;
+
                 camera.position.y +=1;
+
                 //aqui se hara que la nave suba
             }else if(WhereOnY > ((MedidaEnY)/3)*2 && camera.position.y != 0){//si esta arriba de 2/3 la nave empezara asubir
                 var parametro = 1;
+
                 camera.position.y -=1;
                 //Aqui se hara que la nave baje
             }
           }
         //  setInterval(adelante, 100); Para que la nave pueda avanzar hacia adelante sola
         //el chacador de si esta apto para para que se pueda mover solo va aqui
-          setInterval(adelante,1000);
+          setInterval(adelante,300);
           function adelante(){//arriba dice que hace
-            //condicial para en caso de que de no exista algun evento de tECLAS
-            var y = camera.quaternion.y;
-            var w = camera.quaternion.w;
-            //Estos son los valores que vamos a sumar en x y z
-            var x = 0;
-            var z = 0;
-            //Obtenemos el ángulo de dirección hacia donde apunta el personaje principal
-            // var m = Math.asin(camera.quaternion.w);
-            // m = m *(180/Math.PI);
-            // m = Math.tan(m);
-            // console.log(y+'  '+w+' ');
-            //
-            // document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
-            //   if(event.code == 'KeyW'){
-            //     //Obtenemos la dirección a la que apunta la cámara descompuesto en senos y cosenos
-            //     var y = camera.quaternion.y;
-            //     var w = camera.quaternion.w;
-            //     //Estos son los valores que vamos a sumar en x y z
-            //     var x = 0;
-            //     var z = 0;
-            //     //Obtenemos el ángulo de dirección hacia donde apunta el personaje principal
-            //     var m = Math.asin(camera.quaternion.w);
-            //     m = m *(180/Math.PI);
-            //     m = Math.tan(m);
-            //
-            //     //Decidimos que hacer dependiendod de hacia dónde esté mirando el jugador
-            //     if( (w>0 && y<0 && m<0.5 && m>=0) ||  (w<0 && y<0 && m>-0.5 && m<=0) ){
-            //       x=1;
-            //     }
-            //     else if(w>0 && y<0 && m>=0.5 && m<=2){
-            //       z=1;
-            //       x=1;
-            //     }
-            //     else if( (w>0 && y<0 && m>2) ||  (w>0 && y>0 && m<-2) ){
-            //       z=1;
-            //     }
-            //     else if(w<0 && y>0 && m>=-2 && m<=-0.5){
-            //       z=1;
-            //       x=-1;
-            //     }
-            //     else if( (w>0 && y>0 && m>-0.5 && m<=0) ||  (w<0 && y>0 && m<0.5 && m>=0) ){
-            //       x=-1;
-            //     }
-            //     else if(w<0 && y>0 && m<=0.5 && m<=2){
-            //       z=-1;
-            //       x=-1;
-            //     }
-            //     else if( (w<0 && y>0 && m>2) ||  (w<0 && y<0 && m<2) ){
-            //       z=-1;
-            //     }
-            //     else if(w<0 && y<0 && m>=-2 && m<=0.5){
-            //       x=1;
-            //       z=-1;
-            //     }
-            //
-            //     camera.position.x += x;
-            //     camera.position.z += z;
-            //   }
-            // });
 
+            var direction = camera.getWorldDirection();
+            direction.x = Math.round(direction.x);
+            direction.z = Math.round(direction.z);
+
+            camera.position.add(direction.multiplyScalar(1));
+
+            if(camera.position.x >= limit-1){
+              camera.position.x = limit-1;
+            }
+            if(camera.position.x <= 0){
+              camera.position.x = 0;
+            }
+
+            if(camera.position.z >= limit-1){
+              camera.position.z = limit-1;
+            }
+            if(camera.position.z <= 0){
+              camera.position.z = 0;
+            }
 
           }
       }
@@ -241,7 +223,7 @@ class NavesEnemigas{
                 //MatrizThatMakeMeCry
                 //necesito saber quien disparo
                 console.log('dispare')
-                      var disparoNaveEnemiga = new balas(MatrizThatMakeMeCry[this.number][1], MatrizThatMakeMeCry[this.number][2], MatrizThatMakeMeCry[this.number][3], MatrizThatMakeMeCry[0][1], MatrizThatMakeMeCry[0][2], MatrizThatMakeMeCry[0][3] ,2,limit)//constructro del objeto balas
+                      var disparoNaveEnemiga = new balas(MatrizThatMakeMeCry[position][1], MatrizThatMakeMeCry[position][2], MatrizThatMakeMeCry[position][3], MatrizThatMakeMeCry[0][1], MatrizThatMakeMeCry[0][2], MatrizThatMakeMeCry[0][3] ,2,limit)//constructro del objeto balas
                       disparoNaveEnemiga.MidnightBlame();
                       numero = 0;
                       }
@@ -386,7 +368,6 @@ constructor(whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego){
   }
 //----------------------------------------------------
 this.MatrizBalas3d = graficadoraBullet(whereX, whereY, whereZ, ObjX, ObjY, ObjZ,limiteCampoJuego);
-console.log(this.MatrizBalas3d);
 this.WhoToKill = Killed;//esto sera para que no exista el fuego amigo
 }
 MidnightBlame(){ //NOTE: la varaible de las naves es global tinee que estar declarada arriba
@@ -397,7 +378,7 @@ function GodsLoop(MatBalas, Coun, WhoToKill){
   setTimeout(function(){
       if(Coun < MatBalas[0].length){
 
-          var Everything = tontaVariable; //Aqui tengo que poner la matriz de IWannaCry
+          var Everything = MatrizThatMakeMeCry; //Aqui tengo que poner la matriz de IWannaCry
           if( WhoToKill== 2){//cuendo le disparen a la nave principal
               console.log('Im in')//ver si se mete al buble
               //Everything es la matriz donde estan todas la anves
@@ -545,15 +526,16 @@ function colocarPosicionesAleatorias(numNaves,numAst){//saber donde estaran las 
 
     //-----------------Delcarando todas las naves enemigas que hay--------------------
     var total = numAst + numNaves;
-    ArrayObjetos = new Array(total-1);//aqui correran todos los objetos de las naves enemigas
+
+    //Creamos y guardamos los objeetos naves en la matriz principal
     for(let i = 0; i< (numNaves-1); i++){//funcion para que los objetos se instancien con sus propiedades
-        ArrayObjetos[i] = new NavesEnemigas(MatrizThatMakeMeCry, i+1);
-        ArrayObjetos[i].JustTheCreator();//Js es una mamada jajaja
+        MatrizThatMakeMeCry[i][5] = new NavesEnemigas(MatrizThatMakeMeCry, i+1);
+        MatrizThatMakeMeCry[i][5].JustTheCreator();//Js es una mamada jajaja
     }
 
     for(let i = numNaves; i< total; i++){//funcion para que los objetos se instancien con sus propiedades
-        ArrayObjetos[i] = new Asteroide(MatrizThatMakeMeCry, i);
-        ArrayObjetos[i].JustTheCreator();//Js es una mamada jajaja
+        MatrizThatMakeMeCry[i][5] = new Asteroide(MatrizThatMakeMeCry, i);
+        MatrizThatMakeMeCry[i][5].JustTheCreator();//Js es una mamada jajaja
     }
 
     //instanciando el objeto principal ----------------------
