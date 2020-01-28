@@ -94,6 +94,9 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
                     if( WhoToKill== 2){//cuendo le disparen a la nave principal
                         console.log('Im in')//ver si se mete al buble
                         //Everything es la matriz donde estan todas la anves
+                        //Aqui meteria el evento para que se dibuje la bala
+                        //que borre la anterior 
+                        // tomando los cooredanas de  MatBalas[0][Coun], MatBalas[1][Coun], MatBalas[2][Coun]
                         if(MatBalas[0][Coun]==Everything[0][1]&&MatBalas[1][Coun]==Everything[0][2]&&MatBalas[2][Coun]==Everything[0][3]){
                             console.log('impacto a una nave')
                         }else{
