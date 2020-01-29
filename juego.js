@@ -10,12 +10,12 @@
 //tree.js
 
 //-------------DEclaracion de variables
-var limit = 150;//Numero de casillas de la matriz
-var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
-var numnaves = 700; //numero de naves que hay declaradas
+var limit = 200;//Numero de casillas de la matriz
+var velocidad = 1;//Esta variable dira que tan rapido las naves reacionaran
+var numnaves = 1; //numero de naves que hay declaradas
 var rango = 10; //Nos dice que tanto ven las naves enemigas a su alrdedor
 var velDisparo = 1000; //Velocidad de disparo de las naves.
-var numasteroides = 20; //Cuantos asteroides se crean
+var numasteroides = 200; //Cuantos asteroides se crean
 
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -52,6 +52,12 @@ document.body.appendChild( renderer.domElement );
   scene.background = texture;
 }
 
+//Ponemos luces
+var ambient = new THREE.PointLight( 0x444444 );
+        scene.add( ambient );
+        var directionalLight = new THREE.DirectionalLight( 0xffeedd );
+        directionalLight.position.set( 0, 0, 1 ).normalize();
+        scene.add( directionalLight );
 
 
 var MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides, scene);//tipo instanciando la matriz principal
@@ -500,17 +506,41 @@ function ArrayBaseDeLaNaves(numnaves,numast,scene){//declarando el array de las 
     for (i=numnaves; i<total; i++){
         MatrizPrincipal[i][0] = 3;
         for (e=1; e<4; e++){
-            MatrizPrincipal[i][e] = NumerosAleatorios(limit)-1;
+            MatrizPrincipal[i][e] = NumerosAleatorios(limit)-1; //coordenadas de asteroides
         }
-        let geometry = new THREE.BoxGeometry( 1, 1, 1 );
-        let material = new THREE.MeshBasicMaterial( { color: 0x0000FF, wireframe: true } );
-        MatrizPrincipal[i][4] = new THREE.Mesh( geometry, material );
-        // Instanciamos un cubo con base en los parámetros anteriores
-        scene.add(MatrizPrincipal[i][4]);
-        MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][1];
-        MatrizPrincipal[i][4].position.y = MatrizPrincipal[i][2];
-        MatrizPrincipal[i][4].position.z = MatrizPrincipal[i][3];
-        //lo añadimos a la escena
+
+       
+
+        function loadObject(i){
+            var model;
+            var loader = new THREE.GLTFLoader();
+            loader.load(
+                "Modelos/asteroide_1.glb",
+
+                function ( gltf ) {
+                    model = gltf.scene;
+                    
+                    
+                    //lo añadimos a la escena
+                    
+                    scene.add( model);
+                    MatrizPrincipal[i][4] = model;
+                    // Instanciamos un cubo con base en los parámetros anteriores
+                    scene.add(MatrizPrincipal[i][4]);
+                    MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][1];
+                    MatrizPrincipal[i][4].position.y = MatrizPrincipal[i][2];
+                    MatrizPrincipal[i][4].position.z = MatrizPrincipal[i][3];
+
+                },
+                function ( xhr ) {
+                    console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+                },
+                function ( error ) {
+                    //console.log( 'An error happened' );
+                }
+            );
+        }
+        loadObject(i);
 
     }
 
@@ -563,7 +593,7 @@ function animate(){
 ///--------------------Ejecuciones----------------------------------------------------------------
 ///-----------------------------------------------------------------------------------------------
 //               Funcion principal que corre todo el juego
-colocarPosicionesAleatorias(numnaves,numasteroides)//esta ganando mucha importancia esta funcion
+//colocarPosicionesAleatorias(numnaves,numasteroides)//esta ganando mucha importancia esta funcion
 
 
 //------------------------------------------------------------------------------------------------

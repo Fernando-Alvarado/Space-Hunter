@@ -65,7 +65,7 @@
 
 
 
-        var loader = new THREE.GLTFLoader();
+       
 
         // loader.load( '../../Modelos/asteroide_1.glb', function ( gltf ) {
 
@@ -86,37 +86,41 @@
             
         }
 
+
+        var model;
+
+    function loadObject(){
+        var loader = new THREE.GLTFLoader();
+        // console.log(loader);
         loader.load(
             "../../Modelos/asteroide_1.glb",
-            ( gltf ) => {
-                // called when the resource is loaded
-        //         console.log(glft);
-        // typeof(glft);
-                scene.add( gltf.scene );
-            },
-            ( xhr ) => {
-                // called while loading is progressing
-                console.log( `${( xhr.loaded / xhr.total * 100 )}% loaded` );
-            },
-            ( error ) => {
-                // called when loading has errors
-                console.log("La ptm");
-                console.error( 'An error happened', error );
-            },
-        );
-        
 
+            function ( gltf ) {
+
+                model = gltf;
+                scene.add( model.scene );
+
+            },
+            function ( xhr ) {
+                //console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+            },
+            function ( error ) {
+                //console.log( 'An error happened' );
+            }
+        );
+    }
+
+loadObject();
+
+console.log(model);
+
+
+
+ 
 
 
         //La luz
-        var ambient = new THREE.AmbientLight( 0x444444 );
         
-
-        scene.add( ambient );
-
-        var directionalLight = new THREE.DirectionalLight( 0xffeedd );
-        directionalLight.position.set( 0, 0, 1 ).normalize();
-        scene.add( directionalLight );
 
 
 
@@ -233,17 +237,18 @@
 
         document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
           switch(event.code){
-            case 'KeyW': camera.position.y += .1;
+            case 'KeyW': model.scene.position.y += .1;
+                
               break;
-            case 'KeyS': camera.position.y -= .1;
+            case 'KeyS': model.scene.position.y -= .1;
               break;
-            case 'KeyA': camera.position.x += .1;
+            case 'KeyA': model.scene.position.x += .1;
               break;
-            case 'KeyD': camera.position.x -= .1;
+            case 'KeyD': model.scene.position.x -= .1;
               break;
-            case 'KeyR': camera.position.z += .1;
+            case 'KeyR': model.scene.position.z += .1;
               break;
-            case 'KeyF': camera.position.z -= .1;
+            case 'KeyF': model.scene.position.z -= .1;
               break;
             case 'ArrowUp': camera.rotation.x += .01;
               break;
