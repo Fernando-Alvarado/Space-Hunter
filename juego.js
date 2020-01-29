@@ -10,12 +10,14 @@
 //tree.js
 
 //-------------DEclaracion de variables
-var limit = 150;//Numero de casillas de la matriz
+var limit = 100;//Numero de casillas de la matriz
 var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
-var numnaves = 700; //numero de naves que hay declaradas
-var rango = 10; //Nos dice que tanto ven las naves enemigas a su alrdedor
-var velDisparo = 1000; //Velocidad de disparo de las naves.
-var numasteroides = 20; //Cuantos asteroides se crean
+var numnaves = 100; //numero de naves que hay declaradas
+var rango = 50; //Nos dice que tanto ven las naves enemigas a su alrdedor
+var velDisparo = 100; //Velocidad de disparo de las naves.
+var velchase = 150;
+
+var numasteroides = 100; //Cuantos asteroides se crean
 
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -170,12 +172,14 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
           setInterval(adelante,300);
           function adelante(){//arriba dice que hace
 
-            var direction = camera.getWorldDirection();
-            direction.x = Math.round(direction.x);
+
+            var direction = camera.getWorldDirection();  //Obtenemos el vector director de la nave principal
+            direction.x = Math.round(direction.x); //Rendondeamos ambas direcciones para que no tengamos posiciones no enteras
             direction.z = Math.round(direction.z);
 
-            camera.position.add(direction.multiplyScalar(1));
+            camera.position.add(direction.multiplyScalar(1)); //Agregamos ese vector multiplicándolo por un número para ajustar la velocidad
 
+            //En caso de que se qwuiera salir de el área delimitada, lo regresamos
             if(camera.position.x >= limit-1){
               camera.position.x = limit-1;
             }
@@ -215,21 +219,21 @@ class NavesEnemigas{
                     //un evento para disparar con el mouse
                     var numero = 0;
                     if(this.dist_player <=rango){
-                      if(this.dist_player <= 3){//Aqui dispara la nave enemiga---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                      if(this.dist_player <= 15){//Aqui dispara la nave enemiga---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                           ///----------------------------------Parametros----------------------------------------------
                           //whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego
          //kileed se refiere al indicador de la nave que se quiere matar
                 //2 es la nave principal
                 //MatrizThatMakeMeCry
                 //necesito saber quien disparo
-                console.log('dispare')
+                //console.log('dispare')
                       var disparoNaveEnemiga = new balas(MatrizThatMakeMeCry[position][1], MatrizThatMakeMeCry[position][2], MatrizThatMakeMeCry[position][3], MatrizThatMakeMeCry[0][1], MatrizThatMakeMeCry[0][2], MatrizThatMakeMeCry[0][3] ,2,limit)//constructro del objeto balas
                       disparoNaveEnemiga.MidnightBlame();
                       numero = 0;
                       }
                       else{
                         numero = ChasePlayer(matriz,x,y,z);
-                        velocidad = 200;
+                        velocidad = velchase;
                       }
                     }
                     else{ //Si el personaje principal no está en rango, sigue con su patrón de movimiento o elige uno nuevo
@@ -328,6 +332,8 @@ constructor(whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego){
       var ArrayX = new Array(0);//okey so, here i should push negative numbers that would be dump
       var ArrayY = new Array(0);
       var ArrayZ = new Array(0);
+      var sinRedondear1 = new Array(0);
+      var sinRedondear2 = new Array(0);
       function Tabulaciones (pun1, pun2, arrePun, limite, arreSalida1, arreSalida2, numSalida1, numSalida2, numPrincipal, leter1, leter2, ord1, ord2, ord3){
           var VectorDirector = [x2-x,y2-y,z2-z];//vector que dara la direccion
           var cont = pun1;
@@ -343,58 +349,95 @@ constructor(whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego){
           }////
       for (let i = 0; i < arrePun.length; i++){//loop of arrayY
           if(VectorDirector[0]!= 0){
+            //aqui esta el arreglo de l s poscicones sin redondear
+              sinRedondear1.push((VectorDirector[numSalida1]*((arrePun[i]-pun1)/VectorDirector[numPrincipal]))+leter1);
               arreSalida1.push(Math.round((VectorDirector[numSalida1]*((arrePun[i]-pun1)/VectorDirector[numPrincipal]))+leter1));
+              //arreglo 2 de posiciones sin redondear y redondeadas
+               sinRedondear2.push((VectorDirector[numSalida2]*((arrePun[i]-pun1)/VectorDirector[numPrincipal]))+leter2);
               arreSalida2.push(Math.round((VectorDirector[numSalida2]*((arrePun[i]-pun1)/VectorDirector[numPrincipal]))+leter2));
           }else{
               arreSalida1.push(leter1)
               arreSalida2.push(leter2)
           }
           //para ver como esta funcioanndo la mamada
-      }
-     var MyRegret = [ord1, arrePun, ord2,arreSalida1, ord3,arreSalida2] ;  //we are going to return 3 arrayS
+      }//ord te dice que teltra le corresponde el arreglo que saco para las balas
+     var MyRegret = [ord1, arrePun, ord2,arreSalida1, ord3,arreSalida2, sinRedondear1,sinRedondear2  ] ;  //we are going to return 3 arrayS
       return MyRegret;
       }
                   //numeros de las letras x =0, y=1, z=2 ---El ultimo es del que se quiere sacar
 
       if(x != y){
           var takeMe = Tabulaciones(x, x2, ArrayX, limite,ArrayY, ArrayZ,1,2,0,y,z, "x","y","z" )
-          var letMeFly = [takeMe[1], takeMe[3],takeMe[5]]//poniendo arden
+          var letMeFly = [takeMe[1], takeMe[3],takeMe[5], "y",takeMe[6], "z",takeMe[7]]//poniendo arden
       }else if(x == y){
-          console.log('salve una indeterminacion xd')
+          //console.log('salve una indeterminacion xd')
           var takeMe = Tabulaciones(z, z2, ArrayZ, limite,ArrayX, ArrayY,0,1,2,x,y, "z","x","y" )
-          var letMeFly = [takeMe[3], takeMe[5],takeMe[1]]//ordenando lo que sale de los arreglos
+          var letMeFly = [takeMe[3], takeMe[5],takeMe[1],"z",takeMe[6], "y",takeMe[7]]//ordenando lo que sale de los arreglos
       }
       return letMeFly;
   }
 //----------------------------------------------------
 this.MatrizBalas3d = graficadoraBullet(whereX, whereY, whereZ, ObjX, ObjY, ObjZ,limiteCampoJuego);
 this.WhoToKill = Killed;//esto sera para que no exista el fuego amigo
+function ordenaTabs(array){//funcion que te acomoda el arreglo pa que siempre tenga los valores de x, y, z
+  //siempre considero que aqui se metrera un arreglo de 7 valores
+
+  let JustMeAnotherTime = new Array(new Array(0), new Array(0), new Array(0));
+    if(array[3]== "y"){
+      JustMeAnotherTime[0] = array[0];
+      JustMeAnotherTime[1] = array[4];
+      JustMeAnotherTime[2] = array[6];
+      return JustMeAnotherTime;
+    }
+    else {
+      JustMeAnotherTime[0] = array[0];
+      JustMeAnotherTime[1] = array[4];
+      JustMeAnotherTime[2] = array[6];
+      return JustMeAnotherTime;
+    }
+}
+this.MatrizUnround = ordenaTabs(this.MatrizBalas3d);
 }
 MidnightBlame(){ //NOTE: la varaible de las naves es global tinee que estar declarada arriba
 var Coun = 0;
-function GodsLoop(MatBalas, Coun, WhoToKill){
+var geometry = new THREE.SphereGeometry( .05, .05, .05 );
+var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+var sphere = new THREE.Mesh( geometry, material );
+geometry = null;
+material = null;
+scene.add( sphere );
+function GodsLoop(MatBalas, Coun, WhoToKill, matUnround){
 
 
   setTimeout(function(){
       if(Coun < MatBalas[0].length){
+          sphere.position.x=matUnround[0][Coun];
+          sphere.position.y=matUnround[1][Coun];
+          sphere.position.z=matUnround[2][Coun];
 
           var Everything = MatrizThatMakeMeCry; //Aqui tengo que poner la matriz de IWannaCry
           if( WhoToKill== 2){//cuendo le disparen a la nave principal
-              console.log('Im in')//ver si se mete al buble
+              //console.log('Im in')//ver si se mete al buble
               //Everything es la matriz donde estan todas la anves
               if(MatBalas[0][Coun]==Everything[0][1]&&MatBalas[1][Coun]==Everything[0][2]&&MatBalas[2][Coun]==Everything[0][3]){
                   console.log('impacto a una nave')
               }else{
                   Coun++;
-                  GodsLoop(MatBalas, Coun, WhoToKill);
+                  GodsLoop(MatBalas, Coun, WhoToKill,matUnround);
               }
           }else if(this.WhoToKill == 1){//cuando le dispare a una nave enemiga
               console.log('no se por que se  metio')
           }
       }
-  },100);//velocidad de las balas se puede cambiar
+      else {
+        scene.remove(sphere);
+        sphere = null;
+      }
+  },velDisparo);//velocidad de las balas se puede cambiar
 }
-GodsLoop(this.MatrizBalas3d ,Coun,this.WhoToKill);
+GodsLoop(this.MatrizBalas3d ,Coun,this.WhoToKill,this.MatrizUnround);
+
+
 }//llave del fin del metodo
 }
 ////-----------------------------------------------------------------------------------------------------------------------
@@ -406,18 +449,31 @@ function ChooseWhereToMove(x, y, z, event, value){//switch para elegir
     //y que la nave pueda moverse   ----  inicioX     inicioY
     var type = MatrizThatMakeMeCry[value][0];
     regreso = [null,null,null,0];
+
+    //Revisa s su posición actual es la misma que otro objeto
     for(var i in MatrizThatMakeMeCry){
       if(MatrizThatMakeMeCry[i][1]==x && MatrizThatMakeMeCry[i][2]==y && MatrizThatMakeMeCry[i][3]==z){
 
+        //En caso de que no sea la misma nave
         if(MatrizThatMakeMeCry[i][0]!=MatrizThatMakeMeCry[value][0]){
+          //Si se choca con un objeto diferente del principal, se destruye
           if(MatrizThatMakeMeCry[i][0]!=2){
             scene.remove(MatrizThatMakeMeCry[i][4]);
-            MatrizThatMakeMeCry[i]=[0,null,null,null];
+            delete MatrizThatMakeMeCry[i][4];
+            delete MatrizThatMakeMeCry[i][5];
+            console.log('ded');
+            MatrizThatMakeMeCry[i]=[0,null,null,null,null,null];
           }
+          //Si el mismo objeto no es el principal, se destruye
           if(MatrizThatMakeMeCry[value][0]!=2){
             scene.remove(MatrizThatMakeMeCry[value][4]);
+            delete MatrizThatMakeMeCry[value][4];
+            delete MatrizThatMakeMeCry[value][5];
+            console.log('ded');
+
             type = 0;
           }
+          //En caso de que alguno de los dos objetos en la colision sean el principal, se manda un menaje de perder
           if(MatrizThatMakeMeCry[value][0]==2||MatrizThatMakeMeCry[i][0]==2)
             console.log("perdiste");
           color = "white";
@@ -425,7 +481,7 @@ function ChooseWhereToMove(x, y, z, event, value){//switch para elegir
 
       }
    }
-    if (type!=0){
+    if (type!=0){ //En caso de que no haya chocado, se mueve dependiento del parámetro recibido
       switch(event){
           case 1:if(y==0)
                           y = limit-1;
@@ -462,7 +518,9 @@ function ChooseWhereToMove(x, y, z, event, value){//switch para elegir
       regreso = [x, y, z, type];
       //ponerLasNavesEnLaMatriz(matriz);/////////////////////////////////Arreglar
   }
-  MatrizThatMakeMeCry[value] = [regreso[3],regreso[0],regreso[1],regreso[2],MatrizThatMakeMeCry[value][4]];
+
+  //Agregamos a la matriz los nuevos valores de posición
+  MatrizThatMakeMeCry[value] = [regreso[3],regreso[0],regreso[1],regreso[2],MatrizThatMakeMeCry[value][4],MatrizThatMakeMeCry[value][5]];
 
    return regreso
 
@@ -550,10 +608,6 @@ function animate(){
     //el request animationFrame de toda la vida, recursivo, aprox. 60 ciclos por segundo, también deja
     //de ejecutarse la animación cuando no estás en la pestaña por lo que ahorras procesamiento
     //y batería usada.
-
-    //El reto aquí será modificar camera.position.z con base en algún botón que toque, por ejemplo, si toca
-    // s que se vaya la cámara hacia atrás, si toca w hacia adelante.
-
 
     renderer.render( scene, camera );
     //ya que está la cámara y la escena, las ejecuta el render, boila.
