@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body { margin: 0; }    /*  pantalla completa, canvas al 100% */
+        canvas { width: 100%; height: 100% }
+
+    </style>
+
+</head>
+<body>
+
+<script src="../../Librerías/three.js"></script>
+<script src="../../Librerías/three.js-master/examples/js/loaders/GLTFLoader.js"></script>
+    <script>
+        function NumerosAleatorios(tope){
+            return Math.floor((Math.random()*tope))+1
+        }
+
+        // function ArrayBaseDeLaNaves(numero){//declarando el array de las naves y sus posiciones
+        //     var MatrizPrincipal = new Array(numero);
+        //     for (let i = 0; i < numero; i++)
+        //         MatrizPrincipal[i]=new Array(4);//array que dira si es una nave enemiga y sus posiciones en
+        //         //x,y
+        //     for (i=0; i<numero; i++){
+        //         MatrizPrincipal[i][0] = 1;
+        //         for (e=1; e<4; e++){
+        //             MatrizPrincipal[i][e] = NumerosAleatorios(5);
+        //         }
+        //     }
+        //     MatrizPrincipal[0][0] = 2;
+
+        // return MatrizPrincipal;
+        // }
+
+        // var num_cubes = 6;
+        // var Matriznaves = ArrayBaseDeLaNaves(num_cubes);
+        // Es básico hacer 3 cosas, instanciar la escena, la cámara y el renderer
+
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        // THREE.PerspectiveCamera: primer parámetro es la apertura de la cámara en grados, el segundo es el
+        // aspect ratio, una buena explicación aquí  https://es.wikipedia.org/wiki/Relaci%C3%B3n_de_aspecto
+        //https://scsarquitecto.cl/importancia-relacion-aspecto/
+        // ,se puede dejar ese parámetro o el más usado 16:9; el siguiente es cercanía y el cuarto es lejanía,
+        //significa que nos se renderearan (shit of translation DX) objetos más cercanos al valor de cercanía
+        //ni objetos más lejanos al valor de lejanía.
+
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        //Es necesario determinar el tamaño del rendereado, el aspect ratio es sólo una escala, aquí daremos las
+        //dimensiones. El primer parámetro es el tamaño horizontal, el segundo vertical, hay un tercer parámetro,
+        //el cual es true o false, en caso de ser false, se ejecutará el render con la mitad de la calidad
+        //(suponiendo que las dimensiones del canvas son de 100% x 100%), si no se pasa parámetro, se considera
+        //que es true y se ejecuta el render con resolución normal.
+        document.body.appendChild( renderer.domElement );
+
+
+
+
+
+
+
+        var loader = new THREE.GLTFLoader();
+
+        // loader.load( '../../Modelos/asteroide_1.glb', function ( gltf ) {
+
+        //     scene.add( gltf.scene );
+
+        // }, undefined, function ( error ) {
+
+        //     console.error( error );
+
+        // } );
+
+        var array_modelos= new Array();
+
+            console.log("Todo bien 1");
+                // const loader = new GLTFLoader();
+        for(let w=0;w<=3;w++)
+        {
+            
+        }
+
+        loader.load(
+            "../../Modelos/asteroide_1.glb",
+            ( gltf ) => {
+                // called when the resource is loaded
+        //         console.log(glft);
+        // typeof(glft);
+                scene.add( gltf.scene );
+            },
+            ( xhr ) => {
+                // called while loading is progressing
+                console.log( `${( xhr.loaded / xhr.total * 100 )}% loaded` );
+            },
+            ( error ) => {
+                // called when loading has errors
+                console.log("La ptm");
+                console.error( 'An error happened', error );
+            },
+        );
+        
+
+
+
+        //La luz
+        var ambient = new THREE.AmbientLight( 0x444444 );
+        
+
+        scene.add( ambient );
+
+        var directionalLight = new THREE.DirectionalLight( 0xffeedd );
+        directionalLight.position.set( 0, 0, 1 ).normalize();
+        scene.add( directionalLight );
+
+
+
+
+
+        // var arrayCubes = new Array();
+        // for(i = 0; i<num_cubes; i++){
+        //   let geometry = new THREE.BoxGeometry( 1, 1, 1 );
+        //   let material = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe: true } );
+        //   arrayCubes[i] = new THREE.Mesh( geometry, material );
+        //   // Instanciamos un cubo con base en los parámetros anteriores
+        //   scene.add(arrayCubes[i]);
+        //   arrayCubes[i].position.x = Matriznaves[i][1];
+        //   arrayCubes[i].position.y = Matriznaves[i][2];
+        //   arrayCubes[i].position.z = Matriznaves[i][3];
+        //   //lo añadimos a la escena
+        // }
+
+        camera.position.z = 8;
+        // camera.position.x = -6;
+
+        //ya que a cámara por default empieza en la coordenada (0,0,0), se le asigna un valor en el eje z,
+        //ya que por el parámetro dado más atrás, no lo renderearía por la cercanía (el cubo también empieza
+        //en (0,0,0) ).
+
+        /* var heartShape = new THREE.Shape();
+
+        heartShape.moveTo( 25, 25 );
+        heartShape.bezierCurveTo( 25, 25, 20, 0, 0, 0 );
+        heartShape.bezierCurveTo( 30, 0, 30, 35,30,35 );
+        heartShape.bezierCurveTo( 30, 55, 10, 77, 25, 95 );
+        heartShape.bezierCurveTo( 60, 77, 80, 55, 80, 35 );
+        heartShape.bezierCurveTo( 80, 35, 80, 0, 50, 0 );
+        heartShape.bezierCurveTo( 35, 0, 25, 25, 25, 25 );
+
+        var extrudeSettings = { amount: 8, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+
+        var xd = new THREE.ExtrudeGeometry( heartShape, extrudeSettings );
+
+        var mesh = new THREE.Mesh( xd, new THREE.MeshPhongMaterial() );
+        mesh.position.x=2;
+        mesh.position.z=4;
+        scene.add(mesh);
+ */
+        /* var verticesOfCube = [
+            -1,-1,-1,    1,-1,-1,    1, 1,-1,    -1, 1,-1,
+            -1,-1, 1,    1,-1, 1,    1, 1, 1,    -1, 1, 1,
+        ];
+
+        var indicesOfFaces = [
+            2,1,0,    0,3,2,
+            0,4,7,    7,3,0,
+            0,1,5,    5,4,0,
+            1,2,6,    6,5,1,
+            2,3,7,    7,6,2,
+            4,5,6,    6,7,4
+        ];
+
+        var geometryC = new THREE.PolyhedronGeometry( verticesOfCube, indicesOfFaces, 6, 2 );
+        var cube1 = new THREE.Mesh( geometryC, material );
+        scene.add(cube1); */
+
+        function animate(){
+            requestAnimationFrame( animate );
+            //el request animationFrame de toda la vida, recursivo, aprox. 60 ciclos por segundo, también deja
+            //de ejecutarse la animación cuando no estás en la pestaña por lo que ahorras procesamiento
+            //y batería usada.
+
+            /* cube.rotation.x += 0.02;
+            cube.rotation.y += 0.02; */
+            
+
+
+
+
+            //El reto aquí será modificar camera.position.z con base en algún botón que toque, por ejemplo, si toca 
+            // s que se vaya la cámara hacia atrás, si toca w hacia adelante.
+
+            //Add event listener aquí xd...
+
+            renderer.render( scene, camera );
+            //ya que está la cámara y la escena, las ejecuta el render, boila.
+        }
+        document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
+            switch(event.code){
+            case "ArrowUp": 
+            console.log(event);
+
+                camera.rotation.y +=0.01;
+            break;
+            case "ArrowDown": 
+            console.log(event);
+
+                camera.rotation.y -=0.01;
+            break;
+            case "ArrowRight": 
+            console.log(event);
+
+                camera.translateX +=0.01;
+            break;
+            case "ArrowLeft": 
+            console.log(event);
+
+                camera.translateX -=0.01;
+            break;
+        
+
+            }
+            /* console.log('----------------------------');
+            MatrizPrincipal[inicioY][inicioX] = 1;
+            console.log(MatrizPrincipal); */
+            });
+        animate();
+
+        document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
+          switch(event.code){
+            case 'KeyW': camera.position.y += .1;
+              break;
+            case 'KeyS': camera.position.y -= .1;
+              break;
+            case 'KeyA': camera.position.x += .1;
+              break;
+            case 'KeyD': camera.position.x -= .1;
+              break;
+            case 'KeyR': camera.position.z += .1;
+              break;
+            case 'KeyF': camera.position.z -= .1;
+              break;
+            case 'ArrowUp': camera.rotation.x += .01;
+              break;
+            case 'ArrowDown': camera.rotation.x -= .01;
+              break;
+            case 'ArrowLeft': camera.rotation.y += .01;
+              break;
+            case 'ArrowRight': camera.rotation.y -= .01;
+          }
+        });
+
+
+    </script>
+    
+</body>
+</html>
