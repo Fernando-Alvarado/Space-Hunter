@@ -15,6 +15,7 @@ var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
 var numnaves = 1; //numero de naves que hay declaradas
 var rango = 25; //Nos dice que tanto ven las naves enemigas a su alrdedor
 var velDisparo = 1000; //Velocidad de disparo de las naves.
+var velchase = 150;
 var numasteroides = 100; //Cuantos asteroides se crean
 
 var scene = new THREE.Scene();
@@ -102,7 +103,7 @@ class PersonajePrincipal{
     //Quitare la funcion choose  where to move del mono, por que ya no es necesaria xd
       JustTheCreator(){
           var working = [this.matrizDondeSeTrabaja[0][1],this.matrizDondeSeTrabaja[0][2],this.matrizDondeSeTrabaja[0][3]];
-          
+
           function mover(matriz){
             setTimeout(function(){
             //  var lol = [matriz[0][1], matriz[0][2],matriz[0][3]]
@@ -119,7 +120,7 @@ class PersonajePrincipal{
                 //Diego aqui iria tu codigo, que corria el movimiento de la camara
               mover(matriz);
             }, 50);
-           
+
           }
           mover(this.matrizDondeSeTrabaja);
           renderer.domElement.addEventListener("click", function(){
@@ -134,13 +135,13 @@ class PersonajePrincipal{
            console.log(resum)//nave moviendose
             var JustAnotherBorringShoot = new balas(working[0], working[1],working[2],resum[0],resum[1],resum[2],1,limit)//constructro del objeto balas
             JustAnotherBorringShoot.MidnightBlame();
-            console.log(JustAnotherBorringShoot.MidnightBlame())//cuando imprimo esto me sale indefinido 
+            console.log(JustAnotherBorringShoot.MidnightBlame())//cuando imprimo esto me sale indefinido
             //no se si ese sea el problema xd
           });
 
-          
-         
-          
+
+
+
       }
             //Aqui iria el codigo del evento del mouse, pa que se mueva la camara con el mouse
     }
@@ -259,7 +260,7 @@ class NavesEnemigas{
                       }
                       else{
                         numero = ChasePlayer(matriz,x,y,z);
-                        velocidad = 200;
+                        velocidad = velchase;
                       }
                     }
                     else{ //Si el personaje principal no está en rango, sigue con su patrón de movimiento o elige uno nuevo
@@ -456,9 +457,9 @@ function GodsLoop(MatBalas, Coun, WhoToKill, matUnround){
             var who = 0;
               for (let i= 0; i <= numnaves; i++)
                 if(MatBalas[0][Coun]== MatrizThatMakeMeCry[i][1]&&MatBalas[1][Coun]== MatrizThatMakeMeCry[i][2]&&MatBalas[2][Coun]== MatrizThatMakeMeCry[i][3]){
-                  //aqui abria impacto xd jajaja 
+                  //aqui abria impacto xd jajaja
                   who = i;///tal vez esta varaible who cause problemas
-                  i = numnaves;//para acabar el ciclo 
+                  i = numnaves;//para acabar el ciclo
                 }
               if(who == 0){
                 Coun++;
@@ -466,19 +467,19 @@ function GodsLoop(MatBalas, Coun, WhoToKill, matUnround){
               }else {
                 console.log('no se como destruir la nave xd')
               }
-              
-              
-                
 
-                
-            
+
+
+
+
+
           }
       }
       else {
         scene.remove(sphere);
         sphere = null;
       }
-  },100);//velocidad de las balas se puede cambiar
+  },velDisparo);//velocidad de las balas se puede cambiar
 }
 GodsLoop(this.MatrizBalas3d ,Coun,this.WhoToKill,this.MatrizUnround);
 
@@ -677,7 +678,6 @@ function animate(){
     //el request animationFrame de toda la vida, recursivo, aprox. 60 ciclos por segundo, también deja
     //de ejecutarse la animación cuando no estás en la pestaña por lo que ahorras procesamiento
     //y batería usada.
-
     renderer.render( scene, camera );
     //ya que está la cámara y la escena, las ejecuta el render, boila.
 }
