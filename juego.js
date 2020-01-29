@@ -128,7 +128,8 @@ class PersonajePrincipal{
            console.log(resum)//nave moviendose
             var JustAnotherBorringShoot = new balas(working[0], working[1],working[2],resum[0],resum[1],resum[2],1,limit)//constructro del objeto balas
             JustAnotherBorringShoot.MidnightBlame();
-            console.log(JustAnotherBorringShoot)
+            console.log(JustAnotherBorringShoot.MidnightBlame())//cuando imprimo esto me sale indefinido 
+            //no se si ese sea el problema xd
           });
 
           
@@ -433,7 +434,7 @@ function GodsLoop(MatBalas, Coun, WhoToKill, matUnround){
           sphere.position.x=matUnround[0][Coun];
           sphere.position.y=matUnround[1][Coun];
           sphere.position.z=matUnround[2][Coun];
-        
+
           var Everything = MatrizThatMakeMeCry; //Aqui tengo que poner la matriz de IWannaCry
           if( WhoToKill== 2){//cuendo le disparen a la nave principal
               //console.log('Im in')//ver si se mete al buble
