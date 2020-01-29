@@ -13463,7 +13463,7 @@
 
 			if ( target === undefined ) {
 
-				console.warn( 'THREE.Camera: .getWorldDirection() target is now required' );
+				// console.warn( 'THREE.Camera: .getWorldDirection() target is now required' );
 				target = new Vector3();
 
 			}

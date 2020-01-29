@@ -45,8 +45,8 @@ document.body.appendChild( renderer.domElement );
   const texture = loader.load([
     'img/back.png',
     'img/front.png',
-    'img/top.png',
     'img/bottom.png',
+    'img/top.png',
     'img/right.png',
     'img/left.png',
   ]);
@@ -607,7 +607,7 @@ function ArrayBaseDeLaNaves(numnaves,numast,scene){//declarando el array de las 
             MatrizPrincipal[i][e] = NumerosAleatorios(limit)-1; //coordenadas de asteroides
         }
 
-       
+
 
         function loadObject(i){
             var model;
@@ -617,10 +617,10 @@ function ArrayBaseDeLaNaves(numnaves,numast,scene){//declarando el array de las 
 
                 function ( gltf ) {
                     model = gltf.scene;
-                    
-                    
+
+
                     //lo añadimos a la escena
-                    
+
                     scene.add( model);
                     MatrizPrincipal[i][4] = model;
                     // Instanciamos un cubo con base en los parámetros anteriores
@@ -688,6 +688,9 @@ function animate(){
 //               Funcion principal que corre todo el juego
 //colocarPosicionesAleatorias(numnaves,numasteroides)//esta ganando mucha importancia esta funcion
 
+
+//Correr después de que carguen todos
+// colocarPosicionesAleatorias(numnaves,numasteroides)//esta ganando mucha importancia esta funcion
 
 //------------------------------------------------------------------------------------------------
 
