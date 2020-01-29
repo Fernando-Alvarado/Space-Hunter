@@ -95,8 +95,11 @@ class PersonajePrincipal{
 
     //Quitare la funcion choose  where to move del mono, por que ya no es necesaria xd
       JustTheCreator(){
+          var working = [this.matrizDondeSeTrabaja[0][1],this.matrizDondeSeTrabaja[0][2],this.matrizDondeSeTrabaja[0][3]];
+          
           function mover(matriz){
             setTimeout(function(){
+            //  var lol = [matriz[0][1], matriz[0][2],matriz[0][3]]
               //  MatrizThatMakeMeCry   //esta es la matriz con todas la posiciones
                 matriz[0][1] = camera.position.x;
                 matriz[0][2] = camera.position.y;
@@ -108,11 +111,29 @@ class PersonajePrincipal{
                 matriz[0][4].rotation.y = camera.rotation.y;
                 matriz[0][4].rotation.z = camera.rotation.z;
                 //Diego aqui iria tu codigo, que corria el movimiento de la camara
-
               mover(matriz);
             }, 50);
+           
           }
           mover(this.matrizDondeSeTrabaja);
+          renderer.domElement.addEventListener("click", function(){
+            //var lol = [this.matrizDondeSeTrabaja[0][1], this.matrizDondeSeTrabaja[0][2],this.matrizDondeSeTrabaja[0][3]]
+          //  console.log(lol)
+          var resum = [MatrizThatMakeMeCry[0][1], MatrizThatMakeMeCry[0][2],MatrizThatMakeMeCry[0][3]];
+         if(resum[0]==working[0]&&resum[1]==working[1]&&resum[2]==working[2])//validando pa que no se hagan el mismo punto al anicio
+            resum[2]++;//o que en un futuro sea el mismo xd
+           ///---Hciedno el disparo de la nave principal
+           //whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego
+           console.log(working)///inicio punto fijo
+           console.log(resum)//nave moviendose
+            var JustAnotherBorringShoot = new balas(working[0], working[1],working[2],resum[0],resum[1],resum[2],1,limit)//constructro del objeto balas
+            JustAnotherBorringShoot.MidnightBlame();
+            console.log(JustAnotherBorringShoot)
+          });
+
+          
+         
+          
       }
             //Aqui iria el codigo del evento del mouse, pa que se mueva la camara con el mouse
     }
@@ -412,19 +433,38 @@ function GodsLoop(MatBalas, Coun, WhoToKill, matUnround){
           sphere.position.x=matUnround[0][Coun];
           sphere.position.y=matUnround[1][Coun];
           sphere.position.z=matUnround[2][Coun];
-
+        
           var Everything = MatrizThatMakeMeCry; //Aqui tengo que poner la matriz de IWannaCry
           if( WhoToKill== 2){//cuendo le disparen a la nave principal
               //console.log('Im in')//ver si se mete al buble
               //Everything es la matriz donde estan todas la anves
               if(MatBalas[0][Coun]==Everything[0][1]&&MatBalas[1][Coun]==Everything[0][2]&&MatBalas[2][Coun]==Everything[0][3]){
-                  console.log('impacto a una nave')
+                  console.log('impacto a la nave principal')
               }else{
                   Coun++;
                   GodsLoop(MatBalas, Coun, WhoToKill,matUnround);
               }
           }else if(this.WhoToKill == 1){//cuando le dispare a una nave enemiga
-              console.log('no se por que se  metio')
+            console.log('disparo el wey')
+            var who = 0;
+              for (let i= 0; i <= numnaves; i++)
+                if(MatBalas[0][Coun]== MatrizThatMakeMeCry[i][1]&&MatBalas[1][Coun]== MatrizThatMakeMeCry[i][2]&&MatBalas[2][Coun]== MatrizThatMakeMeCry[i][3]){
+                  //aqui abria impacto xd jajaja 
+                  who = i;///tal vez esta varaible who cause problemas
+                  i = numnaves;//para acabar el ciclo 
+                }
+              if(who == 0){
+                Coun++;
+                GodsLoop(MatBalas, Coun, WhoToKill,matUnround);
+              }else {
+                console.log('no se como destruir la nave xd')
+              }
+              
+              
+                
+
+                
+            
           }
       }
       else {
