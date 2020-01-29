@@ -12,9 +12,9 @@
 //-------------DEclaracion de variables
 var limit = 100;//Numero de casillas de la matriz
 var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
-var numnaves = 1; //numero de naves que hay declaradas
-var rango = 25; //Nos dice que tanto ven las naves enemigas a su alrdedor
-var velDisparo = 1000; //Velocidad de disparo de las naves.
+var numnaves = 100; //numero de naves que hay declaradas
+var rango = 50; //Nos dice que tanto ven las naves enemigas a su alrdedor
+var velDisparo = 100; //Velocidad de disparo de las naves.
 var velchase = 150;
 var numasteroides = 100; //Cuantos asteroides se crean
 
