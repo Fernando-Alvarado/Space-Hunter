@@ -13,11 +13,12 @@
 var limit = 100;//Numero de casillas de la matriz
 var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
 var numnaves = 100; //numero de naves que hay declaradas
-var rango = 50; //Nos dice que tanto ven las naves enemigas a su alrdedor
-var velDisparo = 100; //Velocidad de disparo de las naves.
-var velchase = 150;
-var numasteroides = 100; //Cuantos asteroides se crean
+var rango = 40; //Nos dice que tanto ven las naves enemigas a su alrdedor
+var velDisparo = 150; //Velocidad de disparo de las naves.
+var velchase = 100;
+var rangodisp = 10;
 
+var numasteroides = 100; //Cuantos asteroides se crean
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 // THREE.PerspectiveCamera: primer parámetro es la apertura de la cámara en grados, el segundo es el
@@ -124,19 +125,9 @@ class PersonajePrincipal{
           }
           mover(this.matrizDondeSeTrabaja);
           renderer.domElement.addEventListener("click", function(){
-            //var lol = [this.matrizDondeSeTrabaja[0][1], this.matrizDondeSeTrabaja[0][2],this.matrizDondeSeTrabaja[0][3]]
-          //  console.log(lol)
-          var resum = [MatrizThatMakeMeCry[0][1], MatrizThatMakeMeCry[0][2],MatrizThatMakeMeCry[0][3]];
-         if(resum[0]==working[0]&&resum[1]==working[1]&&resum[2]==working[2])//validando pa que no se hagan el mismo punto al anicio
-            resum[2]++;//o que en un futuro sea el mismo xd
-           ///---Hciedno el disparo de la nave principal
-           //whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego
-           console.log(working)///inicio punto fijo
-           console.log(resum)//nave moviendose
-            var JustAnotherBorringShoot = new balas(working[0], working[1],working[2],resum[0],resum[1],resum[2],1,limit)//constructro del objeto balas
-            JustAnotherBorringShoot.MidnightBlame();
-            console.log(JustAnotherBorringShoot.MidnightBlame())//cuando imprimo esto me sale indefinido
-            //no se si ese sea el problema xd
+            
+           var bala = new BalasPrincipal();
+           bala.disparo();
           });
 
 
@@ -166,19 +157,19 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
               WhereOnX = e.pageX;//dice el valor de los eventos en tiempo real
               WhereOnY = e.pageY;//valor de y en real time
           }
-          setInterval(CheckWhereTheHellIsIn, 100);
+          setInterval(CheckWhereTheHellIsIn, 1);
           function CheckWhereTheHellIsIn(){
                   //esto es para que pueda rotar la pantalla del jugador
                   if(WhereOnX< (MedidaPantalla)/4){//girar a la derecha
-                      camera.rotation.y += .1;
+                      camera.rotation.y += .005;
                   }
                   else if(WhereOnX> ((MedidaPantalla)/4)*3){//girara a la girar a la izquierda
-                      camera.rotation.y -= .1;
+                      camera.rotation.y -= .005;
                   }
                    //   console.log(this.RotationPosition[OriginalPosition])
                   //the last thing to do
           }
-          setInterval(updown, 100);//para que pueda rotrar lal camara de arriba hacia abajo
+          setInterval(updown, 150);//para que pueda rotrar lal camara de arriba hacia abajo
           function updown(){
             //para que la nave pueda subir o bajar
             if(WhereOnY < (MedidaEnY)/3 && camera.position.y != limit-1){ //hace que la nave baja
@@ -225,6 +216,66 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
       }
 }
 
+class BalasPrincipal{
+  disparo(){
+    var direction = camera.getWorldDirection();
+    var geometry = new THREE.SphereGeometry( .05, .05, .05 );
+    var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+    var sphere = new THREE.Mesh( geometry, material );
+    geometry = null;
+    material = null;
+    scene.add( sphere );
+    sphere.position.x = camera.position.x;
+    sphere.position.y = camera.position.y;
+    sphere.position.z = camera.position.z;
+
+    function move(){ //Movemos a la bala y devolvemos valores enteros para revisar si hay alguna colision
+      var x,y,z;
+      sphere.position.add(direction.multiplyScalar(1));
+      x = Math.round(sphere.position.x);
+      y = Math.round(sphere.position.y);
+      z = Math.round(sphere.position.z);
+
+      var data = new Array();
+      data[0] = x;
+      data[1] = y;
+      data[2] = z;
+
+      return data;
+    }
+    
+    function dispLoop(){
+      setTimeout(()=>{ 
+        console.log('xd');
+        var who = 0;
+        var pos = move();
+        for (let i= 1; i < numnaves; i++){
+        if(pos[0]== MatrizThatMakeMeCry[i][1]&&pos[1]== MatrizThatMakeMeCry[i][2]&&pos[2]== MatrizThatMakeMeCry[i][3]){
+         //aqui abria impacto xd jajaja
+           who = i;///tal vez esta varaible who cause problemas
+           i = numnaves;//para acabar el ciclo
+           scene.remove(sphere);
+           sphere = null;
+           scene.remove(MatrizThatMakeMeCry[i][5]);
+           delete MatrizThatMakeMeCry[i][4];
+           delete MatrizThatMakeMeCry[i][5];
+        }
+      }
+      if(who == 0){
+        if(pos[0] == 0 || pos[0] == limit || pos[1] == 0 || pos[1] == limit || pos[2] == 0 || pos[2] == limit){
+           scene.remove(sphere);
+           sphere = null;
+        }else{
+          dispLoop();
+        }
+      }
+    }, 100);
+  }
+
+  dispLoop();
+  }
+}
+
 class NavesEnemigas{
         constructor(matrizDondeSeTrabaja, number){//el
             this.workingMat = matrizDondeSeTrabaja;
@@ -246,7 +297,7 @@ class NavesEnemigas{
                     //un evento para disparar con el mouse
                     var numero = 0;
                     if(this.dist_player <=rango){
-                      if(this.dist_player <= 15){//Aqui dispara la nave enemiga---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                      if(this.dist_player <= rangodisp){//Aqui dispara la nave enemiga---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                           ///----------------------------------Parametros----------------------------------------------
                           //whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego
          //kileed se refiere al indicador de la nave que se quiere matar
@@ -348,9 +399,10 @@ class NavesEnemigas{
             MainBucle(1000, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.direction, this.number);
             }
       }
-     ////-----------------------------JIJIJIIJIJ aQUI IRA EL OBJETO DE LAS BALAS
-     class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por que necesito que sea la actualizada para
-      //la comparacion de las colisiones
+
+////-----------------------------JIJIJIIJIJ aQUI IRA EL OBJETO DE LAS BALAS
+class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por que necesito que sea la actualizada para
+ //la comparacion de las colisiones
 //matriz donde corre el juego || cordenadas conde empezo a disparar || coordenadas a donde va
 constructor(whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego){
 //kileed se refiere al indicador de la nave que se quiere matar
@@ -437,6 +489,7 @@ function GodsLoop(MatBalas, Coun, WhoToKill, matUnround){
 
 
   setTimeout(function(){
+    
       if(Coun < MatBalas[0].length){
           sphere.position.x=matUnround[0][Coun];
           sphere.position.y=matUnround[1][Coun];
@@ -452,27 +505,6 @@ function GodsLoop(MatBalas, Coun, WhoToKill, matUnround){
                   Coun++;
                   GodsLoop(MatBalas, Coun, WhoToKill,matUnround);
               }
-          }else if(this.WhoToKill == 1){//cuando le dispare a una nave enemiga
-            console.log('disparo el wey')
-            var who = 0;
-              for (let i= 0; i <= numnaves; i++)
-                if(MatBalas[0][Coun]== MatrizThatMakeMeCry[i][1]&&MatBalas[1][Coun]== MatrizThatMakeMeCry[i][2]&&MatBalas[2][Coun]== MatrizThatMakeMeCry[i][3]){
-                  //aqui abria impacto xd jajaja
-                  who = i;///tal vez esta varaible who cause problemas
-                  i = numnaves;//para acabar el ciclo
-                }
-              if(who == 0){
-                Coun++;
-                GodsLoop(MatBalas, Coun, WhoToKill,matUnround);
-              }else {
-                console.log('no se como destruir la nave xd')
-              }
-
-
-
-
-
-
           }
       }
       else {
@@ -613,7 +645,7 @@ function ArrayBaseDeLaNaves(numnaves,numast,scene){//declarando el array de las 
             var model;
             var loader = new THREE.GLTFLoader();
             loader.load(
-                "Modelos/asteroide_1.glb",
+                "Modelos/asteroide__50.glb",
 
                 function ( gltf ) {
                     model = gltf.scene;
@@ -656,8 +688,8 @@ function colocarPosicionesAleatorias(numNaves,numAst){//saber donde estaran las 
     var total = numAst + numNaves;
 
     //Creamos y guardamos los objeetos naves en la matriz principal
-    for(let i = 0; i< (numNaves-1); i++){//funcion para que los objetos se instancien con sus propiedades
-        MatrizThatMakeMeCry[i][5] = new NavesEnemigas(MatrizThatMakeMeCry, i+1);
+    for(let i = 1; i<numNaves; i++){//funcion para que los objetos se instancien con sus propiedades
+        MatrizThatMakeMeCry[i][5] = new NavesEnemigas(MatrizThatMakeMeCry, i);
         MatrizThatMakeMeCry[i][5].JustTheCreator();//Js es una mamada jajaja
     }
 
@@ -690,7 +722,9 @@ function animate(){
 
 
 //Correr después de que carguen todos
-// colocarPosicionesAleatorias(numnaves,numasteroides)//esta ganando mucha importancia esta funcion
+setTimeout(function(){
+  colocarPosicionesAleatorias(numnaves,numasteroides)//esta ganando mucha importancia esta funcion
+},2000);
 
 //------------------------------------------------------------------------------------------------
 
