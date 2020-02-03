@@ -17,4 +17,29 @@ sonido.play(); -->
 <body>
     
 </body>
+  <script>
+    alert("Presione( objeto 1) o suelte (objeto 2) para iniciar el sonido.");
+
+    fuente= "./../../Sounds/balas.wav";
+    
+      // console.log("Sí es ejecutable");
+
+    var balazo= new Audio(fuente);
+    var balazo1= new Audio(fuente);
+    document.addEventListener('keydown', function(){
+      balazo.play();
+    })
+    document.addEventListener('keyup', function(){
+      balazo1.play();
+    })
+
+
+    
+
+
+
+
+
+
+  </script>
 </html>
