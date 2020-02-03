@@ -1,0 +1,44 @@
+body {
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+#nick {
+    padding-top: 20%;
+    padding-bottom: 20%;
+}
+#nick label{
+    padding-right: 10px;
+}
+#pass{
+    padding-bottom: 20%;   
+}
+#pass label{
+    padding-right: 15px;
+}
+#Log{
+    font-family: 'Bebas Neue', cursive;
+    font-size: 420%;
+    color: #11FF43;
+    position: absolute;
+    top: 15%;
+    left: 35%;
+}
+
+#cajaGrande{
+    font-family: 'Ubuntu', sans-serif;
+    position: absolute;
+    top: 12%;
+    left: 6%;
+    background-color: black;
+    color: white;
+    padding-top: 11%;
+    padding-right: 5%;
+    padding-left: 5%;
+    padding-bottom: 5%;
+}
+#secret{
+    padding-left: 35%;
+    visibility: hidden;
+}
+

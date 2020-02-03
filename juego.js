@@ -10,7 +10,7 @@
 //tree.js
 
 //-------------DEclaracion de variables
-var MatrizThatMakeMeCry = null; //Esta es la matriz principal, la más importante
+/*var MatrizThatMakeMeCry = null; //Esta es la matriz principal, la más importante
 //Tamaños de la matriz
 var limitx = null;
 var limity = null;
@@ -65,9 +65,9 @@ var MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides, scene);//ti
 //Colocamos a el jugador en su posición Inicial
 camera.position.x = MatrizThatMakeMeCry[0][1];
 camera.position.y = MatrizThatMakeMeCry[0][2];
-camera.position.z = MatrizThatMakeMeCry[0][3];
+camera.position.z = MatrizThatMakeMeCry[0][3];*/
 
-var patterns = new Array( //Array con todos los diferentes patrones, el primer número es la velocidadf
+/*var patterns = new Array( //Array con todos los diferentes patrones, el primer número es la velocidadf
                   new Array(200,2,2),
                   new Array(200,1,1),
                   new Array(200,3,3),
@@ -87,7 +87,41 @@ var patterns = new Array( //Array con todos los diferentes patrones, el primer n
                   new Array(300,1,1,1,1,3,3,3,3,2,2,2,4,4,4),
                   new Array(200,2,2,2,2,2,2,2,4,4,4,4,3),
                   new Array(200,3,3,3,3,3,4,4,3,2,1,2,1)
-              );
+              );*/
+/////Respalo de fer xd 
+var MatrizThatMakeMeCry = null;
+var limitx = null;
+var limity = null;
+var limitz = null;
+var numnaves = null;
+var numasteroides = null; 
+var scene = null;
+//comentarios
+var renderer = null;
+var camera = null;
+
+///arreglo de 
+var patterns = new Array( //Array con todos los diferentes patrones, el primer número es la velocidadf
+  new Array(200,2,2),
+  new Array(200,1,1),
+  new Array(200,3,3),
+  new Array(200,4,4),
+  new Array(200,2,2,2,2,2,2,2),
+  new Array(200,1,1,1,1,1,1,1),
+  new Array(200,2,2,2,2,2,2,2),
+  new Array(200,3,3,3,3,3,3,3),
+  new Array(200,4,4,4,4,4,4,4),
+  new Array(200,5,5,5,5,5,5,5),
+  new Array(200,6,6,6,6,6,6,6),
+  new Array(300,1,1,1,2,2,2),
+  new Array(300,3,3,3,4,4,4),
+  new Array(300,1,1,2,2,3,3),
+  new Array(200,3,3,5,5,5,1,1),
+  new Array(200,4,4,6,6,6,2,2),
+  new Array(300,1,1,1,1,3,3,3,3,2,2,2,4,4,4),
+  new Array(200,2,2,2,2,2,2,2,4,4,4,4,3),
+  new Array(200,3,3,3,3,3,4,4,3,2,1,2,1)
+);
 
 
 //--------------------------------OBJETOS------------------------------------------------------------

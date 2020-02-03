@@ -1,0 +1,58 @@
+body {
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+#bigbox {
+    position: absolute;
+    top: 9%;
+    left: 6%;
+    background-color: black;
+    color: white;
+    padding-top: 11%;
+    padding-right: 1%;
+    padding-left: 5%;
+    padding-bottom: 5%;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 110%;
+    width: 40%;
+    height: 85%;
+}
+label{
+    padding-right: 2%;
+}
+#fer{
+    padding-right: 13.8%;
+}
+#Log {
+    padding-bottom: 7%;
+    padding-left: 18%;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 350%;
+    color: #45CAF1;
+}
+#secret {
+ width: 20%;
+ height: 20%;
+ visibility: hidden;
+}
+#name input{
+    display: inline;
+}
+#cajaChica{
+    position: absolute;
+    top: 9%;
+    left: 10%;
+}
+#GoBack{
+    position: absolute;
+    top: 110%;
+    display: inline;
+}
+#justSecret{
+    width: 6%;
+    visibility: hidden;
+}
+#caja{
+    width: 65%;
+}
