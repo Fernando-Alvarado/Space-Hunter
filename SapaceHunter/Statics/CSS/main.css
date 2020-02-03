@@ -1,0 +1,13 @@
+* {
+    background-color: black;
+    margin: 0;
+    padding: 0;
+}
+#me {
+    position: absolute;
+    top: 10%;
+    right: 43%;
+    background-color: #373737;
+    border: 1px solid white;
+
+}

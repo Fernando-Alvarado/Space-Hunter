@@ -62,7 +62,7 @@ var ambient = new THREE.PointLight( 0x444444 );
         scene.add( directionalLight );
 
 
-var MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides, scene);//tipo instanciando la matriz principal
+var MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides, scene);//tipo instanciando la matriz principal---------------------------------
 
 //Colocamos a el jugador en su posición Inicial
 camera.position.x = MatrizThatMakeMeCry[0][1];
@@ -104,7 +104,7 @@ class PersonajePrincipal{
     //Quitare la funcion choose  where to move del mono, por que ya no es necesaria xd
       JustTheCreator(){
           var working = [this.matrizDondeSeTrabaja[0][1],this.matrizDondeSeTrabaja[0][2],this.matrizDondeSeTrabaja[0][3]];
-
+          LifeBar(MatrizThatMakeMeCry[0][5])//poniendo la barra de vida al tope
           function mover(matriz){
             setTimeout(function(){
             //  var lol = [matriz[0][1], matriz[0][2],matriz[0][3]]
@@ -246,19 +246,21 @@ class BalasPrincipal{
     
     function dispLoop(){
       setTimeout(()=>{ 
-        console.log('xd');
         var who = 0;
         var pos = move();
         for (let i= 1; i < numnaves; i++){
         if(pos[0]== MatrizThatMakeMeCry[i][1]&&pos[1]== MatrizThatMakeMeCry[i][2]&&pos[2]== MatrizThatMakeMeCry[i][3]){
          //aqui abria impacto xd jajaja
-           who = i;///tal vez esta varaible who cause problemas
-           i = numnaves;//para acabar el ciclo
-           scene.remove(sphere);
-           sphere = null;
-           scene.remove(MatrizThatMakeMeCry[i][5]);
-           delete MatrizThatMakeMeCry[i][4];
-           delete MatrizThatMakeMeCry[i][5];
+           MatrizThatMakeMeCry[i][5]--;////Se le quita solo 1 punto de vida
+          if(MatrizThatMakeMeCry[i][5] == 0){
+            scene.remove(sphere);
+            sphere = null;
+            scene.remove(MatrizThatMakeMeCry[i][5]);
+            delete MatrizThatMakeMeCry[i][4];
+            delete MatrizThatMakeMeCry[i][5];
+            i = numnaves;//para acabar el ciclo
+
+          }
         }
       }
       if(who == 0){
@@ -500,7 +502,12 @@ function GodsLoop(MatBalas, Coun, WhoToKill, matUnround){
               //console.log('Im in')//ver si se mete al buble
               //Everything es la matriz donde estan todas la anves
               if(MatBalas[0][Coun]==Everything[0][1]&&MatBalas[1][Coun]==Everything[0][2]&&MatBalas[2][Coun]==Everything[0][3]){
-                  console.log('impacto a la nave principal')
+                 
+                MatrizThatMakeMeCry[0][5]--;////Aqui hize que la nave no pierda en caso de chocar
+                LifeBar(MatrizThatMakeMeCry[0][5])
+                console.log(MatrizThatMakeMeCry[0][5]);
+                if( MatrizThatMakeMeCry[0][5] == 0)             
+                  location.href="SapaceHunter/Statics/Templates/EndMatch.html";////No se si esta ruta funcione
               }else{
                   Coun++;
                   GodsLoop(MatBalas, Coun, WhoToKill,matUnround);
@@ -539,7 +546,6 @@ function ChooseWhereToMove(x, y, z, event, value){//switch para elegir
             scene.remove(MatrizThatMakeMeCry[i][4]);
             delete MatrizThatMakeMeCry[i][4];
             delete MatrizThatMakeMeCry[i][5];
-            console.log('ded');
             MatrizThatMakeMeCry[i]=[0,null,null,null,null,null];
           }
           //Si el mismo objeto no es el principal, se destruye
@@ -547,13 +553,12 @@ function ChooseWhereToMove(x, y, z, event, value){//switch para elegir
             scene.remove(MatrizThatMakeMeCry[value][4]);
             delete MatrizThatMakeMeCry[value][4];
             delete MatrizThatMakeMeCry[value][5];
-            console.log('ded');
-
             type = 0;
           }
           //En caso de que alguno de los dos objetos en la colision sean el principal, se manda un menaje de perder
           if(MatrizThatMakeMeCry[value][0]==2||MatrizThatMakeMeCry[i][0]==2)
-            console.log("perdiste");
+          MatrizThatMakeMeCry[0][5] = 3;////Aqui hize que la nave no pierda en caso de chocar
+          LifeBar(MatrizThatMakeMeCry[0][5])
           color = "white";
         }
 
@@ -611,7 +616,8 @@ function ArrayBaseDeLaNaves(numnaves,numast,scene){//declarando el array de las 
     var total = numnaves + numast;
     var MatrizPrincipal = new Array(total);
     for (let i = 0; i < total; i++)
-        MatrizPrincipal[i]=new Array(5);//array que dira si es una nave enemiga y sus posiciones en X,Y y Z
+    //la posicion 6 indicara la vida de cada nave
+        MatrizPrincipal[i]=new Array(6);//array que dira si es una nave enemiga y sus posiciones en X,Y y Z
 
     //Colocar naves
     for (i=0; i<numnaves; i++){
@@ -631,7 +637,9 @@ function ArrayBaseDeLaNaves(numnaves,numast,scene){//declarando el array de las 
         MatrizPrincipal[i][4].position.y = MatrizPrincipal[i][2];
         MatrizPrincipal[i][4].position.z = MatrizPrincipal[i][3];
         //lo añadimos a la escena
+        MatrizPrincipal[i][5]= 2;/////------------------------------------------------Esto da la vida a todas las naves enemigas
     }
+    MatrizPrincipal[0][5]= 13;/////------------------------------------------------Esto da la vida a todas la nave pricipla
     //Colocar asteroides
     for (i=numnaves; i<total; i++){
         MatrizPrincipal[i][0] = 3;
@@ -677,7 +685,28 @@ function ArrayBaseDeLaNaves(numnaves,numast,scene){//declarando el array de las 
     MatrizPrincipal[0][0] = 2;
 return MatrizPrincipal;
 }
+//dibujar la vida de la nave principal
+function LifeBar(numero){///El numero seran las divisiones en que se dibujaran
+  //la nave tendra 10 puntos de vida xd pero pueden ser mas 
+  var canvasVida = document.getElementById("me");
+  var life = canvasVida.getContext("2d");
+  life.beginPath();
+  //puntos iniciales // puntos finales
+  life.rect(1, 1, 200, 20);//la tercera es la que tengo que modificar
+  life.fillStyle = "#373737";
+  life.fill();
+  life.closePath();
+  //la nave tendra 10 puntos de vida xd pero pueden ser mas 
+  var vidaTotal = 13 //es la vida que tendra el presonaje principal
+  var anchoLife = ((numero * 200) / vidaTotal);
+  life.beginPath();
+  //puntos iniciales // puntos finales
+  life.rect(1, 1, anchoLife, 20);//la tercera es la que tengo que modificar
+  life.fillStyle = "#1CBFFA";
+  life.fill();
+  life.closePath();
 
+}
 
  //poner posiones de las naves y ver donde vas a empezar funcion importante xd
 function colocarPosicionesAleatorias(numNaves,numAst){//saber donde estaran las naves al inicio
@@ -729,3 +758,15 @@ setTimeout(function(){
 //------------------------------------------------------------------------------------------------
 
 animate();
+
+
+
+var canvas = document.getElementById("me");
+var ctx = canvas.getContext("2d");
+
+ctx.beginPath();
+ctx.rect(20, 40, 50, 50);
+ctx.fillStyle = "yellow";
+ctx.fill();
+ctx.closePath();
+
