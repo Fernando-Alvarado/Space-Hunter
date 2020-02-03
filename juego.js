@@ -10,84 +10,43 @@
 //tree.js
 
 //-------------DEclaracion de variables
-var limit = 100;//Numero de casillas de la matriz
-var velocidad = 1000;//Esta variable dira que tan rapido las naves reacionaran
-var numnaves = 100; //numero de naves que hay declaradas
-var rango = 40; //Nos dice que tanto ven las naves enemigas a su alrdedor
-var velDisparo = 150; //Velocidad de disparo de las naves.
-var velchase = 100;
-var rangodisp = 10;
-
-var numasteroides = 100; //Cuantos asteroides se crean
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+var MatrizThatMakeMeCry = null; //Esta es la matriz principal, la más importante
+//Tamaños de la matriz
+var limitx = null;
+var limity = null;
+var limitz = null;
+var numnaves = null;//Número de naves
+var numasteroides = null; //Cuantos asteroides se crean
+//Variables de three
+var scene = null;
 // THREE.PerspectiveCamera: primer parámetro es la apertura de la cámara en grados, el segundo es el
 // aspect ratio, una buena explicación aquí  https://es.wikipedia.org/wiki/Relaci%C3%B3n_de_aspecto
 //https://scsarquitecto.cl/importancia-relacion-aspecto/
 // ,se puede dejar ese parámetro o el más usado 16:9; el siguiente es cercanía y el cuarto es lejanía,
 //significa que nos se renderearan (shit of translation DX) objetos más cercanos al valor de cercanía
 //ni objetos más lejanos al valor de lejanía.
-
-var renderer = new THREE.WebGLRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight );
-//Es necesario determinar el tamaño del rendereado, el aspect ratio es sólo una escala, aquí daremos las
-//dimensiones. El primer parámetro es el tamaño horizontal, el segundo vertical, hay un tercer parámetro,
-//el cual es true o false, en caso de ser false, se ejecutará el render con la mitad de la calidad
-//(suponiendo que las dimensiones del canvas son de 100% x 100%), si no se pasa parámetro, se considera
-//que es true y se ejecuta el render con resolución normal.
-document.body.appendChild( renderer.domElement );
-
-
-//Creamos el fondo
-//Página generadora de fondos:
-//http://wwwtyro.github.io/space-3d/#animationSpeed=1&fov=45&nebulae=true&pointStars=true&resolution=1024&seed=Interprepas1erlugar&stars=true&sun=true
-{
-  const loader = new THREE.CubeTextureLoader();
-  const texture = loader.load([
-    'img/back.png',
-    'img/front.png',
-    'img/bottom.png',
-    'img/top.png',
-    'img/right.png',
-    'img/left.png',
-  ]);
-  scene.background = texture;
-}
-
-//Ponemos luces
-var ambient = new THREE.PointLight( 0x444444 );
-        scene.add( ambient );
-        var directionalLight = new THREE.DirectionalLight( 0xffeedd );
-        directionalLight.position.set( 0, 0, 1 ).normalize();
-        scene.add( directionalLight );
-
-
-var MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides, scene);//tipo instanciando la matriz principal
-
-//Colocamos a el jugador en su posición Inicial
-camera.position.x = MatrizThatMakeMeCry[0][1];
-camera.position.y = MatrizThatMakeMeCry[0][2];
-camera.position.z = MatrizThatMakeMeCry[0][3];
+var renderer = null;
+var camera = null;
 
 var patterns = new Array( //Array con todos los diferentes patrones, el primer número es la velocidadf
-                  new Array(100,2,2),
-                  new Array(100,1,1),
-                  new Array(100,3,3),
-                  new Array(100,4,4),
+                  new Array(200,2,2),
+                  new Array(200,1,1),
+                  new Array(200,3,3),
+                  new Array(200,4,4),
                   new Array(200,2,2,2,2,2,2,2),
-                  new Array(100,1,1,1,1,1,1,1),
-                  new Array(100,2,2,2,2,2,2,2),
-                  new Array(100,3,3,3,3,3,3,3),
-                  new Array(100,4,4,4,4,4,4,4),
-                  new Array(100,5,5,5,5,5,5,5),
-                  new Array(100,6,6,6,6,6,6,6),
+                  new Array(200,1,1,1,1,1,1,1),
+                  new Array(200,2,2,2,2,2,2,2),
+                  new Array(200,3,3,3,3,3,3,3),
+                  new Array(200,4,4,4,4,4,4,4),
+                  new Array(200,5,5,5,5,5,5,5),
+                  new Array(200,6,6,6,6,6,6,6),
                   new Array(300,1,1,1,2,2,2),
                   new Array(300,3,3,3,4,4,4),
                   new Array(300,1,1,2,2,3,3),
-                  new Array(100,3,3,5,5,5,1,1),
-                  new Array(100,4,4,6,6,6,2,2),
+                  new Array(200,3,3,5,5,5,1,1),
+                  new Array(200,4,4,6,6,6,2,2),
                   new Array(300,1,1,1,1,3,3,3,3,2,2,2,4,4,4),
-                  new Array(100,2,2,2,2,2,2,2,4,4,4,4,3),
+                  new Array(200,2,2,2,2,2,2,2,4,4,4,4,3),
                   new Array(200,3,3,3,3,3,4,4,3,2,1,2,1)
               );
 
@@ -95,7 +54,80 @@ var patterns = new Array( //Array con todos los diferentes patrones, el primer n
 //--------------------------------OBJETOS------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------
-//Matriz[0][1], Matriz[0][2],
+class World{
+  constructor () {
+    
+  }
+
+ CreateWorld(lx,ly,lz,background){
+  limitx = lx;//Numero de casillas de la matriz
+  limity = ly;
+  limitz = lz;
+  numnaves = 100;
+  numasteroides = 200; //Cuantos asteroides se crean
+  scene = new THREE.Scene();
+  // THREE.PerspectiveCamera: primer parámetro es la apertura de la cámara en grados, el segundo es el
+  // aspect ratio, una buena explicación aquí  https://es.wikipedia.org/wiki/Relaci%C3%B3n_de_aspecto
+  //https://scsarquitecto.cl/importancia-relacion-aspecto/
+  // ,se puede dejar ese parámetro o el más usado 16:9; el siguiente es cercanía y el cuarto es lejanía,
+  //significa que nos se renderearan (shit of translation DX) objetos más cercanos al valor de cercanía
+  //ni objetos más lejanos al valor de lejanía.
+  renderer = new THREE.WebGLRenderer();
+  renderer.setSize( window.innerWidth, window.innerHeight );
+  //Es necesario determinar el tamaño del rendereado, el aspect ratio es sólo una escala, aquí daremos las
+  //dimensiones. El primer parámetro es el tamaño horizontal, el segundo vertical, hay un tercer parámetro,
+  //el cual es true o false, en caso de ser false, se ejecutará el render con la mitad de la calidad
+  //(suponiendo que las dimensiones del canvas son de 100% x 100%), si no se pasa parámetro, se considera
+  //que es true y se ejecuta el render con resolución normal.
+  document.body.appendChild( renderer.domElement );
+
+  //Creamos el fondo
+  //Página generadora de fondos:
+  //http://wwwtyro.github.io/space-3d/#animationSpeed=1&fov=45&nebulae=true&pointStars=true&resolution=1024&seed=Interprepas1erlugar&stars=true&sun=true
+  {
+    const loader = new THREE.CubeTextureLoader();
+    const texture = loader.load([
+      'img/'+background+'/back.png',
+      'img/'+background+'/front.png',
+      'img/'+background+'/bottom.png',
+      'img/'+background+'/top.png',
+      'img/'+background+'/right.png',
+      'img/'+background+'/left.png',
+    ]);
+    scene.background = texture;
+  }
+
+  //Ponemos luces
+  var ambient = new THREE.PointLight( 0x444444 );
+  scene.add( ambient );
+  var directionalLight = new THREE.DirectionalLight( 0xffeedd );
+  directionalLight.position.set( 0, 0, 1 ).normalize();
+  scene.add( directionalLight );
+
+
+  MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides);//tipo instanciando la matriz principal
+  camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );  //Creamos la camara
+
+ }
+
+ StartWorld(){//Mostramos el mundo y creamos los objetos ecesarios para empezar el juego
+  function animate(){
+    requestAnimationFrame( animate );
+  //el request animationFrame de toda la vida, recursivo, aprox. 60 ciclos por segundo, también deja
+  //de ejecutarse la animación cuando no estás en la pestaña por lo que ahorras procesamiento
+  //y batería usada.
+  renderer.render( scene, camera );
+  //ya que está la cámara y la escena, las ejecuta el render, boila.
+  }
+  setTimeout(function(){
+    animate();
+    colocarPosicionesAleatorias(numnaves,numasteroides)//esta ganando mucha importancia esta funcion
+  },2000);
+}
+     
+}
+
+
 class PersonajePrincipal{
        constructor (matrizDondeSeTrabaja) {
             this.matrizDondeSeTrabaja = matrizDondeSeTrabaja;
@@ -103,6 +135,12 @@ class PersonajePrincipal{
 
     //Quitare la funcion choose  where to move del mono, por que ya no es necesaria xd
       JustTheCreator(){
+                  
+
+          //Colocamos a el jugador en su posición Inicial
+          camera.position.x = MatrizThatMakeMeCry[0][1];
+          camera.position.y = MatrizThatMakeMeCry[0][2];
+          camera.position.z = MatrizThatMakeMeCry[0][3];
           var working = [this.matrizDondeSeTrabaja[0][1],this.matrizDondeSeTrabaja[0][2],this.matrizDondeSeTrabaja[0][3]];
 
           function mover(matriz){
@@ -152,7 +190,6 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
           var MedidaPantalla = this.WhereItWorks.width; //medidas de la pantalla
           var MedidaEnY = this.WhereItWorks.height; //el alto de la pantalla
           var OriginalPosition = this.inicioCamaraTorre; //EMPIEZA AQUI la vista de la camar
-          //console.log(this.RotationPosition)//para ver donde esta funcionando el evento
           this.WhereItWorks.onmousemove = function(e){
               WhereOnX = e.pageX;//dice el valor de los eventos en tiempo real
               WhereOnY = e.pageY;//valor de y en real time
@@ -166,13 +203,12 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
                   else if(WhereOnX> ((MedidaPantalla)/4)*3){//girara a la girar a la izquierda
                       camera.rotation.y -= .005;
                   }
-                   //   console.log(this.RotationPosition[OriginalPosition])
                   //the last thing to do
           }
           setInterval(updown, 150);//para que pueda rotrar lal camara de arriba hacia abajo
           function updown(){
             //para que la nave pueda subir o bajar
-            if(WhereOnY < (MedidaEnY)/3 && camera.position.y != limit-1){ //hace que la nave baja
+            if(WhereOnY < (MedidaEnY)/3 && camera.position.y != limity-1){ //hace que la nave baja
                 var parametro = 0;
 
                 camera.position.y +=1;
@@ -181,6 +217,7 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
             }else if(WhereOnY > ((MedidaEnY)/3)*2 && camera.position.y != 0){//si esta arriba de 2/3 la nave empezara asubir
                 var parametro = 1;
 
+                
                 camera.position.y -=1;
                 //Aqui se hara que la nave baje
             }
@@ -194,19 +231,20 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
             var direction = camera.getWorldDirection();  //Obtenemos el vector director de la nave principal
             direction.x = Math.round(direction.x); //Rendondeamos ambas direcciones para que no tengamos posiciones no enteras
             direction.z = Math.round(direction.z);
+            direction.y = Math.round(direction.y);
 
             camera.position.add(direction.multiplyScalar(1)); //Agregamos ese vector multiplicándolo por un número para ajustar la velocidad
 
             //En caso de que se qwuiera salir de el área delimitada, lo regresamos
-            if(camera.position.x >= limit-1){
-              camera.position.x = limit-1;
+            if(camera.position.x >= limitx-1){
+              camera.position.x = limitx-1;
             }
             if(camera.position.x <= 0){
               camera.position.x = 0;
             }
 
-            if(camera.position.z >= limit-1){
-              camera.position.z = limit-1;
+            if(camera.position.z >= limitz-1){
+              camera.position.z = limitz-1;
             }
             if(camera.position.z <= 0){
               camera.position.z = 0;
@@ -219,8 +257,9 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
 class BalasPrincipal{
   disparo(){
     var direction = camera.getWorldDirection();
+
     var geometry = new THREE.SphereGeometry( .05, .05, .05 );
-    var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+    var material = new THREE.MeshBasicMaterial( {color: 0x00ffff} );
     var sphere = new THREE.Mesh( geometry, material );
     geometry = null;
     material = null;
@@ -232,6 +271,7 @@ class BalasPrincipal{
     function move(){ //Movemos a la bala y devolvemos valores enteros para revisar si hay alguna colision
       var x,y,z;
       sphere.position.add(direction.multiplyScalar(1));
+    
       x = Math.round(sphere.position.x);
       y = Math.round(sphere.position.y);
       z = Math.round(sphere.position.z);
@@ -246,23 +286,25 @@ class BalasPrincipal{
     
     function dispLoop(){
       setTimeout(()=>{ 
-        console.log('xd');
         var who = 0;
         var pos = move();
         for (let i= 1; i < numnaves; i++){
-        if(pos[0]== MatrizThatMakeMeCry[i][1]&&pos[1]== MatrizThatMakeMeCry[i][2]&&pos[2]== MatrizThatMakeMeCry[i][3]){
-         //aqui abria impacto xd jajaja
-           who = i;///tal vez esta varaible who cause problemas
-           i = numnaves;//para acabar el ciclo
-           scene.remove(sphere);
-           sphere = null;
-           scene.remove(MatrizThatMakeMeCry[i][5]);
-           delete MatrizThatMakeMeCry[i][4];
-           delete MatrizThatMakeMeCry[i][5];
+        if(MatrizThatMakeMeCry[i][0]!=0){
+          if(pos[0]== MatrizThatMakeMeCry[i][1]&&pos[1]== MatrizThatMakeMeCry[i][2]&&pos[2]== MatrizThatMakeMeCry[i][3]){
+          //aqui abria impacto xd jajaja
+            scene.remove(MatrizThatMakeMeCry[i][4]);
+            delete MatrizThatMakeMeCry[i][4];
+            delete MatrizThatMakeMeCry[i][5];
+            MatrizThatMakeMeCry[i]=[0,null,null,null,null,null];
+            scene.remove(sphere);
+            sphere = null;
+            who = i;///tal vez esta varaible who cause problemas
+            i = numnaves;//para acabar el ciclo
+          }
         }
       }
       if(who == 0){
-        if(pos[0] == 0 || pos[0] == limit || pos[1] == 0 || pos[1] == limit || pos[2] == 0 || pos[2] == limit){
+        if(pos[0] == 0 || pos[0] == limitx || pos[1] == 0 || pos[1] == limity || pos[2] == 0 || pos[2] == limitz){
            scene.remove(sphere);
            sphere = null;
         }else{
@@ -277,41 +319,54 @@ class BalasPrincipal{
 }
 
 class NavesEnemigas{
-        constructor(matrizDondeSeTrabaja, number){//el
+        constructor(matrizDondeSeTrabaja, number,velocidad,rango,velChase,velDisparo,rangoDisp){//el
             this.workingMat = matrizDondeSeTrabaja;
             this.number = number;//indice dentro de la matriz principal donde se guardara la nave
             this.numero =  0;//luego esto tengra que cambiar a 5 para que puedan
-            this.rango = rango; //determina el rango de visión;
             this.dist_player = 0; //Guarda la distancia de la nave al jugador
             this.pattern_move = 0; //Determina el siguiente movimiento
             this.current_pattern = NumerosAleatorios(patterns.length)-1; //Dice que patrón está haciendo actualmente
-            //disparar
+            //Variables de clase
+            this.velocidad = velocidad; //Velocidad de reacción
+            this.rango = rango; //determina el rango de visión;
+            this.velChase = velChase  //Velocidad al perseguir al jugador
+            this.velDisparo = velDisparo; //Velocidad de disparo
+            this.rangoDisp = rangoDisp; //Distancia a la que empieza a disparar
         }
         JustTheCreator(){//este metodo ara que las naves se muevan y  si tiempo que disparen
             //usara la funcion switch que cree
-            function MainBucle(velocidad, matriz, x, y , z,move, position,current_pattern,pattern_move,patterns){ //Aqui se tendra que correr el bucle de las naves
+            function MainBucle(obj, matriz, x, y , z,move, position,current_pattern,pattern_move,patterns){ //Aqui se tendra que correr el bucle de las naves
                 if(matriz[position][0]!=0){
                   setTimeout(function(){
                     this.dist_player=DistFromPlayer(matriz,x,y,z);
                     //El parametro primer parametro sera cambiado por quien disparo xd, pero siento que se tendra que pasar
                     //un evento para disparar con el mouse
                     var numero = 0;
-                    if(this.dist_player <=rango){
-                      if(this.dist_player <= rangodisp){//Aqui dispara la nave enemiga---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                    if(this.dist_player <=obj.rango){
+                      if(this.dist_player <=obj.rangoDisp){//Aqui dispara la nave enemiga---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                           ///----------------------------------Parametros----------------------------------------------
                           //whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego
          //kileed se refiere al indicador de la nave que se quiere matar
                 //2 es la nave principal
                 //MatrizThatMakeMeCry
                 //necesito saber quien disparo
-                //console.log('dispare')
+
+                      //Obtenemos el límite más grande para el rango de vida de las balas.
+                      var limit = limitx;
+                      if(limitx > limity && limitx>limitz)
+                        var limit = limitx;
+                      else if(limity>limitx && limity>limitz)
+                        var limit = limity;
+                      else if(limitz>limitx && limitz>limity)
+                        var limit = limitz;
+
                       var disparoNaveEnemiga = new balas(MatrizThatMakeMeCry[position][1], MatrizThatMakeMeCry[position][2], MatrizThatMakeMeCry[position][3], MatrizThatMakeMeCry[0][1], MatrizThatMakeMeCry[0][2], MatrizThatMakeMeCry[0][3] ,2,limit)//constructro del objeto balas
-                      disparoNaveEnemiga.MidnightBlame();
+                      disparoNaveEnemiga.MidnightBlame(obj.velDisparo);
                       numero = 0;
                       }
                       else{
                         numero = ChasePlayer(matriz,x,y,z);
-                        velocidad = velchase;
+                        obj.velocidad = obj.velChase;
                       }
                     }
                     else{ //Si el personaje principal no está en rango, sigue con su patrón de movimiento o elige uno nuevo
@@ -321,7 +376,7 @@ class NavesEnemigas{
                       }
                       numero=patterns[current_pattern][pattern_move];
                       pattern_move++;
-                      velocidad = patterns[current_pattern][0];
+                      obj.velocidad = patterns[current_pattern][0];
                     }
 
                     var itsRunnig = ChooseWhereToMove( x, y, z, move,  position);
@@ -332,12 +387,12 @@ class NavesEnemigas{
                       MatrizThatMakeMeCry[position][4].position.z = itsRunnig[2];
                     }
                     //lo añadimos a la escena
-                    MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], itsRunnig[2],numero,  position,current_pattern,pattern_move,patterns);
-                  }, velocidad);
+                    MainBucle(obj, matriz, itsRunnig[0], itsRunnig[1], itsRunnig[2],numero,  position,current_pattern,pattern_move,patterns);
+                  }, obj.velocidad);
                 }
             }
 
-            function DistFromPlayer(matrizDondeSeTrabaja,x,y,z,rango){ //Nos da la distancia al jugador
+            function DistFromPlayer(matrizDondeSeTrabaja,x,y,z){ //Nos da la distancia al jugador
               var dist = Math.pow((matrizDondeSeTrabaja[0][1]-x),2) + Math.pow((matrizDondeSeTrabaja[0][2]-y),2) + Math.pow((matrizDondeSeTrabaja[0][3]-z),2);
               dist = Math.sqrt(dist);
               return dist;
@@ -367,17 +422,18 @@ class NavesEnemigas{
               }
               return retur;
             }
-        MainBucle(1000, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.numero, this.number,this.current_pattern, this.pattern_move,patterns);
+
+            MainBucle(this, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.numero, this.number,this.current_pattern, this.pattern_move,patterns);
         }
 
     }
 
     class Asteroide{
-            constructor(matrizDondeSeTrabaja, number){//el
+            constructor(matrizDondeSeTrabaja, number,velocidad){//el
                 this.workingMat = matrizDondeSeTrabaja;
                 this.number = number;//indice dentro de la matriz principal donde se guardara el asteroide
                 this.direction = NumerosAleatorios(6); //Dice hacia donde se mueve
-                //disparar
+                this.velocidad = velocidad;
             }
             JustTheCreator(){//este metodo ara que las naves se muevan y  si tiempo que disparen
                 //usara la funcion switch que cree
@@ -395,8 +451,7 @@ class NavesEnemigas{
                     }, velocidad);
                   }
                 }
-            //console.log(this.number)
-            MainBucle(1000, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.direction, this.number);
+            MainBucle(this.velocidad, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.direction, this.number);
             }
       }
 
@@ -449,7 +504,6 @@ constructor(whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego){
           var takeMe = Tabulaciones(x, x2, ArrayX, limite,ArrayY, ArrayZ,1,2,0,y,z, "x","y","z" )
           var letMeFly = [takeMe[1], takeMe[3],takeMe[5], "y",takeMe[6], "z",takeMe[7]]//poniendo arden
       }else if(x == y){
-          //console.log('salve una indeterminacion xd')
           var takeMe = Tabulaciones(z, z2, ArrayZ, limite,ArrayX, ArrayY,0,1,2,x,y, "z","x","y" )
           var letMeFly = [takeMe[3], takeMe[5],takeMe[1],"z",takeMe[6], "y",takeMe[7]]//ordenando lo que sale de los arreglos
       }
@@ -477,7 +531,7 @@ function ordenaTabs(array){//funcion que te acomoda el arreglo pa que siempre te
 }
 this.MatrizUnround = ordenaTabs(this.MatrizBalas3d);
 }
-MidnightBlame(){ //NOTE: la varaible de las naves es global tinee que estar declarada arriba
+MidnightBlame(velDisparo){ //NOTE: la varaible de las naves es global tinee que estar declarada arriba
 var Coun = 0;
 var geometry = new THREE.SphereGeometry( .05, .05, .05 );
 var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
@@ -497,7 +551,6 @@ function GodsLoop(MatBalas, Coun, WhoToKill, matUnround){
 
           var Everything = MatrizThatMakeMeCry; //Aqui tengo que poner la matriz de IWannaCry
           if( WhoToKill== 2){//cuendo le disparen a la nave principal
-              //console.log('Im in')//ver si se mete al buble
               //Everything es la matriz donde estan todas la anves
               if(MatBalas[0][Coun]==Everything[0][1]&&MatBalas[1][Coun]==Everything[0][2]&&MatBalas[2][Coun]==Everything[0][3]){
                   console.log('impacto a la nave principal')
@@ -562,31 +615,31 @@ function ChooseWhereToMove(x, y, z, event, value){//switch para elegir
     if (type!=0){ //En caso de que no haya chocado, se mueve dependiento del parámetro recibido
       switch(event){
           case 1:if(y==0)
-                          y = limit-1;
+                          y = limity-1;
                       else
                           y--;
              break;
-          case 2: if(y==limit-1)
+          case 2: if(y==limity-1)
                           y=0;
                       else
                           y++;
               break;
           case 3: if (x==0)
-                          x = limit-1;
+                          x = limitx-1;
                       else
                           x--;
               break;
-          case 4: if(x==limit-1)
+          case 4: if(x==limitx-1)
                           x=0;
                       else
                           x++;
               break;
           case 5: if(z==0)
-                          z = limit-1;
+                          z = limitz-1;
                       else
                           z--;
               break;
-          case 6: if(z==limit-1)
+          case 6: if(z==limitz-1)
                           z=0;
                       else
                           z++;
@@ -607,7 +660,7 @@ function NumerosAleatorios(tope){
     return Math.floor((Math.random()*tope))+1;
 }
 
-function ArrayBaseDeLaNaves(numnaves,numast,scene){//declarando el array de las naves y sus posiciones
+function ArrayBaseDeLaNaves(numnaves,numast){//declarando el array de las naves y sus posiciones
     var total = numnaves + numast;
     var MatrizPrincipal = new Array(total);
     for (let i = 0; i < total; i++)
@@ -616,9 +669,9 @@ function ArrayBaseDeLaNaves(numnaves,numast,scene){//declarando el array de las 
     //Colocar naves
     for (i=0; i<numnaves; i++){
         MatrizPrincipal[i][0] = 1;
-        for (e=1; e<4; e++){
-            MatrizPrincipal[i][e] = NumerosAleatorios(limit)-1;
-        }
+        MatrizPrincipal[i][1] = NumerosAleatorios(limitx)-1;
+        MatrizPrincipal[i][2] = NumerosAleatorios(limity)-1;
+        MatrizPrincipal[i][3] = NumerosAleatorios(limitz)-1;
         var geometry = new THREE.BoxGeometry( 1, 1, 1 );
         var color = 0xFF0000;
         if(i==0)
@@ -635,9 +688,9 @@ function ArrayBaseDeLaNaves(numnaves,numast,scene){//declarando el array de las 
     //Colocar asteroides
     for (i=numnaves; i<total; i++){
         MatrizPrincipal[i][0] = 3;
-        for (e=1; e<4; e++){
-            MatrizPrincipal[i][e] = NumerosAleatorios(limit)-1; //coordenadas de asteroides
-        }
+        MatrizPrincipal[i][1] = NumerosAleatorios(limitx)-1; //coordenadas de asteroides
+        MatrizPrincipal[i][2] = NumerosAleatorios(limity)-1;
+        MatrizPrincipal[i][3] = NumerosAleatorios(limitz)-1;
 
 
 
@@ -689,12 +742,13 @@ function colocarPosicionesAleatorias(numNaves,numAst){//saber donde estaran las 
 
     //Creamos y guardamos los objeetos naves en la matriz principal
     for(let i = 1; i<numNaves; i++){//funcion para que los objetos se instancien con sus propiedades
-        MatrizThatMakeMeCry[i][5] = new NavesEnemigas(MatrizThatMakeMeCry, i);
+        //Orden de Parametros: matrizDondeSeTrabaja, number,velocidad,rango,velChase,velDisparo,rangoDisp
+        MatrizThatMakeMeCry[i][5] = new NavesEnemigas(MatrizThatMakeMeCry, i,1000,40,300,150,10);
         MatrizThatMakeMeCry[i][5].JustTheCreator();//Js es una mamada jajaja
     }
 
     for(let i = numNaves; i< total; i++){//funcion para que los objetos se instancien con sus propiedades
-        MatrizThatMakeMeCry[i][5] = new Asteroide(MatrizThatMakeMeCry, i);
+        MatrizThatMakeMeCry[i][5] = new Asteroide(MatrizThatMakeMeCry, i,500);
         MatrizThatMakeMeCry[i][5].JustTheCreator();//Js es una mamada jajaja
     }
 
@@ -705,27 +759,14 @@ function colocarPosicionesAleatorias(numNaves,numAst){//saber donde estaran las 
     fer.Torreta();
 }
 
-function animate(){
-    requestAnimationFrame( animate );
-    //el request animationFrame de toda la vida, recursivo, aprox. 60 ciclos por segundo, también deja
-    //de ejecutarse la animación cuando no estás en la pestaña por lo que ahorras procesamiento
-    //y batería usada.
-    renderer.render( scene, camera );
-    //ya que está la cámara y la escena, las ejecuta el render, boila.
-}
-
 ///-----------------------------------------------------------------------------------------------
 ///--------------------Ejecuciones----------------------------------------------------------------
 ///-----------------------------------------------------------------------------------------------
-//               Funcion principal que corre todo el juego
-//colocarPosicionesAleatorias(numnaves,numasteroides)//esta ganando mucha importancia esta funcion
+//               Funciones principales que corren todo el juego
 
-
-//Correr después de que carguen todos
-setTimeout(function(){
-  colocarPosicionesAleatorias(numnaves,numasteroides)//esta ganando mucha importancia esta funcion
-},2000);
-
+var world = new World();  //Creamos el objeto world
+world.CreateWorld(100,100,100,'default'); //Creamos el mundo
+world.StartWorld();
 //------------------------------------------------------------------------------------------------
 
-animate();
+
