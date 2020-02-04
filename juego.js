@@ -99,6 +99,9 @@ var scene = null;
 //Soinidos, rutas
 var laser_ene="./Media/Recovered_laser5.mp3";
 var laser_ali="./Media/Recovered_77172__huvaakoodia__pulse-laser.wav"
+var space_music="./Media/Recovered_396231__romariogrande__tentacle-wedding.mp3"
+var is_playing=false; //Para preguntar si está sonando el fondo.
+
 //comentarios
 var renderer = null;
 var camera = null;
@@ -180,6 +183,17 @@ class World{
   directionalLight.position.set( 0, 0, 1 ).normalize();
   scene.add( directionalLight );
 
+  //Ponemos el sonido de fondo
+  var background_music= new Audio(space_music);
+  if(!is_playing)
+  {
+    document.addEventListener('mousemove',function(){
+      is_playing=true;
+      background_music.loop=true;
+      background_music.play();
+    });
+  }
+  
 
   MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides);//tipo instanciando la matriz principal
   camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );  //Creamos la camara
@@ -643,6 +657,7 @@ geometry = null;
 material = null;
 scene.add( sphere );
 
+sonido_ene.volume=.2;
 sonido_ene.play();            //Suene después de que la bala se crea en la escena.
 
 function GodsLoop(MatBalas, Coun, WhoToKill, matUnround){
