@@ -5,6 +5,20 @@ var limitz = null;
 var numnaves = null;
 var numasteroides = null; 
 var scene = null;
+//Soinidos, rutas
+var laser_ene="./Media/Recovered_laser5.mp3";
+var laser_ali="./Media/Recovered_77172__huvaakoodia__pulse-laser.wav";
+var space_music="./Media/Recovered_396231__romariogrande__tentacle-wedding.mp3";
+var heal="./Media/Recovered_346116__lulyc__retro-game-heal-sound";
+var ship_damage="./Media/Recovered_211634__qubodup__damage.mp3";
+var enemy_destroy="./Media/Recovered_458867__raclure__damage-sound-effect.mp3";
+var gigantic_ene="./Media/Recovered_220533__the-very-real-horst__lithium-chloratum-3-min-binaural.mp3";
+var is_playing=false; //Para preguntar si está sonando el fondo.
+
+//Imágenes
+var inside=document.getElementById("imagenPrincipal");
+inside.setAttribute('draggable', false);
+
 //comentarios
 var renderer = null;
 var camera = null;
@@ -86,6 +100,17 @@ class World{
   directionalLight.position.set( 0, 0, 1 ).normalize();
   scene.add( directionalLight );
 
+  //Ponemos el sonido de fondo
+  var background_music= new Audio(space_music);
+  if(!is_playing)
+  {
+    document.addEventListener('mousemove',function(){
+      is_playing=true;
+      background_music.loop=true;
+      background_music.play();
+    });
+  }
+  
 
   MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides);//tipo instanciando la matriz principal
   camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );  //Creamos la camara
@@ -142,6 +167,7 @@ class PersonajePrincipal{
             
            var bala = new BalasPrincipal();
            bala.disparo();
+           bala.sonido();
           });
       }  //Aqui iria el codigo del evento del mouse, pa que se mueva la camara con el mouse
       vida(){
@@ -243,8 +269,16 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
 }
 
 class BalasPrincipal{
+
+  sonido(){                   //Método para que suene el laser al disparar.
+    var sonido= new Audio(laser_ali);       //variable tipo audio, con la referencia del laser de las naves aliadas.
+    sonido.play();          //Método para hacerlo sonar.
+
+  }
+
   disparo(){
     var direction = camera.getWorldDirection();
+
 
     var geometry = new THREE.SphereGeometry( .05, .05, .05 );
     var material = new THREE.MeshBasicMaterial( {color: 0x00ffff} );
@@ -287,6 +321,7 @@ class BalasPrincipal{
           if(MatrizThatMakeMeCry[i][6] <= 0){
             //Eliminamos a la nave de la matriz
             delete MatrizThatMakeMeCry[i][5];
+            //Aquí se meterá el sonido de destrucción de la nave enemiga.
             scene.remove(MatrizThatMakeMeCry[i][4]);
             delete MatrizThatMakeMeCry[i][4];
             MatrizThatMakeMeCry[i]= new Array(0,null,null,null,null,null,0)
@@ -530,12 +565,19 @@ this.MatrizUnround = ordenaTabs(this.MatrizBalas3d);
 }
 MidnightBlame(velDisparo){ //NOTE: la varaible de las naves es global tinee que estar declarada arriba
 var Coun = 0;
+
+var sonido_ene= new Audio(laser_ene);     //Variable tipo audio, con la referencia del laser del enemigo
+
 var geometry = new THREE.SphereGeometry( .05, .05, .05 );
 var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
 var sphere = new THREE.Mesh( geometry, material );
 geometry = null;
 material = null;
 scene.add( sphere );
+
+sonido_ene.volume=.2;
+sonido_ene.play();            //Suene después de que la bala se crea en la escena.
+
 function GodsLoop(MatBalas, Coun, WhoToKill, matUnround){
 
 

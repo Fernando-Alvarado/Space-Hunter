@@ -52,6 +52,8 @@
 
         var renderer = new THREE.WebGLRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.outputEncoding = THREE.sRGBEncoding;
+
         //Es necesario determinar el tamaño del rendereado, el aspect ratio es sólo una escala, aquí daremos las
         //dimensiones. El primer parámetro es el tamaño horizontal, el segundo vertical, hay un tercer parámetro,
         //el cual es true o false, en caso de ser false, se ejecutará el render con la mitad de la calidad
@@ -93,7 +95,7 @@
         var loader = new THREE.GLTFLoader();
         // console.log(loader);
         loader.load(
-            "../../Modelos/asteroide_1.glb",
+          "../../Modelos/asteroide_1.glb",
 
             function ( gltf ) {
 
