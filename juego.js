@@ -240,13 +240,25 @@ class PersonajePrincipal{
            var bala = new BalasPrincipal();
            bala.disparo();
           });
-
-
-
-
-      }
-            //Aqui iria el codigo del evento del mouse, pa que se mueva la camara con el mouse
-    }
+      }  //Aqui iria el codigo del evento del mouse, pa que se mueva la camara con el mouse
+      vida(){
+        function subirVida(){
+          setTimeout(()=>{
+            if (MatrizThatMakeMeCry[0][6] < 11) {
+              MatrizThatMakeMeCry[0][6]++;////Aqui hize que la nave no pierda en caso de chocar
+              LifeBar(MatrizThatMakeMeCry[0][6])
+              subirVida();//para que se haga ciclo 
+            }
+          }, 1500)
+        }//final de la funcion
+       function Recargo(){//bucle para saber si recargo la funcion o no
+          setTimeout(()=>{}, 2000)
+              if (MatrizThatMakeMeCry[0][6] <= 3) {
+                subirVida();
+              }
+          }
+       }
+    }//fin del metodo
 //este objeto controlara el movimiento de la nave usando el mouse, para subir y poder rotar la torreta
 class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia arriba y abajo
       constructor( canvas){//solo necesito el evento que haga que me regrese los valores de las posiciones del mouse
@@ -363,6 +375,11 @@ class BalasPrincipal{
         var pos = move();
         for (let i= 1; i < numnaves; i++){
         if(pos[0]== MatrizThatMakeMeCry[i][1]&&pos[1]== MatrizThatMakeMeCry[i][2]&&pos[2]== MatrizThatMakeMeCry[i][3]){
+          //Aqui le aumento 1 valor a la nave pricipal para que aumente de vida cada vez que impacta una nave enemiga
+          if( MatrizThatMakeMeCry[0][6] < 13){
+          MatrizThatMakeMeCry[0][6]++;////Aqui hize que la nave no pierda en caso de chocar
+          LifeBar(MatrizThatMakeMeCry[0][6])
+          }
          //aqui abria impacto xd jajaja
           if(MatrizThatMakeMeCry[i][6] <= 0){
             //Eliminamos a la nave de la matriz
