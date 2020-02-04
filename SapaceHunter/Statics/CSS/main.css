@@ -11,3 +11,12 @@
     border: 1px solid white;
 
 }
+#imagenPrincipal{
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+#abajo{
+    position: absolute;
+    top: 0;
+}
