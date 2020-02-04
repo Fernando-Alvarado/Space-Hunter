@@ -4,8 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="pruebas.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Patua+One&display=swap" rel="stylesheet">
+
     <title>Document</title>
 </head>
-
+<body>
+   <div id="escudos"> <p id="letraID">Escudos <br> Activados</p> </div>
 </body>
+<script>
+
+function ActivacionEscudos(){
+    document.addEventListener('keydown', (event) => {
+  if(event.key == "Enter")
+        console.log('fue enter')
+        document.getElementById("escudos").style.visibility = "visible";
+});
+}
+ActivacionEscudos()
+
+</script>
 </html>
