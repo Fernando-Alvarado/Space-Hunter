@@ -96,6 +96,9 @@ var limitz = null;
 var numnaves = null;
 var numasteroides = null; 
 var scene = null;
+//Soinidos, rutas
+var laser_ene="./Media/Recovered_laser5.mp3";
+var laser_ali="./Media/Recovered_77172__huvaakoodia__pulse-laser.wav"
 //comentarios
 var renderer = null;
 var camera = null;
@@ -233,6 +236,7 @@ class PersonajePrincipal{
             
            var bala = new BalasPrincipal();
            bala.disparo();
+           bala.sonido();
           });
       }  //Aqui iria el codigo del evento del mouse, pa que se mueva la camara con el mouse
       vida(){
@@ -334,8 +338,16 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
 }
 
 class BalasPrincipal{
+
+  sonido(){                   //Método para que suene el laser al disparar.
+    var sonido= new Audio(laser_ali);       //variable tipo audio, con la referencia del laser de las naves aliadas.
+    sonido.play();          //Método para hacerlo sonar.
+
+  }
+
   disparo(){
     var direction = camera.getWorldDirection();
+
 
     var geometry = new THREE.SphereGeometry( .05, .05, .05 );
     var material = new THREE.MeshBasicMaterial( {color: 0x00ffff} );
@@ -621,12 +633,18 @@ this.MatrizUnround = ordenaTabs(this.MatrizBalas3d);
 }
 MidnightBlame(velDisparo){ //NOTE: la varaible de las naves es global tinee que estar declarada arriba
 var Coun = 0;
+
+var sonido_ene= new Audio(laser_ene);     //Variable tipo audio, con la referencia del laser del enemigo
+
 var geometry = new THREE.SphereGeometry( .05, .05, .05 );
 var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
 var sphere = new THREE.Mesh( geometry, material );
 geometry = null;
 material = null;
 scene.add( sphere );
+
+sonido_ene.play();            //Suene después de que la bala se crea en la escena.
+
 function GodsLoop(MatBalas, Coun, WhoToKill, matUnround){
 
 
