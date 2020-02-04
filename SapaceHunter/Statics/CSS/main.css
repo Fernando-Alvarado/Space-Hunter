@@ -1,7 +1,5 @@
-* {
-    background-color: black;
+body{
     margin: 0;
-    padding: 0;
 }
 #me {
     position: absolute;
@@ -10,4 +8,13 @@
     background-color: #373737;
     border: 1px solid white;
 
+}
+#imagenPrincipal{
+    width: 100%;
+    position: absolute;
+    top: 0;
+}
+#abajo{
+    position: absolute;
+    top: 0;
 }

@@ -6,40 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-<body style="background-color: black;">
-    <canvas height="22" width="202" id="me" style="background-color: #373737; border: 1px solid white;" ></canvas>
-    <script>
-   
-function LifeBar(numero){///El numero seran las divisiones en que se dibujaran
-    var canvasVida = document.getElementById("me");
-    var life = canvasVida.getContext("2d");
-    life.beginPath();
-    //puntos iniciales // puntos finales
-    life.rect(1, 1, 200, 20);//la tercera es la que tengo que modificar
-    life.fillStyle = "#373737";
-    life.fill();
-    life.closePath();
-    //la nave tendra 10 puntos de vida xd pero pueden ser mas 
-    var vidaTotal = 10 //es la vida que tendra el presonaje principal
-    var anchoLife = ((numero * 200) / vidaTotal);
-    life.beginPath();
-    //puntos iniciales // puntos finales
-    life.rect(1, 1, anchoLife, 20);//la tercera es la que tengo que modificar
-    life.fillStyle = "#1CBFFA";
-    life.fill();
-    life.closePath();
-
-}
-setTimeout(()=>{
-    LifeBar(8)
-    console.log('im here')
-}, 1000)
-setTimeout(()=>{
-    LifeBar(5)
-    console.log('im here')
-}, 5000)
-
-
-    </script>
+<body style="background-color: green; margin: 0;">
+    <img src="1155555ecuperado.png" alt="" width="100%">
 </body>
 </html>
