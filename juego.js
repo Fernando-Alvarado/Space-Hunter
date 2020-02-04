@@ -223,19 +223,13 @@ class PersonajePrincipal{
                 matriz[0][1] = camera.position.x;
                 matriz[0][2] = camera.position.y;
                 matriz[0][3] = camera.position.z;
-                matriz[0][4].position.x = matriz[0][1];
-                matriz[0][4].position.y = matriz[0][2];
-                matriz[0][4].position.z = matriz[0][3];
-                matriz[0][4].rotation.x = camera.rotation.x;
-                matriz[0][4].rotation.y = camera.rotation.y;
-                matriz[0][4].rotation.z = camera.rotation.z;
                 //Diego aqui iria tu codigo, que corria el movimiento de la camara
               mover(matriz);
             }, 50);
 
           }
           mover(this.matrizDondeSeTrabaja);
-          renderer.domElement.addEventListener("click", function(){
+          document.addEventListener("click", function(){
             
            var bala = new BalasPrincipal();
            bala.disparo();
@@ -272,8 +266,8 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
           //si el mas esta a un tercio de la pantalla bajo, no se si sea mucho
           var WhereOnX = null; //posicon del mouse en X
           var WhereOnY = null; //posicon del mouse en Y
-          var MedidaPantalla = this.WhereItWorks.width; //medidas de la pantalla
-          var MedidaEnY = this.WhereItWorks.height; //el alto de la pantalla
+          var MedidaPantalla = this.WhereItWorks.offsetWidth; //medidas de la pantalla
+          var MedidaEnY = this.WhereItWorks.offsetHeight; //el alto de la pantalla
           var OriginalPosition = this.inicioCamaraTorre; //EMPIEZA AQUI la vista de la camar
           this.WhereItWorks.onmousemove = function(e){
               WhereOnX = e.pageX;//dice el valor de los eventos en tiempo real
@@ -764,7 +758,7 @@ function ArrayBaseDeLaNaves(numnaves,numast){//declarando el array de las naves 
         MatrizPrincipal[i]=new Array(7);//array que dira si es una nave enemiga y sus posiciones en X,Y y Z
 
     //Colocar naves
-    for (i=0; i<numnaves; i++){
+    for (i=1; i<numnaves; i++){
         MatrizPrincipal[i][0] = 1;
         MatrizPrincipal[i][1] = NumerosAleatorios(limitx)-1;
         MatrizPrincipal[i][2] = NumerosAleatorios(limity)-1;
@@ -783,7 +777,7 @@ function ArrayBaseDeLaNaves(numnaves,numast){//declarando el array de las naves 
         //lo añadimos a la escena
         MatrizPrincipal[i][6]= 2;/////------------------------------------------------Esto da la vida a todas las naves enemigas
     }
-    MatrizPrincipal[0][6]= 13;/////------------------------------------------------Esto da la vida a todas la nave pricipla
+  
     //Colocar asteroides
     for (i=numnaves; i<total; i++){
         MatrizPrincipal[i][0] = 3;
@@ -826,8 +820,14 @@ function ArrayBaseDeLaNaves(numnaves,numast){//declarando el array de las naves 
 
     }
 
-    MatrizPrincipal[0][0] = 2;
-return MatrizPrincipal;
+     //Creamos al principal
+     MatrizPrincipal[0][0] = 2;
+     MatrizPrincipal[0][1] = NumerosAleatorios(limitx)-1;
+     MatrizPrincipal[0][2] = NumerosAleatorios(limity)-1;
+     MatrizPrincipal[0][3] = NumerosAleatorios(limitz)-1;
+     MatrizPrincipal[0][6]= 13;/////------------------------------------------------Esto da la vida a todas la nave pricipla
+
+  return MatrizPrincipal;
 }
 //dibujar la vida de la nave principal
 function LifeBar(numero){///El numero seran las divisiones en que se dibujaran
@@ -875,7 +875,7 @@ function colocarPosicionesAleatorias(numNaves,numAst){//saber donde estaran las 
     //instanciando el objeto principal ----------------------
     const nave = new PersonajePrincipal(MatrizThatMakeMeCry);
     nave.JustTheCreator();
-    var fer = new CabinaDeControl(renderer.domElement);
+    var fer = new CabinaDeControl(document.body);
     fer.Torreta();
 }
 
