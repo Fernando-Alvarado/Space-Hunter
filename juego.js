@@ -98,9 +98,17 @@ var numasteroides = null;
 var scene = null;
 //Soinidos, rutas
 var laser_ene="./Media/Recovered_laser5.mp3";
-var laser_ali="./Media/Recovered_77172__huvaakoodia__pulse-laser.wav"
-var space_music="./Media/Recovered_396231__romariogrande__tentacle-wedding.mp3"
+var laser_ali="./Media/Recovered_77172__huvaakoodia__pulse-laser.wav";
+var space_music="./Media/Recovered_396231__romariogrande__tentacle-wedding.mp3";
+var heal="./Media/Recovered_346116__lulyc__retro-game-heal-sound";
+var ship_damage="./Media/Recovered_211634__qubodup__damage.mp3";
+var enemy_destroy="./Media/Recovered_458867__raclure__damage-sound-effect.mp3";
+var gigantic_ene="./Media/Recovered_220533__the-very-real-horst__lithium-chloratum-3-min-binaural.mp3";
 var is_playing=false; //Para preguntar si está sonando el fondo.
+
+//Imágenes
+var inside=document.getElementById("imagenPrincipal");
+inside.setAttribute('draggable', false);
 
 //comentarios
 var renderer = null;
@@ -404,6 +412,7 @@ class BalasPrincipal{
           if(MatrizThatMakeMeCry[i][6] <= 0){
             //Eliminamos a la nave de la matriz
             delete MatrizThatMakeMeCry[i][5];
+            //Aquí se meterá el sonido de destrucción de la nave enemiga.
             scene.remove(MatrizThatMakeMeCry[i][4]);
             delete MatrizThatMakeMeCry[i][4];
             MatrizThatMakeMeCry[i]= new Array(0,null,null,null,null,null,0)
