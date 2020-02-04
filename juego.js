@@ -215,7 +215,7 @@ class PersonajePrincipal{
           camera.position.y = MatrizThatMakeMeCry[0][2];
           camera.position.z = MatrizThatMakeMeCry[0][3];
           var working = [this.matrizDondeSeTrabaja[0][1],this.matrizDondeSeTrabaja[0][2],this.matrizDondeSeTrabaja[0][3]];
-          LifeBar(MatrizThatMakeMeCry[0][5])//poniendo la barra de vida al tope
+          LifeBar(MatrizThatMakeMeCry[0][6])//poniendo la barra de vida al tope
           function mover(matriz){
             setTimeout(function(){
             //  var lol = [matriz[0][1], matriz[0][2],matriz[0][3]]
@@ -364,16 +364,20 @@ class BalasPrincipal{
         for (let i= 1; i < numnaves; i++){
         if(pos[0]== MatrizThatMakeMeCry[i][1]&&pos[1]== MatrizThatMakeMeCry[i][2]&&pos[2]== MatrizThatMakeMeCry[i][3]){
          //aqui abria impacto xd jajaja
-           MatrizThatMakeMeCry[i][5]--;////Se le quita solo 1 punto de vida
-          if(MatrizThatMakeMeCry[i][5] == 0){
+          if(MatrizThatMakeMeCry[i][6] <= 0){
+            //Eliminamos a la nave de la matriz
+            delete MatrizThatMakeMeCry[i][5];
+            scene.remove(MatrizThatMakeMeCry[i][4]);
+            delete MatrizThatMakeMeCry[i][4];
+            MatrizThatMakeMeCry[i]= new Array(0,null,null,null,null,null,0)
+            //Eliminamos la bala
             scene.remove(sphere);
             sphere = null;
-            scene.remove(MatrizThatMakeMeCry[i][5]);
-            delete MatrizThatMakeMeCry[i][4];
-            delete MatrizThatMakeMeCry[i][5];
             i = numnaves;//para acabar el ciclo
-
+          }else{
+           MatrizThatMakeMeCry[i][6]--;////Se le quita solo 1 punto de vida
           }
+          who = null;
         }
       }
       if(who == 0){
@@ -409,7 +413,7 @@ class NavesEnemigas{
         JustTheCreator(){//este metodo ara que las naves se muevan y  si tiempo que disparen
             //usara la funcion switch que cree
             function MainBucle(obj, matriz, x, y , z,move, position,current_pattern,pattern_move,patterns){ //Aqui se tendra que correr el bucle de las naves
-                if(matriz[position][0]!=0){
+                if(matriz[position][0]!=0  && matriz[position][6]!=0){
                   setTimeout(function(){
                     this.dist_player=DistFromPlayer(matriz,x,y,z);
                     //El parametro primer parametro sera cambiado por quien disparo xd, pero siento que se tendra que pasar
@@ -454,7 +458,7 @@ class NavesEnemigas{
 
                     var itsRunnig = ChooseWhereToMove( x, y, z, move,  position);
                     //NMovemos el render
-                    if(itsRunnig[0]!=null){
+                    if(itsRunnig[0]!=null && matriz[position][6]!=0){
                       MatrizThatMakeMeCry[position][4].position.x = itsRunnig[0];
                       MatrizThatMakeMeCry[position][4].position.y = itsRunnig[1];
                       MatrizThatMakeMeCry[position][4].position.z = itsRunnig[2];
@@ -627,10 +631,9 @@ function GodsLoop(MatBalas, Coun, WhoToKill, matUnround){
               //Everything es la matriz donde estan todas la anves
               if(MatBalas[0][Coun]==Everything[0][1]&&MatBalas[1][Coun]==Everything[0][2]&&MatBalas[2][Coun]==Everything[0][3]){
                  
-                MatrizThatMakeMeCry[0][5]--;////Aqui hize que la nave no pierda en caso de chocar
-                LifeBar(MatrizThatMakeMeCry[0][5])
-                console.log(MatrizThatMakeMeCry[0][5]);
-                if( MatrizThatMakeMeCry[0][5] == 0)             
+                MatrizThatMakeMeCry[0][6]--;////Aqui hize que la nave no pierda en caso de chocar
+                LifeBar(MatrizThatMakeMeCry[0][6])
+                if( MatrizThatMakeMeCry[0][6] == 0)             
                   location.href="SapaceHunter/Statics/Templates/EndMatch.html";////No se si esta ruta funcione
               }else{
                   Coun++;
@@ -681,8 +684,8 @@ function ChooseWhereToMove(x, y, z, event, value){//switch para elegir
           }
           //En caso de que alguno de los dos objetos en la colision sean el principal, se manda un menaje de perder
           if(MatrizThatMakeMeCry[value][0]==2||MatrizThatMakeMeCry[i][0]==2)
-          MatrizThatMakeMeCry[0][5] = 3;////Aqui hize que la nave no pierda en caso de chocar
-          LifeBar(MatrizThatMakeMeCry[0][5])
+          MatrizThatMakeMeCry[0][6] = 3;////Aqui hize que la nave no pierda en caso de chocar
+          LifeBar(MatrizThatMakeMeCry[0][6])
           color = "white";
         }
 
@@ -727,7 +730,7 @@ function ChooseWhereToMove(x, y, z, event, value){//switch para elegir
   }
 
   //Agregamos a la matriz los nuevos valores de posición
-  MatrizThatMakeMeCry[value] = [regreso[3],regreso[0],regreso[1],regreso[2],MatrizThatMakeMeCry[value][4],MatrizThatMakeMeCry[value][5]];
+  MatrizThatMakeMeCry[value] = [regreso[3],regreso[0],regreso[1],regreso[2],MatrizThatMakeMeCry[value][4],MatrizThatMakeMeCry[value][5],MatrizThatMakeMeCry[value][6]];
 
    return regreso
 
@@ -741,7 +744,7 @@ function ArrayBaseDeLaNaves(numnaves,numast){//declarando el array de las naves 
     var MatrizPrincipal = new Array(total);
     for (let i = 0; i < total; i++)
     //la posicion 6 indicara la vida de cada nave
-        MatrizPrincipal[i]=new Array(6);//array que dira si es una nave enemiga y sus posiciones en X,Y y Z
+        MatrizPrincipal[i]=new Array(7);//array que dira si es una nave enemiga y sus posiciones en X,Y y Z
 
     //Colocar naves
     for (i=0; i<numnaves; i++){
@@ -761,9 +764,9 @@ function ArrayBaseDeLaNaves(numnaves,numast){//declarando el array de las naves 
         MatrizPrincipal[i][4].position.y = MatrizPrincipal[i][2];
         MatrizPrincipal[i][4].position.z = MatrizPrincipal[i][3];
         //lo añadimos a la escena
-        MatrizPrincipal[i][5]= 2;/////------------------------------------------------Esto da la vida a todas las naves enemigas
+        MatrizPrincipal[i][6]= 2;/////------------------------------------------------Esto da la vida a todas las naves enemigas
     }
-    MatrizPrincipal[0][5]= 13;/////------------------------------------------------Esto da la vida a todas la nave pricipla
+    MatrizPrincipal[0][6]= 13;/////------------------------------------------------Esto da la vida a todas la nave pricipla
     //Colocar asteroides
     for (i=numnaves; i<total; i++){
         MatrizPrincipal[i][0] = 3;
