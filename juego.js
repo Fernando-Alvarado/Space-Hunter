@@ -8,13 +8,14 @@ var numnaves = null;
 var numasteroides = null; 
 var scene = null;
 //Soinidos, rutas
-var laser_ene="./Media/Recovered_laser5.mp3";
-var laser_ali="./Media/Recovered_77172__huvaakoodia__pulse-laser.wav";
-var space_music="./Media/Recovered_396231__romariogrande__tentacle-wedding.mp3";
-var heal="./Media/Recovered_346116__lulyc__retro-game-heal-sound";
-var ship_damage="./Media/Recovered_211634__qubodup__damage.mp3";
-var enemy_destroy="./Media/Recovered_458867__raclure__damage-sound-effect.mp3";
-var gigantic_ene="./Media/Recovered_220533__the-very-real-horst__lithium-chloratum-3-min-binaural.mp3";
+var laser_ene="./Media/Recovered_laser5.mp3"; //https://freesound.org/people/DayCraftMC/sounds/337112/
+var laser_ali="./Media/Recovered_77172__huvaakoodia__pulse-laser.wav"; //https://freesound.org/people/HuvaaKoodia/sounds/77172/
+var space_music="./Media/Recovered_396231__romariogrande__tentacle-wedding.mp3"; //https://freesound.org/people/Romariogrande/sounds/396231/
+var heal="./Media/Recovered_346116__lulyc__retro-game-heal-sound.wav";    //https://freesound.org/people/lulyc/sounds/346116/
+var ship_damage="./Media/Recovered_211634__qubodup__damage.mp3";  //https://freesound.org/people/qubodup/sounds/211634/
+var enemy_destroy="./Media/Recovered_458867__raclure__damage-sound-effect.mp3"; //https://freesound.org/people/Raclure/sounds/458867/
+var gigantic_ene="./Media/Recovered_220533__the-very-real-horst__lithium-chloratum-3-min-binaural.mp3"; 
+//https://freesound.org/people/the_very_Real_Horst/sounds/220533/
 var is_playing=false; //Para preguntar si está sonando el fondo.
 
 //Imágenes
@@ -173,9 +174,12 @@ class PersonajePrincipal{
           });
       }  //Aqui iria el codigo del evento del mouse, pa que se mueva la camara con el mouse
       vida(){
+       
+
         function subirVida(){
           setTimeout(()=>{
             if (MatrizThatMakeMeCry[0][6] < 11) {
+
               MatrizThatMakeMeCry[0][6]++;////Aqui hize que la nave no pierda en caso de chocar
               LifeBar(MatrizThatMakeMeCry[0][6])
               subirVida();//para que se haga ciclo 
@@ -185,7 +189,8 @@ class PersonajePrincipal{
        function Recargo(){//bucle para saber si recargo la funcion o no
           setTimeout(()=>{
               if (MatrizThatMakeMeCry[0][6] <= 3) {
-                subirVida();///hace que suba la barra de vida
+                console.log("Recién subió vida");
+                subirVida();
               }
               Recargo() 
           }, 2000)
@@ -325,11 +330,18 @@ class BalasPrincipal{
     var sonido= new Audio(laser_ali);       //variable tipo audio, con la referencia del laser de las naves aliadas.
     sonido.play();          //Método para hacerlo sonar.
 
-  }
+  } 
+  
+
+  
 
   disparo(){
     var direction = camera.getWorldDirection();
 
+    function enemyDestroyedSound(){
+      var snap = new Audio(enemy_destroy);
+      snap.play();  
+    }
 
     var geometry = new THREE.SphereGeometry( .05, .05, .05 );
     var material = new THREE.MeshBasicMaterial( {color: 0x00ffff} );
@@ -366,6 +378,14 @@ class BalasPrincipal{
           //Aqui le aumento 1 valor a la nave pricipal para que aumente de vida cada vez que impacta una nave enemiga
           if( MatrizThatMakeMeCry[0][6] < 13){          
           MatrizThatMakeMeCry[0][6]++;////Aqui hize que la nave no pierda en caso de chocar
+
+
+          //Sonido de vida al matar a nave.
+          healing_sound();
+
+
+
+
           LifeBar(MatrizThatMakeMeCry[0][6])
           }
          //aqui abria impacto xd jajaja
@@ -373,7 +393,7 @@ class BalasPrincipal{
 
             //Eliminamos a la nave de la matriz
             delete MatrizThatMakeMeCry[i][5];
-            //Aquí se meterá el sonido de destrucción de la nave enemiga.
+            enemyDestroyedSound(); // sonido de destrucción de la nave enemiga.
             scene.remove(MatrizThatMakeMeCry[i][4]);
             delete MatrizThatMakeMeCry[i][4];
             MatrizThatMakeMeCry[i]= new Array(0,null,null,null,null,null,0)
@@ -619,6 +639,7 @@ MidnightBlame(velDisparo){ //NOTE: la varaible de las naves es global tinee que 
 var Coun = 0;
 
 var sonido_ene= new Audio(laser_ene);     //Variable tipo audio, con la referencia del laser del enemigo
+var sonido_daño_principal= new Audio(ship_damage);
 
 var geometry = new THREE.SphereGeometry( .05, .05, .05 );
 var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
@@ -646,6 +667,8 @@ function GodsLoop(MatBalas, Coun, WhoToKill, matUnround){
               if(MatBalas[0][Coun]==Everything[0][1]&&MatBalas[1][Coun]==Everything[0][2]&&MatBalas[2][Coun]==Everything[0][3]){
                  
                 MatrizThatMakeMeCry[0][6]--;////Aqui hize que la nave no pierda en caso de chocar
+                //Cuando impactan la principal
+                sonido_daño_principal.play(); //Sonido cuando te da una bala enemiga.
                 LifeBar(MatrizThatMakeMeCry[0][6])
                 if( MatrizThatMakeMeCry[0][6] == 0)             
                   location.href="SapaceHunter/Statics/Templates/EndMatch.html";////No se si esta ruta funcione
@@ -749,6 +772,13 @@ function ChooseWhereToMove(x, y, z, event, value){//switch para elegir
    return regreso
 
 }
+
+function healing_sound(){
+  var heal_sound= new Audio(heal);
+  heal_sound.volume=0.025;
+  heal_sound.play();
+}
+
 function NumerosAleatorios(tope){
     return Math.floor((Math.random()*tope))+1;
 }
