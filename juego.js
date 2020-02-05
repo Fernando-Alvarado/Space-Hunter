@@ -181,14 +181,16 @@ class PersonajePrincipal{
           }, 1500)
         }//final de la funcion
        function Recargo(){//bucle para saber si recargo la funcion o no
-          setTimeout(()=>{}, 2000)
+          setTimeout(()=>{
               if (MatrizThatMakeMeCry[0][6] <= 3) {
-                
-                subirVida();
+                subirVida();///hace que suba la barra de vida
               }
-          }
-          Recargo();
-       }
+              Recargo() 
+          }, 2000)
+             
+        }
+        Recargo();
+      }
       
     }//fin del metodo
 //este objeto controlara el movimiento de la nave usando el mouse, para subir y poder rotar la torreta
