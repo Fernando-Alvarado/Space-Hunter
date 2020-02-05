@@ -225,9 +225,13 @@ class PersonajePrincipal{
                         MatrizThatMakeMeCry[0][6]= OwnLife;//Pra que no se le vabe vida al tipo xd
                         LifeBar(OwnLife)//Se imprime el valor de la vida que se tenia para que no fluctue nada xd
                         if(vidaDelEscudo == 0){
+                          MatrizThatMakeMeCry[0][6] = OwnLife
+                          LifeBar(OwnLife)//Se imprime el valor de la vida que se tenia para que no fluctue nada xd
                           document.getElementById("escudos").style.visibility = "hidden";
                            Resumida(vidaDelEscudo)
                        }else{
+                        MatrizThatMakeMeCry[0][6] = OwnLife
+                        LifeBar(OwnLife)//Se imprime el valor de la vida que se tenia para que no fluctue nada xd
                           vidaDelEscudo--
                           Resumida(vidaDelEscudo)
                           loopShield()
