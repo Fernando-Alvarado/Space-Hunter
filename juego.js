@@ -54,13 +54,13 @@ var clases_naves = {
   //velocidad,rango,velChase,velDisparo,rangoDisp,vida,largo,ancho,alto
   class1: new Array('nave',1000,40,300,100,10,2,1,1,1),
   class2: new Array('nave',1000,40,300,100,15,2,3,3,3),
-  class3: new Array('nave',1000,40,300,100,18,2,5,5,5),
+  class3: new Array('nave',1000,40,300,150,18,2,5,5,5),
   class4: new Array('nave',1000,40,300,100,15,2,1,1,3),
-  class5: new Array('nave',1000,40,300,100,18,2,3,3,5),
+  class5: new Array('nave',1000,40,300,150,18,2,3,3,5),
   class6: new Array('nave',1000,40,300,100,15,2,3,1,3),
-  class7: new Array('nave',1000,40,300,100,18,2,1,1,5),
+  class7: new Array('nave',1000,40,300,150,18,2,1,1,5),
   class8: new Array('nave',1000,40,300,100,18,2,5,5,1),
-  class9: new Array('nave',1000,40,300,100,18,2,7,7,3),
+  class9: new Array('nave',1000,40,300,150,18,2,7,7,3),
   //velocidad,modelo y dimensiones
   ast1: new Array('ast',500,'asteroide__50.glb',1,1,1),
   ast2: new Array('ast',500,'asteroide__50.glb',3,3,3)
