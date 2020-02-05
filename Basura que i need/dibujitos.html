@@ -4,9 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="pruebas.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Patua+One&display=swap" rel="stylesheet">
+
     <title>Document</title>
 </head>
-<body style="background-color: green; margin: 0;">
-    <img src="1155555ecuperado.png" alt="" width="100%">
+<body>
+   <div id="escudos"> <p id="letraID">Escudos <br> Activados</p> </div>
+   <canvas height="372" width="27" id="Barraescudos" class="one"></canvas>
+   <canvas height="372" width="27" id="Barraescudos" class="two"></canvas>
+
+
 </body>
+<script>
+var vidaDelEscudo = ((1000) * 15)//seran los segundos que durar el escudo
+/////////////-----------------------------------------------------------------------------------------------------
+function ShieldBar(numero){///El numero seran las divisiones en que se dibujaran
+  var canvasShiel = document.getElementById("Barraescudos");
+  var Shield = canvasShiel.getContext("2d");
+  Shield.beginPath();
+  //puntos iniciales // puntos finales
+  Shield.rect(1, 1, 25, 370);//la tercera es la que tengo que modificar
+  Shield.fillStyle = "#373737";
+  Shield.fill();
+  Shield.closePath();
+///---------
+  var vidaTotal = 15 //seran los segundos maximos que durara el escudo
+  var alto = ((numero * 370) / vidaTotal);//cambiar eso xd
+  life.beginPath();
+  Shield.rect(1, 1, 25, alto);//la tercera es la que tengo que modificar
+  Shield.fillStyle = "#30F10E";//color verde pila 
+  Shield.fill();
+  Shield.closePath();
+
+}
+////////////------------------------------------------------------------------------------------------------------
+////Funcion bucle escudos
+function recargaShields(){//ciclo pa que se recarguen los escudos
+    setTimeout(()=>{
+        if(vidaDelEscudo <= (15 * 1000)){
+            vidaDelEscudo+= 1000;
+        }
+
+    },1000)
+}
+//--------------------------------
+
+function ActivacionEscudos(){
+    document.addEventListener('keydown', (event) => {
+  if(event.key == "Enter")
+        console.log('fue enter')
+        document.getElementById("escudos").style.visibility = "visible";
+});
+}
+ActivacionEscudos()
+
+</script>
 </html>

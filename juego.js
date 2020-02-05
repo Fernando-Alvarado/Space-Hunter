@@ -1,94 +1,3 @@
-///Apartado de notas jajaja pondre lo que voy a hacer
-
-//-------Fer-------
-//unir el evento de la torreta con diego
-//unir el objeto balas con el de las naves, necesito que beto me de la animacion
-//empezar a hacer la funcion pa que dispare el personaje principal
-
-
-//-------------Bibliotecas
-//tree.js
-
-//-------------DEclaracion de variables
-/*var MatrizThatMakeMeCry = null; //Esta es la matriz principal, la más importante
-//Tamaños de la matriz
-var limitx = null;
-var limity = null;
-var limitz = null;
-var numnaves = null;//Número de naves
-var numasteroides = null; //Cuantos asteroides se crean
-//Variables de three
-var scene = null;
-// THREE.PerspectiveCamera: primer parámetro es la apertura de la cámara en grados, el segundo es el
-// aspect ratio, una buena explicación aquí  https://es.wikipedia.org/wiki/Relaci%C3%B3n_de_aspecto
-//https://scsarquitecto.cl/importancia-relacion-aspecto/
-// ,se puede dejar ese parámetro o el más usado 16:9; el siguiente es cercanía y el cuarto es lejanía,
-//significa que nos se renderearan (shit of translation DX) objetos más cercanos al valor de cercanía
-//ni objetos más lejanos al valor de lejanía.
-
-var renderer = new THREE.WebGLRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight );
-//Es necesario determinar el tamaño del rendereado, el aspect ratio es sólo una escala, aquí daremos las
-//dimensiones. El primer parámetro es el tamaño horizontal, el segundo vertical, hay un tercer parámetro,
-//el cual es true o false, en caso de ser false, se ejecutará el render con la mitad de la calidad
-//(suponiendo que las dimensiones del canvas son de 100% x 100%), si no se pasa parámetro, se considera
-//que es true y se ejecuta el render con resolución normal.
-document.body.appendChild( renderer.domElement );
-
-
-//Creamos el fondo
-//Página generadora de fondos:
-//http://wwwtyro.github.io/space-3d/#animationSpeed=1&fov=45&nebulae=true&pointStars=true&resolution=1024&seed=Interprepas1erlugar&stars=true&sun=true
-{
-  const loader = new THREE.CubeTextureLoader();
-  const texture = loader.load([
-    'img/back.png',
-    'img/front.png',
-    'img/bottom.png',
-    'img/top.png',
-    'img/right.png',
-    'img/left.png',
-  ]);
-  scene.background = texture;
-}
-
-//Ponemos luces
-var ambient = new THREE.PointLight( 0x444444 );
-        scene.add( ambient );
-        var directionalLight = new THREE.DirectionalLight( 0xffeedd );
-        directionalLight.position.set( 0, 0, 1 ).normalize();
-        scene.add( directionalLight );
-
-
-var MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides, scene);//tipo instanciando la matriz principal---------------------------------
-
-//Colocamos a el jugador en su posición Inicial
-camera.position.x = MatrizThatMakeMeCry[0][1];
-camera.position.y = MatrizThatMakeMeCry[0][2];
-camera.position.z = MatrizThatMakeMeCry[0][3];*/
-
-/*var patterns = new Array( //Array con todos los diferentes patrones, el primer número es la velocidadf
-                  new Array(200,2,2),
-                  new Array(200,1,1),
-                  new Array(200,3,3),
-                  new Array(200,4,4),
-                  new Array(200,2,2,2,2,2,2,2),
-                  new Array(200,1,1,1,1,1,1,1),
-                  new Array(200,2,2,2,2,2,2,2),
-                  new Array(200,3,3,3,3,3,3,3),
-                  new Array(200,4,4,4,4,4,4,4),
-                  new Array(200,5,5,5,5,5,5,5),
-                  new Array(200,6,6,6,6,6,6,6),
-                  new Array(300,1,1,1,2,2,2),
-                  new Array(300,3,3,3,4,4,4),
-                  new Array(300,1,1,2,2,3,3),
-                  new Array(200,3,3,5,5,5,1,1),
-                  new Array(200,4,4,6,6,6,2,2),
-                  new Array(300,1,1,1,1,3,3,3,3,2,2,2,4,4,4),
-                  new Array(200,2,2,2,2,2,2,2,4,4,4,4,3),
-                  new Array(200,3,3,3,3,3,4,4,3,2,1,2,1)
-              );*/
-/////Respalo de fer xd 
 var MatrizThatMakeMeCry = null;
 var limitx = null;
 var limity = null;
@@ -276,13 +185,18 @@ class PersonajePrincipal{
           }, 1500)
         }//final de la funcion
        function Recargo(){//bucle para saber si recargo la funcion o no
-          setTimeout(()=>{}, 2000)
+          setTimeout(()=>{
               if (MatrizThatMakeMeCry[0][6] <= 3) {
                 console.log("Recién subió vida");
                 subirVida();
               }
-          }
-       }
+              Recargo() 
+          }, 2000)
+             
+        }
+        Recargo();
+      }
+      
     }//fin del metodo
 //este objeto controlara el movimiento de la nave usando el mouse, para subir y poder rotar la torreta
 class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia arriba y abajo
@@ -430,6 +344,7 @@ class BalasPrincipal{
           }
          //aqui abria impacto xd jajaja
           if(MatrizThatMakeMeCry[i][6] <= 0){
+
             //Eliminamos a la nave de la matriz
             delete MatrizThatMakeMeCry[i][5];
             enemyDestroyedSound(); // sonido de destrucción de la nave enemiga.
@@ -947,6 +862,7 @@ function colocarPosicionesAleatorias(numNaves,numAst){//saber donde estaran las 
     //instanciando el objeto principal ----------------------
     const nave = new PersonajePrincipal(MatrizThatMakeMeCry);
     nave.JustTheCreator();
+    nave.vida();
     var fer = new CabinaDeControl(document.body);
     fer.Torreta();
 }

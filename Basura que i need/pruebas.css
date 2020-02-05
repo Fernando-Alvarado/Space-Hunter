@@ -1,0 +1,38 @@
+body{
+    background-color: black; 
+    margin: 0;
+}
+#escudos{
+    width: 100%; 
+    height: 100%;
+    background-color: rgba(46, 174, 208, .2);
+    font-family: 'Patua One', cursive;
+    color: white;
+    font-size: 300%;
+    border-top: 30%;
+    visibility: hidden;
+}
+#letraID{
+padding-top: 17.5%;
+padding-bottom: 17.5%;
+padding-left: 40%;
+}
+/*css tonto */
+
+/* css de las barritas de los lados */
+/*.selectro clse  */
+#Barraescudos {
+    background-color:  #373737;
+    border: 1px solid white;
+    
+}
+.one{
+    position: absolute;
+    top: 20%;
+    left: 5%;
+}
+.two{
+    position: absolute;
+    top: 20%;
+    left: 95%;
+}
