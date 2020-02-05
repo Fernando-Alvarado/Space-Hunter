@@ -1,4 +1,6 @@
+//Variable globales necesarios
 var MatrizThatMakeMeCry = null;
+var vidaDelEscudo = 15//seran los segundos que durar el escudo
 var limitx = null;
 var limity = null;
 var limitz = null;
@@ -196,6 +198,50 @@ class PersonajePrincipal{
         }
         Recargo();
       }
+     Escudo(){
+            function Resumida(num){//junta la funcion de el relleno de las doso funciones
+                ShieldBar(num, 'Barraescudos1')
+                ShieldBar(num, 'Barraescudos2')
+            }
+              ////Funcion bucle escudos
+            function recargaShields(){//ciclo pa que se recarguen los escudos
+              setTimeout(()=>{
+                  if(vidaDelEscudo <= (15)){
+                     vidaDelEscudo++;
+                  }
+                  recargaShields()
+                  Resumida(vidaDelEscudo)
+              },2000)
+            }///Fata otra vez llamar esta funcion
+    //--------------------------------  
+            function ActivacionEscudos(){
+                document.addEventListener('keydown', (event) => {
+                if(event.key == "Enter" && vidaDelEscudo> 1){
+                  var OwnLife = MatrizThatMakeMeCry[0][6];
+                  LifeBar(OwnLife)//Se imprime el valor de la vida que se tenia para que no fluctue nada xd
+                    document.getElementById("escudos").style.visibility = "visible";
+                    function loopShield(){
+                      setTimeout(()=>{
+                        MatrizThatMakeMeCry[0][6]= OwnLife;//Pra que no se le vabe vida al tipo xd
+                        LifeBar(OwnLife)//Se imprime el valor de la vida que se tenia para que no fluctue nada xd
+                        if(vidaDelEscudo == 0){
+                          document.getElementById("escudos").style.visibility = "hidden";
+                           Resumida(vidaDelEscudo)
+                       }else{
+                          vidaDelEscudo--
+                          Resumida(vidaDelEscudo)
+                          loopShield()
+                        }
+                      },1200)
+                    }
+                loopShield()
+                  }     
+                  });
+              }
+              ActivacionEscudos()
+              recargaShields()
+              Resumida(vidaDelEscudo)
+     }
       
     }//fin del metodo
 //este objeto controlara el movimiento de la nave usando el mouse, para subir y poder rotar la torreta
@@ -330,7 +376,7 @@ class BalasPrincipal{
         for (let i= 1; i < numnaves; i++){
         if(pos[0]== MatrizThatMakeMeCry[i][1]&&pos[1]== MatrizThatMakeMeCry[i][2]&&pos[2]== MatrizThatMakeMeCry[i][3]){
           //Aqui le aumento 1 valor a la nave pricipal para que aumente de vida cada vez que impacta una nave enemiga
-          if( MatrizThatMakeMeCry[0][6] < 13){
+          if( MatrizThatMakeMeCry[0][6] < 13){          
           MatrizThatMakeMeCry[0][6]++;////Aqui hize que la nave no pierda en caso de chocar
 
 
@@ -736,7 +782,25 @@ function healing_sound(){
 function NumerosAleatorios(tope){
     return Math.floor((Math.random()*tope))+1;
 }
+function ShieldBar(numero, where){///El numero seran las divisiones en que se dibujaran
+  var canvasShiel = document.getElementById(where);
+  var Shield = canvasShiel.getContext("2d");
+  Shield.beginPath();
+  //puntos iniciales // puntos finales
+  Shield.rect(1, 1, 25, 370);//la tercera es la que tengo que modificar
+  Shield.fillStyle = "#373737";
+  Shield.fill();
+  Shield.closePath();
+///---------
+  var vidaTotal = 15 //seran los segundos maximos que durara el escudo
+  var alto = ((numero * 370) / vidaTotal);//cambiar eso xd
+  Shield.beginPath();
+  Shield.rect(1, (371- alto), 25, alto);//la tercera es la que tengo que modificar
+  Shield.fillStyle = "#30F10E";//color verde pila 
+  Shield.fill();
+  Shield.closePath();
 
+}
 function ArrayBaseDeLaNaves(numnaves,numast){//declarando el array de las naves y sus posiciones
     var total = numnaves + numast;
     var MatrizPrincipal = new Array(total);
@@ -863,6 +927,7 @@ function colocarPosicionesAleatorias(numNaves,numAst){//saber donde estaran las 
     const nave = new PersonajePrincipal(MatrizThatMakeMeCry);
     nave.JustTheCreator();
     nave.vida();
+    nave.Escudo()
     var fer = new CabinaDeControl(document.body);
     fer.Torreta();
 }
