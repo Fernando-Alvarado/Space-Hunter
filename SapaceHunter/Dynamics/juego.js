@@ -17,7 +17,6 @@ var enemy_destroy="../Media/Recovered_458867__raclure__damage-sound-effect.mp3";
 var gigantic_ene="../Media/Recovered_220533__the-very-real-horst__lithium-chloratum-3-min-binaural.mp3"; 
 //https://freesound.org/people/the_very_Real_Horst/sounds/220533/
 var is_playing=false; //Para preguntar si está sonando el fondo.
-
 //Imágenes
 var inside=document.getElementById("imagenPrincipal");
 inside.setAttribute('draggable', false);
