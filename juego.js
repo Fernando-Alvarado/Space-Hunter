@@ -183,10 +183,13 @@ class PersonajePrincipal{
        function Recargo(){//bucle para saber si recargo la funcion o no
           setTimeout(()=>{}, 2000)
               if (MatrizThatMakeMeCry[0][6] <= 3) {
+                
                 subirVida();
               }
           }
+          Recargo();
        }
+      
     }//fin del metodo
 //este objeto controlara el movimiento de la nave usando el mouse, para subir y poder rotar la torreta
 class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia arriba y abajo
@@ -319,6 +322,7 @@ class BalasPrincipal{
           }
          //aqui abria impacto xd jajaja
           if(MatrizThatMakeMeCry[i][6] <= 0){
+
             //Eliminamos a la nave de la matriz
             delete MatrizThatMakeMeCry[i][5];
             //Aquí se meterá el sonido de destrucción de la nave enemiga.

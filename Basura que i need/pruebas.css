@@ -15,5 +15,24 @@ body{
 #letraID{
 padding-top: 17.5%;
 padding-bottom: 17.5%;
-padding-left: 41%;
+padding-left: 40%;
+}
+/*css tonto */
+
+/* css de las barritas de los lados */
+/*.selectro clse  */
+#Barraescudos {
+    background-color:  #373737;
+    border: 1px solid white;
+    
+}
+.one{
+    position: absolute;
+    top: 17%;
+    left: 5%;
+}
+.two{
+    position: absolute;
+    top: 17%;
+    left: 95%;
 }
