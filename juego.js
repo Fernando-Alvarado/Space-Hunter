@@ -53,9 +53,17 @@ var patterns = new Array( //Array con todos los diferentes patrones, el primer n
 var clases_naves = {
   //velocidad,rango,velChase,velDisparo,rangoDisp,vida,largo,ancho,alto
   class1: new Array('nave',1000,40,300,150,10,2,1,1,1),
-  class2: new Array('nave',1000,40,300,150,10,2,3,3,3),
+  class2: new Array('nave',1000,40,300,150,15,2,3,3,3),
+  class3: new Array('nave',1000,40,300,150,18,2,5,5,5),
+  class4: new Array('nave',1000,40,300,150,15,2,1,1,3),
+  class5: new Array('nave',1000,40,300,150,18,2,3,3,5),
+  class6: new Array('nave',1000,40,300,150,15,2,3,1,3),
+  class7: new Array('nave',1000,40,300,150,18,2,1,1,5),
+  class8: new Array('nave',1000,40,300,150,18,2,5,5,1),
+  class9: new Array('nave',1000,40,300,150,18,2,7,7,3),
   //Dimensiones, velocidad y modelo
-  ast1: new Array('ast',1,500,'asteroide__50.glb')
+  ast1: new Array('ast',500,'asteroide__50.glb',1,1,1),
+  ast2: new Array('ast',500,'asteroide__50.glb',3,3,3)
 };
 
 
@@ -123,7 +131,15 @@ class World{
 
   //Nos dirá que tipo de objetos y cuántos de estos
   this.objetos =new Array(
-    new Array(clases_naves['class1'],100),
+    new Array(clases_naves['class1'],11),
+    new Array(clases_naves['class2'],11),
+    new Array(clases_naves['class3'],11),
+    new Array(clases_naves['class4'],11),
+    new Array(clases_naves['class5'],11),
+    new Array(clases_naves['class6'],11),
+    new Array(clases_naves['class7'],11),
+    new Array(clases_naves['class8'],11),
+    new Array(clases_naves['class9'],11),
     new Array(clases_naves['ast1'],100)
   );
   
@@ -319,7 +335,6 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
           setInterval(adelante,300);
           function adelante(){//arriba dice que hace
 
-
             var direction = camera.getWorldDirection();  //Obtenemos el vector director de la nave principal
             direction.x = Math.round(direction.x); //Rendondeamos ambas direcciones para que no tengamos posiciones no enteras
             direction.z = Math.round(direction.z);
@@ -393,7 +408,16 @@ class BalasPrincipal{
         var who = 0;
         var pos = move();
         for (let i= 1; i < numnaves; i++){
-        if(pos[0]== MatrizThatMakeMeCry[i][1]&&pos[1]== MatrizThatMakeMeCry[i][2]&&pos[2]== MatrizThatMakeMeCry[i][3]){
+          //Posición del objeto
+          x = MatrizThatMakeMeCry[i][1];
+          y = MatrizThatMakeMeCry[i][2];
+          z = MatrizThatMakeMeCry[i][3];
+          //Limites o dimensiones del objeto
+          xlim = (MatrizThatMakeMeCry[i][7]-1)/2;
+          ylim = (MatrizThatMakeMeCry[i][8]-1)/2;
+          zlim = (MatrizThatMakeMeCry[i][9]-1)/2;
+        if((pos[0]>=x-xlim && pos[0]<=x+xlim) && (pos[1]>=y-ylim && pos[1]<=y+ylim) && (pos[2]>=z-zlim && pos[2]<=z+zlim)){
+
           //Aqui le aumento 1 valor a la nave pricipal para que aumente de vida cada vez que impacta una nave enemiga
           if( MatrizThatMakeMeCry[0][6] < 13){          
           MatrizThatMakeMeCry[0][6]++;////Aqui hize que la nave no pierda en caso de chocar
@@ -541,7 +565,7 @@ class NavesEnemigas{
                       obj.velocidad = patterns[current_pattern][0];
                     }
 
-                    var itsRunnig = ChooseWhereToMove( x, y, z, move,  position);
+                    var itsRunnig = ChooseWhereToMove(move,  position);
                     //NMovemos el render
                     if(itsRunnig[0]!=null && matriz[position][6]!=0){
                       MatrizThatMakeMeCry[position][4].position.x = itsRunnig[0];
@@ -602,7 +626,8 @@ class NavesEnemigas{
          function MainBucle(velocidad, matriz, x, y, z, move, position){ //Aqui se tendra que correr el bucle de las naves
           if(matriz[position][0]!=0){
              setTimeout(function(){
-             var itsRunnig = ChooseWhereToMove(x, y, z, move,  position);//quite todos los parametros inecesarios
+             var itsRunnig = ChooseWhereToMove(move, position);//quite todos los parametros inecesarios
+
              //Movemos el render
              if(itsRunnig[0]!=null){
                MatrizThatMakeMeCry[position][4].position.x = itsRunnig[0];
@@ -730,7 +755,7 @@ function GodsLoop(MatBalas, Coun, WhoToKill, matUnround){
                 //Cuando impactan la principal
                 sonido_daño_principal.play(); //Sonido cuando te da una bala enemiga.
                 LifeBar(MatrizThatMakeMeCry[0][6]);
-                if( MatrizThatMakeMeCry[0][6] == 0)             
+                if( MatrizThatMakeMeCry[0][6] <= 0)             
                   location.href="SapaceHunter/Statics/Templates/EndMatch.html";////No se si esta ruta funcione
               }else{
                   Coun++;
@@ -753,16 +778,24 @@ GodsLoop(this.MatrizBalas3d ,Coun,this.WhoToKill,this.MatrizUnround);
 ////----------------------------FUNCIONES----------------------------------------------------------------------------------
 ////-----------------------------------------------------------------------------------------------------------------------
 //  value valie sirve para saber el indice donde se guardara el incie de la matriz que me hace llorar
-function ChooseWhereToMove(x, y, z, event, value){//switch para elegir
+function ChooseWhereToMove(event, value){//switch para elegir
     //donde se va a mover cada nave, servira para la principal y para las naves enemigas
     //y que la nave pueda moverse   ----  inicioX     inicioY
     var type = MatrizThatMakeMeCry[value][0];
     regreso = [null,null,null,0];
+    //Posiciones del objeto
+    x = MatrizThatMakeMeCry[value][1];
+    y = MatrizThatMakeMeCry[value][2];
+    z = MatrizThatMakeMeCry[value][3];
+    //Limites o dimensiones del objeto
+    xlim = (MatrizThatMakeMeCry[value][7]-1)/2;
+    ylim = (MatrizThatMakeMeCry[value][8]-1)/2;
+    zlim = (MatrizThatMakeMeCry[value][9]-1)/2;
 
     //Revisa s su posición actual es la misma que otro objeto
     for(var i in MatrizThatMakeMeCry){
-      if(MatrizThatMakeMeCry[i][1]==x && MatrizThatMakeMeCry[i][2]==y && MatrizThatMakeMeCry[i][3]==z){
-
+      if((MatrizThatMakeMeCry[i][1]>=x-xlim && MatrizThatMakeMeCry[i][1]<=x+xlim) && (MatrizThatMakeMeCry[i][2]>=y-ylim && MatrizThatMakeMeCry[i][2]<=y+ylim) && (MatrizThatMakeMeCry[i][3]>=z-zlim && MatrizThatMakeMeCry[i][3]<=z+zlim)){
+        type = 0;
         //En caso de que no sea la misma nave
         if(MatrizThatMakeMeCry[i][0]!=MatrizThatMakeMeCry[value][0]){
           //Si se choca con un objeto diferente del principal, se destruye
@@ -770,13 +803,15 @@ function ChooseWhereToMove(x, y, z, event, value){//switch para elegir
             scene.remove(MatrizThatMakeMeCry[i][4]);
             delete MatrizThatMakeMeCry[i][4];
             delete MatrizThatMakeMeCry[i][5];
-            MatrizThatMakeMeCry[i]=[0,null,null,null,null,null];
+            MatrizThatMakeMeCry[i]=[0,null,null,null,null,null,0];
+            type=0;
           }
           //Si el mismo objeto no es el principal, se destruye
           if(MatrizThatMakeMeCry[value][0]!=2){
             scene.remove(MatrizThatMakeMeCry[value][4]);
             delete MatrizThatMakeMeCry[value][4];
             delete MatrizThatMakeMeCry[value][5];
+            MatrizThatMakeMeCry[i]=[0,null,null,null,null,null,0];
             type = 0;
           }
           //En caso de que alguno de los dos objetos en la colision sean el principal, se manda un menaje de perder
@@ -784,6 +819,8 @@ function ChooseWhereToMove(x, y, z, event, value){//switch para elegir
           MatrizThatMakeMeCry[0][6] = 3;////Aqui hize que la nave no pierda en caso de chocar
           LifeBar(MatrizThatMakeMeCry[0][6])
           color = "white";
+        }else{
+          type=MatrizThatMakeMeCry[value][0];
         }
 
       }
@@ -827,8 +864,10 @@ function ChooseWhereToMove(x, y, z, event, value){//switch para elegir
   }
 
   //Agregamos a la matriz los nuevos valores de posición
-  MatrizThatMakeMeCry[value] = [regreso[3],regreso[0],regreso[1],regreso[2],MatrizThatMakeMeCry[value][4],MatrizThatMakeMeCry[value][5],MatrizThatMakeMeCry[value][6]];
-
+  MatrizThatMakeMeCry[value][0]=regreso[3];
+  MatrizThatMakeMeCry[value][1]=regreso[0];
+  MatrizThatMakeMeCry[value][2]=regreso[1];
+  MatrizThatMakeMeCry[value][3]=regreso[2];
    return regreso
 
 }
@@ -859,7 +898,7 @@ function CargarModelos(objetos){//declarando el array de las naves y sus posicio
       //En caso de ser una nave
       if(obj[0][0]=='nave'){
         var lim = current_celda;
-        for(let i = current_celda; i<(obj[1]+lim);i++){
+        for(let i = lim; i<(obj[1]+lim);i++){
           MatrizPrincipal[i][0] = 1;
           //Le asignamos posiciones aleatorias
           MatrizPrincipal[i][1] = NumerosAleatorios(limitx)-1;
@@ -881,19 +920,28 @@ function CargarModelos(objetos){//declarando el array de las naves y sus posicio
           //Le damos su vida correspondiente
           MatrizPrincipal[i][6] = obj[0][6];
 
+          //Asignamos sus dimensiones
+          MatrizPrincipal[i][7] = obj[0][7];
+          MatrizPrincipal[i][8] = obj[0][8];
+          MatrizPrincipal[i][9] = obj[0][9];
+
           current_celda++;
         }
 
       }else if(obj[0][0]=='ast'){ //En caso de ser un asteroide
         var lim = current_celda;
-        for(let i = current_celda; i<(obj[1]+lim);i++){
+        for(let i = lim; i<(obj[1]+lim);i++){
           //Le damos una posición aleatoria
           MatrizPrincipal[i][0] = 3;
           MatrizPrincipal[i][1] = NumerosAleatorios(limitx)-1; //coordenadas de asteroides
           MatrizPrincipal[i][2] = NumerosAleatorios(limity)-1;
           MatrizPrincipal[i][3] = NumerosAleatorios(limitz)-1;
           //Creamos el modelo
-          loadModelo(i,obj[0][3]);
+          loadModelo(i,obj[0][2]);
+          //Asignamos sus dimensiones
+          MatrizPrincipal[i][7] = obj[0][3];
+          MatrizPrincipal[i][8] = obj[0][4];
+          MatrizPrincipal[i][9] = obj[0][5];
           current_celda++;
         }  
       }
@@ -905,7 +953,10 @@ function CargarModelos(objetos){//declarando el array de las naves y sus posicio
      MatrizPrincipal[0][1] = NumerosAleatorios(limitx)-1;
      MatrizPrincipal[0][2] = NumerosAleatorios(limity)-1;
      MatrizPrincipal[0][3] = NumerosAleatorios(limitz)-1;
-     MatrizPrincipal[0][6]= 10000;/////------------------------------------------------Esto da la vida a todas la nave pricipla
+     MatrizPrincipal[0][6]= 20;/////------------------------------------------------Esto da la vida a todas la nave pricipla
+     MatrizPrincipal[0][7] = 1;
+     MatrizPrincipal[0][8] = 1;
+     MatrizPrincipal[0][9] = 1
     
      //Función para cargar modelos de blender
      function loadModelo(i,arch){
@@ -957,7 +1008,7 @@ function CrearObjetos(objetos){//saber donde estaran las naves al inicio
       //Creamos los objetos nave
       if(obj[0][0]=='nave'){
         var lim = current_celda;
-        for(let i = current_celda; i<(obj[1]+lim);i++){
+        for(let i = lim; i<(obj[1]+lim);i++){
           //Orden de Parametros: matrizDondeSeTrabaja, number,velocidad,rango,velChase,velDisparo,rangoDisp
           MatrizThatMakeMeCry[i][5] = new NavesEnemigas(MatrizThatMakeMeCry, i,obj[0][1],obj[0][2],obj[0][3],obj[0][4],obj[0][5]);
           MatrizThatMakeMeCry[i][5].JustTheCreator();//Js es una mamada jajaja
@@ -966,8 +1017,8 @@ function CrearObjetos(objetos){//saber donde estaran las naves al inicio
         }
       }else if(obj[0][0]=='ast'){//Creamos los ovjetos asteroide
         var lim = current_celda;
-        for(let i = current_celda; i<(obj[1]+lim);i++){
-          MatrizThatMakeMeCry[i][5] = new Asteroide(MatrizThatMakeMeCry, i,obj[0][2]);
+        for(let i = lim; i<(obj[1]+lim);i++){
+          MatrizThatMakeMeCry[i][5] = new Asteroide(MatrizThatMakeMeCry, i,obj[0][1]);
           MatrizThatMakeMeCry[i][5].JustTheCreator();//Js es una mamada jajaja
 
           current_celda++;
