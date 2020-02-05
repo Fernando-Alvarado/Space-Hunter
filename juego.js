@@ -49,21 +49,28 @@ var patterns = new Array( //Array con todos los diferentes patrones, el primer n
   new Array(200,3,3,3,3,3,4,4,3,2,1,2,1)
 );
 
+//Definimos las clases de naves y asteroides
+var clases_naves = {
+  //velocidad,rango,velChase,velDisparo,rangoDisp,vida,largo,ancho,alto
+  class1: new Array('nave',1000,40,300,150,10,2,1,1,1),
+  class2: new Array('nave',1000,40,300,150,10,2,3,3,3),
+  //Dimensiones, velocidad y modelo
+  ast1: new Array('ast',1,500,'asteroide__50.glb')
+};
+
 
 //--------------------------------OBJETOS------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------
 class World{
   constructor () {
-    
+    this.objetos = null;
   }
 
  CreateWorld(lx,ly,lz,background){
   limitx = lx;//Numero de casillas de la matriz
   limity = ly;
   limitz = lz;
-  numnaves = 100;
-  numasteroides = 200; //Cuantos asteroides se crean
   scene = new THREE.Scene();
   // THREE.PerspectiveCamera: primer parámetro es la apertura de la cámara en grados, el segundo es el
   // aspect ratio, una buena explicación aquí  https://es.wikipedia.org/wiki/Relaci%C3%B3n_de_aspecto
@@ -113,9 +120,22 @@ class World{
       background_music.play();
     });
   }
-  
 
-  MatrizThatMakeMeCry = ArrayBaseDeLaNaves(numnaves,numasteroides);//tipo instanciando la matriz principal
+  //Nos dirá que tipo de objetos y cuántos de estos
+  this.objetos =new Array(
+    new Array(clases_naves['class1'],100),
+    new Array(clases_naves['ast1'],100)
+  );
+  
+  for(let a of this.objetos){
+    if(a[0][0]=='nave'){
+      numnaves+=a[1];
+    }
+    else if(a[0][0]=='ast')
+      numasteroides+=a[1];
+  }
+
+  MatrizThatMakeMeCry = CargarModelos(this.objetos);//tipo instanciando la matriz principal
   camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );  //Creamos la camara
 
  }
@@ -129,10 +149,8 @@ class World{
   renderer.render( scene, camera );
   //ya que está la cámara y la escena, las ejecuta el render, boila.
   }
-  setTimeout(function(){
-    animate();
-    colocarPosicionesAleatorias(numnaves,numasteroides)//esta ganando mucha importancia esta funcion
-  },2000);
+  animate();
+  CrearObjetos(this.objetos)//esta ganando mucha importancia esta funcion
 }
      
 }
@@ -335,9 +353,6 @@ class BalasPrincipal{
     sonido.play();          //Método para hacerlo sonar.
 
   } 
-  
-
-  
 
   disparo(){
     var direction = camera.getWorldDirection();
@@ -383,36 +398,33 @@ class BalasPrincipal{
           if( MatrizThatMakeMeCry[0][6] < 13){          
           MatrizThatMakeMeCry[0][6]++;////Aqui hize que la nave no pierda en caso de chocar
 
-
           //Sonido de vida al matar a nave.
           healing_sound();
-
-
-
 
           LifeBar(MatrizThatMakeMeCry[0][6])
           }
          //aqui abria impacto xd jajaja
           if(MatrizThatMakeMeCry[i][6] <= 0){
-
             //Eliminamos a la nave de la matriz
             delete MatrizThatMakeMeCry[i][5];
-            enemyDestroyedSound(); // sonido de destrucción de la nave enemiga.
             scene.remove(MatrizThatMakeMeCry[i][4]);
             delete MatrizThatMakeMeCry[i][4];
             MatrizThatMakeMeCry[i]= new Array(0,null,null,null,null,null,0)
             //Eliminamos la bala
-            scene.remove(sphere);
-            sphere = null;
             i = numnaves;//para acabar el ciclo
+            
+            enemyDestroyedSound(); // sonido de destrucción de la nave enemiga.s
           }else{
            MatrizThatMakeMeCry[i][6]--;////Se le quita solo 1 punto de vida
           }
+          
+          scene.remove(sphere);
+          sphere = null;
           who = null;
         }
       }
       if(who == 0){
-        if(pos[0] == 0 || pos[0] == limitx || pos[1] == 0 || pos[1] == limity || pos[2] == 0 || pos[2] == limitz){
+        if(pos[0] <= 0 || pos[0] >= limitx || pos[1] <= 0 || pos[1] >= limity || pos[2] <= 0 || pos[2] >= limitz){
            scene.remove(sphere);
            sphere = null;
         }else{
@@ -425,6 +437,48 @@ class BalasPrincipal{
   dispLoop();
   }
 }
+
+function ShieldBar(numero, where){///El numero seran las divisiones en que se dibujaran
+  var canvasShiel = document.getElementById(where);
+  var Shield = canvasShiel.getContext("2d");
+  Shield.beginPath();
+  //puntos iniciales // puntos finales
+  Shield.rect(1, 1, 25, 370);//la tercera es la que tengo que modificar
+  Shield.fillStyle = "#373737";
+  Shield.fill();
+  Shield.closePath();
+///---------
+  var vidaTotal = 15 //seran los segundos maximos que durara el escudo
+  var alto = ((numero * 370) / vidaTotal);//cambiar eso xd
+  Shield.beginPath();
+  Shield.rect(1, (371- alto), 25, alto);//la tercera es la que tengo que modificar
+  Shield.fillStyle = "#30F10E";//color verde pila 
+  Shield.fill();
+  Shield.closePath();
+}
+
+function LifeBar(numero){///El numero seran las divisiones en que se dibujaran
+  //la nave tendra 10 puntos de vida xd pero pueden ser mas 
+  var canvasVida = document.getElementById("me");
+  var life = canvasVida.getContext("2d");
+  life.beginPath();
+  //puntos iniciales // puntos finales
+  life.rect(1, 1, 200, 20);//la tercera es la que tengo que modificar
+  life.fillStyle = "#373737";
+  life.fill();
+  life.closePath();
+  //la nave tendra 10 puntos de vida xd pero pueden ser mas 
+  var vidaTotal = 13 //es la vida que tendra el presonaje principal
+  var anchoLife = ((numero * 200) / vidaTotal);
+  life.beginPath();
+  //puntos iniciales // puntos finales
+  life.rect(1, 1, anchoLife, 20);//la tercera es la que tengo que modificar
+  life.fillStyle = "#1CBFFA";
+  life.fill();
+  life.closePath();
+
+}
+
 
 class NavesEnemigas{
         constructor(matrizDondeSeTrabaja, number,velocidad,rango,velChase,velDisparo,rangoDisp){//el
@@ -536,32 +590,32 @@ class NavesEnemigas{
 
     }
 
-    class Asteroide{
-            constructor(matrizDondeSeTrabaja, number,velocidad){//el
-                this.workingMat = matrizDondeSeTrabaja;
-                this.number = number;//indice dentro de la matriz principal donde se guardara el asteroide
-                this.direction = NumerosAleatorios(6); //Dice hacia donde se mueve
-                this.velocidad = velocidad;
-            }
-            JustTheCreator(){//este metodo ara que las naves se muevan y  si tiempo que disparen
-                //usara la funcion switch que cree
-                function MainBucle(velocidad, matriz, x, y, z, move, position){ //Aqui se tendra que correr el bucle de las naves
-                  if(matriz[position][0]!=0){
-                    setTimeout(function(){
-                      var itsRunnig = ChooseWhereToMove(x, y, z, move,  position);//quite todos los parametros inecesarios
-                      //Movemos el render
-                      if(itsRunnig[0]!=null){
-                        MatrizThatMakeMeCry[position][4].position.x = itsRunnig[0];
-                        MatrizThatMakeMeCry[position][4].position.y = itsRunnig[1];
-                        MatrizThatMakeMeCry[position][4].position.z = itsRunnig[2];
-                      }
-                      MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], itsRunnig[2], move,  position);
-                    }, velocidad);
-                  }
-                }
-            MainBucle(this.velocidad, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.direction, this.number);
-            }
+  class Asteroide{
+      constructor(matrizDondeSeTrabaja, number,velocidad){//el
+        this.workingMat = matrizDondeSeTrabaja;
+        this.number = number;//indice dentro de la matriz principal donde se guardara el asteroide
+        this.direction = NumerosAleatorios(6); //Dice hacia donde se mueve
+        this.velocidad = velocidad;
+       }
+       JustTheCreator(){//este metodo ara que las naves se muevan y  si tiempo que disparen
+         //usara la funcion switch que cree
+         function MainBucle(velocidad, matriz, x, y, z, move, position){ //Aqui se tendra que correr el bucle de las naves
+          if(matriz[position][0]!=0){
+             setTimeout(function(){
+             var itsRunnig = ChooseWhereToMove(x, y, z, move,  position);//quite todos los parametros inecesarios
+             //Movemos el render
+             if(itsRunnig[0]!=null){
+               MatrizThatMakeMeCry[position][4].position.x = itsRunnig[0];
+               MatrizThatMakeMeCry[position][4].position.y = itsRunnig[1];
+               MatrizThatMakeMeCry[position][4].position.z = itsRunnig[2];
+              }
+              MainBucle(velocidad, matriz, itsRunnig[0], itsRunnig[1], itsRunnig[2], move,  position);
+         }, velocidad);
+        }
       }
+     MainBucle(this.velocidad, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.direction, this.number);
+    }
+  }
 
 ////-----------------------------JIJIJIIJIJ aQUI IRA EL OBJETO DE LAS BALAS
 class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por que necesito que sea la actualizada para
@@ -669,11 +723,13 @@ function GodsLoop(MatBalas, Coun, WhoToKill, matUnround){
           if( WhoToKill== 2){//cuendo le disparen a la nave principal
               //Everything es la matriz donde estan todas la anves
               if(MatBalas[0][Coun]==Everything[0][1]&&MatBalas[1][Coun]==Everything[0][2]&&MatBalas[2][Coun]==Everything[0][3]){
-                 
+                
+                scene.remove(sphere);
+                sphere = null;
                 MatrizThatMakeMeCry[0][6]--;////Aqui hize que la nave no pierda en caso de chocar
                 //Cuando impactan la principal
                 sonido_daño_principal.play(); //Sonido cuando te da una bala enemiga.
-                LifeBar(MatrizThatMakeMeCry[0][6])
+                LifeBar(MatrizThatMakeMeCry[0][6]);
                 if( MatrizThatMakeMeCry[0][6] == 0)             
                   location.href="SapaceHunter/Statics/Templates/EndMatch.html";////No se si esta ruta funcione
               }else{
@@ -786,92 +842,61 @@ function healing_sound(){
 function NumerosAleatorios(tope){
     return Math.floor((Math.random()*tope))+1;
 }
-function ShieldBar(numero, where){///El numero seran las divisiones en que se dibujaran
-  var canvasShiel = document.getElementById(where);
-  var Shield = canvasShiel.getContext("2d");
-  Shield.beginPath();
-  //puntos iniciales // puntos finales
-  Shield.rect(1, 1, 25, 370);//la tercera es la que tengo que modificar
-  Shield.fillStyle = "#373737";
-  Shield.fill();
-  Shield.closePath();
-///---------
-  var vidaTotal = 15 //seran los segundos maximos que durara el escudo
-  var alto = ((numero * 370) / vidaTotal);//cambiar eso xd
-  Shield.beginPath();
-  Shield.rect(1, (371- alto), 25, alto);//la tercera es la que tengo que modificar
-  Shield.fillStyle = "#30F10E";//color verde pila 
-  Shield.fill();
-  Shield.closePath();
 
-}
-function ArrayBaseDeLaNaves(numnaves,numast){//declarando el array de las naves y sus posiciones
-    var total = numnaves + numast;
-    var MatrizPrincipal = new Array(total);
-    for (let i = 0; i < total; i++)
-    //la posicion 6 indicara la vida de cada nave
-        MatrizPrincipal[i]=new Array(7);//array que dira si es una nave enemiga y sus posiciones en X,Y y Z
-
-    //Colocar naves
-    for (i=1; i<numnaves; i++){
-        MatrizPrincipal[i][0] = 1;
-        MatrizPrincipal[i][1] = NumerosAleatorios(limitx)-1;
-        MatrizPrincipal[i][2] = NumerosAleatorios(limity)-1;
-        MatrizPrincipal[i][3] = NumerosAleatorios(limitz)-1;
-        var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-        var color = 0xFF0000;
-        if(i==0)
-          color = 0x00FF00;
-        var material = new THREE.MeshBasicMaterial( { color: color, wireframe: true } );
-        MatrizPrincipal[i][4] = new THREE.Mesh(geometry, material);
-        // Instanciamos un cubo con base en los parámetros anteriores
-        scene.add(MatrizPrincipal[i][4]);
-        MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][1];
-        MatrizPrincipal[i][4].position.y = MatrizPrincipal[i][2];
-        MatrizPrincipal[i][4].position.z = MatrizPrincipal[i][3];
-        //lo añadimos a la escena
-        MatrizPrincipal[i][6]= 2;/////------------------------------------------------Esto da la vida a todas las naves enemigas
+function CargarModelos(objetos){//declarando el array de las naves y sus posiciones
+    var current_celda = 1;
+    var total = 1;
+    for(let a of objetos){
+      total += a[1];
     }
-  
-    //Colocar asteroides
-    for (i=numnaves; i<total; i++){
-        MatrizPrincipal[i][0] = 3;
-        MatrizPrincipal[i][1] = NumerosAleatorios(limitx)-1; //coordenadas de asteroides
-        MatrizPrincipal[i][2] = NumerosAleatorios(limity)-1;
-        MatrizPrincipal[i][3] = NumerosAleatorios(limitz)-1;
+    var MatrizPrincipal = new Array(total);
 
+    for (let i = 0; i < total; i++)
+        MatrizPrincipal[i]=new Array(10);//array que guardará su tipo, sus posiciones en X,Y y Z, modelo 3d, objeto, vida y dimensiones
+    
+    //Vamos recorriendo el array de objetos creando cada uno
+    for(let obj of objetos){
+      //En caso de ser una nave
+      if(obj[0][0]=='nave'){
+        var lim = current_celda;
+        for(let i = current_celda; i<(obj[1]+lim);i++){
+          MatrizPrincipal[i][0] = 1;
+          //Le asignamos posiciones aleatorias
+          MatrizPrincipal[i][1] = NumerosAleatorios(limitx)-1;
+          MatrizPrincipal[i][2] = NumerosAleatorios(limity)-1;
+          MatrizPrincipal[i][3] = NumerosAleatorios(limitz)-1;
+          
+          //Creamos el modelo
+          var geometry = new THREE.BoxGeometry( obj[0][7], obj[0][8], obj[0][9] );
+          var material = new THREE.MeshBasicMaterial( {color: 0xff0000} );
+          var model = new THREE.Mesh( geometry, material );
+          geometry = null;
+          material = null;
+          scene.add( model );
+          MatrizPrincipal[i][4] = model;
+          //Colocamos el modelo en las posiciones correctas
+          MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][1];
+          MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][2];
+          MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][3];
+          //Le damos su vida correspondiente
+          MatrizPrincipal[i][6] = obj[0][6];
 
-
-        function loadObject(i){
-            var model;
-            var loader = new THREE.GLTFLoader();
-            loader.load(
-                "Modelos/asteroide__50.glb",
-
-                function ( gltf ) {
-                    model = gltf.scene;
-
-
-                    //lo añadimos a la escena
-
-                    scene.add( model);
-                    MatrizPrincipal[i][4] = model;
-                    // Instanciamos un cubo con base en los parámetros anteriores
-                    scene.add(MatrizPrincipal[i][4]);
-                    MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][1];
-                    MatrizPrincipal[i][4].position.y = MatrizPrincipal[i][2];
-                    MatrizPrincipal[i][4].position.z = MatrizPrincipal[i][3];
-
-                },
-                function ( xhr ) {
-                    console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-                },
-                function ( error ) {
-                    //console.log( 'An error happened' );
-                }
-            );
+          current_celda++;
         }
-        loadObject(i);
+
+      }else if(obj[0][0]=='ast'){ //En caso de ser un asteroide
+        var lim = current_celda;
+        for(let i = current_celda; i<(obj[1]+lim);i++){
+          //Le damos una posición aleatoria
+          MatrizPrincipal[i][0] = 3;
+          MatrizPrincipal[i][1] = NumerosAleatorios(limitx)-1; //coordenadas de asteroides
+          MatrizPrincipal[i][2] = NumerosAleatorios(limity)-1;
+          MatrizPrincipal[i][3] = NumerosAleatorios(limitz)-1;
+          //Creamos el modelo
+          loadModelo(i,obj[0][3]);
+          current_celda++;
+        }  
+      }
 
     }
 
@@ -880,51 +905,74 @@ function ArrayBaseDeLaNaves(numnaves,numast){//declarando el array de las naves 
      MatrizPrincipal[0][1] = NumerosAleatorios(limitx)-1;
      MatrizPrincipal[0][2] = NumerosAleatorios(limity)-1;
      MatrizPrincipal[0][3] = NumerosAleatorios(limitz)-1;
-     MatrizPrincipal[0][6]= 13;/////------------------------------------------------Esto da la vida a todas la nave pricipla
+     MatrizPrincipal[0][6]= 10000;/////------------------------------------------------Esto da la vida a todas la nave pricipla
+    
+     //Función para cargar modelos de blender
+     function loadModelo(i,arch){
+      var model;
+      var loader = new THREE.GLTFLoader();
+      loader.load(
+          "Modelos/"+arch,
 
+          function ( gltf ) {
+              model = gltf.scene;
+
+              //lo añadimos a la escena
+              scene.add( model);
+              MatrizPrincipal[i][4] = model;
+              // Instanciamos al objeto con base en los parámetros anteriores
+              scene.add(MatrizPrincipal[i][4]);
+              MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][1];
+              MatrizPrincipal[i][4].position.y = MatrizPrincipal[i][2];
+              MatrizPrincipal[i][4].position.z = MatrizPrincipal[i][3];
+
+          },
+          function ( xhr ) {
+              console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+          },
+          function ( error ) {
+              //console.log( 'An error happened' );
+          }
+      );
+    }
   return MatrizPrincipal;
 }
 //dibujar la vida de la nave principal
-function LifeBar(numero){///El numero seran las divisiones en que se dibujaran
-  //la nave tendra 10 puntos de vida xd pero pueden ser mas 
-  var canvasVida = document.getElementById("me");
-  var life = canvasVida.getContext("2d");
-  life.beginPath();
-  //puntos iniciales // puntos finales
-  life.rect(1, 1, 200, 20);//la tercera es la que tengo que modificar
-  life.fillStyle = "#373737";
-  life.fill();
-  life.closePath();
-  //la nave tendra 10 puntos de vida xd pero pueden ser mas 
-  var vidaTotal = 13 //es la vida que tendra el presonaje principal
-  var anchoLife = ((numero * 200) / vidaTotal);
-  life.beginPath();
-  //puntos iniciales // puntos finales
-  life.rect(1, 1, anchoLife, 20);//la tercera es la que tengo que modificar
-  life.fillStyle = "#1CBFFA";
-  life.fill();
-  life.closePath();
 
-}
 
  //poner posiones de las naves y ver donde vas a empezar funcion importante xd
-function colocarPosicionesAleatorias(numNaves,numAst){//saber donde estaran las naves al inicio
+function CrearObjetos(objetos){//saber donde estaran las naves al inicio
     //tambien es medio la base de todo el juego espero que esto cambie
    // var Matriz = ArrayBaseDeLaNaves(numNaves);//tipo instanciando la matriz principal
 
-    //-----------------Delcarando todas las naves enemigas que hay--------------------
-    var total = numAst + numNaves;
-
-    //Creamos y guardamos los objeetos naves en la matriz principal
-    for(let i = 1; i<numNaves; i++){//funcion para que los objetos se instancien con sus propiedades
-        //Orden de Parametros: matrizDondeSeTrabaja, number,velocidad,rango,velChase,velDisparo,rangoDisp
-        MatrizThatMakeMeCry[i][5] = new NavesEnemigas(MatrizThatMakeMeCry, i,1000,40,300,150,10);
-        MatrizThatMakeMeCry[i][5].JustTheCreator();//Js es una mamada jajaja
+    //-----------------Delcarando todas los objetos que hay--------------------
+    var current_celda = 1;
+    var total = 1;
+    for(let a of objetos){
+      total += a[1];
     }
 
-    for(let i = numNaves; i< total; i++){//funcion para que los objetos se instancien con sus propiedades
-        MatrizThatMakeMeCry[i][5] = new Asteroide(MatrizThatMakeMeCry, i,500);
-        MatrizThatMakeMeCry[i][5].JustTheCreator();//Js es una mamada jajaja
+    //Creamos y guardamos los objeetos naves y asteroides en la matriz principal
+    for(let obj of objetos){
+      //Creamos los objetos nave
+      if(obj[0][0]=='nave'){
+        var lim = current_celda;
+        for(let i = current_celda; i<(obj[1]+lim);i++){
+          //Orden de Parametros: matrizDondeSeTrabaja, number,velocidad,rango,velChase,velDisparo,rangoDisp
+          MatrizThatMakeMeCry[i][5] = new NavesEnemigas(MatrizThatMakeMeCry, i,obj[0][1],obj[0][2],obj[0][3],obj[0][4],obj[0][5]);
+          MatrizThatMakeMeCry[i][5].JustTheCreator();//Js es una mamada jajaja
+
+          current_celda++;
+        }
+      }else if(obj[0][0]=='ast'){//Creamos los ovjetos asteroide
+        var lim = current_celda;
+        for(let i = current_celda; i<(obj[1]+lim);i++){
+          MatrizThatMakeMeCry[i][5] = new Asteroide(MatrizThatMakeMeCry, i,obj[0][2]);
+          MatrizThatMakeMeCry[i][5].JustTheCreator();//Js es una mamada jajaja
+
+          current_celda++;
+        }
+      }
     }
 
     //instanciando el objeto principal ----------------------
@@ -943,5 +991,7 @@ function colocarPosicionesAleatorias(numNaves,numAst){//saber donde estaran las 
 
 var world = new World();  //Creamos el objeto world
 world.CreateWorld(100,100,100,'default'); //Creamos el mundo
-world.StartWorld();
+setTimeout(function(){
+  world.StartWorld();
+},2000);
 //------------------------------------------------------------------------------------------------
