@@ -72,6 +72,8 @@ class World{
   //significa que nos se renderearan (shit of translation DX) objetos más cercanos al valor de cercanía
   //ni objetos más lejanos al valor de lejanía.
   renderer = new THREE.WebGLRenderer();
+  // renderer.outputEncoding = THREE.sRGBEncoding;
+
   renderer.setSize( window.innerWidth, window.innerHeight );
   //Es necesario determinar el tamaño del rendereado, el aspect ratio es sólo una escala, aquí daremos las
   //dimensiones. El primer parámetro es el tamaño horizontal, el segundo vertical, hay un tercer parámetro,
