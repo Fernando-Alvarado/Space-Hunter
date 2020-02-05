@@ -29,12 +29,12 @@ class World{
     {
       const loader = new THREE.CubeTextureLoader();
       const texture = loader.load([
-        'img/'+background+'/back.png',
-        'img/'+background+'/front.png',
-        'img/'+background+'/bottom.png',
-        'img/'+background+'/top.png',
-        'img/'+background+'/right.png',
-        'img/'+background+'/left.png',
+        '../Media/Fondos/'+background+'/back.png',
+        '../Media/Fondos/'+background+'/front.png',
+        '../Media/Fondos/'+background+'/bottom.png',
+        '../Media/Fondos/'+background+'/top.png',
+        '../Media/Fondos/'+background+'/right.png',
+        '../Media/Fondos/'+background+'/left.png',
       ]);
       scene.background = texture;
     }
@@ -93,8 +93,8 @@ class World{
     renderer.render( scene, camera );
     //ya que está la cámara y la escena, las ejecuta el render, boila.
     }
-    animate();
     CrearObjetos(this.objetos)//esta ganando mucha importancia esta funcion
+    animate();
   }
        
   }
@@ -186,7 +186,7 @@ class World{
       var model;
       var loader = new THREE.GLTFLoader();
       loader.load(
-          "Modelos/"+arch,
+          "../Modelos/"+arch,
 
           function ( gltf ) {
               model = gltf.scene;

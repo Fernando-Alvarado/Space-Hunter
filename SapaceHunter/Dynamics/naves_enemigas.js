@@ -227,7 +227,7 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
                    sonido_daño_principal.play(); //Sonido cuando te da una bala enemiga.
                    LifeBar(MatrizThatMakeMeCry[0][6]);
                    if( MatrizThatMakeMeCry[0][6] <= 0)             
-                     location.href="SapaceHunter/Statics/Templates/EndMatch.html";////No se si esta ruta funcione
+                     location.href="../Templates/EndMatch.html";////No se si esta ruta funcione
                  }else{
                      Coun++;
                      GodsLoop(MatBalas, Coun, WhoToKill,matUnround);

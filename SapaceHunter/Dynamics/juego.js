@@ -8,13 +8,13 @@ var numnaves = null;
 var numasteroides = null; 
 var scene = null;
 //Soinidos, rutas
-var laser_ene="./Media/Recovered_laser5.mp3"; //https://freesound.org/people/DayCraftMC/sounds/337112/
-var laser_ali="./Media/Recovered_77172__huvaakoodia__pulse-laser.wav"; //https://freesound.org/people/HuvaaKoodia/sounds/77172/
-var space_music="./Media/Recovered_396231__romariogrande__tentacle-wedding.mp3"; //https://freesound.org/people/Romariogrande/sounds/396231/
-var heal="./Media/Recovered_346116__lulyc__retro-game-heal-sound.wav";    //https://freesound.org/people/lulyc/sounds/346116/
-var ship_damage="./Media/Recovered_211634__qubodup__damage.mp3";  //https://freesound.org/people/qubodup/sounds/211634/
-var enemy_destroy="./Media/Recovered_458867__raclure__damage-sound-effect.mp3"; //https://freesound.org/people/Raclure/sounds/458867/
-var gigantic_ene="./Media/Recovered_220533__the-very-real-horst__lithium-chloratum-3-min-binaural.mp3"; 
+var laser_ene="../Media/Recovered_laser5.mp3"; //https://freesound.org/people/DayCraftMC/sounds/337112/
+var laser_ali="../Media/Recovered_77172__huvaakoodia__pulse-laser.wav"; //https://freesound.org/people/HuvaaKoodia/sounds/77172/
+var space_music="../Media/Recovered_396231__romariogrande__tentacle-wedding.mp3"; //https://freesound.org/people/Romariogrande/sounds/396231/
+var heal="../Media/Recovered_346116__lulyc__retro-game-heal-sound.wav";    //https://freesound.org/people/lulyc/sounds/346116/
+var ship_damage="../Media/Recovered_211634__qubodup__damage.mp3";  //https://freesound.org/people/qubodup/sounds/211634/
+var enemy_destroy="../Media/Recovered_458867__raclure__damage-sound-effect.mp3"; //https://freesound.org/people/Raclure/sounds/458867/
+var gigantic_ene="../Media/Recovered_220533__the-very-real-horst__lithium-chloratum-3-min-binaural.mp3"; 
 //https://freesound.org/people/the_very_Real_Horst/sounds/220533/
 var is_playing=false; //Para preguntar si está sonando el fondo.
 
@@ -178,7 +178,7 @@ $('#arriba').hide();
 var world = new World();  //Creamos el objeto world
 world.CreateWorld(100,100,100,'default'); //Creamos el mundo
 setTimeout(function(){
-  world.StartWorld();
   $('#arriba').show();
+  world.StartWorld();
 },4000);
 //------------------------------------------------------------------------------------------------
