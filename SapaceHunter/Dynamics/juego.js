@@ -178,7 +178,7 @@ function NumerosAleatorios(tope){
 function NumKills(){
   setInterval(check,100);
   function check(){
-    $('#numkills').html(numkills);
+    $('#numkills').html(numkills+'/'+numnaves);
     if(numkills == numnaves){
       location.href="Win.html";
     }
@@ -201,7 +201,7 @@ var msg = null;
 if(modo == 4){
   var obj = new Array(
     new Array(clases_naves['ast1'],50), 
-    new Array(clases_naves['class1 '+dif],10),
+    new Array(clases_naves['class1 '+dif],5*dif),
   );
   data_world = new Array(100,100,100,'default',obj);
   msg = 'Localización: Sector D-1233 Estrella Delta-A <br> El imperio a tomado posesión de esta zona, acaba con ellos para que las tropas puedan pasar.<br>Buena suerte!';
