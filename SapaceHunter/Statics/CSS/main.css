@@ -50,3 +50,11 @@ padding-left: 40%;
     top: 20%;
     left: 95%;
 }
+#killsCounter{
+    font-family: 'Press Start 2P', cursive;
+    font-size: 170%;
+    color: #E7033A;
+    position: absolute;
+    top: 10%;
+    left: 80%;
+}
