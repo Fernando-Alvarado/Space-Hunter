@@ -8,7 +8,7 @@
     <!-- <link rel="stylesheet" href="../CSS/register.css"> -->
     <link href="https://fonts.googleapis.com/css?family=Bebas+Neue|Cambay|Ubuntu&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="../../../Librerías/jquery-3.4.1.min.js"></script>
+    <script src="../../Dynamics/Librerías/jquery-3.4.1.min.js"></script>
 
     <title>LogIn</title>
     <style> 
@@ -20,24 +20,24 @@
     <!-- <video autoplay muted loop id="myVideo">
         <source src="../../../Media/Space_hunter_intro.mp4" type="video/mp4">
      </video> -->
-     <img alt="full screen background image" src="../../../Media/login_background.jpg" id="full-screen-background-image">
+     <img alt="full screen background image" src="../Media/login_background.jpg" id="full-screen-background-image">
 
 
     <div id="cajaGrande" >
         <div id="cajaChica">
-            <form action="">
+            <form action="" id="form_log">
                     <label id="Log">Log In</label>
                 <div id="nick">
                         <label>Nickname</label>
-                        <input type="text"> <br>
+                        <input type="text" id="in_nick" name="nick"> <br>
                 </div>
                 <div id="pass">
                         <label>Password</label>
-                        <input type="password"> <br>
+                        <input type="password" id="in_pass" name="pass"> <br>
                 </div>
             </form>
                 <div id="butones">
-                        <button class="btn btn-outline-success">Submit</button>
+                        <button class="btn btn-outline-success" id="boton_ingresar">Submit</button>
                         <button id="secret"></button>
                         <button class="btn btn-outline-info" id="boton_registro">Register</button>
                 </div>
@@ -92,7 +92,7 @@
     location.href = "./Elegir_modo.html";    
     }); 
 }
-ChangePlace()
+ChangePlace();
 
 
     $("#bigbox").css("display","none");
@@ -100,7 +100,7 @@ ChangePlace()
     document.getElementById("boton_registro").addEventListener('click',function(){
         $("#cajaGrande").css("display","none");
 
-        $("img").attr("src","../../../Media/register_background.jpg");
+        $("img").attr("src","../Media/register_background.jpg");
         $("#bigbox").css("display","block");
     });
 
@@ -140,10 +140,33 @@ ChangePlace()
         });
 
         $("#bigbox").css("display","none");
-        $("img").attr("src","../../../Media/login_background.jpg");
+        $("img").attr("src","../Media/login_background.jpg");
 
         $("#cajaGrande").css("display","block");
 
+    });
+
+    document.getElementById("boton_ingresar").addEventListener("click",function(){
+        if($("#in_nick").val()!=""&&$("#in_pass").val()!="")
+        {
+            var log_data=$("#form_log").serialize();
+            console.log("Contraseñas iguales");
+            $.ajax({
+                url: '../Dynamics/PHP/search_user.php' , 
+                method: 'POST',
+                data: log_data,
+                statusCode: {
+                404: function(){
+                    alert('No encontrado');
+                },
+                },
+            }).done( function(response) {
+                console.log ("Respuesta del Ajax: "+response);
+            }).fail( function(jqXHR, textStatus) {
+                alert('Error: ' + textStatus);
+            });
+            
+        }
     });
 
 
