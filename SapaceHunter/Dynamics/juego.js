@@ -13,6 +13,7 @@ var laser_ali="../Media/Recovered_77172__huvaakoodia__pulse-laser.wav"; //https:
 var space_music="../Media/Recovered_396231__romariogrande__tentacle-wedding.mp3"; //https://freesound.org/people/Romariogrande/sounds/396231/
 var heal="../Media/Recovered_346116__lulyc__retro-game-heal-sound.wav";    //https://freesound.org/people/lulyc/sounds/346116/
 var ship_damage="../Media/Recovered_211634__qubodup__damage.mp3";  //https://freesound.org/people/qubodup/sounds/211634/
+ships_colission="../Media/Recovered_164569__adam-n__door-impact-6.wav" //https://freesound.org/people/Adam_N/sounds/164569/
 var enemy_destroy="../Media/Recovered_458867__raclure__damage-sound-effect.mp3"; //https://freesound.org/people/Raclure/sounds/458867/
 var gigantic_ene="../Media/Recovered_220533__the-very-real-horst__lithium-chloratum-3-min-binaural.mp3"; 
 //https://freesound.org/people/the_very_Real_Horst/sounds/220533/
@@ -94,6 +95,7 @@ function ChooseWhereToMove(event, value){//switch para elegir
             scene.remove(MatrizThatMakeMeCry[i][4]);
             delete MatrizThatMakeMeCry[i][4];
             delete MatrizThatMakeMeCry[i][5];
+            impact_sound(); //sonido de choque entre objetos
             MatrizThatMakeMeCry[i]=[0,null,null,null,null,null,0];
             type=0;
           }
@@ -103,11 +105,12 @@ function ChooseWhereToMove(event, value){//switch para elegir
             delete MatrizThatMakeMeCry[value][4];
             delete MatrizThatMakeMeCry[value][5];
             MatrizThatMakeMeCry[value]=[0,null,null,null,null,null,0];
+            impact_sound();
             type = 0;
           }
           //En caso de que alguno de los dos objetos en la colision sean el principal, se manda un menaje de perder
           if(MatrizThatMakeMeCry[value][0]==2||MatrizThatMakeMeCry[i][0]==2)
-          MatrizThatMakeMeCry[0][6] = 3;////Aqui hize que la nave no pierda en caso de chocar
+              MatrizThatMakeMeCry[0][6] = 3;////Aqui hize que la nave no pierda en caso de chocar
           LifeBar(MatrizThatMakeMeCry[0][6])
           color = "white";
         }else{
