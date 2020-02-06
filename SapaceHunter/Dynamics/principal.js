@@ -1,4 +1,3 @@
-var score = 0;
 ////-----------------------------------------------------------------------------------------------------------------------
 ////----------------------------Objetos----------------------------------------------------------------------------------
 ////-----------------------------------------------------------------------------------------------------------------------
@@ -163,7 +162,7 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
        }
      //  setInterval(adelante, 100); Para que la nave pueda avanzar hacia adelante sola
      //el chacador de si esta apto para para que se pueda mover solo va aqui
-       setInterval(adelante,300);
+       setInterval(adelante,500);
        function adelante(){//arriba dice que hace
 
          var direction = camera.getWorldDirection();  //Obtenemos el vector director de la nave principal
@@ -249,8 +248,7 @@ disparo(){
         var ylim = (MatrizThatMakeMeCry[i][8]-1)/2;
         var zlim = (MatrizThatMakeMeCry[i][9]-1)/2;
         if((pos[0]>=x-xlim && pos[0]<=x+xlim) && (pos[1]>=y-ylim && pos[1]<=y+ylim) && (pos[2]>=z-zlim && pos[2]<=z+zlim)){
-          score++;
-          document.getElementById("numberKills").innerHTML = "Kills " +score.toString();//Aumentar el el valor de los scores
+
         //Aqui le aumento 1 valor a la nave pricipal para que aumente de vida cada vez que impacta una nave enemiga
         if( MatrizThatMakeMeCry[0][6] < 13){          
         MatrizThatMakeMeCry[0][6]++;////Aqui hize que la nave no pierda en caso de chocar
@@ -260,8 +258,8 @@ disparo(){
 
         LifeBar(MatrizThatMakeMeCry[0][6])
         }
-        //Validamos con que impactamos
-        if(MatrizThatMakeMeCry[i][0]==1){ //SI es una nave
+        //Si es una nave
+        if(MatrizThatMakeMeCry[i][0]==1){
           //aqui abria impacto xd jajaja
           if(MatrizThatMakeMeCry[i][6] <= 0){
               //Eliminamos a la nave de la matriz
