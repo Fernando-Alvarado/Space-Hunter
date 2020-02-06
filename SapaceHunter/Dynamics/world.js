@@ -3,10 +3,10 @@ class World{
       this.objetos = null;
     }
   
-   CreateWorld(lx,ly,lz,background,objetos){
-    limitx = lx;//Numero de casillas de la matriz
-    limity = ly;
-    limitz = lz;
+   CreateWorld(data){
+    limitx = data[0];//Numero de casillas de la matriz
+    limity = data[1];
+    limitz = data[2];
     scene = new THREE.Scene();
     // THREE.PerspectiveCamera: primer parámetro es la apertura de la cámara en grados, el segundo es el
     // aspect ratio, una buena explicación aquí  https://es.wikipedia.org/wiki/Relaci%C3%B3n_de_aspecto
@@ -25,6 +25,7 @@ class World{
   
     //Creamos el fondo
     //Página generadora de fondos:
+    var background = data[3]
     //http://wwwtyro.github.io/space-3d/#animationSpeed=1&fov=45&nebulae=true&pointStars=true&resolution=1024&seed=Interprepas1erlugar&stars=true&sun=true
     {
       const loader = new THREE.CubeTextureLoader();
@@ -62,8 +63,8 @@ class World{
     }
   
     //Nos dirá que tipo de objetos y cuántos ¿
-    this.objetos = objetos;
-    
+    this.objetos = data[4];
+    console.log(background);
     for(let a of this.objetos){
       if(a[0][0]=='nave'){
         numnaves+=a[1];

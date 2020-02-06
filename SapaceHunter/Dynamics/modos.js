@@ -12,7 +12,7 @@ $('#mod_s').change(function(){
         $('.descript').html('');
     }else if(mod==4){
         $('#modo').html('Flota');
-        $('.descript').html('');
+        $('.descript').html('Fuiste enviado a la estrella Delta-A, actualmente en posesión del imperio, tienes que limpiar la zona para que las tropas rebeldes puedan entrar.');
     }
 });
 
@@ -22,8 +22,8 @@ $('#Go').click(function(){
 
     var url = 'juego.php';
     var form = $('<form style="display:none" action="' + url + '" method="post">' +
-    '<input type="text" name="dif" value="' + dif + '" />' +
-    '<input type="text" name="mod" value="' + mod + '" />' +
+    '<input type="text" name="dif" value="'+dif+'" />' +
+    '<input type="text" name="mod" value="'+mod+'" />' +
     '</form>');
     $('body').append(form);
     form.submit();

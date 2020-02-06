@@ -52,7 +52,9 @@ var patterns = new Array( //Array con todos los diferentes patrones, el primer n
 //Definimos las clases de naves y asteroides
 var clases_naves = {
   //velocidad,rango,velChase,velDisparo,rangoDisp,vida,largo,ancho,alto y modelo
-  class1: new Array('nave',1000,40,300,150,10,2,1,1,1,'Tie.glb'),
+  'class1 1': new Array('nave',1000,60,500,200,10,2,1,1,1,'Tie.glb'),
+  'class1 2': new Array('nave',1000,40,300,150,15,3,1,1,1,'Tie.glb'),
+  'class1 3': new Array('nave',1000,20,100,100,20,4,1,1,1,'Tie.glb'),
   class2: new Array('nave',1000,40,300,100,15,2,1,1,1),
   class3: new Array('nave',1000,40,300,150,18,2,5,5,5),
   class4: new Array('nave',1000,40,300,100,15,2,1,1,3),
@@ -90,7 +92,7 @@ function ChooseWhereToMove(event, value){//switch para elegir
         type = 0;
         //En caso de que no sea la misma nave
         if(MatrizThatMakeMeCry[i][0]!=MatrizThatMakeMeCry[value][0]){
-          if(MatrizThatMakeMeCry[value][0]==1){
+          if(MatrizThatMakeMeCry[value][0]==1 || MatrizThatMakeMeCry[i][0]==1){
             numkills+=1;
           }
           //Si se choca con un objeto diferente del principal, se destruye
@@ -177,6 +179,9 @@ function NumKills(){
   setInterval(check,100);
   function check(){
     $('#numkills').html(numkills);
+    if(numkills == numnaves){
+      location.href="Win.html";
+    }
   }
   check();
 }
@@ -188,14 +193,26 @@ function NumKills(){
 
 $('#arriba').hide();
 var world = new World();  //Creamos el objeto world
-var obj = new Array(
-  new Array(clases_naves['ast1'],10), 
-  new Array(clases_naves['class1'],10),
-);
-world.CreateWorld(50,50,50,'default',obj); //Creamos el mundo
+
+var dif = Number($('.dif').text());
+var modo = Number($('.modo').text());
+var data_world=null;
+var msg = null;
+if(modo == 4){
+  var obj = new Array(
+    new Array(clases_naves['ast1'],50), 
+    new Array(clases_naves['class1 '+dif],10),
+  );
+  data_world = new Array(100,100,100,'default',obj);
+  msg = 'Localización: Sector D-1233 Estrella Delta-A <br> El imperio a tomado posesión de esta zona, acaba con ellos para que las tropas puedan pasar.<br>Buena suerte!';
+}
+
+$('.texto_intro').html(msg);
+world.CreateWorld(data_world); //Creamos el mundo
 setTimeout(function(){
+  $('.texto_intro').hide();
   $('#arriba').show();
+  NumKills()
   world.StartWorld();
-},4000);
-NumKills()
+},10000);
 //------------------------------------------------------------------------------------------------

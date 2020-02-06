@@ -58,3 +58,18 @@ padding-left: 40%;
     top: 10%;
     left: 80%;
 }
+
+.texto_intro{
+    width:100%;
+    margin-left: auto ;
+    margin-right: auto ;
+    word-wrap: break-word;
+    border: 4px solid #45CAF1;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 150%;
+    height: 20%;
+    color: #45CAF1;
+    position:absolute;
+    bottom:0;  
+    background-color: black;
+}
