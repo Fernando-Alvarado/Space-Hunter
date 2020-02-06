@@ -3,7 +3,7 @@ class World{
       this.objetos = null;
     }
   
-   CreateWorld(lx,ly,lz,background){
+   CreateWorld(lx,ly,lz,background,objetos){
     limitx = lx;//Numero de casillas de la matriz
     limity = ly;
     limitz = lz;
@@ -58,18 +58,7 @@ class World{
     }
   
     //Nos dirá que tipo de objetos y cuántos ¿
-    this.objetos =new Array(
-      new Array(clases_naves['class1'],11),
-      new Array(clases_naves['class2'],11),
-      new Array(clases_naves['class3'],11),
-      new Array(clases_naves['class4'],11),
-      new Array(clases_naves['class5'],11),
-      new Array(clases_naves['class6'],11),
-      new Array(clases_naves['class7'],11),
-      new Array(clases_naves['class8'],11),
-      new Array(clases_naves['class9'],11),
-      new Array(clases_naves['ast1'],100)
-    );
+    this.objetos = objetos;
     
     for(let a of this.objetos){
       if(a[0][0]=='nave'){
