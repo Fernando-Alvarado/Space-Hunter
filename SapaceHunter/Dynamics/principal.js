@@ -269,7 +269,7 @@ disparo(){
               MatrizThatMakeMeCry[i]= new Array(0,null,null,null,null,null,0)
               //Eliminamos la bala
               i = numnaves;//para acabar el ciclo
-              
+              numkills+=1;
               enemyDestroyedSound(); // sonido de destrucción de la nave enemiga.s
           }else{
               MatrizThatMakeMeCry[i][6]--;////Se le quita solo 1 punto de vida

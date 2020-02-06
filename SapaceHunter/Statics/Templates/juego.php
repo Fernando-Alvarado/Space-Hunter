@@ -37,7 +37,7 @@
 
   <div id="abajo">
     <div id="killsCounter">
-    <p id="numberKills">Kills 0</p>
+    <p id="numberKills">Kills <span id='numkills'></span></p>
     </div>
     <script src="../../Dynamics/Librerías/three.min.js"></script>
     <script src="../../Dynamics/Librerías/jquery-3.4.1.min.js"></script>

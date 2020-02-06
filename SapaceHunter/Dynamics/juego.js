@@ -6,6 +6,7 @@ var limity = null;
 var limitz = null;
 var numnaves = null;
 var numasteroides = null; 
+var numkills = 0; 
 var scene = null;
 var renderer = null;
 var camera = null;
@@ -50,7 +51,7 @@ var patterns = new Array( //Array con todos los diferentes patrones, el primer n
 
 //Definimos las clases de naves y asteroides
 var clases_naves = {
-  //velocidad,rango,velChase,velDisparo,rangoDisp,vida,largo,ancho,alto
+  //velocidad,rango,velChase,velDisparo,rangoDisp,vida,largo,ancho,alto y modelo
   class1: new Array('nave',1000,40,300,150,10,2,1,1,1,'Tie.glb'),
   class2: new Array('nave',1000,40,300,100,15,2,1,1,1),
   class3: new Array('nave',1000,40,300,150,18,2,5,5,5),
@@ -89,6 +90,9 @@ function ChooseWhereToMove(event, value){//switch para elegir
         type = 0;
         //En caso de que no sea la misma nave
         if(MatrizThatMakeMeCry[i][0]!=MatrizThatMakeMeCry[value][0]){
+          if(MatrizThatMakeMeCry[value][0]==1){
+            numkills+=1;
+          }
           //Si se choca con un objeto diferente del principal, se destruye
           if(MatrizThatMakeMeCry[i][0]!=2){
             scene.remove(MatrizThatMakeMeCry[i][4]);
@@ -169,6 +173,13 @@ function NumerosAleatorios(tope){
     return Math.floor((Math.random()*tope))+1;
 }
 
+function NumKills(){
+  setInterval(check,100);
+  function check(){
+    $('#numkills').html(numkills);
+  }
+  check();
+}
 
 ///-----------------------------------------------------------------------------------------------
 ///--------------------Ejecuciones----------------------------------------------------------------
@@ -186,4 +197,5 @@ setTimeout(function(){
   $('#arriba').show();
   world.StartWorld();
 },4000);
+NumKills()
 //------------------------------------------------------------------------------------------------
