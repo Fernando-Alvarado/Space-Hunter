@@ -237,16 +237,16 @@ disparo(){
    setTimeout(()=>{ 
      var who = 0;
      var pos = move();
-     for (let i= 1; i < numnaves; i++){
+     for (let i= 1; i <= numnaves+numasteroides; i++){
       if(MatrizThatMakeMeCry[i][0]!=0){
         //Posición del objeto
-        x = MatrizThatMakeMeCry[i][1];
-        y = MatrizThatMakeMeCry[i][2];
-        z = MatrizThatMakeMeCry[i][3];
+        var x = MatrizThatMakeMeCry[i][1];
+        var y = MatrizThatMakeMeCry[i][2];
+        var z = MatrizThatMakeMeCry[i][3];
         //Limites o dimensiones del objeto
-        xlim = (MatrizThatMakeMeCry[i][7]-1)/2;
-        ylim = (MatrizThatMakeMeCry[i][8]-1)/2;
-        zlim = (MatrizThatMakeMeCry[i][9]-1)/2;
+        var xlim = (MatrizThatMakeMeCry[i][7]-1)/2;
+        var ylim = (MatrizThatMakeMeCry[i][8]-1)/2;
+        var zlim = (MatrizThatMakeMeCry[i][9]-1)/2;
         if((pos[0]>=x-xlim && pos[0]<=x+xlim) && (pos[1]>=y-ylim && pos[1]<=y+ylim) && (pos[2]>=z-zlim && pos[2]<=z+zlim)){
 
         //Aqui le aumento 1 valor a la nave pricipal para que aumente de vida cada vez que impacta una nave enemiga
@@ -258,21 +258,33 @@ disparo(){
 
         LifeBar(MatrizThatMakeMeCry[0][6])
         }
-        //aqui abria impacto xd jajaja
-        if(MatrizThatMakeMeCry[i][6] <= 0){
-            //Eliminamos a la nave de la matriz
-            delete MatrizThatMakeMeCry[i][5];
-            scene.remove(MatrizThatMakeMeCry[i][4]);
-            delete MatrizThatMakeMeCry[i][4];
-            MatrizThatMakeMeCry[i]= new Array(0,null,null,null,null,null,0)
-            //Eliminamos la bala
-            i = numnaves;//para acabar el ciclo
-            
-            enemyDestroyedSound(); // sonido de destrucción de la nave enemiga.s
-        }else{
-            MatrizThatMakeMeCry[i][6]--;////Se le quita solo 1 punto de vida
+        //Validamos con que impactamos
+        if(MatrizThatMakeMeCry[i][0]==1){ //SI es una nave
+          //aqui abria impacto xd jajaja
+          if(MatrizThatMakeMeCry[i][6] <= 0){
+              //Eliminamos a la nave de la matriz
+              delete MatrizThatMakeMeCry[i][5];
+              scene.remove(MatrizThatMakeMeCry[i][4]);
+              delete MatrizThatMakeMeCry[i][4];
+              MatrizThatMakeMeCry[i]= new Array(0,null,null,null,null,null,0)
+              //Eliminamos la bala
+              i = numnaves;//para acabar el ciclo
+              
+              enemyDestroyedSound(); // sonido de destrucción de la nave enemiga.s
+          }else{
+              MatrizThatMakeMeCry[i][6]--;////Se le quita solo 1 punto de vida
+          }
+        }else if(MatrizThatMakeMeCry[i][0]==3){ //Si es un asteroide
+          //Eliminamos a la nave de la matriz
+          delete MatrizThatMakeMeCry[i][5];
+          scene.remove(MatrizThatMakeMeCry[i][4]);
+          delete MatrizThatMakeMeCry[i][4];
+          MatrizThatMakeMeCry[i]= new Array(0,null,null,null,null,null,0)
+          //Eliminamos la bala
+          i = numnaves;//para acabar el ciclo
+          
+          enemyDestroyedSound(); // sonido de destrucción de la nave enemiga.s
         }
-        
         scene.remove(sphere);
         sphere = null;
         who = null;

@@ -51,7 +51,7 @@ var patterns = new Array( //Array con todos los diferentes patrones, el primer n
 //Definimos las clases de naves y asteroides
 var clases_naves = {
   //velocidad,rango,velChase,velDisparo,rangoDisp,vida,largo,ancho,alto
-  class1: new Array('nave',1000,40,300,100,10,2,1,1,1),
+  class1: new Array('nave',1000,40,300,100,10,2,1,1,1,'Tie.glb'),
   class2: new Array('nave',1000,40,300,100,15,2,1,1,1),
   class3: new Array('nave',1000,40,300,150,18,2,5,5,5),
   class4: new Array('nave',1000,40,300,100,15,2,1,1,3),
@@ -61,7 +61,7 @@ var clases_naves = {
   class8: new Array('nave',1000,40,300,100,18,2,5,5,1),
   class9: new Array('nave',1000,40,300,150,18,2,7,7,3),
   //velocidad,modelo y dimensiones
-  ast1: new Array('ast',500,'asteroide__50.glb',1,1,1),
+  ast1: new Array('ast',10000,'asteroide__50.glb',1,1,1),
   ast2: new Array('ast',500,'asteroide__50.glb',1,1,1)
 };
 
@@ -178,18 +178,9 @@ function NumerosAleatorios(tope){
 $('#arriba').hide();
 var world = new World();  //Creamos el objeto world
 var obj = new Array(
-  new Array(clases_naves['class1'],11),
-  new Array(clases_naves['class2'],11),
-  new Array(clases_naves['class3'],11),
-  new Array(clases_naves['class4'],11),
-  new Array(clases_naves['class5'],11),
-  new Array(clases_naves['class6'],11),
-  new Array(clases_naves['class7'],11),
-  new Array(clases_naves['class8'],11),
-  new Array(clases_naves['class9'],11),
-  new Array(clases_naves['ast1'],100)
+  new Array(clases_naves['ast1'],5)
 );
-world.CreateWorld(100,100,100,'default',obj); //Creamos el mundo
+world.CreateWorld(50,5,5,'default',obj); //Creamos el mundo
 setTimeout(function(){
   $('#arriba').show();
   world.StartWorld();

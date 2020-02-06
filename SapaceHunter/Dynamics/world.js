@@ -45,7 +45,11 @@ class World{
     var directionalLight = new THREE.DirectionalLight( 0xffeedd );
     directionalLight.position.set( 0, 0, 1 ).normalize();
     scene.add( directionalLight );
-  
+
+    var directionalLight1 = new THREE.DirectionalLight( 0xffeedd );
+    directionalLight1.position.set( limitx, limity, limitz ).normalize();
+    scene.add( directionalLight1 );
+
     //Ponemos el sonido de fondo
     var background_music= new Audio(space_music);
     if(!is_playing)
@@ -118,17 +122,8 @@ class World{
           MatrizPrincipal[i][3] = NumerosAleatorios(limitz)-1;
           
           //Creamos el modelo
-          var geometry = new THREE.BoxGeometry( obj[0][7], obj[0][8], obj[0][9] );
-          var material = new THREE.MeshBasicMaterial( {color: 0xff0000} );
-          var model = new THREE.Mesh( geometry, material );
-          geometry = null;
-          material = null;
-          scene.add( model );
-          MatrizPrincipal[i][4] = model;
-          //Colocamos el modelo en las posiciones correctas
-          MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][1];
-          MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][2];
-          MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][3];
+          loadModelo(i,obj[0][10]);
+
           //Le damos su vida correspondiente
           MatrizPrincipal[i][6] = obj[0][6];
 
