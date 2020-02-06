@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="../CSS/register.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Bebas+Neue|Cambay|Ubuntu&display=swap" rel="stylesheet">
+    <style> 
+        a{text-decoration:none;} 
+         a:hover{text-decoration:none;}  
+        </style>
     <title>Register</title>
 </head>
 <body style="background-color: #1F1F20;">
@@ -36,10 +40,19 @@
            <div id="GoBack">
                 <button class="btn btn-outline-info" id="hey">Register</button>
                 <button  id="justSecret"></button>
-                <button class="btn btn-outline-danger" >Go back</button>
+                <button class="btn btn-outline-danger" id="atrasButton">Go back</button>
            </div>
         </div>
        
     </div>
 </body>
+<script>
+function ChangePlace() {
+  var tocaste = document.getElementById("atrasButton");
+  tocaste.addEventListener("click", function(){
+    location.href = "./logIn.html";    
+    }); 
+}
+ChangePlace()
+</script>
 </html>

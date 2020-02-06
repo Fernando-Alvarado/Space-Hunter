@@ -11,6 +11,10 @@
     <script src="../../../Librerías/jquery-3.4.1.min.js"></script>
 
     <title>LogIn</title>
+    <style> 
+    a{text-decoration:none;} 
+     a:hover{text-decoration:none;}  
+    </style>
 </head>
 <body style="background-color: #1F1F20;">
     <!-- <video autoplay muted loop id="myVideo">
@@ -79,8 +83,18 @@
         </div>
        
     </div>
+    <button class="btn btn-outline-light" id="JustPlay">Just Play</button>
 </body>
 <script>
+    function ChangePlace() {
+  var tocaste = document.getElementById("JustPlay");
+  tocaste.addEventListener("click", function(){
+    location.href = "./Elegir_modo.html";    
+    }); 
+}
+ChangePlace()
+
+
     $("#bigbox").css("display","none");
 
     document.getElementById("boton_registro").addEventListener('click',function(){

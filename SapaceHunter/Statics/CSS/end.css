@@ -12,6 +12,11 @@ body{
  /* font-family: 'Poiret One', cursive;*/
  /*font-family: 'Fredoka One', cursive;*/
     position: absolute;
-    top: 15%;
-    right: 45%;
+    top: 25%;
+    right: 35%;
+}
+#JustPlay{
+    position: absolute;
+    top: 70%;
+    left: 60%;
 }

@@ -1,6 +1,8 @@
 ////-----------------------------------------------------------------------------------------------------------------------
 ////----------------------------Objetos----------------------------------------------------------------------------------
 ////-----------------------------------------------------------------------------------------------------------------------
+console.log(MatrizThatMakeMeCry)
+
 
 class PersonajePrincipal{
     constructor (matrizDondeSeTrabaja) {
@@ -260,6 +262,8 @@ disparo(){
         }
         //Si es una nave
         if(MatrizThatMakeMeCry[i][0]==1){
+          console.log(numnaves)
+          navesVar--;//resto 1 por que ya fue eliminada xd s
           //aqui abria impacto xd jajaja
           if(MatrizThatMakeMeCry[i][6] <= 0){
               //Eliminamos a la nave de la matriz
@@ -287,7 +291,11 @@ disparo(){
         }
         scene.remove(sphere);
         sphere = null;
-        who = null;
+        who = null; 
+        ///Checar si se la variable de nave es 0 
+        if (numnaves <= 0) {
+          location.href = "./ganaste.html";    
+        }
         }
      }
    }

@@ -17,6 +17,11 @@ body {
 } */
 
 /* https://wallpaperaccess.com/blue-space */
+#JustPlay{
+    position: absolute;
+    top: 70%;
+    right: 37%;
+}
 #full-screen-background-image{
     z-index: -999;
     width: 100%;
@@ -125,5 +130,6 @@ label{
 .caja{
     width: 65%;
 }
+
 
 
