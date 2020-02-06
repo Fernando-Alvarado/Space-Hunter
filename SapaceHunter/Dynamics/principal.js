@@ -346,3 +346,9 @@ function healing_sound(){
     heal_sound.volume=0.012;
     heal_sound.play();
   }
+
+function impact_sound(){
+  var impact= new Audio(ships_colission);
+  impact.play();
+
+}

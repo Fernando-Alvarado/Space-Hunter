@@ -7,12 +7,15 @@ var limitz = null;
 var numnaves = null;
 var numasteroides = null; 
 var scene = null;
+var renderer = null;
+var camera = null;
 //Soinidos, rutas
 var laser_ene="../Media/Recovered_laser5.mp3"; //https://freesound.org/people/DayCraftMC/sounds/337112/
 var laser_ali="../Media/Recovered_77172__huvaakoodia__pulse-laser.wav"; //https://freesound.org/people/HuvaaKoodia/sounds/77172/
 var space_music="../Media/Recovered_396231__romariogrande__tentacle-wedding.mp3"; //https://freesound.org/people/Romariogrande/sounds/396231/
 var heal="../Media/Recovered_346116__lulyc__retro-game-heal-sound.wav";    //https://freesound.org/people/lulyc/sounds/346116/
 var ship_damage="../Media/Recovered_211634__qubodup__damage.mp3";  //https://freesound.org/people/qubodup/sounds/211634/
+ships_colission="../Media/Recovered_164569__adam-n__door-impact-6.wav" //https://freesound.org/people/Adam_N/sounds/164569/
 var enemy_destroy="../Media/Recovered_458867__raclure__damage-sound-effect.mp3"; //https://freesound.org/people/Raclure/sounds/458867/
 var gigantic_ene="../Media/Recovered_220533__the-very-real-horst__lithium-chloratum-3-min-binaural.mp3"; 
 //https://freesound.org/people/the_very_Real_Horst/sounds/220533/
@@ -21,9 +24,6 @@ var is_playing=false; //Para preguntar si está sonando el fondo.
 var inside=document.getElementById("imagenPrincipal");
 inside.setAttribute('draggable', false);
 
-//comentarios
-var renderer = null;
-var camera = null;
 
 ///arreglo de 
 var patterns = new Array( //Array con todos los diferentes patrones, el primer número es la velocidadf
@@ -52,7 +52,7 @@ var patterns = new Array( //Array con todos los diferentes patrones, el primer n
 var clases_naves = {
   //velocidad,rango,velChase,velDisparo,rangoDisp,vida,largo,ancho,alto
   class1: new Array('nave',1000,40,300,100,10,2,1,1,1),
-  class2: new Array('nave',1000,40,300,100,15,2,3,3,3),
+  class2: new Array('nave',1000,40,300,100,15,2,1,1,1),
   class3: new Array('nave',1000,40,300,150,18,2,5,5,5),
   class4: new Array('nave',1000,40,300,100,15,2,1,1,3),
   class5: new Array('nave',1000,40,300,150,18,2,3,3,5),
@@ -94,6 +94,7 @@ function ChooseWhereToMove(event, value){//switch para elegir
             scene.remove(MatrizThatMakeMeCry[i][4]);
             delete MatrizThatMakeMeCry[i][4];
             delete MatrizThatMakeMeCry[i][5];
+            impact_sound(); //sonido de choque entre objetos
             MatrizThatMakeMeCry[i]=[0,null,null,null,null,null,0];
             type=0;
           }
@@ -103,11 +104,12 @@ function ChooseWhereToMove(event, value){//switch para elegir
             delete MatrizThatMakeMeCry[value][4];
             delete MatrizThatMakeMeCry[value][5];
             MatrizThatMakeMeCry[value]=[0,null,null,null,null,null,0];
+            impact_sound();
             type = 0;
           }
           //En caso de que alguno de los dos objetos en la colision sean el principal, se manda un menaje de perder
           if(MatrizThatMakeMeCry[value][0]==2||MatrizThatMakeMeCry[i][0]==2)
-          MatrizThatMakeMeCry[0][6] = 3;////Aqui hize que la nave no pierda en caso de chocar
+              MatrizThatMakeMeCry[0][6] = 3;////Aqui hize que la nave no pierda en caso de chocar
           LifeBar(MatrizThatMakeMeCry[0][6])
           color = "white";
         }else{
@@ -175,7 +177,19 @@ function NumerosAleatorios(tope){
 
 $('#arriba').hide();
 var world = new World();  //Creamos el objeto world
-world.CreateWorld(100,100,100,'default'); //Creamos el mundo
+var obj = new Array(
+  new Array(clases_naves['class1'],11),
+  new Array(clases_naves['class2'],11),
+  new Array(clases_naves['class3'],11),
+  new Array(clases_naves['class4'],11),
+  new Array(clases_naves['class5'],11),
+  new Array(clases_naves['class6'],11),
+  new Array(clases_naves['class7'],11),
+  new Array(clases_naves['class8'],11),
+  new Array(clases_naves['class9'],11),
+  new Array(clases_naves['ast1'],100)
+);
+world.CreateWorld(100,100,100,'default',obj); //Creamos el mundo
 setTimeout(function(){
   $('#arriba').show();
   world.StartWorld();
