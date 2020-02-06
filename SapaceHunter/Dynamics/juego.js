@@ -7,6 +7,8 @@ var limitz = null;
 var numnaves = null;
 var numasteroides = null; 
 var scene = null;
+var renderer = null;
+var camera = null;
 //Soinidos, rutas
 var laser_ene="../Media/Recovered_laser5.mp3"; //https://freesound.org/people/DayCraftMC/sounds/337112/
 var laser_ali="../Media/Recovered_77172__huvaakoodia__pulse-laser.wav"; //https://freesound.org/people/HuvaaKoodia/sounds/77172/
@@ -21,9 +23,6 @@ var is_playing=false; //Para preguntar si está sonando el fondo.
 var inside=document.getElementById("imagenPrincipal");
 inside.setAttribute('draggable', false);
 
-//comentarios
-var renderer = null;
-var camera = null;
 
 ///arreglo de 
 var patterns = new Array( //Array con todos los diferentes patrones, el primer número es la velocidadf
@@ -52,7 +51,7 @@ var patterns = new Array( //Array con todos los diferentes patrones, el primer n
 var clases_naves = {
   //velocidad,rango,velChase,velDisparo,rangoDisp,vida,largo,ancho,alto
   class1: new Array('nave',1000,40,300,100,10,2,1,1,1),
-  class2: new Array('nave',1000,40,300,100,15,2,3,3,3),
+  class2: new Array('nave',1000,40,300,100,15,2,1,1,1),
   class3: new Array('nave',1000,40,300,150,18,2,5,5,5),
   class4: new Array('nave',1000,40,300,100,15,2,1,1,3),
   class5: new Array('nave',1000,40,300,150,18,2,3,3,5),
@@ -175,7 +174,19 @@ function NumerosAleatorios(tope){
 
 $('#arriba').hide();
 var world = new World();  //Creamos el objeto world
-world.CreateWorld(100,100,100,'default'); //Creamos el mundo
+var obj = new Array(
+  new Array(clases_naves['class1'],11),
+  new Array(clases_naves['class2'],11),
+  new Array(clases_naves['class3'],11),
+  new Array(clases_naves['class4'],11),
+  new Array(clases_naves['class5'],11),
+  new Array(clases_naves['class6'],11),
+  new Array(clases_naves['class7'],11),
+  new Array(clases_naves['class8'],11),
+  new Array(clases_naves['class9'],11),
+  new Array(clases_naves['ast1'],100)
+);
+world.CreateWorld(100,100,100,'default',obj); //Creamos el mundo
 setTimeout(function(){
   $('#arriba').show();
   world.StartWorld();
