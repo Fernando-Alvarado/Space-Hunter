@@ -78,12 +78,13 @@
                         <button class="btn btn-outline-info" id="registrar_button">Register</button>
                         <button  id="justSecret"></button>
                         <button class="btn btn-outline-danger" id="return_button">Go back</button>
+                        <button  id="justSecret"></button>
+                        <button class="btn btn-outline-light" id="JustPlay">Just Play</button>
                 </div>
             
         </div>
        
     </div>
-    <button class="btn btn-outline-light" id="JustPlay">Just Play</button>
 </body>
 <script>
     function ChangePlace() {
@@ -150,7 +151,6 @@ ChangePlace();
         if($("#in_nick").val()!=""&&$("#in_pass").val()!="")
         {
             var log_data=$("#form_log").serialize();
-            console.log("Contraseñas iguales");
             $.ajax({
                 url: '../Dynamics/PHP/search_user.php' , 
                 method: 'POST',
@@ -162,6 +162,15 @@ ChangePlace();
                 },
             }).done( function(response) {
                 console.log ("Respuesta del Ajax: "+response);
+                respuesta= JSON.parse(response);
+                if(respuesta=="yes")
+                {
+                    location.href="Elegir_modo.html";
+                }
+                else //usuario no encontrado
+                {
+                    console.log("Nel jasjj")
+                }
             }).fail( function(jqXHR, textStatus) {
                 alert('Error: ' + textStatus);
             });

@@ -65,7 +65,7 @@ document.body.appendChild( renderer.domElement );
     var model_p;
     var loader = new THREE.GLTFLoader();
       loader.load(
-          "../Modelos/"+'asteroide_3.glb',//Aquí va el nombre del modelo
+          "../Modelos/"+'asteroide_3_Pi.glb',//Aquí va el nombre del modelo
 
           function ( gltf ) {
               model_p = gltf.scene;

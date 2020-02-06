@@ -18,6 +18,9 @@
 --
 -- Table structure for table `usuarios`
 --
+DROP DATABASE IF EXISTS spacehunter;
+CREATE DATABASE spacehunter CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE spacehunter;
 
 DROP TABLE IF EXISTS `usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -35,10 +38,34 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES ('asdasdasd','ElmherHomero');
+INSERT INTO `usuarios` VALUES ('asdasdasd','ElmherHomero'),('alberto',"123");
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+
+DROP TABLE IF EXISTS `modos_juego`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `modos_juego` (
+  `Nickname` varchar(35) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Password` varchar(35) COLLATE utf8mb4_unicode_ci NOT NULL,
+  KEY `Nickname` (`Nickname`),
+  CONSTRAINT `modos_juego_ibfk_1` FOREIGN KEY (`Nickname`) REFERENCES `usuarios` (`Nickname`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `modos_juego`
+--
+
+LOCK TABLES `modos_juego` WRITE;
+/*!40000 ALTER TABLE `modos_juego` DISABLE KEYS */;
+
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

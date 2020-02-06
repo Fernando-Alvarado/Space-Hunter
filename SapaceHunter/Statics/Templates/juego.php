@@ -43,11 +43,11 @@
     <script src="../../Dynamics/Librerías/three.js-master/examples/js/loaders/GLTFLoader.js"></script>
     <!-- <script src="Librerías/three.min.js"></script> -->
     <script src="../../Dynamics/world.js"></script>
+    <script src="../../Dynamics/juego.js"></script>
     <script src="../../Dynamics/principal.js"></script>
     <script src="../../Dynamics/naves_enemigas.js"></script>
     <script src="../../Dynamics/asteroides.js"></script>
-     <script src="../../Dynamics/juego.js"></script>
- 
+    
   </div>
 </body>
 </html>

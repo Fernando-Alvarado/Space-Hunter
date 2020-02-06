@@ -2,6 +2,7 @@ body {
     margin: 0;
     padding: 0;
     color: black;
+    overflow: hidden;
     /* background-image: url("../../../Media/login_background.jpg"); 
     background-size: cover; */
 }
@@ -17,11 +18,11 @@ body {
 } */
 
 /* https://wallpaperaccess.com/blue-space */
-#JustPlay{
+/* #JustPlay{
     position: absolute;
     top: 70%;
     right: 37%;
-}
+} */
 #full-screen-background-image{
     z-index: -999;
     width: 100%;
@@ -63,7 +64,7 @@ body {
     padding-right: 5%;
     padding-left: 5%;
     padding-bottom: 5%;
-    width: 30%;
+    width: 38%;
 }
 #secret{
     padding-left: 35%;
@@ -119,6 +120,8 @@ label{
     left: 10%;
 }
 #GoBack_btn{
+    display: flex;
+    justify-content: space-around;
     position: absolute;
     top: 110%;
     display: inline;
