@@ -1,3 +1,4 @@
+var score = 0;
 ////-----------------------------------------------------------------------------------------------------------------------
 ////----------------------------Objetos----------------------------------------------------------------------------------
 ////-----------------------------------------------------------------------------------------------------------------------
@@ -248,7 +249,8 @@ disparo(){
         var ylim = (MatrizThatMakeMeCry[i][8]-1)/2;
         var zlim = (MatrizThatMakeMeCry[i][9]-1)/2;
         if((pos[0]>=x-xlim && pos[0]<=x+xlim) && (pos[1]>=y-ylim && pos[1]<=y+ylim) && (pos[2]>=z-zlim && pos[2]<=z+zlim)){
-
+          score++;
+          document.getElementById("numberKills").innerHTML = "Kills " +score.toString();//Aumentar el el valor de los scores
         //Aqui le aumento 1 valor a la nave pricipal para que aumente de vida cada vez que impacta una nave enemiga
         if( MatrizThatMakeMeCry[0][6] < 13){          
         MatrizThatMakeMeCry[0][6]++;////Aqui hize que la nave no pierda en caso de chocar

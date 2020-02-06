@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../CSS/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
     <title>Document</title>
 
    <style>
@@ -35,6 +36,9 @@
   </div>
 
   <div id="abajo">
+    <div id="killsCounter">
+    <p id="numberKills">Kills 0</p>
+    </div>
     <script src="../../Dynamics/Librerías/three.min.js"></script>
     <script src="../../Dynamics/Librerías/jquery-3.4.1.min.js"></script>
     <script src="../../Dynamics/Librerías/three.js-master/examples/js/loaders/GLTFLoader.js"></script>
