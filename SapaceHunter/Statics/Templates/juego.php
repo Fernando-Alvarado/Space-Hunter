@@ -19,6 +19,20 @@
     <canvas height="372" width="27" id="Barraescudos1" class="one"></canvas>
     <canvas height="372" width="27" id="Barraescudos2" class="two"></canvas>
   </div>
+  <div style='display:none'>
+  <div class='dif'>
+  <?php
+  $dif=$_POST['dif'];
+  echo $dif;
+  ?>
+  </div>
+  <div class='modo'>
+  <?php
+  $modo=$_POST['mod'];
+  echo  $modo;
+  ?>
+  </div>
+  </div>
 
   <div id="abajo">
     <script src="../../Dynamics/Librerías/three.min.js"></script>

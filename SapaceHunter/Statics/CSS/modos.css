@@ -1,0 +1,59 @@
+body {
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+#bigbox {
+    position: absolute;
+    top: 9%;
+    left: 6%;
+    background-color: black;
+    color: white;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 110%;
+    width: 30%;
+    height: 85%;
+}
+#infobox {
+    position: absolute;
+    top: 9%;
+    left: 50%;
+    background-color: black;
+    color: white;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 110%;
+    width: 40%;
+    height: 85%;
+}
+
+#fer{
+    padding-right: 13.8%;
+}
+#Log, #modo{
+    padding-bottom: 7%;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 300%;
+    text-align: center;
+    color: #45CAF1;
+}
+
+#cajaChica{
+    width:100%;
+    height: 80%;
+    margin: 10%;
+}
+#Go{
+    display: inline;
+    margin-left: 30%;
+    margin-right: 30%;
+}
+#caja{
+    width: 65%;
+}
+
+.descript{
+    width:80%;
+    word-wrap: break-word;
+}
+
+

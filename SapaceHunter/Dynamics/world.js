@@ -181,9 +181,7 @@ class World{
               model = gltf.scene;
 
               //lo añadimos a la escena
-              scene.add( model);
               MatrizPrincipal[i][4] = model;
-              // Instanciamos al objeto con base en los parámetros anteriores
               scene.add(MatrizPrincipal[i][4]);
               MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][1];
               MatrizPrincipal[i][4].position.y = MatrizPrincipal[i][2];
