@@ -3,7 +3,7 @@ $('#mod_s').change(function(){
     console.log(mod);
     if(mod==1){
         $('#modo').html('Supervivencia');
-        $('.descript').html('Quedaste varado en el sector D-143, los enemigos te flanquean, puedes sobrevivir el tiempo necesario para que llegue la brigada de rescate?');
+        $('.descript').html('Quedaste varado en el sector K-3345 Sistema Alfa-C, los enemigos te flanquean, puedes sobrevivir el tiempo necesario para que llegue la brigada de rescate?');
     }else if(mod==2){
         $('#modo').html('Mensajero');
         $('.descript').html('');

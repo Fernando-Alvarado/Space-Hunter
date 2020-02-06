@@ -12,6 +12,9 @@ document.body.appendChild( renderer.domElement );
     var directionalLight = new THREE.DirectionalLight( 0xffeedd );
     directionalLight.position.set( 0, 0, 1 ).normalize();
     scene.add( directionalLight );
+    var directionalLight1 = new THREE.DirectionalLight( 0xffeedd );
+    directionalLight1.position.set( -1, -1, -1 ).normalize();
+    scene.add( directionalLight1 );
 
     camera.position.z = 5;
 
@@ -36,7 +39,7 @@ document.body.appendChild( renderer.domElement );
      }
     
 
-    var geometry = new THREE.BoxGeometry( 1, 1, 1 ); //Los tres deben de ser nones
+    var geometry = new THREE.BoxGeometry( 4, 2, 5 ); //Los tres deben de ser nones
     var material = new THREE.MeshBasicMaterial( {color: 0xff0000,wireframe:true} );
     var model = new THREE.Mesh( geometry, material );
     scene.add( model );
@@ -53,13 +56,16 @@ document.body.appendChild( renderer.domElement );
             camera.position.x-=1;
         if(e.code=='KeyS')
             camera.position.x+=1;
-        console.log('aaa');
+        if(e.code=='KeyR')
+           camera.rotation.y+=.1;
+        if(e.code=='KeyF')
+           camera.rotation.y-=.1;
     });
 
     var model_p;
     var loader = new THREE.GLTFLoader();
       loader.load(
-          "../Modelos/"+'Tie.glb',//Aquí va el nombre del modelo
+          "../Modelos/"+'Destructor.glb',//Aquí va el nombre del modelo
 
           function ( gltf ) {
               model_p = gltf.scene;

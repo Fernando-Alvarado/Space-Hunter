@@ -21,7 +21,7 @@
     <canvas height="372" width="27" id="Barraescudos1" class="one"></canvas>
     <canvas height="372" width="27" id="Barraescudos2" class="two"></canvas>
     <div id="killsCounter">
-    <p id="numberKills">Kills <span id='numkills'></span></p>
+    <p id="numberKills"><span id='numkills'></span></p>
     </div>
   </div>
   <div class='texto_intro'>default</div>

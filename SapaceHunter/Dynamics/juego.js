@@ -7,6 +7,7 @@ var limitz = null;
 var numnaves = null;
 var numasteroides = null; 
 var numkills = 0; 
+var tiempo = null;
 var scene = null;
 var renderer = null;
 var camera = null;
@@ -175,11 +176,23 @@ function NumerosAleatorios(tope){
     return Math.floor((Math.random()*tope))+1;
 }
 
-function NumKills(){
+function NumKills(){  //Función que cuenta las kills
   setInterval(check,100);
   function check(){
-    $('#numkills').html(numkills+'/'+numnaves);
-    if(numkills == numnaves){
+    $('#numkills').html('Kills: '+numkills+'/'+numnaves);
+    if(numkills == numnaves){ //Si destruyes todas las naves, redirecciona a ganar
+      location.href="Win.html";
+    }
+  }
+  check();
+}
+function Sobrevive(dif){
+  tiempo = (dif*60)+10;
+  setInterval(check,1000);
+  function check(){
+    tiempo--;
+    $('#numkills').html('Tiempo restante: '+tiempo+'s');
+    if(tiempo == 0){
       location.href="Win.html";
     }
   }
@@ -198,13 +211,23 @@ var dif = Number($('.dif').text());
 var modo = Number($('.modo').text());
 var data_world=null;
 var msg = null;
-if(modo == 4){
+if(modo == 1){
+  var obj = new Array(
+    new Array(clases_naves['ast1'],50), 
+    new Array(clases_naves['class1 '+dif],30*dif),
+  );
+  data_world = new Array(60,60,60,'imperio',obj);
+  msg = 'Localización: Sector K-3345 Sistema Alfa-C <br>Quedaste varado en territorio Imperial, vez a lo lejos los restos de una fragata rebelde.<br>Puedes sobrevivir el tiempo suficiente para que llegue la brigada de rescate?';
+  Sobrevive(dif);
+}
+else if(modo == 4){
   var obj = new Array(
     new Array(clases_naves['ast1'],50), 
     new Array(clases_naves['class1 '+dif],5*dif),
   );
   data_world = new Array(100,100,100,'default',obj);
   msg = 'Localización: Sector D-1233 Estrella Delta-A <br> El imperio a tomado posesión de esta zona, acaba con ellos para que las tropas puedan pasar.<br>Buena suerte!';
+  NumKills()
 }
 
 $('.texto_intro').html(msg);
@@ -212,7 +235,6 @@ world.CreateWorld(data_world); //Creamos el mundo
 setTimeout(function(){
   $('.texto_intro').hide();
   $('#arriba').show();
-  NumKills()
   world.StartWorld();
 },10000);
 //------------------------------------------------------------------------------------------------
