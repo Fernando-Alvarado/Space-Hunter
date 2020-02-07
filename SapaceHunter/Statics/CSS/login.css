@@ -56,7 +56,7 @@ body {
 #cajaGrande{
     font-family: 'Ubuntu', sans-serif;
     position: absolute;
-    top: 12%;
+    top: 3%;
     left: 33%;
     background-color: rgba(0, 0, 0, 0.548);
     color: white;
@@ -79,7 +79,7 @@ body {
 
 #bigbox {
     position: absolute;
-    top: 9%;
+    top: 5%;
     left: 33%;
     background-color: rgba(0, 0, 0, 0.603);
     color: white;
@@ -90,7 +90,7 @@ body {
     font-family: 'Bebas Neue', cursive;
     font-size: 110%;
     width: 33%;
-    height: 70%;
+    height: 85%;
 }
 
 label{
@@ -116,7 +116,7 @@ label{
 }
 #cajaChica_reg{
     position: absolute;
-    top: 9%;
+    top: 7%;
     left: 10%;
 }
 #GoBack_btn{
