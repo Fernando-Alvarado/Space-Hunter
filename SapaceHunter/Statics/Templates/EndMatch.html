@@ -46,11 +46,7 @@ ChangePlace()
     renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.outputEncoding = THREE.sRGBEncoding;
 
-    //Es necesario determinar el tamaño del rendereado, el aspect ratio es sólo una escala, aquí daremos las
-    //dimensiones. El primer parámetro es el tamaño horizontal, el segundo vertical, hay un tercer parámetro,
-    //el cual es true o false, en caso de ser false, se ejecutará el render con la mitad de la calidad
-    //(suponiendo que las dimensiones del canvas son de 100% x 100%), si no se pasa parámetro, se considera
-    //que es true y se ejecuta el render con resolución normal.
+   
     document.body.appendChild( renderer.domElement );
 
 

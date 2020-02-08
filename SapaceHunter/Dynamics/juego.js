@@ -65,8 +65,8 @@ var clases_naves = {
   class8: new Array('nave',1000,40,300,100,18,2,5,5,1),
   class9: new Array('nave',1000,40,300,150,18,2,7,7,3),
   //velocidad,modelo y dimensiones
-  ast1: new Array('ast',10000,'asteroide__50.glb',1,1,1),
-  ast2: new Array('ast',500,'asteroide__50.glb',1,1,1)
+  ast1: new Array('ast',10000,'asteroide_1_Gre.glb',1,1,1),
+  ast2: new Array('ast',500,'asteroide_1_Pi.glb',1,1,1)
 };
 
 ////-----------------------------------------------------------------------------------------------------------------------
