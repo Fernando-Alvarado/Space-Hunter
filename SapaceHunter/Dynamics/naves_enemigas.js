@@ -195,6 +195,7 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
    var sonido_ene= new Audio(laser_ene);     //Variable tipo audio, con la referencia del laser del enemigo
    var sonido_daño_principal= new Audio(ship_damage);
    
+   //Creamos el modelo para las balas y lo agregamos a la escena
    var geometry = new THREE.SphereGeometry( .05, .05, .05 );
    var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
    var sphere = new THREE.Mesh( geometry, material );

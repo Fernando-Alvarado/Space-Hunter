@@ -1,4 +1,4 @@
-$('#mod_s').change(function(){
+$('#mod_s').change(function(){  //En caso de cambiar el modo, mostrar la información de este
     var mod = $('#mod_s').val();
     console.log(mod);
     if(mod==1){
@@ -16,7 +16,7 @@ $('#mod_s').change(function(){
     }
 });
 
-$('#Go').click(function(){
+$('#Go').click(function(){  //Cuano el usuario aprieta el botón de empezar, lo direccionamos a juego.php, enviándole la dificultad y el modo seleccionado
     var mod = $('#mod_s').val();
     var dif = $('#dif').val();
 
