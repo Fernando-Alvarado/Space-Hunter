@@ -29,11 +29,13 @@
                     <label id="Log">Log In</label>
                 <div id="nick">
                         <label>Nickname</label>
-                        <input type="text" id="in_nick" name="nick"> <br>
+                        <input type="text" class="nickname"id="in_nick" name="nick"> <br>
+                        <p class="feed_log"></p>
                 </div>
                 <div id="pass">
                         <label>Password</label>
                         <input type="password" id="in_pass" name="pass"> <br>
+                        <p class="feed_log"></p>
                 </div>
             </form>
                 <div id="butones">
@@ -62,16 +64,19 @@
                 </div> -->
                 <div id="nick_reg">
                         <label class="fer">Nickname</label>
-                        <input type="text" class="caja" id="nick_input" name="nickname"> <br>
+                        <input type="text" class="caja nickname" id="nick_input" name="nickname"> <br>
+                        <p class="feed_reg"></p>
                 </div>
                 <div id="pass_reg">
                     <button class="secret_reg"></button> <br>
                         <label class="fer">Password</label>
                         <input type="text" class="caja" id="nick_pass" name="password"> <br>
+                        <p class="feed_reg"></p>
                         <button class="secret_reg"></button> <br>
                 </form>
                         <label>Confirm password</label>
                         <input type="text" class="caja" id="nick_passx2"> <br>
+                        <p class="feed_reg"></p>
                 </div>
            
                 <div id="GoBack_btn">
@@ -86,100 +91,5 @@
        
     </div>
 </body>
-<script>
-    function ChangePlace() {
-  var tocaste = document.getElementById("JustPlay");
-  tocaste.addEventListener("click", function(){
-    location.href = "./Elegir_modo.html";    
-    }); 
-}
-ChangePlace();
-
-
-    $("#bigbox").css("display","none");
-
-    document.getElementById("boton_registro").addEventListener('click',function(){
-        $("#cajaGrande").css("display","none");
-
-        $("img").attr("src","../Media/register_background.jpg");
-        $("#bigbox").css("display","block");
-    });
-
-
-    // Boton de registro
-    document.getElementById("registrar_button").addEventListener("click",function(){
-        var inputs_data=$("#form_reg").serialize();
-        console.log(inputs_data);
-
-        if($("#nick_pass").val()==$("#nick_passx2").val())
-        {
-            console.log("Contraseñas iguales");
-            $.ajax({
-                url: '../Dynamics/PHP/new_user.php' , 
-                method: 'POST',
-                data: inputs_data,
-                statusCode: {
-                404: function(){
-                    alert('No encontrado');
-                },
-                },
-            }).done( function(response) {
-                console.log ("Respuesta del Ajax: "+response);
-            }).fail( function(jqXHR, textStatus) {
-                alert('Error: ' + textStatus);
-            });
-        }
-        else
-            console.log("Las contraseñas no son iguales.")
-
-    })
-
-    document.getElementById("return_button").addEventListener("click",function(){
-        let inputs= document.querySelectorAll('input');
-        inputs.forEach(casilla=>{
-            casilla.value="";
-        });
-
-        $("#bigbox").css("display","none");
-        $("img").attr("src","../Media/login_background.jpg");
-
-        $("#cajaGrande").css("display","block");
-
-    });
-
-    document.getElementById("boton_ingresar").addEventListener("click",function(){
-        if($("#in_nick").val()!=""&&$("#in_pass").val()!="")
-        {
-            var log_data=$("#form_log").serialize();
-            $.ajax({
-                url: '../Dynamics/PHP/search_user.php' , 
-                method: 'POST',
-                data: log_data,
-                statusCode: {
-                404: function(){
-                    alert('No encontrado');
-                },
-                },
-            }).done( function(response) {
-                console.log ("Respuesta del Ajax: "+response);
-                respuesta= JSON.parse(response);
-                if(respuesta=="yes")
-                {
-                    location.href="Elegir_modo.html";
-                }
-                else //usuario no encontrado
-                {
-                    console.log("Nel jasjj")
-                }
-            }).fail( function(jqXHR, textStatus) {
-                alert('Error: ' + textStatus);
-            });
-            
-        }
-    });
-
-
-    
-
-</script>
+<script src="../../Dynamics/login.js"></script>
 </html>

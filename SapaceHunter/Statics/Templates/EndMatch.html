@@ -8,11 +8,22 @@
     <link rel="stylesheet" href="../CSS/end.css">
     <link href="https://fonts.googleapis.com/css?family=Luckiest+Guy|Orbitron&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Fredoka+One|Passion+One|Poiret+One&display=swap" rel="stylesheet">
-    <title>Perdiste</title>
+    <script src="../../Dynamics/Librerías/three.js"></script>
+    <script src="../../Dynamics/Librerías/three.js-master/examples/js/loaders/GLTFLoader.js"></script>
+    <title>Has perdido</title>
+    <style>
+        body { margin: 0; }    /*  pantalla completa, canvas al 100% */
+        canvas { width: 100%; height: 100% }
+
+
+    </style>
 </head>
 <body>
-    <h1 id="loser">G a m e <br> O v e r</h1>
-    <button class="btn btn-outline-light" id="JustPlay">Go Back</button>
+    <div id="container">
+        <h1 id="loser">G a m e <br> O v e r</h1>
+        <button class="btn btn-outline-light" id="JustPlay">Go Back</button>
+    </div>
+    
 </body>
 <script>
  function ChangePlace() {
@@ -23,4 +34,151 @@
 }
 ChangePlace()
 </script>
+
+
+<script>
+    
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+   
+    var renderer = new THREE.WebGLRenderer();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.outputEncoding = THREE.sRGBEncoding;
+
+    //Es necesario determinar el tamaño del rendereado, el aspect ratio es sólo una escala, aquí daremos las
+    //dimensiones. El primer parámetro es el tamaño horizontal, el segundo vertical, hay un tercer parámetro,
+    //el cual es true o false, en caso de ser false, se ejecutará el render con la mitad de la calidad
+    //(suponiendo que las dimensiones del canvas son de 100% x 100%), si no se pasa parámetro, se considera
+    //que es true y se ejecuta el render con resolución normal.
+    document.body.appendChild( renderer.domElement );
+
+
+
+
+
+        var model;
+
+        function loadObject(){
+            var loader = new THREE.GLTFLoader();
+            // console.log(loader);
+            loader.load(
+            "../Modelos/X-Wing.glb",
+
+                function ( gltf ) {
+
+                    model = gltf;
+                    scene.add( model.scene );
+
+                },
+                function ( xhr ) {
+                    //console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+                },
+                function ( error ) {
+                    //console.log( 'An error happened' );
+                }
+            );
+        }
+
+    loadObject();
+
+    console.log(model);
+    var ambient = new THREE.PointLight( 0x444444 );
+    scene.add( ambient );
+    var directionalLight = new THREE.DirectionalLight( 0xffeedd );
+    directionalLight.position.set( 0, 0, 1 ).normalize();
+    scene.add( directionalLight );
+
+
+
+
+
+
+   
+
+    camera.position.z = 2;
+  
+
+    function animate(){
+        requestAnimationFrame( animate );
+        //el request animationFrame de toda la vida, recursivo, aprox. 60 ciclos por segundo, también deja
+        //de ejecutarse la animación cuando no estás en la pestaña por lo que ahorras procesamiento
+        //y batería usada.
+
+        /* cube.rotation.x += 0.02;
+        cube.rotation.y += 0.02; */
+        
+        model.scene.rotation.y+=0.02;
+        model.scene.rotation.x+=0.02;
+
+
+
+        //El reto aquí será modificar camera.position.z con base en algún botón que toque, por ejemplo, si toca 
+        // s que se vaya la cámara hacia atrás, si toca w hacia adelante.
+
+        //Add event listener aquí xd...
+
+        renderer.render( scene, camera );
+        //ya que está la cámara y la escena, las ejecuta el render, boila.
+    }
+    document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
+        switch(event.code){
+        case "ArrowUp": 
+        console.log(event);
+
+            camera.rotation.y +=0.01;
+        break;
+        case "ArrowDown": 
+        console.log(event);
+
+            camera.rotation.y -=0.01;
+        break;
+        case "ArrowRight": 
+        console.log(event);
+
+            camera.translateX +=0.01;
+        break;
+        case "ArrowLeft": 
+        console.log(event);
+
+            camera.translateX -=0.01;
+        break;
+    
+
+        }
+        /* console.log('----------------------------');
+        MatrizPrincipal[inicioY][inicioX] = 1;
+        console.log(MatrizPrincipal); */
+        });
+    animate();
+
+    document.addEventListener('keydown', function(event) {//PARA RECONOCER LA tECLAS
+      switch(event.code){
+        case 'KeyW': model.scene.position.y += .1;
+            
+          break;
+        case 'KeyS': model.scene.position.y -= .1;
+          break;
+        case 'KeyA': model.scene.position.x += .1;
+          break;
+        case 'KeyD': model.scene.position.x -= .1;
+          break;
+        case 'KeyR': model.scene.position.z += .1;
+          break;
+        case 'KeyF': model.scene.position.z -= .1;
+          break;
+        case 'ArrowUp': camera.rotation.x += .01;
+          break;
+        case 'ArrowDown': camera.rotation.x -= .01;
+          break;
+        case 'ArrowLeft': camera.rotation.y += .01;
+          break;
+        case 'ArrowRight': camera.rotation.y -= .01;
+      }
+    });
+
+
+</script>
+
+
 </html>
