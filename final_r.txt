@@ -1,0 +1,7 @@
+cls
+rd xampp\htdocs\proy\estaticos\css
+rd xampp\htdocs\proy\estaticos\img
+rd xampp\htdocs\proy\estaticos
+rd xampp\htdocs\proy
+rd xampp\htdocs\templates
+tree /f

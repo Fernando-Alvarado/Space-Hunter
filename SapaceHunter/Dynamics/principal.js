@@ -293,13 +293,11 @@ disparo(){
         sphere = null;
         who = null; 
         ///Checar si se la variable de nave es 0 
-      /*  if (numnaves <= 0) {
-          location.href = "./ganaste.html";    
-        }*/
         }
      }
    }
    if(who == 0){
+     //Si la bala se sale de los límites, se eliminas
      if(pos[0] <= 0 || pos[0] >= limitx || pos[1] <= 0 || pos[1] >= limity || pos[2] <= 0 || pos[2] >= limitz){
         scene.remove(sphere);
         sphere = null;
@@ -313,6 +311,10 @@ disparo(){
 dispLoop();
 }
 }
+
+////-----------------------------------------------------------------------------------------------------------------------
+////----------------------------FUNCIONES----------------------------------------------------------------------------------
+////-----------------------------------------------------------------------------------------------------------------------
 
 function ShieldBar(numero, where){///El numero seran las divisiones en que se dibujaran
 var canvasShiel = document.getElementById(where);
@@ -354,11 +356,6 @@ life.fill();
 life.closePath();
 
 }
-
-////-----------------------------------------------------------------------------------------------------------------------
-////----------------------------FUNCIONES----------------------------------------------------------------------------------
-////-----------------------------------------------------------------------------------------------------------------------
-
 function healing_sound(){
     var heal_sound= new Audio(heal);
     heal_sound.volume=0.012;
