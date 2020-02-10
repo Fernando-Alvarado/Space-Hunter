@@ -137,10 +137,10 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
        function CheckWhereTheHellIsIn(){
                //esto es para que pueda rotar la pantalla del jugador
                if(WhereOnX< (MedidaPantalla)/4){//girar a la derecha
-                   camera.rotation.y += .005;
+                   camera.rotation.y += .007;
                }
                else if(WhereOnX> ((MedidaPantalla)/4)*3){//girara a la girar a la izquierda
-                   camera.rotation.y -= .005;
+                   camera.rotation.y -= .007;
                }
                //the last thing to do
        }
@@ -171,7 +171,7 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
          direction.z = Math.round(direction.z);
          direction.y = Math.round(direction.y);
 
-         camera.position.add(direction.multiplyScalar(-1)); //Agregamos ese vector multiplicándolo por un número para ajustar la velocidad
+         camera.position.add(direction.multiplyScalar(1)); //Agregamos ese vector multiplicándolo por un número para ajustar la velocidad
 
          //En caso de que se qwuiera salir de el área delimitada, lo regresamos
          if(camera.position.x >= limitx-1){

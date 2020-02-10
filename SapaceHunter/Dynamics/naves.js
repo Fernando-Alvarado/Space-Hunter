@@ -1,19 +1,3 @@
-var NumberOfTotalThings = MatrizThatMakeMeCry.length-1;
-function NumerosAleatorios(tope){//Funcion que da numeros aleatorios
-  return Math.floor((Math.random()*tope))+1;
-}
-//Arrelgo a donde apunta, apunta a la nave,
-var Apuntando = new Array(NumberOfTotalThings)//delcarnado la variable con todas las posciones
-
-function AsignarValor(){//Funcion que le asignara los valores sobre donde apuntar
-    for (let i = 0; i <NumberOfTotalThings; i++) {
-      Apuntando[i]= NumerosAleatorios(NumberOfTotalThings);
-    }
-    setTimeout(()=>{AsignarValor()},2500)//tipo que tarda en que se refresque los valores de donde apunta 
-}
-AsignarValor();//llamando a la funcion
-
-
 class Naves{
     constructor(matrizDondeSeTrabaja, number,velocidad,rango,velChase,velDisparo,rangoDisp){//el
         this.workingMat = matrizDondeSeTrabaja;
@@ -45,7 +29,7 @@ class Naves{
                 if(this.dist_chase <=obj.rango && matriz[position][0]!=null) {
                   
                   if(this.dist_apuntando <=obj.rangoDisp){//Aqui dispara la nave enemiga---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+                    console.log('pium');
 
                   //Obtenemos el límite más grande para el rango de vida de las balas.
                   var limit = limitx;
@@ -171,7 +155,6 @@ class Naves{
           this.enemigo = 1;
           this.color = 0x0450b2;
         }
-        console.log(this);
         MainBucle(this, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.numero, this.number,this.current_pattern, this.pattern_move,patterns);
     }
 
@@ -275,24 +258,29 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
    
      setTimeout(function(){
        
-         if(Coun < MatBalas[0].length  && sphere.position.x >=0 && sphere.position.x <=limitx && sphere.position.y >=0 && sphere.position.y <=limity && sphere.position.z >=0 && sphere.position.z <=limitz){
+         if(Coun < MatBalas[0].length){
              sphere.position.x=matUnround[0][Coun];
              sphere.position.y=matUnround[1][Coun];
              sphere.position.z=matUnround[2][Coun];
    
              var Everything = MatrizThatMakeMeCry; //Aqui tengo que poner la matriz de IWannaCry
 
-
-             if( WhoToKill== 2){//cuendo le disparen a la nave principal
+             if( WhoToKill== MatrizThatMakeMeCry[target][0]){//cuendo le disparen a la nave principal
                  //Everything es la matriz donde estan todas la anves
 
 
-                if(Everything = MatrizThatMakeMeCry){/////si es la nave enemiga a la que se le disparo
-                  if(MatBalas[0][Coun]==Everything[0][1]&&MatBalas[1][Coun]==Everything[0][2]&&MatBalas[2][Coun]==Everything[0][3]){
+                /////si es la nave enemiga a la que se le disparo
+                  if(MatBalas[0][Coun]==Everything[target][1]&&MatBalas[1][Coun]==Everything[target][2]&&MatBalas[2][Coun]==Everything[target][3]){
                    
                     scene.remove(sphere);
                     sphere = null;
-                    MatrizThatMakeMeCry[0][6]--;////Aqui hize que la nave no pierda en caso de chocar
+                    MatrizThatMakeMeCry[target][6]--;
+                    if(MatrizThatMakeMeCry[target][6]<=0){
+                      delete MatrizThatMakeMeCry[target][5];
+                      scene.remove(MatrizThatMakeMeCry[target][4]);
+                      delete MatrizThatMakeMeCry[target][4];
+                      MatrizThatMakeMeCry[target]= new Array(null,null,null,null,null,null,0);
+                    }
                     //Cuando impactan la principal
                     sonido_daño_principal.play(); //Sonido cuando te da una bala enemiga.
                     LifeBar(MatrizThatMakeMeCry[0][6]);
@@ -300,11 +288,8 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
                       location.href="../Templates/EndMatch.html";////No se si esta ruta funcione
                   }else{
                       Coun++;
-                      GodsLoop(MatBalas, Coun, WhoToKill,matUnround);
+                      GodsLoop(MatBalas, Coun, WhoToKill,matUnround,target);
                   }
-                }else{
-                  var lol = 5
-               }
              }
          }
          else {

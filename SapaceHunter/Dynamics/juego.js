@@ -1,5 +1,8 @@
 //Variable globales necesarios
 var MatrizThatMakeMeCry = null; //Matriz principal del juego, para cada objeto su tipo, posiciones, modelo, objeto, vidas y dimensiones
+//Arrelgo a donde apunta, apunta a la nave,
+var Apuntando = null;//delcarnado la variable con todas las posciones
+
 var vidaDelEscudo = 15//seran los segundos que durar el escudo
 //Dimensiones del munfo
 var limitx = null;
@@ -9,6 +12,7 @@ var limitz = null;
 var numnaves = null;
 var numasteroides = null; 
 var numamigas = null;
+var NumberOfTotalThings = null;
 //Variables para modos de juego
 var numkills = 0; //Cuantas naves destruidas lleva el jugador
 var tiempo = null;  //Cuabto tiempo falta para ganar
@@ -256,8 +260,8 @@ else if(modo == 4){ //Modo flota
 else if(modo == 2){ //Modo flota
   //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
   var obj = new Array(
-    new Array(clases_naves['claseAmiga1'],10),
-    new Array(clases_naves['class1 '+dif],10)
+    new Array(clases_naves['claseAmiga1'],20),
+    new Array(clases_naves['class1 '+dif],20)
   );
   data_world = new Array(50,50,50,'default',obj);
   msg = 'prueba naves amigas xd';
