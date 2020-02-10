@@ -77,11 +77,7 @@ class World{
         numasteroides+=a[1];
     }
   
-<<<<<<< HEAD
     MatrizThatMakeMeCry = CargarModelos(this.objetos, 3);//tipo instanciando la matriz principal
-=======
-    MatrizThatMakeMeCry = CargarModelos(this.objetos);//Creamos la matriz principal y cargamos modelos de three
->>>>>>> d342095810668f154ac9597f650f29a7ddf3bee7
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );  //Creamos la camara
   
    }

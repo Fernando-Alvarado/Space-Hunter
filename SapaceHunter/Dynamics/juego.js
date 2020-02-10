@@ -56,7 +56,6 @@ var patterns = new Array(
 
 //Definimos las clases de naves y asteroides
 var clases_naves = {
-<<<<<<< HEAD
   //velocidad,rango,velChase,velDisparo,rangoDisp,vida,largo,ancho,alto y modelo
   'class1 1': new Array('nave',1000,60,500,200,10,2,1,1,1,'Tie.glb'),
   'class1 2': new Array('nave',1000,40,300,150,15,3,1,1,1,'Tie.glb'),
@@ -74,21 +73,6 @@ var clases_naves = {
   //velocidad,modelo y dimensiones
   ast1: new Array('ast',10000,'asteroide__50.glb',1,1,1),
   ast2: new Array('ast',500,'asteroide__50.glb',1,1,1)
-=======
-  //los valores son, tipo,velocidad,rango,velChase,velDisparo,rangoDisp,vida,largo,ancho,alto y modelo
-  'class1 1': new Array('nave',1000,60,500,200,10,2,1,1,1,'Tie.glb'), //Tie novato
-  'class1 2': new Array('nave',1000,40,300,150,15,3,1,1,1,'Tie.glb'), //Tie valiente
-  'class1 3': new Array('nave',1000,20,100,100,20,4,1,1,1,'Tie.glb'), //Tie héroe
-  //tipo,velocidad,modelo y dimensiones
-  ast1: new Array('ast',500,'asteroide_1_Gre.glb',1,1,1),
-  ast2: new Array('ast',500,'asteroide_1_Pi.glb',1,1,1),
-  ast3: new Array('ast',500,'asteroide_1_Re.glb',1,1,1),
-  ast4: new Array('ast',500,'asteroide_1_Ye.glb',1,1,1),
-  ast5: new Array('ast',500,'asteroide_3_Gre.glb',3,3,3),
-  ast6: new Array('ast',500,'asteroide_3_Pi.glb',3,3,3),
-  ast7: new Array('ast',500,'asteroide_3_Re.glb',3,3,3),
-  ast8: new Array('ast',500,'asteroide_3_Ye.glb',3,3,3),
->>>>>>> d342095810668f154ac9597f650f29a7ddf3bee7
 };
 
 ////-----------------------------------------------------------------------------------------------------------------------
