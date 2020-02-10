@@ -14,13 +14,17 @@ function AsignarValor(){//Funcion que le asignara los valores sobre donde apunta
 AsignarValor();//llamando a la funcion
 
 
-class NavesEnemigas{
+class Naves{
     constructor(matrizDondeSeTrabaja, number,velocidad,rango,velChase,velDisparo,rangoDisp){//el
         this.workingMat = matrizDondeSeTrabaja;
         this.number = number;//indice dentro de la matriz principal donde se guardara la nave
         this.numero =  0;//luego esto tengra que cambiar a 5 para que puedan
-        this.dist_player = 0; //Guarda la distancia de la nave al jugador
+        this.dist_chase = 0; //Guarda la distancia de la nave al jugador
+        this.dist_apuntando = 0; //Guarda la distancia a la nave que está apuntando
+        this.apuntando = 0;
         this.pattern_move = 0; //Determina el siguiente movimiento
+        this.enemigo = 0;
+        this.color = null;  //Color de las balas
         this.current_pattern = NumerosAleatorios(patterns.length)-1; //Dice que patrón está haciendo actualmente
         //Variables de clase
         this.velocidad = velocidad; //Velocidad de reacción
@@ -32,20 +36,15 @@ class NavesEnemigas{
     JustTheCreator(){//este metodo ara que las naves se muevan y  si tiempo que disparen
         //usara la funcion switch que cree
         function MainBucle(obj, matriz, x, y , z,move, position,current_pattern,pattern_move,patterns){ //Aqui se tendra que correr el bucle de las naves
-            if(matriz[position][0]!=0  && matriz[position][6]!=0){
+            if(matriz[position][0]!=null  && matriz[position][6]!=0){
               setTimeout(function(){
-                this.dist_player=DistFromPlayer(matriz,x,y,z);
+                this.dist_chase=DistFromPlayer(x,y,z,MatrizThatMakeMeCry[position][10]);
+                this.dist_apuntando=DistFromPlayer(x,y,z,this.apuntando);
                 //El parametro primer parametro sera cambiado por quien disparo xd, pero siento que se tendra que pasar
                 //un evento para disparar con el mouse
-                var numero = 0;
-                if(this.dist_player <=obj.rango){
-                  if(this.dist_player <=obj.rangoDisp){//Aqui dispara la nave enemiga---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                      ///----------------------------------Parametros----------------------------------------------
-                      //whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego
-     //kileed se refiere al indicador de la nave que se quiere matar
-            //2 es la nave principal
-            //MatrizThatMakeMeCry
-            //necesito saber quien disparo
+                if(this.dist_chase <=obj.rango && matriz[position][0]!=null) {
+                  if(this.dist_apuntando <=obj.rangoDisp){//Aqui dispara la nave enemiga---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
                   //Obtenemos el límite más grande para el rango de vida de las balas.
                   var limit = limitx;
@@ -56,12 +55,18 @@ class NavesEnemigas{
                   else if(limitz>limitx && limitz>limity)
                     var limit = limitz;
 
-                  var disparoNaveEnemiga = new balas(MatrizThatMakeMeCry[position][1], MatrizThatMakeMeCry[position][2], MatrizThatMakeMeCry[position][3], MatrizThatMakeMeCry[0][1], MatrizThatMakeMeCry[0][2], MatrizThatMakeMeCry[0][3] ,2,limit)//constructro del objeto balas
-                  disparoNaveEnemiga.MidnightBlame(obj.velDisparo);
-                  numero = 0;
+                  ///----------------------------------Parametros----------------------------------------------
+                  //whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego
+                  //kileed se refiere al indicador de la nave que se quiere matar
+                  //2 es la nave principal
+                  //MatrizThatMakeMeCry
+                  //necesito saber quien disparo
+                  var disparoNaveEnemiga = new balas(MatrizThatMakeMeCry[position][1], MatrizThatMakeMeCry[position][2], MatrizThatMakeMeCry[position][3], MatrizThatMakeMeCry[obj.apuntando][1], MatrizThatMakeMeCry[obj.apuntando][2], MatrizThatMakeMeCry[obj.apuntando][3] ,obj.enemigo,limit)//constructro del objeto balas
+                  disparoNaveEnemiga.MidnightBlame(obj.velDisparo,obj.color,obj.apuntando);
+                  move = 0;
                   }
-                  else{
-                    numero = ChasePlayer(matriz,x,y,z);
+                  if(this.dist_chase>=obj.rangoDisp){
+                    move = ChasePlayer(x,y,z,position);
                     obj.velocidad = obj.velChase;
                   }
                 }
@@ -70,55 +75,102 @@ class NavesEnemigas{
                     current_pattern = NumerosAleatorios(patterns.length)-1;
                     pattern_move = 1;
                   }
-                  numero=patterns[current_pattern][pattern_move];
+                  move=patterns[current_pattern][pattern_move];
                   pattern_move++;
                   obj.velocidad = patterns[current_pattern][0];
                 }
 
                 var itsRunnig = ChooseWhereToMove(move,  position);
                 //NMovemos el render
-                if(itsRunnig[0]!=null && MatrizThatMakeMeCry[position][0]!=0){
+                if(itsRunnig[0]!=null && MatrizThatMakeMeCry[position][0]!=null){
                   MatrizThatMakeMeCry[position][4].position.x = itsRunnig[0];
                   MatrizThatMakeMeCry[position][4].position.y = itsRunnig[1];
                   MatrizThatMakeMeCry[position][4].position.z = itsRunnig[2];
                 }
                 //lo añadimos a la escena
-                MainBucle(obj, matriz, itsRunnig[0], itsRunnig[1], itsRunnig[2],numero,  position,current_pattern,pattern_move,patterns);
+                MainBucle(obj, matriz, itsRunnig[0], itsRunnig[1], itsRunnig[2],move,  position,current_pattern,pattern_move,patterns);
               }, obj.velocidad);
             }
         }
 
-        function DistFromPlayer(matrizDondeSeTrabaja,x,y,z){ //Nos da la distancia al jugador
-          var dist = Math.pow((matrizDondeSeTrabaja[0][1]-x),2) + Math.pow((matrizDondeSeTrabaja[0][2]-y),2) + Math.pow((matrizDondeSeTrabaja[0][3]-z),2);
-          dist = Math.sqrt(dist);
+        function DistFromPlayer(x,y,z,whoToFollow){ //Nos da la distancia al jugador
+          //Obtenemos los datos de a quien seguimos
+          var dist = 0;
+          if(whoToFollow!= null){
+            var otherx = MatrizThatMakeMeCry[whoToFollow][1];
+            var othery = MatrizThatMakeMeCry[whoToFollow][2];
+            var otherz = MatrizThatMakeMeCry[whoToFollow][3];
+            //Obtenemos la distancia
+            var dist = Math.pow((otherx-x),2) + Math.pow((othery-y),2) + Math.pow((otherz-z),2);
+            dist = Math.sqrt(dist);
+          }
           return dist;
         }
-        function ChasePlayer(matrizDondeSeTrabaja,x,y,z){ //Nos dice como perseguir al jugador, elige la distancia que sea menor entre los ejes x, y y z
-          var dy = matrizDondeSeTrabaja[0][1]-y;
-          var dx = matrizDondeSeTrabaja[0][2]-x;
-          var dz = matrizDondeSeTrabaja[0][3]-z;
+        function ChasePlayer(x,y,z,position){ //Nos dice como perseguir al jugador, elige la distancia que sea menor entre    var dy = matrizDondeSeTrabaja[0][1]-y;
+          //Obtenemos los datos de quien medimos
+          var whoToFollow = MatrizThatMakeMeCry[position][10];
           var retur = 0;
-          if( ( (Math.abs(dx) <= Math.abs(dy))  && (Math.abs(dx) <= Math.abs(dz)) ) || dy ==0){
-            if(dx < 0)
-              retur=3;
-            if(dx > 0)
-              retur=4;
-          }
-          if( ( (Math.abs(dy) < Math.abs(dx))  && (Math.abs(dy) < Math.abs(dz)) ) || dx ==0){
-            if(dy < 0)
-              retur=1;
-            if(dy > 0)
-              retur=2;
-          }
-          if( ( (Math.abs(dz) < Math.abs(dy))  && (Math.abs(dz) < Math.abs(dx)) ) || dz == 0){
-            if(dz < 0)
-              retur=5;
-            if(dz > 0)
-              retur=6;
+          if(whoToFollow!= null){
+            var otherx = MatrizThatMakeMeCry[whoToFollow][1];
+            var othery = MatrizThatMakeMeCry[whoToFollow][2];
+            var otherz = MatrizThatMakeMeCry[whoToFollow][3];
+
+            //Obtenemos la distancia a quien seguimos
+            var dx = otherx-x;
+            var dy = othery-y;
+            var dz = otherz-z;
+
+            //Decidimos como seguirlo dependiendo de la distancia mas corta
+            if( ( (Math.abs(dx) <= Math.abs(dy))  && (Math.abs(dx) <= Math.abs(dz)) ) || dy ==0){
+              if(dx < 0)
+                retur=3;
+              if(dx > 0)
+                retur=4;
+            }
+            if( ( (Math.abs(dy) < Math.abs(dx))  && (Math.abs(dy) < Math.abs(dz)) ) || dx ==0){
+              if(dy < 0)
+                retur=1;
+              if(dy > 0)
+                retur=2;
+            }
+            if( ( (Math.abs(dz) < Math.abs(dy))  && (Math.abs(dz) < Math.abs(dx)) ) || dz == 0){
+              if(dz < 0)
+                retur=5;
+              if(dz > 0)
+                retur=6;
+            }
           }
           return retur;
         }
 
+        function BucleParaSaberAQuienDisparar(position){
+          var ini = null;
+          var fin = null;
+          if(MatrizThatMakeMeCry[position][0]==1){ //Si es enemiga
+            ini = 0;
+            fin = numamigas;
+          }
+          else if(MatrizThatMakeMeCry[position][0]==2){ //Si es amiga
+            ini = numamigas+1;
+            fin = numnaves;
+          }
+          setTimeout(()=>{
+            this.apuntando = Math.floor((Math.random()*fin))+ini;
+            BucleParaSaberAQuienDisparar(position);
+            
+        },2000);
+       }
+
+        BucleParaSaberAQuienDisparar(this.number);
+        if(MatrizThatMakeMeCry[this.number][0]==1){//Si es enemiga
+          this.enemigo = 2;
+          this.color = 0xd11010;
+        }
+        else if(MatrizThatMakeMeCry[this.number][0]==2){ //Si es amiga
+          this.enemigo = 1;
+          this.color = 0x0450b2;
+        }
+        console.log(this);
         MainBucle(this, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.numero, this.number,this.current_pattern, this.pattern_move,patterns);
     }
 
@@ -200,7 +252,7 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
    }
    this.MatrizUnround = ordenaTabs(this.MatrizBalas3d);
    }
-   MidnightBlame(velDisparo){ //NOTE: la varaible de las naves es global tinee que estar declarada arriba
+   MidnightBlame(velDisparo,colorb,target){ //NOTE: la varaible de las naves es global tinee que estar declarada arriba
    var Coun = 0;
    
    var sonido_ene= new Audio(laser_ene);     //Variable tipo audio, con la referencia del laser del enemigo
@@ -208,7 +260,7 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
    
    //Creamos el modelo para las balas y lo agregamos a la escena
    var geometry = new THREE.SphereGeometry( .05, .05, .05 );
-   var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+   var material = new THREE.MeshBasicMaterial( {color: colorb} );
    var sphere = new THREE.Mesh( geometry, material );
    geometry = null;
    material = null;
@@ -217,12 +269,12 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
    sonido_ene.volume=.2;
    sonido_ene.play();            //Suene después de que la bala se crea en la escena.
    
-   function GodsLoop(MatBalas, Coun, WhoToKill, matUnround){
+   function GodsLoop(MatBalas, Coun, WhoToKill, matUnround,target){
    
    
      setTimeout(function(){
        
-         if(Coun < MatBalas[0].length){
+         if(Coun < MatBalas[0].length  && sphere.position.x >=0 && sphere.position.x <=limitx && sphere.position.y >=0 && sphere.position.y <=limity && sphere.position.z >=0 && sphere.position.z <=limitz){
              sphere.position.x=matUnround[0][Coun];
              sphere.position.y=matUnround[1][Coun];
              sphere.position.z=matUnround[2][Coun];
@@ -260,7 +312,7 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
          }
      },velDisparo);//velocidad de las balas se puede cambiar
    }
-   GodsLoop(this.MatrizBalas3d ,Coun,this.WhoToKill,this.MatrizUnround);
+   GodsLoop(this.MatrizBalas3d ,Coun,this.WhoToKill,this.MatrizUnround,target);
    
    
    }//llave del fin del metodo
