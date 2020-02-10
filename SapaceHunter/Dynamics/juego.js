@@ -86,6 +86,68 @@ var clases_naves = {
 ////----------------------------FUNCIONES GLOBALES----------------------------------------------------------------------------------
 ////-----------------------------------------------------------------------------------------------------------------------
 //  value valie sirve para saber el indice donde se guardara el incie de la matriz que me hace llorar
+function impactToTheSpaceship(who, killer){////funcion que dice a quein impactare de las naves enemigas
+  for (let i= 1+numamigas; i <= numnaves+numamigas+numasteroides; i++){
+    if(MatrizThatMakeMeCry[i][0]!=null && MatrizThatMakeMeCry[i][0]!=2){
+      //Posición del objeto
+      var x = MatrizThatMakeMeCry[i][1];
+      var y = MatrizThatMakeMeCry[i][2];
+      var z = MatrizThatMakeMeCry[i][3];
+      //Limites o dimensiones del objeto
+      var xlim = (MatrizThatMakeMeCry[i][7]-1)/2;
+      var ylim = (MatrizThatMakeMeCry[i][8]-1)/2;
+      var zlim = (MatrizThatMakeMeCry[i][9]-1)/2;
+      if((pos[0]>=x-xlim && pos[0]<=x+xlim) && (pos[1]>=y-ylim && pos[1]<=y+ylim) && (pos[2]>=z-zlim && pos[2]<=z+zlim)){
+
+      //Aqui le aumento 1 valor a la nave pricipal para que aumente de vida cada vez que impacta una nave enemiga
+     if(killer == 1){
+      if( MatrizThatMakeMeCry[0][6] < 13){          
+        MatrizThatMakeMeCry[0][6]++;////Aqui hize que la nave no pierda en caso de chocar
+  
+        //Sonido de vida al matar a nave.
+        healing_sound();
+  
+        LifeBar(MatrizThatMakeMeCry[0][6])
+        }
+     }
+      //Si es una nave
+      if(MatrizThatMakeMeCry[i][0]==who){//nave enemiga o amiga //----------------------------------
+        //navesVar--;//resto 1 por que ya fue eliminada xd s
+        //aqui abria impacto xd jajaja
+        if(MatrizThatMakeMeCry[i][6] <= 0){
+            //Eliminamos a la nave de la matriz
+            delete MatrizThatMakeMeCry[i][5];
+            scene.remove(MatrizThatMakeMeCry[i][4]);
+            delete MatrizThatMakeMeCry[i][4];
+            MatrizThatMakeMeCry[i]= new Array(null,null,null,null,null,null,0)
+            //Eliminamos la bala
+            i = numnaves;//para acabar el ciclo
+            numkills+=1;
+            enemyDestroyedSound(); // sonido de destrucción de la nave enemiga.s
+        }else{
+            MatrizThatMakeMeCry[i][6]--;////Se le quita solo 1 punto de vida
+        }
+      }else if(MatrizThatMakeMeCry[i][0]==3){ //Si es un asteroide
+        //Eliminamos a la nave de la matriz
+        delete MatrizThatMakeMeCry[i][5];
+        scene.remove(MatrizThatMakeMeCry[i][4]);
+        delete MatrizThatMakeMeCry[i][4];
+        MatrizThatMakeMeCry[i]= new Array(null,null,null,null,null,null,0)
+        //Eliminamos la bala
+        i = numnaves;//para acabar el ciclo
+        
+        enemyDestroyedSound(); // sonido de destrucción de la nave enemiga.s
+      }
+      scene.remove(sphere);
+      sphere = null;
+      who = null; 
+      ///Checar si se la variable de nave es 0 
+      }
+   }
+ }
+}
+
+
 function ChooseWhereToMove(event, value){//switch para elegir
     //donde se va a mover cada nave, servira para la principal y para las naves enemigas
     //y que la nave pueda moverse   ----  inicioX     inicioY
