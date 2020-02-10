@@ -6,6 +6,8 @@
 
     var inputs_nickname=document.querySelectorAll(".nickname");
 
+    var inputs_pass=document.querySelectorAll(".password");
+
     function ChangePlace() {
         var tocaste = document.getElementById("JustPlay");
         tocaste.addEventListener("click", function(){
@@ -25,21 +27,44 @@
           $("#bigbox").css("display","block");
       });
   
-      //Validaciones
+      //Validaciones para los inputs del nickname.
       inputs_nickname.forEach(input=>{
           $(input).keyup(function(){
             if(nickname_reg.test($(input).val()))
             {
                 $(input).css("color","green");
+                $(input).attr("correct","true");
                 $(input).next().next().text("");
             }
             else
             {
                 $(input).css("color","red");
-                $(input).next().next().text("Necesario letras, números y caracteres especiales.");
+                $(input).next().next().text("Necesario letras, números y caracteres especiales. Min: 6, Max: 30.");
+                $(input).attr("correct","false");
+
             }
           })
       })
+
+      inputs_pass.forEach(input=>{
+        $(input).keyup(function(){
+          if(reg_pass.test($(input).val()))
+          {
+              $(input).css("color","green");
+              $(input).attr("correct","true");
+              $(input).next().next().text("");
+          }
+          else
+          {
+              $(input).css("color","red");
+              $(input).next().next().text("Necesario letras, números y caracteres especiales. Min:8, Max:30.");
+              $(input).attr("correct","false");
+
+          }
+        })
+    })
+
+
 
 
 //Falta aplicar la validación bien.
@@ -50,7 +75,8 @@
           var inputs_data=$("#form_reg").serialize();
           console.log(inputs_data);
   
-          if($("#nick_pass").val()==$("#nick_passx2").val())
+          if($("#nick_input").attr("correct")=="true"&&$("#nick_pass").attr("correct")=="true"&&
+          $("#nick_pass").val()==$("#nick_passx2").val())
           {
               console.log("Contraseñas iguales");
               $.ajax({
@@ -69,8 +95,7 @@
               });
           }
           else
-              console.log("Las contraseñas no son iguales.")
-  
+            alert("Debe rellenar correctamente todo el formulario.");
       })
   //    Botón de Return to LogIn
       document.getElementById("return_button").addEventListener("click",function(){
@@ -95,7 +120,7 @@
       
 
       document.getElementById("boton_ingresar").addEventListener("click",function(){
-          if($("#in_nick").val()!=""&&$("#in_pass").val()!="")
+          if($("#in_nick").attr("correct")=="true"&&$("#in_pass").attr("correct")=="true")
           {
               var log_data=$("#form_log").serialize();
               $.ajax({
@@ -122,5 +147,9 @@
                   alert('Error: ' + textStatus);
               });
               
+          }
+          else
+          {
+            alert("Debe llenar correctamente el formulario.")
           }
       });
