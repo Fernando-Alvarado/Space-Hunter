@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+var NumberOfTotalThings = 5;
+function NumerosAleatorios(tope){//Funcion que da numeros aleatorios
+  return Math.floor((Math.random()*tope))+1;
+}
+
+var Apuntando = new Array(NumberOfTotalThings)//delcarnado la variable con todas las posciones
+
+function AsignarValor(){//Funcion que le asignara los valores sobre donde apuntar
+    for (let i = 0; i <NumberOfTotalThings; i++) {
+      Apuntando[i]= NumerosAleatorios(NumberOfTotalThings);
+    }
+    setTimeout(()=>{AsignarValor()},2500)//tipo que tarda en que se refresque los valores de donde apunta 
+}
+AsignarValor();//llamando a la funcion
+
+
+        function imprimir(){
+                setTimeout(()=>{console.log(Apuntando); 
+                    imprimir()}, 2000)
+             }
+
+imprimir()
+    </script>
+</body>
+</html>
