@@ -73,7 +73,7 @@ class World{
         numasteroides+=a[1];
     }
   
-    MatrizThatMakeMeCry = CargarModelos(this.objetos);//tipo instanciando la matriz principal
+    MatrizThatMakeMeCry = CargarModelos(this.objetos, 3);//tipo instanciando la matriz principal
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );  //Creamos la camara
   
    }
@@ -99,7 +99,7 @@ class World{
 ////-----------------------------------------------------------------------------------------------------------------------
 
 
-  function CargarModelos(objetos){//declarando el array de las naves y sus posiciones
+  function CargarModelos(objetos, numAmigas){//declarando el array de las naves y sus posiciones
     var current_celda = 1;
     var total = 1;
     for(let a of objetos){
@@ -116,24 +116,31 @@ class World{
       if(obj[0][0]=='nave'){
         var lim = current_celda;
         for(let i = lim; i<(obj[1]+lim);i++){
-          MatrizPrincipal[i][0] = 1;
+          if( i < numAmigas){
+              MatrizPrincipal[i][0] = 3;///Naves amigas son 
+          }else{
+            MatrizPrincipal[i][0] = 1;////Nave enemiga
+          }
           //Le asignamos posiciones aleatorias
           MatrizPrincipal[i][1] = NumerosAleatorios(limitx)-1;
           MatrizPrincipal[i][2] = NumerosAleatorios(limity)-1;
-          MatrizPrincipal[i][3] = NumerosAleatorios(limitz)-1;
-          
-          //Creamos el modelo
-          loadModelo(i,obj[0][10]);
+        MatrizPrincipal[i][3] = NumerosAleatorios(limitz)-1;
+        
+        //Creamos el modelo
+        loadModelo(i,obj[0][10]);
 
-          //Le damos su vida correspondiente
-          MatrizPrincipal[i][6] = obj[0][6];
+        //Le damos su vida correspondiente
+        MatrizPrincipal[i][6] = obj[0][6];
 
-          //Asignamos sus dimensiones
-          MatrizPrincipal[i][7] = obj[0][7];
-          MatrizPrincipal[i][8] = obj[0][8];
-          MatrizPrincipal[i][9] = obj[0][9];
+        //Asignamos sus dimensiones
+        MatrizPrincipal[i][7] = obj[0][7];
+        MatrizPrincipal[i][8] = obj[0][8];
+        MatrizPrincipal[i][9] = obj[0][9];
 
-          current_celda++;
+        current_celda++;
+
+
+
         }
 
       }else if(obj[0][0]=='ast'){ //En caso de ser un asteroide
@@ -194,6 +201,55 @@ class World{
     }
   return MatrizPrincipal;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //dibujar la vida de la nave principal
 
 

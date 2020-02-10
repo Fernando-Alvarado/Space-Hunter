@@ -56,6 +56,8 @@ var clases_naves = {
   'class1 1': new Array('nave',1000,60,500,200,10,2,1,1,1,'Tie.glb'),
   'class1 2': new Array('nave',1000,40,300,150,15,3,1,1,1,'Tie.glb'),
   'class1 3': new Array('nave',1000,20,100,100,20,4,1,1,1,'Tie.glb'),
+  ////Beto tenemos que cambiar el modelo de la nave
+  'claseAmiga1': new Array('Amigga',1000,20,100,100,20,4,1,1,1,'Tie.glb'),////Aqui va la nave amiga
   class2: new Array('nave',1000,40,300,100,15,2,1,1,1),
   class3: new Array('nave',1000,40,300,150,18,2,5,5,5),
   class4: new Array('nave',1000,40,300,100,15,2,1,1,3),
