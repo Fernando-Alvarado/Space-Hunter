@@ -1,19 +1,3 @@
-var NumberOfTotalThings = MatrizThatMakeMeCry.length-1;
-function NumerosAleatorios(tope){//Funcion que da numeros aleatorios
-  return Math.floor((Math.random()*tope))+1;
-}
-//Arrelgo a donde apunta, apunta a la nave,
-var Apuntando = new Array(NumberOfTotalThings)//delcarnado la variable con todas las posciones
-
-function AsignarValor(){//Funcion que le asignara los valores sobre donde apuntar
-    for (let i = 0; i <NumberOfTotalThings; i++) {
-      Apuntando[i]= NumerosAleatorios(NumberOfTotalThings);
-    }
-    setTimeout(()=>{AsignarValor()},2500)//tipo que tarda en que se refresque los valores de donde apunta 
-}
-AsignarValor();//llamando a la funcion
-
-
 class Naves{
     constructor(matrizDondeSeTrabaja, number,velocidad,rango,velChase,velDisparo,rangoDisp){//el
         this.workingMat = matrizDondeSeTrabaja;
@@ -39,12 +23,13 @@ class Naves{
             if(matriz[position][0]!=null  && matriz[position][6]!=0){
               setTimeout(function(){
                 this.dist_chase=DistFromPlayer(x,y,z,MatrizThatMakeMeCry[position][10]);
-                this.dist_apuntando=DistFromPlayer(x,y,z,this.apuntando);
+                this.dist_apuntando=DistFromPlayer(x,y,z,Apuntando[position]);
                 //El parametro primer parametro sera cambiado por quien disparo xd, pero siento que se tendra que pasar
                 //un evento para disparar con el mouse
                 if(this.dist_chase <=obj.rango && matriz[position][0]!=null) {
+                  
                   if(this.dist_apuntando <=obj.rangoDisp){//Aqui dispara la nave enemiga---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+                    console.log('pium');
 
                   //Obtenemos el límite más grande para el rango de vida de las balas.
                   var limit = limitx;
@@ -61,11 +46,11 @@ class Naves{
                   //2 es la nave principal
                   //MatrizThatMakeMeCry
                   //necesito saber quien disparo
-                  var disparoNaveEnemiga = new balas(MatrizThatMakeMeCry[position][1], MatrizThatMakeMeCry[position][2], MatrizThatMakeMeCry[position][3], MatrizThatMakeMeCry[obj.apuntando][1], MatrizThatMakeMeCry[obj.apuntando][2], MatrizThatMakeMeCry[obj.apuntando][3] ,obj.enemigo,limit)//constructro del objeto balas
-                  disparoNaveEnemiga.MidnightBlame(obj.velDisparo,obj.color,obj.apuntando);
+                  var apuntando = Apuntando[position];
+                  var disparoNaveEnemiga = new balas(MatrizThatMakeMeCry[position][1], MatrizThatMakeMeCry[position][2], MatrizThatMakeMeCry[position][3], MatrizThatMakeMeCry[apuntando][1], MatrizThatMakeMeCry[apuntando][2], MatrizThatMakeMeCry[apuntando][3] ,obj.enemigo,limit)//constructro del objeto balas
+                  disparoNaveEnemiga.MidnightBlame(obj.velDisparo,obj.color,apuntando);
                   move = 0;
-                  }
-                  if(this.dist_chase>=obj.rangoDisp){
+                  }else if(this.dist_chase>=obj.rangoDisp){
                     move = ChasePlayer(x,y,z,position);
                     obj.velocidad = obj.velChase;
                   }
@@ -155,7 +140,7 @@ class Naves{
             fin = numnaves;
           }
           setTimeout(()=>{
-            this.apuntando = Math.floor((Math.random()*fin))+ini;
+            Apuntando[position] = Math.floor((Math.random()*fin))+ini;
             BucleParaSaberAQuienDisparar(position);
             
         },2000);
@@ -170,7 +155,6 @@ class Naves{
           this.enemigo = 1;
           this.color = 0x0450b2;
         }
-        console.log(this);
         MainBucle(this, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.numero, this.number,this.current_pattern, this.pattern_move,patterns);
     }
 
@@ -279,7 +263,7 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
    
      setTimeout(function(){
        
-         if(Coun < MatBalas[0].length  && sphere.position.x >=0 && sphere.position.x <=limitx && sphere.position.y >=0 && sphere.position.y <=limity && sphere.position.z >=0 && sphere.position.z <=limitz){
+         if(Coun < MatBalas[0].length){
              sphere.position.x=matUnround[0][Coun];
              sphere.position.y=matUnround[1][Coun];
              sphere.position.z=matUnround[2][Coun];
@@ -307,7 +291,13 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
                    
                     scene.remove(sphere);
                     sphere = null;
-                    MatrizThatMakeMeCry[0][6]--;////Aqui hize que la nave no pierda en caso de chocar
+                    MatrizThatMakeMeCry[target][6]--;
+                    if(MatrizThatMakeMeCry[target][6]<=0){
+                      delete MatrizThatMakeMeCry[target][5];
+                      scene.remove(MatrizThatMakeMeCry[target][4]);
+                      delete MatrizThatMakeMeCry[target][4];
+                      MatrizThatMakeMeCry[target]= new Array(null,null,null,null,null,null,0);
+                    }
                     //Cuando impactan la principal
                     sonido_daño_principal.play(); //Sonido cuando te da una bala enemiga.
                     LifeBar(MatrizThatMakeMeCry[0][6]);
@@ -315,7 +305,7 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
                       location.href="../Templates/EndMatch.html";////No se si esta ruta funcione
                   }else{
                       Coun++;
-                      GodsLoop(MatBalas, Coun, WhoToKill,matUnround);
+                      GodsLoop(MatBalas, Coun, WhoToKill,matUnround,target);
                   }
                 }else{
                   for(i = 1; i<Everything.length-1; i++ ){

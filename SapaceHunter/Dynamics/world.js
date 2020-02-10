@@ -111,7 +111,10 @@ class World{
     for(let a of objetos){
       total += a[1];
     }
+
     var MatrizPrincipal = new Array(total);
+    NumberOfTotalThings = MatrizPrincipal.length-1;
+    Apuntando = new Array(NumberOfTotalThings);
 
     for (let i = 0; i < total; i++)
         MatrizPrincipal[i]=new Array(10);//array que guardará su tipo, sus posiciones en X,Y y Z, modelo 3d, objeto, vida y dimensiones
@@ -140,6 +143,7 @@ class World{
           MatrizPrincipal[i][9] = obj[0][9];
           //Decimos a qué nave sigue
           MatrizPrincipal[i][10] = obj[0][11];
+          Apuntando[i] = 0;
 
          current_celda++;
 
@@ -185,6 +189,7 @@ class World{
            MatrizPrincipal[i][9] = obj[0][9];
            //Decimos a qué nave sigue
            MatrizPrincipal[i][10] = obj[0][11];
+           Apuntando[i] = 0;
   
            current_celda++;
   
