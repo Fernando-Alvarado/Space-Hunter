@@ -3,7 +3,7 @@
 ////-----------------------------------------------------------------------------------------------------------------------
 
 
-class NavesEnemigas{
+class Naves{
     constructor(matrizDondeSeTrabaja, number,velocidad,rango,velChase,velDisparo,rangoDisp){//el
         this.workingMat = matrizDondeSeTrabaja;
         this.number = number;//indice dentro de la matriz principal donde se guardara la nave
@@ -23,11 +23,11 @@ class NavesEnemigas{
         function MainBucle(obj, matriz, x, y , z,move, position,current_pattern,pattern_move,patterns){ //Aqui se tendra que correr el bucle de las naves
             if(matriz[position][0]!=0  && matriz[position][6]!=0){
               setTimeout(function(){
-                this.dist_player=DistFromPlayer(matriz,x,y,z);
+                this.dist_player=DistFromPlayer(x,y,z,position);
                 //El parametro primer parametro sera cambiado por quien disparo xd, pero siento que se tendra que pasar
                 //un evento para disparar con el mouse
                 var numero = 0;
-                if(this.dist_player <=obj.rango){
+                if(this.dist_player <=obj.rango && matriz[position][0]!=0) {
                   if(this.dist_player <=obj.rangoDisp){//Aqui dispara la nave enemiga---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                       ///----------------------------------Parametros----------------------------------------------
                       //whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego
@@ -50,7 +50,7 @@ class NavesEnemigas{
                   numero = 0;
                   }
                   else{
-                    numero = ChasePlayer(matriz,x,y,z);
+                    numero = ChasePlayer(x,y,z,position);
                     obj.velocidad = obj.velChase;
                   }
                 }
@@ -77,33 +77,54 @@ class NavesEnemigas{
             }
         }
 
-        function DistFromPlayer(matrizDondeSeTrabaja,x,y,z){ //Nos da la distancia al jugador
-          var dist = Math.pow((matrizDondeSeTrabaja[0][1]-x),2) + Math.pow((matrizDondeSeTrabaja[0][2]-y),2) + Math.pow((matrizDondeSeTrabaja[0][3]-z),2);
-          dist = Math.sqrt(dist);
+        function DistFromPlayer(x,y,z,position){ //Nos da la distancia al jugador
+          //Obtenemos los datos de a quien seguimos
+          var whoToFollow = MatrizThatMakeMeCry[position][10];
+          var dist = 0;
+          if(whoToFollow!= null){
+            var otherx = MatrizThatMakeMeCry[whoToFollow][1];
+            var othery = MatrizThatMakeMeCry[whoToFollow][2];
+            var otherz = MatrizThatMakeMeCry[whoToFollow][3];
+            //Obtenemos la distancia
+            var dist = Math.pow((otherx-x),2) + Math.pow((othery-y),2) + Math.pow((otherz-z),2);
+            dist = Math.sqrt(dist);
+          }
           return dist;
         }
-        function ChasePlayer(matrizDondeSeTrabaja,x,y,z){ //Nos dice como perseguir al jugador, elige la distancia que sea menor entre los ejes x, y y z
-          var dy = matrizDondeSeTrabaja[0][1]-y;
-          var dx = matrizDondeSeTrabaja[0][2]-x;
-          var dz = matrizDondeSeTrabaja[0][3]-z;
+        function ChasePlayer(x,y,z,position){ //Nos dice como perseguir al jugador, elige la distancia que sea menor entre    var dy = matrizDondeSeTrabaja[0][1]-y;
+          //Obtenemos los datos de quien medimos
+          var whoToFollow = MatrizThatMakeMeCry[position][10];
           var retur = 0;
-          if( ( (Math.abs(dx) <= Math.abs(dy))  && (Math.abs(dx) <= Math.abs(dz)) ) || dy ==0){
-            if(dx < 0)
-              retur=3;
-            if(dx > 0)
-              retur=4;
-          }
-          if( ( (Math.abs(dy) < Math.abs(dx))  && (Math.abs(dy) < Math.abs(dz)) ) || dx ==0){
-            if(dy < 0)
-              retur=1;
-            if(dy > 0)
-              retur=2;
-          }
-          if( ( (Math.abs(dz) < Math.abs(dy))  && (Math.abs(dz) < Math.abs(dx)) ) || dz == 0){
-            if(dz < 0)
-              retur=5;
-            if(dz > 0)
-              retur=6;
+          if(whoToFollow!= null){
+            var otherx = MatrizThatMakeMeCry[whoToFollow][1];
+            var othery = MatrizThatMakeMeCry[whoToFollow][2];
+            var otherz = MatrizThatMakeMeCry[whoToFollow][3];
+
+            //Obtenemos la distancia a quien seguimos
+            var dx = otherx-x;
+            var dy = othery-y;
+            var dz = otherz-z;
+            var retur = 0;
+
+            //Decidimos como seguirlo dependiendo de la distancia mas corta
+            if( ( (Math.abs(dx) <= Math.abs(dy))  && (Math.abs(dx) <= Math.abs(dz)) ) || dy ==0){
+              if(dx < 0)
+                retur=3;
+              if(dx > 0)
+                retur=4;
+            }
+            if( ( (Math.abs(dy) < Math.abs(dx))  && (Math.abs(dy) < Math.abs(dz)) ) || dx ==0){
+              if(dy < 0)
+                retur=1;
+              if(dy > 0)
+                retur=2;
+            }
+            if( ( (Math.abs(dz) < Math.abs(dy))  && (Math.abs(dz) < Math.abs(dx)) ) || dz == 0){
+              if(dz < 0)
+                retur=5;
+              if(dz > 0)
+                retur=6;
+            }
           }
           return retur;
         }

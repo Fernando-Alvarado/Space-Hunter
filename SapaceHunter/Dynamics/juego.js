@@ -5,9 +5,10 @@ var vidaDelEscudo = 15//seran los segundos que durar el escudo
 var limitx = null;
 var limity = null;
 var limitz = null;
-//Número de naves, asteroides
+//Número de naves, asteroides y nave amigas
 var numnaves = null;
 var numasteroides = null; 
+var numamigas = null;
 //Variables para modos de juego
 var numkills = 0; //Cuantas naves destruidas lleva el jugador
 var tiempo = null;  //Cuabto tiempo falta para ganar
@@ -56,12 +57,12 @@ var patterns = new Array(
 
 //Definimos las clases de naves y asteroides
 var clases_naves = {
-  //velocidad,rango,velChase,velDisparo,rangoDisp,vida,largo,ancho,alto y modelo
-  'class1 1': new Array('nave',1000,60,500,200,10,2,1,1,1,'Tie.glb'),
-  'class1 2': new Array('nave',1000,40,300,150,15,3,1,1,1,'Tie.glb'),
-  'class1 3': new Array('nave',1000,20,100,100,20,4,1,1,1,'Tie.glb'),
+  //velocidad,rango,velChase,velDisparo,rangoDisp,vida,largo,ancho,alto, modelo y nave a seguir
+  'class1 1': new Array('nave',1000,60,500,200,10,2,1,1,1,'Tie.glb',0),
+  'class1 2': new Array('nave',1000,40,300,150,15,3,1,1,1,'Tie.glb',0),
+  'class1 3': new Array('nave',1000,20,100,100,20,4,1,1,1,'Tie.glb',0),
   ////Beto tenemos que cambiar el modelo de la nave
-  'claseAmiga1': new Array('Amigga',1000,20,100,100,20,4,1,1,1,'Tie.glb'),////Aqui va la nave amiga
+  'claseAmiga1': new Array('amiga',1000,20,100,100,20,4,1,1,1,'Tie.glb',0),////Aqui va la nave amiga
   class2: new Array('nave',1000,40,300,100,15,2,1,1,1),
   class3: new Array('nave',1000,40,300,150,18,2,5,5,5),
   class4: new Array('nave',1000,40,300,100,15,2,1,1,3),
@@ -71,8 +72,14 @@ var clases_naves = {
   class8: new Array('nave',1000,40,300,100,18,2,5,5,1),
   class9: new Array('nave',1000,40,300,150,18,2,7,7,3),
   //velocidad,modelo y dimensiones
-  ast1: new Array('ast',10000,'asteroide__50.glb',1,1,1),
-  ast2: new Array('ast',500,'asteroide__50.glb',1,1,1)
+  ast1: new Array('ast',500,'asteroide_1_Gre.glb',1,1,1),
+  ast2: new Array('ast',500,'asteroide_1_Pi.glb',1,1,1),
+  ast3: new Array('ast',500,'asteroide_1_Re.glb',1,1,1),
+  ast4: new Array('ast',500,'asteroide_1_Ye.glb',1,1,1),
+  ast5: new Array('ast',500,'asteroide_3_Gre.glb',3,3,3),
+  ast6: new Array('ast',500,'asteroide_3_Pi.glb',3,3,3),
+  ast7: new Array('ast',500,'asteroide_3_Re.glb',3,3,3),
+  ast8: new Array('ast',500,'asteroide_3_Ye.glb',3,3,3)
 };
 
 ////-----------------------------------------------------------------------------------------------------------------------
@@ -226,7 +233,7 @@ if(modo == 1){  //Modo supervivencia
     new Array(clases_naves['ast2'],12), 
     new Array(clases_naves['ast5'],12), 
     new Array(clases_naves['ast6'],12), 
-    new Array(clases_naves['class1 '+dif],30*dif),
+    new Array(clases_naves['class1 '+dif],10*dif),
   );
   data_world = new Array(60,60,60,'imperio',obj);
   msg = 'Localización: Sector K-3345 Sistema Alfa-C <br>Quedaste varado en territorio Imperial, vez a lo lejos los restos de una fragata rebelde.<br>Puedes sobrevivir el tiempo suficiente para que llegue la brigada de rescate?';
@@ -238,12 +245,21 @@ else if(modo == 4){ //Modo flota
     new Array(clases_naves['ast3'],7*dif), 
     new Array(clases_naves['ast4'],7*dif), 
     new Array(clases_naves['ast7'],7*dif), 
-    new Array(clases_naves['ast8'],7*dif),  
-    new Array(clases_naves['class1 '+dif],5*dif),
+    new Array(clases_naves['ast8'],7*dif), 
+    new Array(clases_naves['class1 '+dif],5*dif)
   );
   data_world = new Array(100,100,100,'default',obj);
   msg = 'Localización: Sector D-1233 Estrella Delta-A <br> El imperio a tomado posesión de esta zona, acaba con ellos para que las tropas puedan pasar.<br>Buena suerte!';
   NumKills()
+}
+//Vamos a trabajar sobre este mundo xd, es el modo mensajero, se supone
+else if(modo == 2){ //Modo flota
+  //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
+  var obj = new Array(
+    new Array(clases_naves['claseAmiga1'],1)
+  );
+  data_world = new Array(50,50,50,'default',obj);
+  msg = 'prueba naves amigas xd';
 }
 
 $('.texto_intro').html(msg); //Mostramos el mensaje acorde al modo
