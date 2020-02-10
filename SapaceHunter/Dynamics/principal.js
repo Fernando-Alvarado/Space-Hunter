@@ -1,7 +1,6 @@
 ////-----------------------------------------------------------------------------------------------------------------------
 ////----------------------------Objetos----------------------------------------------------------------------------------
 ////-----------------------------------------------------------------------------------------------------------------------
-console.log(MatrizThatMakeMeCry)
 
 
 class PersonajePrincipal{
@@ -138,10 +137,10 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
        function CheckWhereTheHellIsIn(){
                //esto es para que pueda rotar la pantalla del jugador
                if(WhereOnX< (MedidaPantalla)/4){//girar a la derecha
-                   camera.rotation.y += .005;
+                   camera.rotation.y += .007;
                }
                else if(WhereOnX> ((MedidaPantalla)/4)*3){//girara a la girar a la izquierda
-                   camera.rotation.y -= .005;
+                   camera.rotation.y -= .007;
                }
                //the last thing to do
        }
@@ -210,7 +209,7 @@ disparo(){
  }
 
  var geometry = new THREE.SphereGeometry( .05, .05, .05 );
- var material = new THREE.MeshBasicMaterial( {color: 0x00ffff} );
+ var material = new THREE.MeshBasicMaterial( {color: 0x04a2b2} );
  var sphere = new THREE.Mesh( geometry, material );
  geometry = null;
  material = null;
@@ -239,63 +238,7 @@ disparo(){
    setTimeout(()=>{ 
      var who = 0;
      var pos = move();
-     for (let i= 1; i <= numnaves+numasteroides; i++){
-      if(MatrizThatMakeMeCry[i][0]!=0){
-        //Posición del objeto
-        var x = MatrizThatMakeMeCry[i][1];
-        var y = MatrizThatMakeMeCry[i][2];
-        var z = MatrizThatMakeMeCry[i][3];
-        //Limites o dimensiones del objeto
-        var xlim = (MatrizThatMakeMeCry[i][7]-1)/2;
-        var ylim = (MatrizThatMakeMeCry[i][8]-1)/2;
-        var zlim = (MatrizThatMakeMeCry[i][9]-1)/2;
-        if((pos[0]>=x-xlim && pos[0]<=x+xlim) && (pos[1]>=y-ylim && pos[1]<=y+ylim) && (pos[2]>=z-zlim && pos[2]<=z+zlim)){
-
-        //Aqui le aumento 1 valor a la nave pricipal para que aumente de vida cada vez que impacta una nave enemiga
-        if( MatrizThatMakeMeCry[0][6] < 13){          
-        MatrizThatMakeMeCry[0][6]++;////Aqui hize que la nave no pierda en caso de chocar
-
-        //Sonido de vida al matar a nave.
-        healing_sound();
-
-        LifeBar(MatrizThatMakeMeCry[0][6])
-        }
-        //Si es una nave
-        if(MatrizThatMakeMeCry[i][0]==1){
-          console.log(numnaves)
-          //navesVar--;//resto 1 por que ya fue eliminada xd s
-          //aqui abria impacto xd jajaja
-          if(MatrizThatMakeMeCry[i][6] <= 0){
-              //Eliminamos a la nave de la matriz
-              delete MatrizThatMakeMeCry[i][5];
-              scene.remove(MatrizThatMakeMeCry[i][4]);
-              delete MatrizThatMakeMeCry[i][4];
-              MatrizThatMakeMeCry[i]= new Array(0,null,null,null,null,null,0)
-              //Eliminamos la bala
-              i = numnaves;//para acabar el ciclo
-              numkills+=1;
-              enemyDestroyedSound(); // sonido de destrucción de la nave enemiga.s
-          }else{
-              MatrizThatMakeMeCry[i][6]--;////Se le quita solo 1 punto de vida
-          }
-        }else if(MatrizThatMakeMeCry[i][0]==3){ //Si es un asteroide
-          //Eliminamos a la nave de la matriz
-          delete MatrizThatMakeMeCry[i][5];
-          scene.remove(MatrizThatMakeMeCry[i][4]);
-          delete MatrizThatMakeMeCry[i][4];
-          MatrizThatMakeMeCry[i]= new Array(0,null,null,null,null,null,0)
-          //Eliminamos la bala
-          i = numnaves;//para acabar el ciclo
-          
-          enemyDestroyedSound(); // sonido de destrucción de la nave enemiga.s
-        }
-        scene.remove(sphere);
-        sphere = null;
-        who = null; 
-        ///Checar si se la variable de nave es 0 
-        }
-     }
-   }
+     impactToTheSpaceship(1, 1)////primer parametro es a quien disparan, el segun indique que es la pincipal
    if(who == 0){
      //Si la bala se sale de los límites, se eliminas
      if(pos[0] <= 0 || pos[0] >= limitx || pos[1] <= 0 || pos[1] >= limity || pos[2] <= 0 || pos[2] >= limitz){

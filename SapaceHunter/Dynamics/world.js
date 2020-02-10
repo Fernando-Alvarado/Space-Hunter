@@ -75,9 +75,11 @@ class World{
       }
       else if(a[0][0]=='ast')
         numasteroides+=a[1];
+      else if(a[0][0]=='amiga')
+        numamigas+=a[1];
     }
   
-    MatrizThatMakeMeCry = CargarModelos(this.objetos);//Creamos la matriz principal y cargamos modelos de three
+    MatrizThatMakeMeCry = CargarModelos(this.objetos);//tipo instanciando la matriz principal
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );  //Creamos la camara
   
    }
@@ -109,23 +111,26 @@ class World{
     for(let a of objetos){
       total += a[1];
     }
+
     var MatrizPrincipal = new Array(total);
+    NumberOfTotalThings = MatrizPrincipal.length-1;
+    Apuntando = new Array(NumberOfTotalThings);
 
     for (let i = 0; i < total; i++)
         MatrizPrincipal[i]=new Array(10);//array que guardará su tipo, sus posiciones en X,Y y Z, modelo 3d, objeto, vida y dimensiones
     
     //Vamos recorriendo el array de objetos creando cada uno
     for(let obj of objetos){
-      //En caso de ser una nave
-      if(obj[0][0]=='nave'){
+
+      if(obj[0][0]=='nave'){      //En caso de ser una nave enemiga
         var lim = current_celda;
         for(let i = lim; i<(obj[1]+lim);i++){
-          MatrizPrincipal[i][0] = 1;
+          MatrizPrincipal[i][0] = 1;////Nave enemiga
           //Le asignamos posiciones aleatorias
           MatrizPrincipal[i][1] = NumerosAleatorios(limitx)-1;
           MatrizPrincipal[i][2] = NumerosAleatorios(limity)-1;
           MatrizPrincipal[i][3] = NumerosAleatorios(limitz)-1;
-          
+        
           //Creamos el modelo
           loadModelo(i,obj[0][10]);
 
@@ -136,11 +141,16 @@ class World{
           MatrizPrincipal[i][7] = obj[0][7];
           MatrizPrincipal[i][8] = obj[0][8];
           MatrizPrincipal[i][9] = obj[0][9];
+          //Decimos a qué nave sigue
+          MatrizPrincipal[i][10] = obj[0][11];
+          Apuntando[i] = 0;
 
-          current_celda++;
+         current_celda++;
+
         }
 
       }else if(obj[0][0]=='ast'){ //En caso de ser un asteroide
+
         var lim = current_celda;
         for(let i = lim; i<(obj[1]+lim);i++){
           //Le damos una posición aleatoria
@@ -155,9 +165,37 @@ class World{
           MatrizPrincipal[i][8] = obj[0][4];
           MatrizPrincipal[i][9] = obj[0][5];
           current_celda++;
-        }  
-      }
+        }
 
+      }if(obj[0][0]=='amiga'){ //En caso de ser una nave amiga
+         var lim = current_celda;
+         for(let i = lim; i<(obj[1]+lim);i++){
+           MatrizPrincipal[i][0] = 2;
+
+           //Le asignamos posiciones aleatorias
+           MatrizPrincipal[i][1] = NumerosAleatorios(limitx)-1;
+           MatrizPrincipal[i][2] = NumerosAleatorios(limity)-1;
+           MatrizPrincipal[i][3] = NumerosAleatorios(limitz)-1;
+          
+           //Creamos el modelo
+           loadModelo(i,obj[0][10]);
+  
+           //Le damos su vida correspondiente
+           MatrizPrincipal[i][6] = obj[0][6];
+  
+           //Asignamos sus dimensiones
+           MatrizPrincipal[i][7] = obj[0][7];
+           MatrizPrincipal[i][8] = obj[0][8];
+           MatrizPrincipal[i][9] = obj[0][9];
+           //Decimos a qué nave sigue
+           MatrizPrincipal[i][10] = obj[0][11];
+           Apuntando[i] = 0;
+  
+           current_celda++;
+  
+          }
+  
+        }
     }
 
      //Creamos al principal
@@ -198,13 +236,10 @@ class World{
     }
   return MatrizPrincipal;
 }
-//dibujar la vida de la nave principal
 
-
- //poner posiones de las naves y ver donde vas a empezar funcion importante xd
+ //Crear los objetos controladores
 function CrearObjetos(objetos){//saber donde estaran las naves al inicio
     //tambien es medio la base de todo el juego espero que esto cambie
-   // var Matriz = ArrayBaseDeLaNaves(numNaves);//tipo instanciando la matriz principal
 
     //-----------------Delcarando todas los objetos que hay--------------------
     var current_celda = 1;
@@ -220,7 +255,7 @@ function CrearObjetos(objetos){//saber donde estaran las naves al inicio
         var lim = current_celda;
         for(let i = lim; i<(obj[1]+lim);i++){
           //Orden de Parametros: matrizDondeSeTrabaja, number,velocidad,rango,velChase,velDisparo,rangoDisp
-          MatrizThatMakeMeCry[i][5] = new NavesEnemigas(MatrizThatMakeMeCry, i,obj[0][1],obj[0][2],obj[0][3],obj[0][4],obj[0][5]);
+          MatrizThatMakeMeCry[i][5] = new Naves(MatrizThatMakeMeCry, i,obj[0][1],obj[0][2],obj[0][3],obj[0][4],obj[0][5]);
           MatrizThatMakeMeCry[i][5].JustTheCreator();//Js es una mamada jajaja
 
           current_celda++;
@@ -233,7 +268,17 @@ function CrearObjetos(objetos){//saber donde estaran las naves al inicio
 
           current_celda++;
         }
+      }if(obj[0][0]=='amiga'){
+        var lim = current_celda;
+        for(let i = lim; i<(obj[1]+lim);i++){
+          //Orden de Parametros: matrizDondeSeTrabaja, number,velocidad,rango,velChase,velDisparo,rangoDisp
+          MatrizThatMakeMeCry[i][5] = new Naves(MatrizThatMakeMeCry, i,obj[0][1],obj[0][2],obj[0][3],obj[0][4],obj[0][5]);
+          MatrizThatMakeMeCry[i][5].JustTheCreator();//Js es una mamada jajaja
+
+          current_celda++;
+        }
       }
+
     }
 
     //instanciando el objeto principal ----------------------
