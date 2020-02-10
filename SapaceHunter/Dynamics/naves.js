@@ -28,10 +28,11 @@ class Naves{
             if(matriz[position][0]!=null  && matriz[position][6]!=0){
               setTimeout(function(){
                 this.dist_chase=DistFromPlayer(x,y,z,MatrizThatMakeMeCry[position][10]);
-                this.dist_apuntando=DistFromPlayer(x,y,z,this.apuntando);
+                this.dist_apuntando=DistFromPlayer(x,y,z,Apuntando[position]);
                 //El parametro primer parametro sera cambiado por quien disparo xd, pero siento que se tendra que pasar
                 //un evento para disparar con el mouse
                 if(this.dist_chase <=obj.rango && matriz[position][0]!=null) {
+                  
                   if(this.dist_apuntando <=obj.rangoDisp){//Aqui dispara la nave enemiga---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -50,11 +51,11 @@ class Naves{
                   //2 es la nave principal
                   //MatrizThatMakeMeCry
                   //necesito saber quien disparo
-                  var disparoNaveEnemiga = new balas(MatrizThatMakeMeCry[position][1], MatrizThatMakeMeCry[position][2], MatrizThatMakeMeCry[position][3], MatrizThatMakeMeCry[obj.apuntando][1], MatrizThatMakeMeCry[obj.apuntando][2], MatrizThatMakeMeCry[obj.apuntando][3] ,obj.enemigo,limit)//constructro del objeto balas
-                  disparoNaveEnemiga.MidnightBlame(obj.velDisparo,obj.color,obj.apuntando);
+                  var apuntando = Apuntando[position];
+                  var disparoNaveEnemiga = new balas(MatrizThatMakeMeCry[position][1], MatrizThatMakeMeCry[position][2], MatrizThatMakeMeCry[position][3], MatrizThatMakeMeCry[apuntando][1], MatrizThatMakeMeCry[apuntando][2], MatrizThatMakeMeCry[apuntando][3] ,obj.enemigo,limit)//constructro del objeto balas
+                  disparoNaveEnemiga.MidnightBlame(obj.velDisparo,obj.color,apuntando);
                   move = 0;
-                  }
-                  if(this.dist_chase>=obj.rangoDisp){
+                  }else if(this.dist_chase>=obj.rangoDisp){
                     move = ChasePlayer(x,y,z,position);
                     obj.velocidad = obj.velChase;
                   }
@@ -144,7 +145,7 @@ class Naves{
             fin = numnaves;
           }
           setTimeout(()=>{
-            this.apuntando = Math.floor((Math.random()*fin))+ini;
+            Apuntando[position] = Math.floor((Math.random()*fin))+ini;
             BucleParaSaberAQuienDisparar(position);
             
         },2000);

@@ -140,6 +140,7 @@ class World{
           MatrizPrincipal[i][9] = obj[0][9];
           //Decimos a qué nave sigue
           MatrizPrincipal[i][10] = obj[0][11];
+          MatrizPrincipal[i][11] = 0;
 
          current_celda++;
 
@@ -185,6 +186,7 @@ class World{
            MatrizPrincipal[i][9] = obj[0][9];
            //Decimos a qué nave sigue
            MatrizPrincipal[i][10] = obj[0][11];
+           MatrizPrincipal[i][11] = 0;
   
            current_celda++;
   
