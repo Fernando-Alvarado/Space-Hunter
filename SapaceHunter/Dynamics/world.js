@@ -166,7 +166,7 @@ class World{
       }if(obj[0][0]=='amiga'){ //En caso de ser una nave amiga
          var lim = current_celda;
          for(let i = lim; i<(obj[1]+lim);i++){
-           MatrizPrincipal[i][0] = 3;
+           MatrizPrincipal[i][0] = 2;
 
            //Le asignamos posiciones aleatorias
            MatrizPrincipal[i][1] = NumerosAleatorios(limitx)-1;

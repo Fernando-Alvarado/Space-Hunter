@@ -1,7 +1,6 @@
 ////-----------------------------------------------------------------------------------------------------------------------
 ////----------------------------Objetos----------------------------------------------------------------------------------
 ////-----------------------------------------------------------------------------------------------------------------------
-console.log(MatrizThatMakeMeCry)
 
 
 class PersonajePrincipal{
@@ -172,7 +171,7 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
          direction.z = Math.round(direction.z);
          direction.y = Math.round(direction.y);
 
-         camera.position.add(direction.multiplyScalar(1)); //Agregamos ese vector multiplicándolo por un número para ajustar la velocidad
+         camera.position.add(direction.multiplyScalar(-1)); //Agregamos ese vector multiplicándolo por un número para ajustar la velocidad
 
          //En caso de que se qwuiera salir de el área delimitada, lo regresamos
          if(camera.position.x >= limitx-1){
@@ -210,7 +209,7 @@ disparo(){
  }
 
  var geometry = new THREE.SphereGeometry( .05, .05, .05 );
- var material = new THREE.MeshBasicMaterial( {color: 0x00ffff} );
+ var material = new THREE.MeshBasicMaterial( {color: 0x04a2b2} );
  var sphere = new THREE.Mesh( geometry, material );
  geometry = null;
  material = null;
@@ -239,8 +238,8 @@ disparo(){
    setTimeout(()=>{ 
      var who = 0;
      var pos = move();
-     for (let i= 1; i <= numnaves+numasteroides; i++){
-      if(MatrizThatMakeMeCry[i][0]!=0){
+     for (let i= 1+numamigas; i <= numnaves+numamigas+numasteroides; i++){
+      if(MatrizThatMakeMeCry[i][0]!=null && MatrizThatMakeMeCry[i][0]!=2){
         //Posición del objeto
         var x = MatrizThatMakeMeCry[i][1];
         var y = MatrizThatMakeMeCry[i][2];
@@ -262,7 +261,6 @@ disparo(){
         }
         //Si es una nave
         if(MatrizThatMakeMeCry[i][0]==1){
-          console.log(numnaves)
           //navesVar--;//resto 1 por que ya fue eliminada xd s
           //aqui abria impacto xd jajaja
           if(MatrizThatMakeMeCry[i][6] <= 0){
@@ -270,7 +268,7 @@ disparo(){
               delete MatrizThatMakeMeCry[i][5];
               scene.remove(MatrizThatMakeMeCry[i][4]);
               delete MatrizThatMakeMeCry[i][4];
-              MatrizThatMakeMeCry[i]= new Array(0,null,null,null,null,null,0)
+              MatrizThatMakeMeCry[i]= new Array(null,null,null,null,null,null,0)
               //Eliminamos la bala
               i = numnaves;//para acabar el ciclo
               numkills+=1;
@@ -283,7 +281,7 @@ disparo(){
           delete MatrizThatMakeMeCry[i][5];
           scene.remove(MatrizThatMakeMeCry[i][4]);
           delete MatrizThatMakeMeCry[i][4];
-          MatrizThatMakeMeCry[i]= new Array(0,null,null,null,null,null,0)
+          MatrizThatMakeMeCry[i]= new Array(null,null,null,null,null,null,0)
           //Eliminamos la bala
           i = numnaves;//para acabar el ciclo
           
