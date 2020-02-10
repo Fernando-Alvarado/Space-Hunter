@@ -1,6 +1,17 @@
-////-----------------------------------------------------------------------------------------------------------------------
-////---------------------------OBJETOS----------------------------------------------------------------------------------
-////-----------------------------------------------------------------------------------------------------------------------
+var NumberOfTotalThings = MatrizThatMakeMeCry.length-1;
+function NumerosAleatorios(tope){//Funcion que da numeros aleatorios
+  return Math.floor((Math.random()*tope))+1;
+}
+//Arrelgo a donde apunta, apunta a la nave,
+var Apuntando = new Array(NumberOfTotalThings)//delcarnado la variable con todas las posciones
+
+function AsignarValor(){//Funcion que le asignara los valores sobre donde apuntar
+    for (let i = 0; i <NumberOfTotalThings; i++) {
+      Apuntando[i]= NumerosAleatorios(NumberOfTotalThings);
+    }
+    setTimeout(()=>{AsignarValor()},2500)//tipo que tarda en que se refresque los valores de donde apunta 
+}
+AsignarValor();//llamando a la funcion
 
 
 class Naves{
@@ -270,22 +281,30 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
              sphere.position.z=matUnround[2][Coun];
    
              var Everything = MatrizThatMakeMeCry; //Aqui tengo que poner la matriz de IWannaCry
-             if( WhoToKill == Everything[target][0]){//cuendo le disparen a la nave que quieren
+
+
+             if( WhoToKill== 2){//cuendo le disparen a la nave principal
                  //Everything es la matriz donde estan todas la anves
-                 if(MatBalas[0][Coun]==Everything[target][1]&&MatBalas[1][Coun]==Everything[target][2]&&MatBalas[2][Coun]==Everything[target][3]){
+
+
+                if(Everything = MatrizThatMakeMeCry){/////si es la nave enemiga a la que se le disparo
+                  if(MatBalas[0][Coun]==Everything[0][1]&&MatBalas[1][Coun]==Everything[0][2]&&MatBalas[2][Coun]==Everything[0][3]){
                    
-                   scene.remove(sphere);
-                   sphere = null;
-                   MatrizThatMakeMeCry[target][6]--;////Aqui hize que la nave no pierda en caso de chocar
-                   //Cuando impactan la principal
-                   sonido_daño_principal.play(); //Sonido cuando te da una bala enemiga.
-                   LifeBar(MatrizThatMakeMeCry[0][6]);
-                   if( MatrizThatMakeMeCry[0][6] <= 0)             
-                     location.href="../Templates/EndMatch.html";////No se si esta ruta funcione
-                 }else{
-                     Coun++;
-                     GodsLoop(MatBalas, Coun, WhoToKill,matUnround,target);
-                 }
+                    scene.remove(sphere);
+                    sphere = null;
+                    MatrizThatMakeMeCry[0][6]--;////Aqui hize que la nave no pierda en caso de chocar
+                    //Cuando impactan la principal
+                    sonido_daño_principal.play(); //Sonido cuando te da una bala enemiga.
+                    LifeBar(MatrizThatMakeMeCry[0][6]);
+                    if( MatrizThatMakeMeCry[0][6] <= 0)             
+                      location.href="../Templates/EndMatch.html";////No se si esta ruta funcione
+                  }else{
+                      Coun++;
+                      GodsLoop(MatBalas, Coun, WhoToKill,matUnround);
+                  }
+                }else{
+                  var lol = 5
+               }
              }
          }
          else {
