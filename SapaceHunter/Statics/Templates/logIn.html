@@ -8,7 +8,7 @@
     <!-- <link rel="stylesheet" href="../CSS/register.css"> -->
     <link href="https://fonts.googleapis.com/css?family=Bebas+Neue|Cambay|Ubuntu&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="../../../Librerías/jquery-3.4.1.min.js"></script>
+    <script src="../../Dynamics/Librerías/jquery-3.4.1.min.js"></script>
 
     <title>LogIn</title>
     <style> 
@@ -20,24 +20,26 @@
     <!-- <video autoplay muted loop id="myVideo">
         <source src="../../../Media/Space_hunter_intro.mp4" type="video/mp4">
      </video> -->
-     <img alt="full screen background image" src="../../../Media/login_background.jpg" id="full-screen-background-image">
+     <img alt="full screen background image" src="../Media/login_background.jpg" id="full-screen-background-image">
 
 
     <div id="cajaGrande" >
         <div id="cajaChica">
-            <form action="">
+            <form action="" id="form_log">
                     <label id="Log">Log In</label>
                 <div id="nick">
                         <label>Nickname</label>
-                        <input type="text"> <br>
+                        <input type="text" class="nickname"id="in_nick" name="nick"> <br>
+                        <p class="feed_log"></p>
                 </div>
                 <div id="pass">
                         <label>Password</label>
-                        <input type="password"> <br>
+                        <input type="password" id="in_pass" name="pass"> <br>
+                        <p class="feed_log"></p>
                 </div>
             </form>
                 <div id="butones">
-                        <button class="btn btn-outline-success">Submit</button>
+                        <button class="btn btn-outline-success" id="boton_ingresar">Submit</button>
                         <button id="secret"></button>
                         <button class="btn btn-outline-info" id="boton_registro">Register</button>
                 </div>
@@ -62,92 +64,32 @@
                 </div> -->
                 <div id="nick_reg">
                         <label class="fer">Nickname</label>
-                        <input type="text" class="caja" id="nick_input" name="nickname"> <br>
+                        <input type="text" class="caja nickname" id="nick_input" name="nickname"> <br>
+                        <p class="feed_reg"></p>
                 </div>
                 <div id="pass_reg">
                     <button class="secret_reg"></button> <br>
                         <label class="fer">Password</label>
                         <input type="text" class="caja" id="nick_pass" name="password"> <br>
+                        <p class="feed_reg"></p>
                         <button class="secret_reg"></button> <br>
                 </form>
                         <label>Confirm password</label>
                         <input type="text" class="caja" id="nick_passx2"> <br>
+                        <p class="feed_reg"></p>
                 </div>
            
                 <div id="GoBack_btn">
                         <button class="btn btn-outline-info" id="registrar_button">Register</button>
                         <button  id="justSecret"></button>
                         <button class="btn btn-outline-danger" id="return_button">Go back</button>
+                        <button  id="justSecret"></button>
+                        <button class="btn btn-outline-light" id="JustPlay">Just Play</button>
                 </div>
             
         </div>
        
     </div>
-    <button class="btn btn-outline-light" id="JustPlay">Just Play</button>
 </body>
-<script>
-    function ChangePlace() {
-  var tocaste = document.getElementById("JustPlay");
-  tocaste.addEventListener("click", function(){
-    location.href = "./Elegir_modo.html";    
-    }); 
-}
-ChangePlace()
-
-
-    $("#bigbox").css("display","none");
-
-    document.getElementById("boton_registro").addEventListener('click',function(){
-        $("#cajaGrande").css("display","none");
-
-        $("img").attr("src","../../../Media/register_background.jpg");
-        $("#bigbox").css("display","block");
-    });
-
-
-    // Boton de registro
-    document.getElementById("registrar_button").addEventListener("click",function(){
-        var inputs_data=$("#form_reg").serialize();
-        console.log(inputs_data);
-
-        if($("#nick_pass").val()==$("#nick_passx2").val())
-        {
-            console.log("Contraseñas iguales");
-            $.ajax({
-                url: '../Dynamics/PHP/new_user.php' , 
-                method: 'POST',
-                data: inputs_data,
-                statusCode: {
-                404: function(){
-                    alert('No encontrado');
-                },
-                },
-            }).done( function(response) {
-                console.log ("Respuesta del Ajax: "+response);
-            }).fail( function(jqXHR, textStatus) {
-                alert('Error: ' + textStatus);
-            });
-        }
-        else
-            console.log("Las contraseñas no son iguales.")
-
-    })
-
-    document.getElementById("return_button").addEventListener("click",function(){
-        let inputs= document.querySelectorAll('input');
-        inputs.forEach(casilla=>{
-            casilla.value="";
-        });
-
-        $("#bigbox").css("display","none");
-        $("img").attr("src","../../../Media/login_background.jpg");
-
-        $("#cajaGrande").css("display","block");
-
-    });
-
-
-    
-
-</script>
+<script src="../../Dynamics/login.js"></script>
 </html>

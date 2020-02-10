@@ -4,9 +4,12 @@ class World{
     }
   
    CreateWorld(data){
-    limitx = data[0];//Numero de casillas de la matriz
+    //Definimos dimenciones de la matriz conforme a los datoss
+    limitx = data[0];
     limity = data[1];
     limitz = data[2];
+
+    //Creamos objetos de three js
     scene = new THREE.Scene();
     // THREE.PerspectiveCamera: primer parámetro es la apertura de la cámara en grados, el segundo es el
     // aspect ratio, una buena explicación aquí  https://es.wikipedia.org/wiki/Relaci%C3%B3n_de_aspecto
@@ -25,8 +28,9 @@ class World{
   
     //Creamos el fondo
     //Página generadora de fondos:
-    var background = data[3]
     //http://wwwtyro.github.io/space-3d/#animationSpeed=1&fov=45&nebulae=true&pointStars=true&resolution=1024&seed=Interprepas1erlugar&stars=true&sun=true
+
+    var background = data[3]
     {
       const loader = new THREE.CubeTextureLoader();
       const texture = loader.load([
@@ -40,13 +44,12 @@ class World{
       scene.background = texture;
     }
   
-    //Ponemos luces
+    //Ponemos luces para poder ver los modelos
     var ambient = new THREE.PointLight( 0x444444 );
     scene.add( ambient );
     var directionalLight = new THREE.DirectionalLight( 0xffeedd );
     directionalLight.position.set( 0, 0, 1 ).normalize();
     scene.add( directionalLight );
-
     var directionalLight1 = new THREE.DirectionalLight( 0xffeedd );
     directionalLight1.position.set( limitx, limity, limitz ).normalize();
     scene.add( directionalLight1 );
@@ -62,9 +65,10 @@ class World{
       });
     }
   
-    //Nos dirá que tipo de objetos y cuántos ¿
+    //Nos dirá que tipo de objetos y cuántos
     this.objetos = data[4];
-    console.log(background);
+
+    //Hacemos el conteo de naves y asteroides que nos mandan en datos
     for(let a of this.objetos){
       if(a[0][0]=='nave'){
         numnaves+=a[1];
@@ -73,7 +77,11 @@ class World{
         numasteroides+=a[1];
     }
   
+<<<<<<< HEAD
     MatrizThatMakeMeCry = CargarModelos(this.objetos, 3);//tipo instanciando la matriz principal
+=======
+    MatrizThatMakeMeCry = CargarModelos(this.objetos);//Creamos la matriz principal y cargamos modelos de three
+>>>>>>> d342095810668f154ac9597f650f29a7ddf3bee7
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );  //Creamos la camara
   
    }
@@ -87,7 +95,7 @@ class World{
     renderer.render( scene, camera );
     //ya que está la cámara y la escena, las ejecuta el render, boila.
     }
-    CrearObjetos(this.objetos)//esta ganando mucha importancia esta funcion
+    CrearObjetos(this.objetos)//Creamos las instancias de objetos nave, asteroides y principal
     animate();
   }
        

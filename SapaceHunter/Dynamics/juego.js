@@ -1,13 +1,17 @@
 //Variable globales necesarios
-var MatrizThatMakeMeCry = null;
+var MatrizThatMakeMeCry = null; //Matriz principal del juego, para cada objeto su tipo, posiciones, modelo, objeto, vidas y dimensiones
 var vidaDelEscudo = 15//seran los segundos que durar el escudo
+//Dimensiones del munfo
 var limitx = null;
 var limity = null;
 var limitz = null;
+//Número de naves, asteroides
 var numnaves = null;
 var numasteroides = null; 
-var numkills = 0; 
-var tiempo = null;
+//Variables para modos de juego
+var numkills = 0; //Cuantas naves destruidas lleva el jugador
+var tiempo = null;  //Cuabto tiempo falta para ganar
+//Variables para three.js
 var scene = null;
 var renderer = null;
 var camera = null;
@@ -27,8 +31,8 @@ var inside=document.getElementById("imagenPrincipal");
 inside.setAttribute('draggable', false);
 
 
-///arreglo de 
-var patterns = new Array( //Array con todos los diferentes patrones, el primer número es la velocidadf
+ //Array con todos los diferentes patrones, el primer número es la velocidad
+var patterns = new Array(
   new Array(200,2,2),
   new Array(200,1,1),
   new Array(200,3,3),
@@ -52,6 +56,7 @@ var patterns = new Array( //Array con todos los diferentes patrones, el primer n
 
 //Definimos las clases de naves y asteroides
 var clases_naves = {
+<<<<<<< HEAD
   //velocidad,rango,velChase,velDisparo,rangoDisp,vida,largo,ancho,alto y modelo
   'class1 1': new Array('nave',1000,60,500,200,10,2,1,1,1,'Tie.glb'),
   'class1 2': new Array('nave',1000,40,300,150,15,3,1,1,1,'Tie.glb'),
@@ -69,6 +74,21 @@ var clases_naves = {
   //velocidad,modelo y dimensiones
   ast1: new Array('ast',10000,'asteroide__50.glb',1,1,1),
   ast2: new Array('ast',500,'asteroide__50.glb',1,1,1)
+=======
+  //los valores son, tipo,velocidad,rango,velChase,velDisparo,rangoDisp,vida,largo,ancho,alto y modelo
+  'class1 1': new Array('nave',1000,60,500,200,10,2,1,1,1,'Tie.glb'), //Tie novato
+  'class1 2': new Array('nave',1000,40,300,150,15,3,1,1,1,'Tie.glb'), //Tie valiente
+  'class1 3': new Array('nave',1000,20,100,100,20,4,1,1,1,'Tie.glb'), //Tie héroe
+  //tipo,velocidad,modelo y dimensiones
+  ast1: new Array('ast',500,'asteroide_1_Gre.glb',1,1,1),
+  ast2: new Array('ast',500,'asteroide_1_Pi.glb',1,1,1),
+  ast3: new Array('ast',500,'asteroide_1_Re.glb',1,1,1),
+  ast4: new Array('ast',500,'asteroide_1_Ye.glb',1,1,1),
+  ast5: new Array('ast',500,'asteroide_3_Gre.glb',3,3,3),
+  ast6: new Array('ast',500,'asteroide_3_Pi.glb',3,3,3),
+  ast7: new Array('ast',500,'asteroide_3_Re.glb',3,3,3),
+  ast8: new Array('ast',500,'asteroide_3_Ye.glb',3,3,3),
+>>>>>>> d342095810668f154ac9597f650f29a7ddf3bee7
 };
 
 ////-----------------------------------------------------------------------------------------------------------------------
@@ -95,26 +115,28 @@ function ChooseWhereToMove(event, value){//switch para elegir
         type = 0;
         //En caso de que no sea la misma nave
         if(MatrizThatMakeMeCry[i][0]!=MatrizThatMakeMeCry[value][0]){
+
+          //Agregamos uno a numkills cuando una nave choca
           if(MatrizThatMakeMeCry[value][0]==1 || MatrizThatMakeMeCry[i][0]==1){
             numkills+=1;
           }
           //Si se choca con un objeto diferente del principal, se destruye
           if(MatrizThatMakeMeCry[i][0]!=2){
-            scene.remove(MatrizThatMakeMeCry[i][4]);
-            delete MatrizThatMakeMeCry[i][4];
-            delete MatrizThatMakeMeCry[i][5];
+            scene.remove(MatrizThatMakeMeCry[i][4]);  //La quitamos de la escena
+            delete MatrizThatMakeMeCry[i][4]; //Boramos el modelo
+            delete MatrizThatMakeMeCry[i][5]; //Borramos el objeto
             impact_sound(); //sonido de choque entre objetos
-            MatrizThatMakeMeCry[i]=[0,null,null,null,null,null,0];
-            type=0;
+            MatrizThatMakeMeCry[i]=[0,null,null,null,null,null,0,null,null,null,null];  //Borramos la información en el array
+            type=0; //Regresamos type para parar la ejecución desde el objeto
           }
           //Si el mismo objeto no es el principal, se destruye
           if(MatrizThatMakeMeCry[value][0]!=2){
-            scene.remove(MatrizThatMakeMeCry[value][4]);
-            delete MatrizThatMakeMeCry[value][4];
-            delete MatrizThatMakeMeCry[value][5];
-            MatrizThatMakeMeCry[value]=[0,null,null,null,null,null,0];
+            scene.remove(MatrizThatMakeMeCry[value][4]);  //La quitamos de la escena
+            delete MatrizThatMakeMeCry[value][4]; //Boramos el modelo
+            delete MatrizThatMakeMeCry[value][5]; //Borramos el objeto
+            MatrizThatMakeMeCry[value]=[0,null,null,null,null,null,0,null,null,null,null];  //Borramos la información en el array
             impact_sound();
-            type = 0;
+            type = 0; //Regresamos type para parar la ejecución desde el objeto
           }
           //En caso de que alguno de los dos objetos en la colision sean el principal, se manda un menaje de perder
           if(MatrizThatMakeMeCry[value][0]==2||MatrizThatMakeMeCry[i][0]==2)
@@ -122,7 +144,7 @@ function ChooseWhereToMove(event, value){//switch para elegir
           LifeBar(MatrizThatMakeMeCry[0][6])
           color = "white";
         }else{
-          type=MatrizThatMakeMeCry[value][0];
+          type=MatrizThatMakeMeCry[value][0]; //Devolvemos el tipo para que la ejecución siga sin problemas
         }
 
       }
@@ -162,7 +184,6 @@ function ChooseWhereToMove(event, value){//switch para elegir
       }
 
       regreso = [x, y, z, type];
-      //ponerLasNavesEnLaMatriz(matriz);/////////////////////////////////Arreglar
   }
 
   //Agregamos a la matriz los nuevos valores de posición
@@ -181,21 +202,21 @@ function NumerosAleatorios(tope){
 function NumKills(){  //Función que cuenta las kills
   setInterval(check,100);
   function check(){
-    $('#numkills').html('Kills: '+numkills+'/'+numnaves);
+    $('#numkills').html('Kills: '+numkills+'/'+numnaves); //Imprimimos las kills actuales y faltantes
     if(numkills == numnaves){ //Si destruyes todas las naves, redirecciona a ganar
       location.href="Win.html";
     }
   }
   check();
 }
-function Sobrevive(dif){
-  tiempo = (dif*60)+10;
+function Sobrevive(dif){  //Cuenta el tiempo para sosbrevivir
+  tiempo = (dif*60)+10; //Tiempo dependiente de la dificultad
   setInterval(check,1000);
   function check(){
     tiempo--;
-    $('#numkills').html('Tiempo restante: '+tiempo+'s');
+    $('#numkills').html('Tiempo restante: '+tiempo+'s');  //Imprimimos el tiempo restante
     if(tiempo == 0){
-      location.href="Win.html";
+      location.href="Win.html"; //Redireccionamos si gana
     }
   }
   check();
@@ -206,25 +227,34 @@ function Sobrevive(dif){
 ///-----------------------------------------------------------------------------------------------
 //               Funciones principales que corren todo el juego
 
-$('#arriba').hide();
+$('#arriba').hide();  //Escondemos las barras de vida, ecudos y máscara de cabina
 var world = new World();  //Creamos el objeto world
+var dif = Number($('.dif').text()); //Obtenemos la dificultad especificada
+var modo = Number($('.modo').text()); //Obtenemos el modo de juego
+var data_world=null;  //Datos a mandar al objeto world
+var msg = null; //Mensaje al inicio
 
-var dif = Number($('.dif').text());
-var modo = Number($('.modo').text());
-var data_world=null;
-var msg = null;
-if(modo == 1){
+//Dependiendo de modo ejecutamos cosas diferentes y cambiamos los valores para msg y data_world
+if(modo == 1){  //Modo supervivencia
+  //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
   var obj = new Array(
-    new Array(clases_naves['ast1'],50), 
+    new Array(clases_naves['ast1'],12), 
+    new Array(clases_naves['ast2'],12), 
+    new Array(clases_naves['ast5'],12), 
+    new Array(clases_naves['ast6'],12), 
     new Array(clases_naves['class1 '+dif],30*dif),
   );
   data_world = new Array(60,60,60,'imperio',obj);
   msg = 'Localización: Sector K-3345 Sistema Alfa-C <br>Quedaste varado en territorio Imperial, vez a lo lejos los restos de una fragata rebelde.<br>Puedes sobrevivir el tiempo suficiente para que llegue la brigada de rescate?';
   Sobrevive(dif);
 }
-else if(modo == 4){
+else if(modo == 4){ //Modo flota
+  //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
   var obj = new Array(
-    new Array(clases_naves['ast1'],50), 
+    new Array(clases_naves['ast3'],7*dif), 
+    new Array(clases_naves['ast4'],7*dif), 
+    new Array(clases_naves['ast7'],7*dif), 
+    new Array(clases_naves['ast8'],7*dif),  
     new Array(clases_naves['class1 '+dif],5*dif),
   );
   data_world = new Array(100,100,100,'default',obj);
@@ -232,11 +262,11 @@ else if(modo == 4){
   NumKills()
 }
 
-$('.texto_intro').html(msg);
+$('.texto_intro').html(msg); //Mostramos el mensaje acorde al modo
 world.CreateWorld(data_world); //Creamos el mundo
 setTimeout(function(){
-  $('.texto_intro').hide();
-  $('#arriba').show();
-  world.StartWorld();
+  $('.texto_intro').hide(); //Ocultamos el mensaje
+  $('#arriba').show();  //Mostramos la cabina y barras
+  world.StartWorld(); //Empezamos el juego
 },10000);
 //------------------------------------------------------------------------------------------------

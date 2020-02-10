@@ -1,0 +1,7 @@
+set /p num1= Dame #:
+set /p num2= Dame otro#:
+set /a suma=%num1%+%num2%
+echo %suma%
+set num1=
+set num2=
+set suma=
