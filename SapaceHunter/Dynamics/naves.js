@@ -29,7 +29,6 @@ class Naves{
                 if(this.dist_chase <=obj.rango && matriz[position][0]!=null) {
                   
                   if(this.dist_apuntando <=obj.rangoDisp){//Aqui dispara la nave enemiga---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                    console.log('pium');
 
                   //Obtenemos el límite más grande para el rango de vida de las balas.
                   var limit = limitx;
