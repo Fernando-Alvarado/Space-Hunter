@@ -160,10 +160,14 @@ class Naves{
 }
 
 ////-----------------------------JIJIJIIJIJ aQUI IRA EL OBJETO DE LAS BALAS
+
+/////Objeto no probado de agrego un nuevo parametro me, solo debe se 1 cuando se le dispare a la nave principal
+
+
 class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por que necesito que sea la actualizada para
     //la comparacion de las colisiones
    //matriz donde corre el juego || cordenadas conde empezo a disparar || coordenadas a donde va
-   constructor(whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego){
+   constructor(whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego, me){
    //kileed se refiere al indicador de la nave que se quiere matar
      function graficadoraBullet(x,y,z,x2,y2,z2, limite){
          //-Declaracion de los 3 array
@@ -234,6 +238,7 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
        }
    }
    this.MatrizUnround = ordenaTabs(this.MatrizBalas3d);
+   this.YouShotAtMe = me; //Valor para saber si le disparan a la nave princiapla o no 
    }
    MidnightBlame(velDisparo,colorb,target){ //NOTE: la varaible de las naves es global tinee que estar declarada arriba
    var Coun = 0;
@@ -263,13 +268,25 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
              sphere.position.z=matUnround[2][Coun];
    
              var Everything = MatrizThatMakeMeCry; //Aqui tengo que poner la matriz de IWannaCry
+            if(WhoToKill== 1){//Aqui sera el codigo cuando las naves amigas le disparen a las naves enemigas
+                 for(i = 1; i<Everything.length-1; i++ ){
+                      if(MatBalas[0][Coun]==Everything[i][1]&&MatBalas[1][Coun]==Everything[i][2]&&MatBalas[2][Coun]==Everything[i][3]){
+                           if(Everything[i][0]==1){
+                                console.log('se destruye la nave enemiga')
 
-             if( WhoToKill== MatrizThatMakeMeCry[target][0]){//cuendo le disparen a la nave principal
-                 //Everything es la matriz donde estan todas la anves
 
 
-                /////si es la nave enemiga a la que se le disparo
-                  if(MatBalas[0][Coun]==Everything[target][1]&&MatBalas[1][Coun]==Everything[target][2]&&MatBalas[2][Coun]==Everything[target][3]){
+
+                            }///No se si hace que si la bala toque algo se detenga o siga, yo dijo que se detenga xd
+                      }
+                  }
+                  Coun++;
+                  GodsLoop(MatBalas, Coun, WhoToKill,matUnround);
+
+            }else if( WhoToKill== 2){//cuendo le disparen a la nave principal y a las naves amiga
+
+                if(this.YouShotAtMe == 1){/////si es la nave enemiga a la que se le disparo
+                  if(MatBalas[0][Coun]==Everything[0][1]&&MatBalas[1][Coun]==Everything[0][2]&&MatBalas[2][Coun]==Everything[0][3]){
                    
                     scene.remove(sphere);
                     sphere = null;
@@ -289,6 +306,21 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
                       Coun++;
                       GodsLoop(MatBalas, Coun, WhoToKill,matUnround,target);
                   }
+                }else{
+                  for(i = 1; i<Everything.length-1; i++ ){
+                    if(MatBalas[0][Coun]==Everything[i][1]&&MatBalas[1][Coun]==Everything[i][2]&&MatBalas[2][Coun]==Everything[i][3]){
+                         if(Everything[i][0]==2){
+                              console.log('se destruye alguna de las naves amigas xd')
+
+
+
+
+                          }///No se si hace que si la bala toque algo se detenga o siga, yo dijo que se detenga xd
+                    }
+                }
+                Coun++;
+                GodsLoop(MatBalas, Coun, WhoToKill,matUnround);
+               }
              }
          }
          else {
