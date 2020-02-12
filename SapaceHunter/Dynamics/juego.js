@@ -65,6 +65,14 @@ var clases_naves = {
   'class1 1': new Array('nave',1000,60,500,200,10,2,1,1,1,'Tie.glb',0),
   'class1 2': new Array('nave',1000,40,300,150,15,3,1,1,1,'Tie.glb',0),
   'class1 3': new Array('nave',1000,20,100,100,20,4,1,1,1,'Tie.glb',0),
+
+  'wanted 1': new Array('nave',1000,100,300,200,25,15,4,2,3,'Destructor.glb',0),
+  'wanted 2': new Array('nave',1000,80,200,150,35,20,4,2,3,'Destructor.glb',0),
+  'wanted 3': new Array('nave',1000,60,100,100,50,30,4,2,3,'Destructor.glb',0),
+
+  'bodyguard 1': new Array('nave',1000,60,100,200,10,2,1,1,1,'Tie.glb','w'),
+  'bodyguard 2': new Array('nave',1000,40,100,150,15,3,1,1,1,'Tie.glb','w'),
+  'bodyguard 3': new Array('nave',1000,20,100,100,20,4,1,1,1,'Tie.glb','w'),
   ////Beto tenemos que cambiar el modelo de la nave
   'claseAmiga1': new Array('amiga',1000,200,100,100,20,4,1,1,1,'asteroide_1_Gre.glb',0),////Aqui va la nave amiga
   class2: new Array('nave',1000,40,300,100,15,2,1,1,1),
@@ -219,6 +227,38 @@ function Sobrevive(dif){  //Cuenta el tiempo para sosbrevivir
   }
   check();
 }
+function Wanted(dif){  //Checa si el objetivo fue destruido
+  var wanted = MatrizThatMakeMeCry.length-1;
+  var vida = clases_naves['wanted '+dif][6];
+  setInterval(check,500);
+  $('#wanted').show();
+  function check(){
+    if(MatrizThatMakeMeCry[wanted][0] == null){
+      location.href="Win.html"; //Redireccionamos si gana
+    }
+      
+      var numero = MatrizThatMakeMeCry[wanted][6];
+      //Se dibuja la vida del enemigo
+      var canvasVida = document.getElementById("wanted");
+      var life = canvasVida.getContext("2d");
+      life.beginPath();
+      //puntos iniciales // puntos finales
+      life.rect(1, 1, 200, 20);//la tercera es la que tengo que modificar
+      life.fillStyle = "#373737";
+      life.fill();
+      life.closePath();
+      //la nave tendra 10 puntos de vida xd pero pueden ser mas 
+      var vidaTotal = vida //es la vida que tendra el presonaje principal
+      var anchoLife = ((numero * 200) / vidaTotal);
+      life.beginPath();
+      //puntos iniciales // puntos finales
+      life.rect(1, 1, anchoLife, 20);//la tercera es la que tengo que modificar
+      life.fillStyle = "#ff1a1a";
+      life.fill();
+      life.closePath();
+  }
+  check();
+}
 
 ///-----------------------------------------------------------------------------------------------
 ///--------------------Ejecuciones----------------------------------------------------------------
@@ -243,7 +283,7 @@ if(modo == 1){  //Modo supervivencia
     new Array(clases_naves['class1 '+dif],10*dif)
   );
   data_world = new Array(60,60,60,'imperio',obj);
-  msg = 'Localización: Sector K-3345 Sistema Alfa-C <br>Quedaste varado en territorio Imperial, vez a lo lejos los restos de una fragata rebelde.<br>Puedes sobrevivir el tiempo suficiente para que llegue la brigada de rescate?';
+  msg = 'Localización: Sector K-3345  Sistema Alfa-C <br>Quedaste varado en territorio Imperial, vez a lo lejos los restos de una fragata rebelde.<br>Puedes sobrevivir el tiempo suficiente para que llegue la brigada de rescate?';
   Sobrevive(dif);
 }
 else if(modo == 4){ //Modo flota
@@ -256,8 +296,24 @@ else if(modo == 4){ //Modo flota
     new Array(clases_naves['class1 '+dif],5*dif)
   );
   data_world = new Array(100,100,100,'default',obj);
-  msg = 'Localización: Sector D-1233 Estrella Delta-A <br> El imperio a tomado posesión de esta zona, acaba con ellos para que las tropas puedan pasar.<br>Buena suerte!';
-  NumKills()
+  msg = 'Localización: Sector D-1233  Estrella Delta-A <br> El imperio a tomado posesión de esta zona, acaba con ellos para que las tropas puedan pasar.<br>Buena suerte!';
+  NumKills();
+}
+else if(modo == 5){ //Modo, el Rey ha Caído
+  //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
+  var obj = new Array(
+    new Array(clases_naves['ast1'],2*dif), 
+    new Array(clases_naves['ast2'],2*dif), 
+    new Array(clases_naves['ast7'],2*dif), 
+    new Array(clases_naves['ast8'],2*dif),
+    new Array(clases_naves['bodyguard '+dif],4*dif),
+    new Array(clases_naves['wanted '+dif],1)
+  );
+  data_world = new Array(100,100,100,'default',obj);
+  msg = 'Localización: Sector C-2  Sistema Rune <br> Después de una eternidad de batalla logras sacar a la nave del rey Hutt "Cosmos" de su escondite. Pero no viene solo, sus mejores guerreros lo acompañan, tal vez haga el trabjo un poco más difícil, procede con precaución.';
+  setTimeout(function(){ 
+    Wanted(dif);
+  },11000);
 }
 //Vamos a trabajar sobre este mundo xd, es el modo mensajero, se supone
 else if(modo == 2){ //Modo flota
@@ -270,6 +326,8 @@ else if(modo == 2){ //Modo flota
   msg = 'prueba naves amigas xd';
 }
 
+
+$('#wanted').hide();
 $('.texto_intro').html(msg); //Mostramos el mensaje acorde al modo
 world.CreateWorld(data_world); //Creamos el mundo
 setTimeout(function(){

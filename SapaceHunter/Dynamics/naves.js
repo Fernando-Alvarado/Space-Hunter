@@ -154,6 +154,10 @@ class Naves{
           this.enemigo = 1;
           this.color = 0x0450b2;
         }
+        if(MatrizThatMakeMeCry[this.number][10]=='w'){
+          MatrizThatMakeMeCry[this.number][10]=MatrizThatMakeMeCry.length-1;
+        }
+
         MainBucle(this, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.numero, this.number,this.current_pattern, this.pattern_move,patterns);
     }
 
@@ -200,8 +204,8 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
              }else{
                  arreSalida1.push(leter1);
                  arreSalida2.push(leter2);
-                 sinRedondear1.push(leter1);
-                 sinRedondear2.push(leter2);
+                 sinRedondear1=arreSalida2;
+                 sinRedondear2=arreSalida1;
              }
              //para ver como esta funcioanndo la mamada
          }//ord te dice que teltra le corresponde el arreglo que saco para las balas

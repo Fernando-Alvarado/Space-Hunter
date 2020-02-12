@@ -9,6 +9,23 @@ body{
     border: 1px solid white;
 
 }
+#wanted {
+    position: absolute;
+    bottom: 5%;
+    right: 43%;
+    background-color: #373737;
+    border: 1px solid white;
+    font-family: 'Bebas Neue', cursive;
+}
+#wantedname{
+    position: absolute;
+    bottom: 5%;
+    right: 65%;
+    background-color: transparent;
+    border: none;
+    font-size: 150%;
+    color: #ff1a1a;
+}
 #imagenPrincipal{
     width: 100%;
     position: absolute;

@@ -17,6 +17,10 @@ $('#mod_s').change(function(){  //En caso de cambiar el modo, mostrar la informa
         $('img').attr("src","../Media/Flota_background.jpg");
         $('#modo').html('Flota');
         $('.descript').html('Fuiste enviado a la estrella Delta-A, actualmente en posesión del imperio, tienes que limpiar la zona para que las tropas rebeldes puedan entrar.');
+    }else if(mod==5){
+        $('img').attr("src","../Media/Flota_background.jpg");
+        $('#modo').html('El Rey Ha Caído');
+        $('.descript').html('El sistema Rune es controlado por el jefe Hutt "Cosmos". Este tirano mandamás no obedece a nadie y el imperio está pagando muy bien por su cabeza, o mejor dicho, su nave.');
     }
 });
 
