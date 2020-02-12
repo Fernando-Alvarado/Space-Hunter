@@ -131,11 +131,8 @@ function ChooseWhereToMove(event, value){//switch para elegir
             MatrizThatMakeMeCry[i][6]-=3;
           }
           if(i!=0 && MatrizThatMakeMeCry[i][6]<=0){
-            scene.remove(MatrizThatMakeMeCry[i][4]);  //La quitamos de la escena
-            delete MatrizThatMakeMeCry[i][4]; //Boramos el modelo
-            delete MatrizThatMakeMeCry[i][5]; //Borramos el objeto
             impact_sound(); //sonido de choque entre objetos
-            MatrizThatMakeMeCry[i]=[null,null,null,null,null,null,0,null,null,null,null];  //Borramos la información en el array
+            destroy(i);
             type=0; //Regresamos type para parar la ejecución desde el objeto
           }
           
@@ -144,10 +141,7 @@ function ChooseWhereToMove(event, value){//switch para elegir
             MatrizThatMakeMeCry[value][6]-=3;
           }
           if(value!=0 && MatrizThatMakeMeCry[value][6]<=0){
-            scene.remove(MatrizThatMakeMeCry[value][4]);  //La quitamos de la escena
-            delete MatrizThatMakeMeCry[value][4]; //Boramos el modelo
-            delete MatrizThatMakeMeCry[value][5]; //Borramos el objeto
-            MatrizThatMakeMeCry[value]=[null,null,null,null,null,null,0,null,null,null,null];  //Borramos la información en el array
+            destroy(value);
             impact_sound();
             type = 0; //Regresamos type para parar la ejecución desde el objeto
           }
@@ -208,6 +202,13 @@ function ChooseWhereToMove(event, value){//switch para elegir
 
 }
 
+function destroy(position){
+  scene.remove(MatrizThatMakeMeCry[position][4]);  //La quitamos de la escena
+  delete MatrizThatMakeMeCry[position][4]; //Boramos el modelo
+  delete MatrizThatMakeMeCry[position][5]; //Borramos el objeto
+  MatrizThatMakeMeCry[position]=[null,null,null,null,null,null,0,null,null,null,null];  //Borramos la información en el array    
+}
+
 function NumerosAleatorios(tope){
     return Math.floor((Math.random()*tope))+1;
 }
@@ -241,7 +242,7 @@ function Wanted(dif){  //Checa si el objetivo fue destruido
   $('#wanted').show();
  $('#wantedname').show();
   function check(){
-    if(MatrizThatMakeMeCry[wanted][0] == null){
+    if(MatrizThatMakeMeCry[wanted][0] == null || MatrizThatMakeMeCry[wanted][0] <= 0){
       location.href="Win.html"; //Redireccionamos si gana
     }
       

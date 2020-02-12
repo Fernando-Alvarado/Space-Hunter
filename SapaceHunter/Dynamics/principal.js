@@ -266,10 +266,7 @@ disparo(){
           //aqui abria impacto xd jajaja
           if(MatrizThatMakeMeCry[i][6] <= 0){
               //Eliminamos a la nave de la matriz
-              delete MatrizThatMakeMeCry[i][5];
-              scene.remove(MatrizThatMakeMeCry[i][4]);
-              delete MatrizThatMakeMeCry[i][4];
-              MatrizThatMakeMeCry[i]= new Array(null,null,null,null,null,null,0)
+              destroy(i);
               //Eliminamos la bala
               i = numnaves;//para acabar el ciclo
               numkills+=1;
@@ -279,10 +276,7 @@ disparo(){
           }
         }else if(MatrizThatMakeMeCry[i][0]==3){ //Si es un asteroide
           //Eliminamos a la nave de la matriz
-          delete MatrizThatMakeMeCry[i][5];
-          scene.remove(MatrizThatMakeMeCry[i][4]);
-          delete MatrizThatMakeMeCry[i][4];
-          MatrizThatMakeMeCry[i]= new Array(null,null,null,null,null,null,0)
+          destroy(i);
           //Eliminamos la bala
           i = numnaves;//para acabar el ciclo
           
