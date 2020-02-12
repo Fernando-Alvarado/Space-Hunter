@@ -20,7 +20,7 @@ $('#mod_s').change(function(){  //En caso de cambiar el modo, mostrar la informa
     }else if(mod==5){
         $('img').attr("src","../Media/Flota_background.jpg");
         $('#modo').html('El Rey Ha Caído');
-        $('.descript').html('El sistema Rune es controlado por el jefe Hutt "Cosmos". Este tirano mandamás no obedece a nadie y el imperio está pagando muy bien por su cabeza, o mejor dicho, su nave.');
+        $('.descript').html('El sistema Rune es controlado por el jefe Hutt "Cosmos". <br>Este tirano mandamás no obedece a nadie y el imperio está pagando muy bien por su cabeza, o mejor dicho, su nave.');
     }
 });
 

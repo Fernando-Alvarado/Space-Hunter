@@ -101,7 +101,7 @@ class PersonajePrincipal{
                        Resumida(vidaDelEscudo)
                        loopShield()
                      }
-                   },1200)
+                   },600)
                  }
              loopShield()
                }     
@@ -259,7 +259,7 @@ disparo(){
     
           LifeBar(MatrizThatMakeMeCry[0][6])
         }
-        
+
         //Si es una nave
         if(MatrizThatMakeMeCry[i][0]==1){//nave enemiga o amiga //----------------------------------
           //navesVar--;//resto 1 por que ya fue eliminada xd s

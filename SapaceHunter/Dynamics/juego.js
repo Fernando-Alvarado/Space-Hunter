@@ -3,7 +3,7 @@ var MatrizThatMakeMeCry = null; //Matriz principal del juego, para cada objeto s
 //Arrelgo a donde apunta, apunta a la nave,
 var Apuntando = null;//delcarnado la variable con todas las posciones
 
-var vidaDelEscudo = 15//seran los segundos que durar el escudo
+var vidaDelEscudo = 30//seran los segundos que durar el escudo
 //Dimensiones del munfo
 var limitx = null;
 var limity = null;
@@ -126,8 +126,11 @@ function ChooseWhereToMove(event, value){//switch para elegir
           if(MatrizThatMakeMeCry[value][0]==1 || MatrizThatMakeMeCry[i][0]==1){
             numkills+=1;
           }
-          //Si se choca con un objeto diferente del principal, se destruye
-          if(i!=0){
+          //Si se choca con un objeto diferente del principal, se destruye o le baja la vida
+          if(MatrizThatMakeMeCry[i][6]>0){
+            MatrizThatMakeMeCry[i][6]-=3;
+          }
+          if(i!=0 && MatrizThatMakeMeCry[i][6]<=0){
             scene.remove(MatrizThatMakeMeCry[i][4]);  //La quitamos de la escena
             delete MatrizThatMakeMeCry[i][4]; //Boramos el modelo
             delete MatrizThatMakeMeCry[i][5]; //Borramos el objeto
@@ -135,8 +138,12 @@ function ChooseWhereToMove(event, value){//switch para elegir
             MatrizThatMakeMeCry[i]=[null,null,null,null,null,null,0,null,null,null,null];  //Borramos la información en el array
             type=0; //Regresamos type para parar la ejecución desde el objeto
           }
-          //Si el mismo objeto no es el principal, se destruye
-          if(value!=0){
+          
+          //Si el mismo objeto no es el principal, se destruye o le baja la vida
+          if(MatrizThatMakeMeCry[value][6]>0){
+            MatrizThatMakeMeCry[value][6]-=3;
+          }
+          if(value!=0 && MatrizThatMakeMeCry[value][6]<=0){
             scene.remove(MatrizThatMakeMeCry[value][4]);  //La quitamos de la escena
             delete MatrizThatMakeMeCry[value][4]; //Boramos el modelo
             delete MatrizThatMakeMeCry[value][5]; //Borramos el objeto
@@ -232,6 +239,7 @@ function Wanted(dif){  //Checa si el objetivo fue destruido
   var vida = clases_naves['wanted '+dif][6];
   setInterval(check,500);
   $('#wanted').show();
+ $('#wantedname').show();
   function check(){
     if(MatrizThatMakeMeCry[wanted][0] == null){
       location.href="Win.html"; //Redireccionamos si gana
@@ -328,6 +336,7 @@ else if(modo == 2){ //Modo flota
 
 
 $('#wanted').hide();
+$('#wantedname').hide();
 $('.texto_intro').html(msg); //Mostramos el mensaje acorde al modo
 world.CreateWorld(data_world); //Creamos el mundo
 setTimeout(function(){
