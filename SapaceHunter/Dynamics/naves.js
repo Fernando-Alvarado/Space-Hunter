@@ -325,10 +325,7 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
                           if( MatrizThatMakeMeCry[0][6] <= 0)             
                             location.href="../Templates/EndMatch.html";////No se si esta ruta funcione 
                         }else if(i!=0 && MatrizThatMakeMeCry[i][6]<=0){
-                          delete MatrizThatMakeMeCry[i][5];
-                          scene.remove(MatrizThatMakeMeCry[i][4]);
-                          delete MatrizThatMakeMeCry[i][4];
-                          MatrizThatMakeMeCry[i]= new Array(null,null,null,null,null,null,0);
+                          destroy(i);
                         }
                   }
             }

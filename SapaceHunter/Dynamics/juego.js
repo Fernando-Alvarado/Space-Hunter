@@ -132,7 +132,7 @@ function ChooseWhereToMove(event, value){//switch para elegir
           }
           if(i!=0 && MatrizThatMakeMeCry[i][6]<=0){
             impact_sound(); //sonido de choque entre objetos
-            destroy(i);
+            destroy(i);//Eliminamos a la nave o asteroide de la matriz
             type=0; //Regresamos type para parar la ejecución desde el objeto
           }
           
@@ -141,6 +141,7 @@ function ChooseWhereToMove(event, value){//switch para elegir
             MatrizThatMakeMeCry[value][6]-=3;
           }
           if(value!=0 && MatrizThatMakeMeCry[value][6]<=0){
+            //Eliminamos a la nave o asteroide de la matriz
             destroy(value);
             impact_sound();
             type = 0; //Regresamos type para parar la ejecución desde el objeto
@@ -202,7 +203,7 @@ function ChooseWhereToMove(event, value){//switch para elegir
 
 }
 
-function destroy(position){
+function destroy(position){ //Elimina una nave o asteroide del mundo
   scene.remove(MatrizThatMakeMeCry[position][4]);  //La quitamos de la escena
   delete MatrizThatMakeMeCry[position][4]; //Boramos el modelo
   delete MatrizThatMakeMeCry[position][5]; //Borramos el objeto
