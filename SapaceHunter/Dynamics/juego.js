@@ -3,7 +3,7 @@ var MatrizThatMakeMeCry = null; //Matriz principal del juego, para cada objeto s
 //Arrelgo a donde apunta, apunta a la nave,
 var Apuntando = null;//delcarnado la variable con todas las posciones
 
-var vidaDelEscudo = 30//seran los segundos que durar el escudo
+var vidaDelEscudo = 60//seran los segundos que durar el escudo
 //Dimensiones del munfo
 var limitx = null;
 var limity = null;
@@ -332,7 +332,7 @@ else if(modo == 2){ //Modo flota
     //new Array(clases_naves['claseAmiga1'],10),
     new Array(clases_naves['class1 '+dif],1)
   );
-  data_world = new Array(50,50,50,'default',obj);
+  data_world = new Array(30,30,30,'default',obj);
   msg = 'prueba naves amigas xd';
 }
 
@@ -345,5 +345,6 @@ setTimeout(function(){
   $('.texto_intro').hide(); //Ocultamos el mensaje
   $('#arriba').show();  //Mostramos la cabina y barras
   world.StartWorld(); //Empezamos el juego
+  setInterval(console.log(MatrizThatMakeMeCry),500);
 },10000);
 //------------------------------------------------------------------------------------------------
