@@ -183,7 +183,7 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
          function Tabulaciones (pun1, pun2, arrePun, limite, arreSalida1, arreSalida2, numSalida1, numSalida2, numPrincipal, leter1, leter2, ord1, ord2, ord3){
              var VectorDirector = [x2-x,y2-y,z2-z];//vector que dara la direccion
              var cont = pun1;
-             if(pun2 < pun1)//compara donde esta los puntos, para poder los puntos para tabular
+        if(pun2 < pun1)//compara donde esta los puntos, para poder los puntos para tabular
              while(cont != 0){
                  arrePun.push(cont);
                  cont--;

@@ -12,6 +12,7 @@ var limitz = null;
 var numnaves = null;
 var numasteroides = null; 
 var numamigas = null;
+var numcheck = 0;
 var NumberOfTotalThings = null;
 //Variables para modos de juego
 var numkills = 0; //Cuantas naves destruidas lleva el jugador
@@ -75,14 +76,6 @@ var clases_naves = {
   'bodyguard 3': new Array('nave',1000,20,100,100,20,4,1,1,1,'Tie.glb','w'),
   ////Beto tenemos que cambiar el modelo de la nave
   'claseAmiga1': new Array('amiga',1000,200,100,100,20,4,1,1,1,'asteroide_1_Gre.glb',0),////Aqui va la nave amiga
-  class2: new Array('nave',1000,40,300,100,15,2,1,1,1),
-  class3: new Array('nave',1000,40,300,150,18,2,5,5,5),
-  class4: new Array('nave',1000,40,300,100,15,2,1,1,3),
-  class5: new Array('nave',1000,40,300,150,18,2,3,3,5),
-  class6: new Array('nave',1000,40,300,100,15,2,3,1,3),
-  class7: new Array('nave',1000,40,300,150,18,2,1,1,5),
-  class8: new Array('nave',1000,40,300,100,18,2,5,5,1),
-  class9: new Array('nave',1000,40,300,150,18,2,7,7,3),
   //velocidad,modelo y dimensiones
   ast1: new Array('ast',500,'asteroide_1_Gre.glb',1,1,1),
   ast2: new Array('ast',500,'asteroide_1_Pi.glb',1,1,1),
@@ -91,7 +84,10 @@ var clases_naves = {
   ast5: new Array('ast',500,'asteroide_3_Gre.glb',3,3,3),
   ast6: new Array('ast',500,'asteroide_3_Pi.glb',3,3,3),
   ast7: new Array('ast',500,'asteroide_3_Re.glb',3,3,3),
-  ast8: new Array('ast',500,'asteroide_3_Ye.glb',3,3,3)
+  ast8: new Array('ast',500,'asteroide_3_Ye.glb',3,3,3),
+  //Checkpoint
+  'check1': new Array('check','Destructor.glb','last'), //Modelo,posición
+  'check2': new Array('check','Destructor.glb','random')
 };
 
 ////-----------------------------------------------------------------------------------------------------------------------
@@ -210,6 +206,34 @@ function destroy(position){ //Elimina una nave o asteroide del mundo
   MatrizThatMakeMeCry[position]=[null,null,null,null,null,null,0,null,null,null,null];  //Borramos la información en el array    
 }
 
+//Función para cargar modelos de blender
+function loadModelo(i,arch,MatrizPrincipal){
+  var model;
+  var loader = new THREE.GLTFLoader();
+  loader.load(
+      "../Modelos/"+arch,
+
+      function ( gltf ) {
+          model = gltf.scene;
+          
+
+          //lo añadimos a la escena
+          MatrizPrincipal[i][4] = model;
+          scene.add(MatrizPrincipal[i][4]);
+          MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][1];
+          MatrizPrincipal[i][4].position.y = MatrizPrincipal[i][2];
+          MatrizPrincipal[i][4].position.z = MatrizPrincipal[i][3];
+
+      },
+      function ( xhr ) {
+          console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+      },
+      function ( error ) {
+          //console.log( 'An error happened' );
+      }
+  );
+}
+
 function NumerosAleatorios(tope){
     return Math.floor((Math.random()*tope))+1;
 }
@@ -270,6 +294,32 @@ function Wanted(dif){  //Checa si el objetivo fue destruido
   check();
 }
 
+function Checkpoint(largo,dif){
+  MatrizThatMakeMeCry[0][1] = 0;
+  MatrizThatMakeMeCry[0][2] = 25;
+  MatrizThatMakeMeCry[0][3] = 25;
+  var last = MatrizThatMakeMeCry.length-1;
+  tiempo = 120*dif;
+  setInterval(check,1000);
+  function check(){
+    tiempo--;
+    $('#numkills').html('Tiempo restante: '+tiempo+'s');  //Imprimimos el tiempo restante
+    var x = MatrizThatMakeMeCry[0][1];
+    var y = MatrizThatMakeMeCry[0][2];
+    var z = MatrizThatMakeMeCry[0][3];
+    var x1 = MatrizThatMakeMeCry[last][1];
+    var y1 = MatrizThatMakeMeCry[last][2];
+    var z1 = MatrizThatMakeMeCry[last][3]; 
+    if(tiempo<=0){
+      location.href="../Templates/EndMatch.html";////No se si esta ruta funcione 
+    }
+    if(x==x1 && y==y1 && z==z1){
+      location.href="Win.html"; //Redireccionamos si gana
+    }
+  }
+
+}
+
 ///-----------------------------------------------------------------------------------------------
 ///--------------------Ejecuciones----------------------------------------------------------------
 ///-----------------------------------------------------------------------------------------------
@@ -295,6 +345,24 @@ if(modo == 1){  //Modo supervivencia
   data_world = new Array(60,60,60,'imperio',obj);
   msg = 'Localización: Sector K-3345  Sistema Alfa-C <br>Quedaste varado en territorio Imperial, vez a lo lejos los restos de una fragata rebelde.<br>Puedes sobrevivir el tiempo suficiente para que llegue la brigada de rescate?';
   Sobrevive(dif);
+}
+else if(modo == 2){ //Modo Mensajero
+    //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
+    var obj = new Array(
+      new Array(clases_naves['ast1'],10*dif), 
+      new Array(clases_naves['ast2'],10*dif), 
+      new Array(clases_naves['ast7'],10*dif), 
+      new Array(clases_naves['ast8'],10*dif),
+      new Array(clases_naves['class1 '+dif],10*dif),
+      new Array(clases_naves['check1'],1)
+    );
+    var largo= 300;
+    var dim = 60-(10*dif);
+    data_world = new Array(largo,dim,dim,'default',obj);
+    msg = 'Localización: Sector S-1  Orbita del planeta Scarif <br> Después de que entregar los planos y alejarse en el hiperespacio, la nave es perseguida por decenas de tropas imperiales. No tienes mucho tiempo! ¿Puedes llegar hasta el punto marcado de azul y entregar los planos?';
+    setTimeout(function(){ 
+      Checkpoint(largo,dif);
+    },11000);
 }
 else if(modo == 4){ //Modo flota
   //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
@@ -326,7 +394,7 @@ else if(modo == 5){ //Modo, el Rey ha Caído
   },11000);
 }
 //Vamos a trabajar sobre este mundo xd, es el modo mensajero, se supone
-else if(modo == 2){ //Modo flota
+else if(modo == 3){ //Modo flota
   //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
   var obj = new Array(
     //new Array(clases_naves['claseAmiga1'],10),
@@ -345,6 +413,5 @@ setTimeout(function(){
   $('.texto_intro').hide(); //Ocultamos el mensaje
   $('#arriba').show();  //Mostramos la cabina y barras
   world.StartWorld(); //Empezamos el juego
-  setInterval(console.log(MatrizThatMakeMeCry),500);
 },10000);
 //------------------------------------------------------------------------------------------------

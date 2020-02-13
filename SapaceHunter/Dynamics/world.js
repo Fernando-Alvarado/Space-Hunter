@@ -77,6 +77,8 @@ class World{
         numasteroides+=a[1];
       else if(a[0][0]=='amiga')
         numamigas+=a[1];
+      else if(a[0][0]=='check')
+        numcheck+=a[1];
     }
   
     MatrizThatMakeMeCry = CargarModelos(this.objetos);//tipo instanciando la matriz principal
@@ -132,7 +134,7 @@ class World{
           MatrizPrincipal[i][3] = NumerosAleatorios(limitz)-1;
         
           //Creamos el modelo
-          loadModelo(i,obj[0][10]);
+          loadModelo(i,obj[0][10],MatrizPrincipal);
 
           //Le damos su vida correspondiente
           MatrizPrincipal[i][6] = obj[0][6];
@@ -159,7 +161,7 @@ class World{
           MatrizPrincipal[i][2] = NumerosAleatorios(limity)-1;
           MatrizPrincipal[i][3] = NumerosAleatorios(limitz)-1;
           //Creamos el modelo
-          loadModelo(i,obj[0][2]);
+          loadModelo(i,obj[0][2],MatrizPrincipal);
           //Le damos una vida para que puedan ser desruidos
           MatrizPrincipal[i][6]=1;
           //Asignamos sus dimensiones
@@ -169,7 +171,7 @@ class World{
           current_celda++;
         }
 
-      }if(obj[0][0]=='amiga'){ //En caso de ser una nave amiga
+      }else if(obj[0][0]=='amiga'){ //En caso de ser una nave amiga
          var lim = current_celda;
          for(let i = lim; i<(obj[1]+lim);i++){
            MatrizPrincipal[i][0] = 2;
@@ -180,7 +182,7 @@ class World{
            MatrizPrincipal[i][3] = NumerosAleatorios(limitz)-1;
           
            //Creamos el modelo
-           loadModelo(i,obj[0][10]);
+           loadModelo(i,obj[0][10],MatrizPrincipal);
   
            //Le damos su vida correspondiente
            MatrizPrincipal[i][6] = obj[0][6];
@@ -197,7 +199,38 @@ class World{
   
           }
   
-        }
+        }else if(obj[0][0]=='check'){ //En caso de ser un checkpoint
+          var lim = current_celda;
+          for(let i = lim; i<(obj[1]+lim);i++){
+            MatrizPrincipal[i][0] = 4;
+ 
+            //Le asignamos sus posiciones
+            if(obj[0][2]=='random'){
+              MatrizPrincipal[i][1] = NumerosAleatorios(limitx)-1;
+              MatrizPrincipal[i][2] = NumerosAleatorios(limity)-1;
+              MatrizPrincipal[i][3] = NumerosAleatorios(limitz)-1;
+            }else if(obj[0][2]=='last'){
+              MatrizPrincipal[i][1] = limitx;
+              MatrizPrincipal[i][2] = Math.round(limity/2);
+              MatrizPrincipal[i][3] = Math.round(limitz/2);;
+            }
+           
+            //Creamos el modelo
+            loadModelo(i,obj[0][1],MatrizPrincipal);
+   
+            //Le damos su vida correspondiente
+            MatrizPrincipal[i][6] = 100;
+   
+            //Asignamos sus dimensiones
+            MatrizPrincipal[i][7] = 1;
+            MatrizPrincipal[i][8] = 1;
+            MatrizPrincipal[i][9] = 1;
+   
+            current_celda++;
+   
+           }
+   
+         }
     }
 
      //Creamos al principal
@@ -212,33 +245,6 @@ class World{
     
      
   return MatrizPrincipal;
-}
-
-//Función para cargar modelos de blender
-function loadModelo(i,arch){
-  var model;
-  var loader = new THREE.GLTFLoader();
-  loader.load(
-      "../Modelos/"+arch,
-
-      function ( gltf ) {
-          model = gltf.scene;
-
-          //lo añadimos a la escena
-          MatrizPrincipal[i][4] = model;
-          scene.add(MatrizPrincipal[i][4]);
-          MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][1];
-          MatrizPrincipal[i][4].position.y = MatrizPrincipal[i][2];
-          MatrizPrincipal[i][4].position.z = MatrizPrincipal[i][3];
-
-      },
-      function ( xhr ) {
-          console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-      },
-      function ( error ) {
-          //console.log( 'An error happened' );
-      }
-  );
 }
 
  //Crear los objetos controladores
@@ -272,7 +278,7 @@ function CrearObjetos(objetos){//saber donde estaran las naves al inicio
 
           current_celda++;
         }
-      }if(obj[0][0]=='amiga'){
+      }else if(obj[0][0]=='amiga'){
         var lim = current_celda;
         for(let i = lim; i<(obj[1]+lim);i++){
           //Orden de Parametros: matrizDondeSeTrabaja, number,velocidad,rango,velChase,velDisparo,rangoDisp
