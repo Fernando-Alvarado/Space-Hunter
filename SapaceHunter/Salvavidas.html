@@ -8,62 +8,63 @@
 <body>
     <script>
 
-for (let i= 1+numamigas; i <= numnaves+numamigas+numasteroides; i++){
-      if(MatrizThatMakeMeCry[i][0]!=null && MatrizThatMakeMeCry[i][0]!=2){
-        //Posición del objeto
-        var x = MatrizThatMakeMeCry[i][1];
-        var y = MatrizThatMakeMeCry[i][2];
-        var z = MatrizThatMakeMeCry[i][3];
-        //Limites o dimensiones del objeto
-        var xlim = (MatrizThatMakeMeCry[i][7]-1)/2;
-        var ylim = (MatrizThatMakeMeCry[i][8]-1)/2;
-        var zlim = (MatrizThatMakeMeCry[i][9]-1)/2;
-        if((pos[0]>=x-xlim && pos[0]<=x+xlim) && (pos[1]>=y-ylim && pos[1]<=y+ylim) && (pos[2]>=z-zlim && pos[2]<=z+zlim)){
-
-        //Aqui le aumento 1 valor a la nave pricipal para que aumente de vida cada vez que impacta una nave enemiga
-        if( MatrizThatMakeMeCry[0][6] < 13){          
-        MatrizThatMakeMeCry[0][6]++;////Aqui hize que la nave no pierda en caso de chocar
-
-        //Sonido de vida al matar a nave.
-        healing_sound();
-
-        LifeBar(MatrizThatMakeMeCry[0][6])
-        }
-        //Si es una nave
-        if(MatrizThatMakeMeCry[i][0]==1){
-          //navesVar--;//resto 1 por que ya fue eliminada xd s
-          //aqui abria impacto xd jajaja
-          if(MatrizThatMakeMeCry[i][6] <= 0){
-              //Eliminamos a la nave de la matriz
-              delete MatrizThatMakeMeCry[i][5];
-              scene.remove(MatrizThatMakeMeCry[i][4]);
-              delete MatrizThatMakeMeCry[i][4];
-              MatrizThatMakeMeCry[i]= new Array(null,null,null,null,null,null,0)
-              //Eliminamos la bala
-              i = numnaves;//para acabar el ciclo
-              numkills+=1;
-              enemyDestroyedSound(); // sonido de destrucción de la nave enemiga.s
-          }else{
-              MatrizThatMakeMeCry[i][6]--;////Se le quita solo 1 punto de vida
-          }
-        }else if(MatrizThatMakeMeCry[i][0]==3){ //Si es un asteroide
-          //Eliminamos a la nave de la matriz
-          delete MatrizThatMakeMeCry[i][5];
-          scene.remove(MatrizThatMakeMeCry[i][4]);
-          delete MatrizThatMakeMeCry[i][4];
-          MatrizThatMakeMeCry[i]= new Array(null,null,null,null,null,null,0)
-          //Eliminamos la bala
-          i = numnaves;//para acabar el ciclo
-          
-          enemyDestroyedSound(); // sonido de destrucción de la nave enemiga.s
-        }
-        scene.remove(sphere);
-        sphere = null;
-        who = null; 
-        ///Checar si se la variable de nave es 0 
-        }
+function graficadoraBullet(x,y,z,x2,y2,z2, limite){
+         //-Declaracion de los 3 array
+         var ArrayX = new Array(0);//okey so, here i should push negative numbers that would be dump
+         var ArrayY = new Array(0);
+         var ArrayZ = new Array(0);
+         var sinRedondear1 = new Array(0);
+         var sinRedondear2 = new Array(0);
+         function Tabulaciones (pun1, pun2, arrePun, limite, arreSalida1, arreSalida2, numSalida1, numSalida2, numPrincipal, leter1, leter2, ord1, ord2, ord3){
+             var VectorDirector = [x2-x,y2-y,z2-z];//vector que dara la direccion
+             var cont = pun1;
+             if(pun2 < pun1)//compara donde esta los puntos, para poder los puntos para tabular
+             while(cont != 0){
+                 arrePun.push(cont);
+                 cont--;
+             }
+         else
+             while(cont != limite){
+                 arrePun.push(cont);
+                 cont++;
+             }////
+         for (let i = 0; i < arrePun.length; i++){//loop of arrayY
+             if(VectorDirector[0]!= 0){
+               //aqui esta el arreglo de l s poscicones sin redondear
+                 sinRedondear1.push((VectorDirector[numSalida1]*((arrePun[i]-pun1)/VectorDirector[numPrincipal]))+leter1);
+                 arreSalida1.push(Math.round((VectorDirector[numSalida1]*((arrePun[i]-pun1)/VectorDirector[numPrincipal]))+leter1));
+                 //arreglo 2 de posiciones sin redondear y redondeadas
+                  sinRedondear2.push((VectorDirector[numSalida2]*((arrePun[i]-pun1)/VectorDirector[numPrincipal]))+leter2);
+                 arreSalida2.push(Math.round((VectorDirector[numSalida2]*((arrePun[i]-pun1)/VectorDirector[numPrincipal]))+leter2));
+             }else{
+                 arreSalida1.push(leter1);
+                 arreSalida2.push(leter2);
+                 sinRedondear1=arreSalida2;
+                 sinRedondear2=arreSalida1;
+             }
+             //para ver como esta funcioanndo la mamada
+         }//ord te dice que teltra le corresponde el arreglo que saco para las balas
+        var MyRegret = [ord1, arrePun, ord2,arreSalida1, ord3,arreSalida2, sinRedondear1,sinRedondear2  ] ;  //we are going to return 3 arrayS
+         return MyRegret;
+         }
+                     //numeros de las letras x =0, y=1, z=2 ---El ultimo es del que se quiere sacar
+   
+         if(x != y){
+             var takeMe = Tabulaciones(x, x2, ArrayX, limite,ArrayY, ArrayZ,1,2,0,y,z, "x","y","z" )
+             var letMeFly = [takeMe[1], takeMe[3],takeMe[5], "y",takeMe[6], "z",takeMe[7]]//poniendo arden
+         }else if(x == y){
+             var takeMe = Tabulaciones(z, z2, ArrayZ, limite,ArrayX, ArrayY,0,1,2,x,y, "z","x","y" )
+             var letMeFly = [takeMe[3], takeMe[5],takeMe[1],"z",takeMe[6], "y",takeMe[7]]//ordenando lo que sale de los arreglos
+         }
+         return letMeFly;
      }
-   }
+     function NumerosAleatorios(tope){
+    return Math.floor((Math.random()*tope))+1;
+}
+
+//whereX, whereY, whereZ, ObjX, ObjY, ObjZ,limiteCampoJuego
+    var fer = graficadoraBullet(9,21,21,6,21,18,40);
+    console.log(fer)
     </script>
 </body>
 </html>

@@ -12,7 +12,7 @@ class Asteroide{
      JustTheCreator(){//este metodo ara que las naves se muevan y  si tiempo que disparen
        //usara la funcion switch que cree
        function MainBucle(velocidad, matriz, x, y, z, move, position){ //Aqui se tendra que correr el bucle de las naves
-        if(matriz[position][0]!=0){
+        if(matriz[position][0]!=null){
            setTimeout(function(){
            var itsRunnig = ChooseWhereToMove(move, position);//quite todos los parametros inecesarios
 

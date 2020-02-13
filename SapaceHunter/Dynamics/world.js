@@ -160,6 +160,8 @@ class World{
           MatrizPrincipal[i][3] = NumerosAleatorios(limitz)-1;
           //Creamos el modelo
           loadModelo(i,obj[0][2]);
+          //Le damos una vida para que puedan ser desruidos
+          MatrizPrincipal[i][6]=1;
           //Asignamos sus dimensiones
           MatrizPrincipal[i][7] = obj[0][3];
           MatrizPrincipal[i][8] = obj[0][4];

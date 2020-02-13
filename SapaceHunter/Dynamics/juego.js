@@ -3,7 +3,7 @@ var MatrizThatMakeMeCry = null; //Matriz principal del juego, para cada objeto s
 //Arrelgo a donde apunta, apunta a la nave,
 var Apuntando = null;//delcarnado la variable con todas las posciones
 
-var vidaDelEscudo = 15//seran los segundos que durar el escudo
+var vidaDelEscudo = 60//seran los segundos que durar el escudo
 //Dimensiones del munfo
 var limitx = null;
 var limity = null;
@@ -65,6 +65,14 @@ var clases_naves = {
   'class1 1': new Array('nave',1000,60,500,200,10,2,1,1,1,'Tie.glb',0),
   'class1 2': new Array('nave',1000,40,300,150,15,3,1,1,1,'Tie.glb',0),
   'class1 3': new Array('nave',1000,20,100,100,20,4,1,1,1,'Tie.glb',0),
+
+  'wanted 1': new Array('nave',1000,100,300,200,25,15,4,2,3,'Destructor.glb',0),
+  'wanted 2': new Array('nave',1000,80,200,150,35,20,4,2,3,'Destructor.glb',0),
+  'wanted 3': new Array('nave',1000,60,100,100,50,30,4,2,3,'Destructor.glb',0),
+
+  'bodyguard 1': new Array('nave',1000,60,100,200,10,2,1,1,1,'Tie.glb','w'),
+  'bodyguard 2': new Array('nave',1000,40,100,150,15,3,1,1,1,'Tie.glb','w'),
+  'bodyguard 3': new Array('nave',1000,20,100,100,20,4,1,1,1,'Tie.glb','w'),
   ////Beto tenemos que cambiar el modelo de la nave
   'claseAmiga1': new Array('amiga',1000,200,100,100,20,4,1,1,1,'asteroide_1_Gre.glb',0),////Aqui va la nave amiga
   class2: new Array('nave',1000,40,300,100,15,2,1,1,1),
@@ -90,66 +98,7 @@ var clases_naves = {
 ////----------------------------FUNCIONES GLOBALES----------------------------------------------------------------------------------
 ////-----------------------------------------------------------------------------------------------------------------------
 //  value valie sirve para saber el indice donde se guardara el incie de la matriz que me hace llorar
-function impactToTheSpaceship(who, killer){////funcion que dice a quein impactare de las naves enemigas
-  for (let i= 1+numamigas; i <= numnaves+numamigas+numasteroides; i++){
-    if(MatrizThatMakeMeCry[i][0]!=null && MatrizThatMakeMeCry[i][0]!=2){
-      //Posición del objeto
-      var x = MatrizThatMakeMeCry[i][1];
-      var y = MatrizThatMakeMeCry[i][2];
-      var z = MatrizThatMakeMeCry[i][3];
-      //Limites o dimensiones del objeto
-      var xlim = (MatrizThatMakeMeCry[i][7]-1)/2;
-      var ylim = (MatrizThatMakeMeCry[i][8]-1)/2;
-      var zlim = (MatrizThatMakeMeCry[i][9]-1)/2;
-      if((pos[0]>=x-xlim && pos[0]<=x+xlim) && (pos[1]>=y-ylim && pos[1]<=y+ylim) && (pos[2]>=z-zlim && pos[2]<=z+zlim)){
 
-      //Aqui le aumento 1 valor a la nave pricipal para que aumente de vida cada vez que impacta una nave enemiga
-     if(killer == 1){
-      if( MatrizThatMakeMeCry[0][6] < 13){          
-        MatrizThatMakeMeCry[0][6]++;////Aqui hize que la nave no pierda en caso de chocar
-  
-        //Sonido de vida al matar a nave.
-        healing_sound();
-  
-        LifeBar(MatrizThatMakeMeCry[0][6])
-        }
-     }
-      //Si es una nave
-      if(MatrizThatMakeMeCry[i][0]==who){//nave enemiga o amiga //----------------------------------
-        //navesVar--;//resto 1 por que ya fue eliminada xd s
-        //aqui abria impacto xd jajaja
-        if(MatrizThatMakeMeCry[i][6] <= 0){
-            //Eliminamos a la nave de la matriz
-            delete MatrizThatMakeMeCry[i][5];
-            scene.remove(MatrizThatMakeMeCry[i][4]);
-            delete MatrizThatMakeMeCry[i][4];
-            MatrizThatMakeMeCry[i]= new Array(null,null,null,null,null,null,0)
-            //Eliminamos la bala
-            i = numnaves;//para acabar el ciclo
-            numkills+=1;
-            enemyDestroyedSound(); // sonido de destrucción de la nave enemiga.s
-        }else{
-            MatrizThatMakeMeCry[i][6]--;////Se le quita solo 1 punto de vida
-        }
-      }else if(MatrizThatMakeMeCry[i][0]==3){ //Si es un asteroide
-        //Eliminamos a la nave de la matriz
-        delete MatrizThatMakeMeCry[i][5];
-        scene.remove(MatrizThatMakeMeCry[i][4]);
-        delete MatrizThatMakeMeCry[i][4];
-        MatrizThatMakeMeCry[i]= new Array(null,null,null,null,null,null,0)
-        //Eliminamos la bala
-        i = numnaves;//para acabar el ciclo
-        
-        enemyDestroyedSound(); // sonido de destrucción de la nave enemiga.s
-      }
-      scene.remove(sphere);
-      sphere = null;
-      who = null; 
-      ///Checar si se la variable de nave es 0 
-      }
-   }
- }
-}
 
 
 function ChooseWhereToMove(event, value){//switch para elegir
@@ -177,21 +126,23 @@ function ChooseWhereToMove(event, value){//switch para elegir
           if(MatrizThatMakeMeCry[value][0]==1 || MatrizThatMakeMeCry[i][0]==1){
             numkills+=1;
           }
-          //Si se choca con un objeto diferente del principal, se destruye
-          if(i!=0){
-            scene.remove(MatrizThatMakeMeCry[i][4]);  //La quitamos de la escena
-            delete MatrizThatMakeMeCry[i][4]; //Boramos el modelo
-            delete MatrizThatMakeMeCry[i][5]; //Borramos el objeto
+          //Si se choca con un objeto diferente del principal, se destruye o le baja la vida
+          if(MatrizThatMakeMeCry[i][6]>0){
+            MatrizThatMakeMeCry[i][6]-=3;
+          }
+          if(i!=0 && MatrizThatMakeMeCry[i][6]<=0){
             impact_sound(); //sonido de choque entre objetos
-            MatrizThatMakeMeCry[i]=[null,null,null,null,null,null,0,null,null,null,null];  //Borramos la información en el array
+            destroy(i);//Eliminamos a la nave o asteroide de la matriz
             type=0; //Regresamos type para parar la ejecución desde el objeto
           }
-          //Si el mismo objeto no es el principal, se destruye
-          if(value!=0){
-            scene.remove(MatrizThatMakeMeCry[value][4]);  //La quitamos de la escena
-            delete MatrizThatMakeMeCry[value][4]; //Boramos el modelo
-            delete MatrizThatMakeMeCry[value][5]; //Borramos el objeto
-            MatrizThatMakeMeCry[value]=[null,null,null,null,null,null,0,null,null,null,null];  //Borramos la información en el array
+          
+          //Si el mismo objeto no es el principal, se destruye o le baja la vida
+          if(MatrizThatMakeMeCry[value][6]>0){
+            MatrizThatMakeMeCry[value][6]-=3;
+          }
+          if(value!=0 && MatrizThatMakeMeCry[value][6]<=0){
+            //Eliminamos a la nave o asteroide de la matriz
+            destroy(value);
             impact_sound();
             type = 0; //Regresamos type para parar la ejecución desde el objeto
           }
@@ -252,6 +203,13 @@ function ChooseWhereToMove(event, value){//switch para elegir
 
 }
 
+function destroy(position){ //Elimina una nave o asteroide del mundo
+  scene.remove(MatrizThatMakeMeCry[position][4]);  //La quitamos de la escena
+  delete MatrizThatMakeMeCry[position][4]; //Boramos el modelo
+  delete MatrizThatMakeMeCry[position][5]; //Borramos el objeto
+  MatrizThatMakeMeCry[position]=[null,null,null,null,null,null,0,null,null,null,null];  //Borramos la información en el array    
+}
+
 function NumerosAleatorios(tope){
     return Math.floor((Math.random()*tope))+1;
 }
@@ -278,6 +236,39 @@ function Sobrevive(dif){  //Cuenta el tiempo para sosbrevivir
   }
   check();
 }
+function Wanted(dif){  //Checa si el objetivo fue destruido
+  var wanted = MatrizThatMakeMeCry.length-1;
+  var vida = clases_naves['wanted '+dif][6];
+  setInterval(check,500);
+  $('#wanted').show();
+ $('#wantedname').show();
+  function check(){
+    if(MatrizThatMakeMeCry[wanted][0] == null || MatrizThatMakeMeCry[wanted][0] <= 0){
+      location.href="Win.html"; //Redireccionamos si gana
+    }
+      
+      var numero = MatrizThatMakeMeCry[wanted][6];
+      //Se dibuja la vida del enemigo
+      var canvasVida = document.getElementById("wanted");
+      var life = canvasVida.getContext("2d");
+      life.beginPath();
+      //puntos iniciales // puntos finales
+      life.rect(1, 1, 200, 20);//la tercera es la que tengo que modificar
+      life.fillStyle = "#373737";
+      life.fill();
+      life.closePath();
+      //la nave tendra 10 puntos de vida xd pero pueden ser mas 
+      var vidaTotal = vida //es la vida que tendra el presonaje principal
+      var anchoLife = ((numero * 200) / vidaTotal);
+      life.beginPath();
+      //puntos iniciales // puntos finales
+      life.rect(1, 1, anchoLife, 20);//la tercera es la que tengo que modificar
+      life.fillStyle = "#ff1a1a";
+      life.fill();
+      life.closePath();
+  }
+  check();
+}
 
 ///-----------------------------------------------------------------------------------------------
 ///--------------------Ejecuciones----------------------------------------------------------------
@@ -295,45 +286,65 @@ var msg = null; //Mensaje al inicio
 if(modo == 1){  //Modo supervivencia
   //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
   var obj = new Array(
-    new Array(clases_naves['class1 '+dif],10*dif),
     new Array(clases_naves['ast1'],12), 
     new Array(clases_naves['ast2'],12), 
     new Array(clases_naves['ast5'],12), 
-    new Array(clases_naves['ast6'],12)
+    new Array(clases_naves['ast6'],12),
+    new Array(clases_naves['class1 '+dif],10*dif)
   );
   data_world = new Array(60,60,60,'imperio',obj);
-  msg = 'Localización: Sector K-3345 Sistema Alfa-C <br>Quedaste varado en territorio Imperial, vez a lo lejos los restos de una fragata rebelde.<br>Puedes sobrevivir el tiempo suficiente para que llegue la brigada de rescate?';
+  msg = 'Localización: Sector K-3345  Sistema Alfa-C <br>Quedaste varado en territorio Imperial, vez a lo lejos los restos de una fragata rebelde.<br>Puedes sobrevivir el tiempo suficiente para que llegue la brigada de rescate?';
   Sobrevive(dif);
 }
 else if(modo == 4){ //Modo flota
   //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
   var obj = new Array(
-    new Array(clases_naves['class1 '+dif],5*dif),
     new Array(clases_naves['ast3'],7*dif), 
     new Array(clases_naves['ast4'],7*dif), 
     new Array(clases_naves['ast7'],7*dif), 
     new Array(clases_naves['ast8'],7*dif), 
+    new Array(clases_naves['class1 '+dif],5*dif)
   );
   data_world = new Array(100,100,100,'default',obj);
-  msg = 'Localización: Sector D-1233 Estrella Delta-A <br> El imperio a tomado posesión de esta zona, acaba con ellos para que las tropas puedan pasar.<br>Buena suerte!';
-  NumKills()
+  msg = 'Localización: Sector D-1233  Estrella Delta-A <br> El imperio a tomado posesión de esta zona, acaba con ellos para que las tropas puedan pasar.<br>Buena suerte!';
+  NumKills();
+}
+else if(modo == 5){ //Modo, el Rey ha Caído
+  //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
+  var obj = new Array(
+    new Array(clases_naves['ast1'],2*dif), 
+    new Array(clases_naves['ast2'],2*dif), 
+    new Array(clases_naves['ast7'],2*dif), 
+    new Array(clases_naves['ast8'],2*dif),
+    new Array(clases_naves['bodyguard '+dif],4*dif),
+    new Array(clases_naves['wanted '+dif],1)
+  );
+  data_world = new Array(100,100,100,'default',obj);
+  msg = 'Localización: Sector C-2  Sistema Rune <br> Después de una eternidad de batalla logras sacar a la nave del rey Hutt "Cosmos" de su escondite. Pero no viene solo, sus mejores guerreros lo acompañan, tal vez haga el trabjo un poco más difícil, procede con precaución.';
+  setTimeout(function(){ 
+    Wanted(dif);
+  },11000);
 }
 //Vamos a trabajar sobre este mundo xd, es el modo mensajero, se supone
 else if(modo == 2){ //Modo flota
   //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
   var obj = new Array(
-    new Array(clases_naves['claseAmiga1'],20),
-    new Array(clases_naves['class1 '+dif],20)
+    //new Array(clases_naves['claseAmiga1'],10),
+    new Array(clases_naves['class1 '+dif],1)
   );
-  data_world = new Array(50,50,50,'default',obj);
+  data_world = new Array(30,30,30,'default',obj);
   msg = 'prueba naves amigas xd';
 }
 
+
+$('#wanted').hide();
+$('#wantedname').hide();
 $('.texto_intro').html(msg); //Mostramos el mensaje acorde al modo
 world.CreateWorld(data_world); //Creamos el mundo
 setTimeout(function(){
   $('.texto_intro').hide(); //Ocultamos el mensaje
   $('#arriba').show();  //Mostramos la cabina y barras
   world.StartWorld(); //Empezamos el juego
+  setInterval(console.log(MatrizThatMakeMeCry),500);
 },10000);
 //------------------------------------------------------------------------------------------------

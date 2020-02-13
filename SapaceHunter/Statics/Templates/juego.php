@@ -24,6 +24,8 @@
     <p id="numberKills"><span id='numkills'></span></p>
     </div>
   </div>
+    <span id="wantedname">Rey Cosmos</span>
+    <canvas height="20" width="202" id='wanted'></canvas>
   <div class='texto_intro'>default</div>
   <div style='display:none'>
   <div class='dif'><?php

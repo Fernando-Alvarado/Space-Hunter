@@ -29,27 +29,26 @@ class Naves{
                 if(this.dist_chase <=obj.rango && matriz[position][0]!=null) {
                   
                   if(this.dist_apuntando <=obj.rangoDisp){//Aqui dispara la nave enemiga---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                    console.log('pium');
 
-                  //Obtenemos el límite más grande para el rango de vida de las balas.
-                  var limit = limitx;
-                  if(limitx > limity && limitx>limitz)
+                    //Obtenemos el límite más grande para el rango de vida de las balas.
                     var limit = limitx;
-                  else if(limity>limitx && limity>limitz)
-                    var limit = limity;
-                  else if(limitz>limitx && limitz>limity)
-                    var limit = limitz;
+                    if(limitx > limity && limitx>limitz)
+                      var limit = limitx;
+                    else if(limity>limitx && limity>limitz)
+                      var limit = limity;
+                    else if(limitz>limitx && limitz>limity)
+                      var limit = limitz;
 
-                  ///----------------------------------Parametros----------------------------------------------
-                  //whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego
-                  //kileed se refiere al indicador de la nave que se quiere matar
-                  //2 es la nave principal
-                  //MatrizThatMakeMeCry
-                  //necesito saber quien disparo
-                  var apuntando = Apuntando[position];
-                  var disparoNaveEnemiga = new balas(MatrizThatMakeMeCry[position][1], MatrizThatMakeMeCry[position][2], MatrizThatMakeMeCry[position][3], MatrizThatMakeMeCry[apuntando][1], MatrizThatMakeMeCry[apuntando][2], MatrizThatMakeMeCry[apuntando][3] ,obj.enemigo,limit)//constructro del objeto balas
-                  disparoNaveEnemiga.MidnightBlame(obj.velDisparo,obj.color,apuntando);
-                  move = 0;
+                    ///----------------------------------Parametros----------------------------------------------
+                    //whereX, whereY, whereZ, ObjX, ObjY, ObjZ, Killed, limiteCampoJuego
+                    //kileed se refiere al indicador de la nave que se quiere matar
+                    //2 es la nave principal
+                    //MatrizThatMakeMeCry
+                    //necesito saber quien disparo
+                    var apuntando = Apuntando[position];
+                    var disparoNaveEnemiga = new balas(MatrizThatMakeMeCry[position][1], MatrizThatMakeMeCry[position][2], MatrizThatMakeMeCry[position][3], MatrizThatMakeMeCry[apuntando][1], MatrizThatMakeMeCry[apuntando][2], MatrizThatMakeMeCry[apuntando][3] ,obj.enemigo,limit,MatrizThatMakeMeCry[position][0])//constructro del objeto balas
+                    disparoNaveEnemiga.MidnightBlame(obj.velDisparo,obj.color);
+                    move = 0;
                   }else if(this.dist_chase>=obj.rangoDisp){
                     move = ChasePlayer(x,y,z,position);
                     obj.velocidad = obj.velChase;
@@ -155,6 +154,10 @@ class Naves{
           this.enemigo = 1;
           this.color = 0x0450b2;
         }
+        if(MatrizThatMakeMeCry[this.number][10]=='w'){
+          MatrizThatMakeMeCry[this.number][10]=MatrizThatMakeMeCry.length-1;
+        }
+
         MainBucle(this, this.workingMat, this.workingMat[this.number][1], this.workingMat[this.number][2], this.workingMat[this.number][3], this.numero, this.number,this.current_pattern, this.pattern_move,patterns);
     }
 
@@ -199,8 +202,10 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
                   sinRedondear2.push((VectorDirector[numSalida2]*((arrePun[i]-pun1)/VectorDirector[numPrincipal]))+leter2);
                  arreSalida2.push(Math.round((VectorDirector[numSalida2]*((arrePun[i]-pun1)/VectorDirector[numPrincipal]))+leter2));
              }else{
-                 arreSalida1.push(leter1)
-                 arreSalida2.push(leter2)
+                 arreSalida1.push(leter1);
+                 arreSalida2.push(leter2);
+                 sinRedondear1=arreSalida1;
+                 sinRedondear2=arreSalida2;
              }
              //para ver como esta funcioanndo la mamada
          }//ord te dice que teltra le corresponde el arreglo que saco para las balas
@@ -214,10 +219,15 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
              var letMeFly = [takeMe[1], takeMe[3],takeMe[5], "y",takeMe[6], "z",takeMe[7]]//poniendo arden
          }else if(x == y){
              var takeMe = Tabulaciones(z, z2, ArrayZ, limite,ArrayX, ArrayY,0,1,2,x,y, "z","x","y" )
-             var letMeFly = [takeMe[3], takeMe[5],takeMe[1],"z",takeMe[6], "y",takeMe[7]]//ordenando lo que sale de los arreglos
+             var letMeFly = [takeMe[5], takeMe[1],takeMe[3],"x",takeMe[6], "y",takeMe[7]]//ordenando lo que sale de los arreglos
+         }else if(x==z){
+          var takeMe = Tabulaciones(y, y2, ArrayY, limite,ArrayX, ArrayZ,2,1,0,x,y, "y","x","z" )
+          var letMeFly = [takeMe[3], takeMe[1],takeMe[5],"x",takeMe[6], "z",takeMe[7]]//ordenando lo que sale de los arreglos
          }
          return letMeFly;
      }
+
+
    //----------------------------------------------------
    this.MatrizBalas3d = graficadoraBullet(whereX, whereY, whereZ, ObjX, ObjY, ObjZ,limiteCampoJuego);
    this.WhoToKill = Killed;//esto sera para que no exista el fuego amigo
@@ -225,25 +235,29 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
      //siempre considero que aqui se metrera un arreglo de 7 valores
    
      let JustMeAnotherTime = new Array(new Array(0), new Array(0), new Array(0));
-       if(array[3]== "y"){
-         JustMeAnotherTime[0] = array[0];
-         JustMeAnotherTime[1] = array[4];
-         JustMeAnotherTime[2] = array[6];
+       if(array[3]== "y"){//se el eje normal
+         JustMeAnotherTime[0] = array[0];//Arreglo base x
+         JustMeAnotherTime[1] = array[4];//y
+         JustMeAnotherTime[2] = array[6];//z
          return JustMeAnotherTime;
-       }
-       else {
-         JustMeAnotherTime[0] = array[0];
-         JustMeAnotherTime[1] = array[4];
-         JustMeAnotherTime[2] = array[6];
-         return JustMeAnotherTime;
+       }else if(array[5]== "y"){
+        JustMeAnotherTime[0] = array[4];//x
+        JustMeAnotherTime[1] = array[0];//y
+        JustMeAnotherTime[2] = array[6];//z
+        return JustMeAnotherTime;
+       }else if(array[5]== "z"){
+        JustMeAnotherTime[0] = array[4];//x
+        JustMeAnotherTime[1] = array[6];//y
+        JustMeAnotherTime[2] = array[0];//z
+        return JustMeAnotherTime;
        }
    }
    this.MatrizUnround = ordenaTabs(this.MatrizBalas3d);
    this.YouShotAtMe = me; //Valor para saber si le disparan a la nave princiapla o no 
    }
-   MidnightBlame(velDisparo,colorb,target){ //NOTE: la varaible de las naves es global tinee que estar declarada arriba
+   MidnightBlame(velDisparo,colorb){ //NOTE: la varaible de las naves es global tinee que estar declarada arriba
    var Coun = 0;
-   
+   var who = 0;
    var sonido_ene= new Audio(laser_ene);     //Variable tipo audio, con la referencia del laser del enemigo
    var sonido_daño_principal= new Audio(ship_damage);
    
@@ -258,71 +272,77 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
    sonido_ene.volume=.2;
    sonido_ene.play();            //Suene después de que la bala se crea en la escena.
    
-   function GodsLoop(MatBalas, Coun, WhoToKill, matUnround,target){
+   function GodsLoop(MatBalas, Coun, WhoToKill, matUnround,me){
    
    
      setTimeout(function(){
        
-         if(Coun < MatBalas[0].length){
+         if(Coun < MatBalas[0].length && who ==0){
              sphere.position.x=matUnround[0][Coun];
              sphere.position.y=matUnround[1][Coun];
              sphere.position.z=matUnround[2][Coun];
    
-             var Everything = MatrizThatMakeMeCry; //Aqui tengo que poner la matriz de IWannaCry
-            if(WhoToKill== 1){//Aqui sera el codigo cuando las naves amigas le disparen a las naves enemigas
-                 for(i = 1; i<Everything.length-1; i++ ){
-                      if(MatBalas[0][Coun]==Everything[i][1]&&MatBalas[1][Coun]==Everything[i][2]&&MatBalas[2][Coun]==Everything[i][3]){
-                           if(Everything[i][0]==1){
-                                console.log('se destruye la nave enemiga')
-
-
-
-
-                            }///No se si hace que si la bala toque algo se detenga o siga, yo dijo que se detenga xd
+            if(me == 2){//Aqui sera el codigo cuando las naves amigas le disparen a las naves enemigas
+                 /* for(let i = 1+numamigas; i<=numamigas+numasteroides+numnaves; i++ ){
+                       //Posición del objeto
+                      var x = MatrizThatMakeMeCry[i][1];
+                      var y = MatrizThatMakeMeCry[i][2];
+                      var z = MatrizThatMakeMeCry[i][3];
+                      //Limites o dimensiones del objeto
+                      var xlim = (MatrizThatMakeMeCry[i][7]-1)/2;
+                      var ylim = (MatrizThatMakeMeCry[i][8]-1)/2;
+                      var zlim = (MatrizThatMakeMeCry[i][9]-1)/2;
+                      if((MatBalas[0][Coun]>=x-xlim && MatBalas[0][Coun]<=x+xlim) && (MatBalas[1][Coun]>=y-ylim && MatBalas[1][Coun]<=y+ylim) && (MatBalas[2][Coun]>=z-zlim && MatBalas[2][Coun]<=z+zlim)){
+                        scene.remove(sphere);
+                        sphere = null;
+                        delete MatrizThatMakeMeCry[i][5];
+                        scene.remove(MatrizThatMakeMeCry[i][4]);
+                        delete MatrizThatMakeMeCry[i][4];
+                        MatrizThatMakeMeCry[i]= new Array(null,null,null,null,null,null,0);
+                        who = null;
                       }
+                      else{
+                        Coun++;
+                        GodsLoop(MatBalas, Coun, WhoToKill,matUnround,me,sphere);
+                      }
+                  } */
+                  scene.remove(sphere);
+                        sphere = null;
+
+            }else if( me== 1){//cuendo le disparen a la nave principal y a las naves amiga
+
+                  for(let i = 0; i<=numamigas+numasteroides; i++ ){
+                    
+                    
+                     //Posición del objeto
+                     var x = MatrizThatMakeMeCry[i][1];
+                     var y = MatrizThatMakeMeCry[i][2];
+                     var z = MatrizThatMakeMeCry[i][3];
+                     //Limites o dimensiones del objeto
+                     var xlim = (MatrizThatMakeMeCry[i][7]-1)/2;
+                     var ylim = (MatrizThatMakeMeCry[i][8]-1)/2;
+                     var zlim = (MatrizThatMakeMeCry[i][9]-1)/2;
+                     if((MatBalas[0][Coun]>=x-xlim && MatBalas[0][Coun]<=x+xlim) && (MatBalas[1][Coun]>=y-ylim && MatBalas[1][Coun]<=y+ylim) && (MatBalas[2][Coun]>=z-zlim && MatBalas[2][Coun]<=z+zlim)){
+                        scene.remove(sphere);
+                        sphere = null;
+                        who = null;
+                        MatrizThatMakeMeCry[i][6]--;
+                        if(i==0){
+                          //Cuando impactan la principal
+                          sonido_daño_principal.play(); //Sonido cuando te da una bala enemiga.
+                          LifeBar(MatrizThatMakeMeCry[0][6]);
+                          if( MatrizThatMakeMeCry[0][6] <= 0)             
+                            location.href="../Templates/EndMatch.html";////No se si esta ruta funcione 
+                        }else if(i!=0 && MatrizThatMakeMeCry[i][6]<=0){
+                          destroy(i);
+                        }
                   }
-                  Coun++;
-                  GodsLoop(MatBalas, Coun, WhoToKill,matUnround);
-
-            }else if( WhoToKill== 2){//cuendo le disparen a la nave principal y a las naves amiga
-
-                if(this.YouShotAtMe == 1){/////si es la nave enemiga a la que se le disparo
-                  if(MatBalas[0][Coun]==Everything[0][1]&&MatBalas[1][Coun]==Everything[0][2]&&MatBalas[2][Coun]==Everything[0][3]){
-                   
-                    scene.remove(sphere);
-                    sphere = null;
-                    MatrizThatMakeMeCry[target][6]--;
-                    if(MatrizThatMakeMeCry[target][6]<=0){
-                      delete MatrizThatMakeMeCry[target][5];
-                      scene.remove(MatrizThatMakeMeCry[target][4]);
-                      delete MatrizThatMakeMeCry[target][4];
-                      MatrizThatMakeMeCry[target]= new Array(null,null,null,null,null,null,0);
-                    }
-                    //Cuando impactan la principal
-                    sonido_daño_principal.play(); //Sonido cuando te da una bala enemiga.
-                    LifeBar(MatrizThatMakeMeCry[0][6]);
-                    if( MatrizThatMakeMeCry[0][6] <= 0)             
-                      location.href="../Templates/EndMatch.html";////No se si esta ruta funcione
-                  }else{
-                      Coun++;
-                      GodsLoop(MatBalas, Coun, WhoToKill,matUnround,target);
-                  }
-                }else{
-                  for(i = 1; i<Everything.length-1; i++ ){
-                    if(MatBalas[0][Coun]==Everything[i][1]&&MatBalas[1][Coun]==Everything[i][2]&&MatBalas[2][Coun]==Everything[i][3]){
-                         if(Everything[i][0]==2){
-                              console.log('se destruye alguna de las naves amigas xd')
-
-
-
-
-                          }///No se si hace que si la bala toque algo se detenga o siga, yo dijo que se detenga xd
-                    }
-                }
-                Coun++;
-                GodsLoop(MatBalas, Coun, WhoToKill,matUnround);
-               }
-             }
+            }
+            if(who==0){
+              Coun++;
+              GodsLoop(MatBalas, Coun, WhoToKill,matUnround,me);
+            }
+          }
          }
          else {
            scene.remove(sphere);
@@ -330,7 +350,7 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
          }
      },velDisparo);//velocidad de las balas se puede cambiar
    }
-   GodsLoop(this.MatrizBalas3d ,Coun,this.WhoToKill,this.MatrizUnround,target);
+   GodsLoop(this.MatrizBalas3d ,Coun,this.WhoToKill,this.MatrizUnround,this.YouShotAtMe);
    
    
    }//llave del fin del metodo
