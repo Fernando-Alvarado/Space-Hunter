@@ -101,7 +101,7 @@ class PersonajePrincipal{
                        Resumida(vidaDelEscudo)
                        loopShield()
                      }
-                   },600)
+                   },300)
                  }
              loopShield()
                }     

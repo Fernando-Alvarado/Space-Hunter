@@ -204,8 +204,8 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
              }else{
                  arreSalida1.push(leter1);
                  arreSalida2.push(leter2);
-                 sinRedondear1=arreSalida2;
-                 sinRedondear2=arreSalida1;
+                 sinRedondear1=arreSalida1;
+                 sinRedondear2=arreSalida2;
              }
              //para ver como esta funcioanndo la mamada
          }//ord te dice que teltra le corresponde el arreglo que saco para las balas
