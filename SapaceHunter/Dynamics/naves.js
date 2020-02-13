@@ -219,7 +219,10 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
              var letMeFly = [takeMe[1], takeMe[3],takeMe[5], "y",takeMe[6], "z",takeMe[7]]//poniendo arden
          }else if(x == y){
              var takeMe = Tabulaciones(z, z2, ArrayZ, limite,ArrayX, ArrayY,0,1,2,x,y, "z","x","y" )
-             var letMeFly = [takeMe[3], takeMe[5],takeMe[1],"z",takeMe[6], "y",takeMe[7]]//ordenando lo que sale de los arreglos
+             var letMeFly = [takeMe[5], takeMe[1],takeMe[3],"x",takeMe[6], "y",takeMe[7]]//ordenando lo que sale de los arreglos
+         }else if(x==z){
+          var takeMe = Tabulaciones(y, y2, ArrayY, limite,ArrayX, ArrayZ,2,1,0,x,y, "y","x","z" )
+          var letMeFly = [takeMe[3], takeMe[1],takeMe[5],"x",takeMe[6], "z",takeMe[7]]//ordenando lo que sale de los arreglos
          }
          return letMeFly;
      }
@@ -232,17 +235,21 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
      //siempre considero que aqui se metrera un arreglo de 7 valores
    
      let JustMeAnotherTime = new Array(new Array(0), new Array(0), new Array(0));
-       if(array[3]== "y"){
-         JustMeAnotherTime[0] = array[0];
-         JustMeAnotherTime[1] = array[4];
-         JustMeAnotherTime[2] = array[6];
+       if(array[3]== "y"){//se el eje normal
+         JustMeAnotherTime[0] = array[0];//Arreglo base x
+         JustMeAnotherTime[1] = array[4];//y
+         JustMeAnotherTime[2] = array[6];//z
          return JustMeAnotherTime;
-       }
-       else {
-         JustMeAnotherTime[0] = array[4];//x
-         JustMeAnotherTime[1] = array[6];//y
-         JustMeAnotherTime[2] = array[0];//z
-         return JustMeAnotherTime;
+       }else if(array[5]== "y"){
+        JustMeAnotherTime[0] = array[4];//x
+        JustMeAnotherTime[1] = array[0];//y
+        JustMeAnotherTime[2] = array[6];//z
+        return JustMeAnotherTime;
+       }else if(array[5]== "z"){
+        JustMeAnotherTime[0] = array[4];//x
+        JustMeAnotherTime[1] = array[6];//y
+        JustMeAnotherTime[2] = array[0];//z
+        return JustMeAnotherTime;
        }
    }
    this.MatrizUnround = ordenaTabs(this.MatrizBalas3d);
