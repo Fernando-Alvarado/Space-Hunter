@@ -223,6 +223,8 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
          }
          return letMeFly;
      }
+
+
    //----------------------------------------------------
    this.MatrizBalas3d = graficadoraBullet(whereX, whereY, whereZ, ObjX, ObjY, ObjZ,limiteCampoJuego);
    this.WhoToKill = Killed;//esto sera para que no exista el fuego amigo
@@ -237,9 +239,9 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
          return JustMeAnotherTime;
        }
        else {
-         JustMeAnotherTime[0] = array[0];
-         JustMeAnotherTime[1] = array[4];
-         JustMeAnotherTime[2] = array[6];
+         JustMeAnotherTime[0] = array[4];//x
+         JustMeAnotherTime[1] = array[6];//y
+         JustMeAnotherTime[2] = array[0];//z
          return JustMeAnotherTime;
        }
    }
