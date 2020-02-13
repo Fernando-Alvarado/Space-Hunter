@@ -8,7 +8,7 @@ $('#mod_s').change(function(){  //En caso de cambiar el modo, mostrar la informa
     }else if(mod==2){
         $('img').attr("src","../Media/Mensajero_background.jpg");
         $('#modo').html('Mensajero');
-        $('.descript').html('');
+        $('.descript').html('Fuiste comisionado por un jefe rebelde para llevar lo que parece un disporitivo de almacenamiento a una nave cerca del planeta Scarif. <br>Sólo te dicen que es polvo de estrellas y esperanza.');
     }else if(mod==3){
         $('img').attr("src","../Media/Guardian_background.jpg");
         $('#modo').html('Guardián Supremo');

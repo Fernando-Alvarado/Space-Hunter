@@ -210,33 +210,35 @@ class World{
      MatrizPrincipal[0][8] = 1;
      MatrizPrincipal[0][9] = 1
     
-     //Función para cargar modelos de blender
-     function loadModelo(i,arch){
-      var model;
-      var loader = new THREE.GLTFLoader();
-      loader.load(
-          "../Modelos/"+arch,
-
-          function ( gltf ) {
-              model = gltf.scene;
-
-              //lo añadimos a la escena
-              MatrizPrincipal[i][4] = model;
-              scene.add(MatrizPrincipal[i][4]);
-              MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][1];
-              MatrizPrincipal[i][4].position.y = MatrizPrincipal[i][2];
-              MatrizPrincipal[i][4].position.z = MatrizPrincipal[i][3];
-
-          },
-          function ( xhr ) {
-              console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-          },
-          function ( error ) {
-              //console.log( 'An error happened' );
-          }
-      );
-    }
+     
   return MatrizPrincipal;
+}
+
+//Función para cargar modelos de blender
+function loadModelo(i,arch){
+  var model;
+  var loader = new THREE.GLTFLoader();
+  loader.load(
+      "../Modelos/"+arch,
+
+      function ( gltf ) {
+          model = gltf.scene;
+
+          //lo añadimos a la escena
+          MatrizPrincipal[i][4] = model;
+          scene.add(MatrizPrincipal[i][4]);
+          MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][1];
+          MatrizPrincipal[i][4].position.y = MatrizPrincipal[i][2];
+          MatrizPrincipal[i][4].position.z = MatrizPrincipal[i][3];
+
+      },
+      function ( xhr ) {
+          console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+      },
+      function ( error ) {
+          //console.log( 'An error happened' );
+      }
+  );
 }
 
  //Crear los objetos controladores
