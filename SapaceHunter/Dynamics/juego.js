@@ -398,7 +398,7 @@ else if(modo == 3){ //Modo flota
   //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
   var obj = new Array(
     //new Array(clases_naves['claseAmiga1'],10),
-    new Array(clases_naves['class1 '+dif],1)
+    new Array(clases_naves['class1 '+dif],10)
   );
   data_world = new Array(30,30,30,'default',obj);
   msg = 'prueba naves amigas xd';

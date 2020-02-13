@@ -194,14 +194,15 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
                  cont++;
              }////
          for (let i = 0; i < arrePun.length; i++){//loop of arrayY
-             if(VectorDirector[0]!= 0){
-               //aqui esta el arreglo de l s poscicones sin redondear
+             if(VectorDirector[numPrincipal]!= 0){
+               //aqui esta el arreglo de las poscicones sin redondear
                  sinRedondear1.push((VectorDirector[numSalida1]*((arrePun[i]-pun1)/VectorDirector[numPrincipal]))+leter1);
                  arreSalida1.push(Math.round((VectorDirector[numSalida1]*((arrePun[i]-pun1)/VectorDirector[numPrincipal]))+leter1));
                  //arreglo 2 de posiciones sin redondear y redondeadas
                   sinRedondear2.push((VectorDirector[numSalida2]*((arrePun[i]-pun1)/VectorDirector[numPrincipal]))+leter2);
                  arreSalida2.push(Math.round((VectorDirector[numSalida2]*((arrePun[i]-pun1)/VectorDirector[numPrincipal]))+leter2));
              }else{
+
                  arreSalida1.push(leter1);
                  arreSalida2.push(leter2);
                  sinRedondear1=arreSalida1;
@@ -212,18 +213,20 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
         var MyRegret = [ord1, arrePun, ord2,arreSalida1, ord3,arreSalida2, sinRedondear1,sinRedondear2  ] ;  //we are going to return 3 arrayS
          return MyRegret;
          }
-                     //numeros de las letras x =0, y=1, z=2 ---El ultimo es del que se quiere sacar
+
+
+        //numeros de las letras x =0, y=1, z=2 ---El ultimo es del que se quiere sacar
    
-         if(x != y){
-             var takeMe = Tabulaciones(x, x2, ArrayX, limite,ArrayY, ArrayZ,1,2,0,y,z, "x","y","z" )
-             var letMeFly = [takeMe[1], takeMe[3],takeMe[5], "y",takeMe[6], "z",takeMe[7]]//poniendo arden
-         }else if(x == y){
-             var takeMe = Tabulaciones(z, z2, ArrayZ, limite,ArrayX, ArrayY,0,1,2,x,y, "z","x","y" )
-             var letMeFly = [takeMe[5], takeMe[1],takeMe[3],"x",takeMe[6], "y",takeMe[7]]//ordenando lo que sale de los arreglos
-         }else if(x==z){
-          var takeMe = Tabulaciones(y, y2, ArrayY, limite,ArrayX, ArrayZ,2,1,0,x,y, "y","x","z" )
+        if(z!=z2){
+          var takeMe = Tabulaciones(z, z2, ArrayZ, limite,ArrayX, ArrayY,0,1,2,x,y, "z","x","y" )
+          var letMeFly = [takeMe[3], takeMe[5],takeMe[1],"x",takeMe[6], "y",takeMe[7]]//ordenando lo que sale de los arreglos
+        }else if(y!=y2){
+          var takeMe = Tabulaciones(y, y2, ArrayY, limite,ArrayX, ArrayZ,0,2,1,x,z, "y","x","z" )
           var letMeFly = [takeMe[3], takeMe[1],takeMe[5],"x",takeMe[6], "z",takeMe[7]]//ordenando lo que sale de los arreglos
-         }
+        }else{
+            var takeMe = Tabulaciones(x, x2, ArrayX, limite,ArrayY, ArrayZ,1,2,0,y,z, "x","y","z" )
+            var letMeFly = [takeMe[1], takeMe[3],takeMe[5], "y",takeMe[6], "z",takeMe[7]]//poniendo arden
+        }
          return letMeFly;
      }
 
@@ -242,13 +245,13 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
          return JustMeAnotherTime;
        }else if(array[5]== "y"){
         JustMeAnotherTime[0] = array[4];//x
-        JustMeAnotherTime[1] = array[0];//y
-        JustMeAnotherTime[2] = array[6];//z
+        JustMeAnotherTime[1] = array[6];//y
+        JustMeAnotherTime[2] = array[2];//z
         return JustMeAnotherTime;
        }else if(array[5]== "z"){
         JustMeAnotherTime[0] = array[4];//x
-        JustMeAnotherTime[1] = array[6];//y
-        JustMeAnotherTime[2] = array[0];//z
+        JustMeAnotherTime[1] = array[1];//y
+        JustMeAnotherTime[2] = array[6];//z
         return JustMeAnotherTime;
        }
    }
