@@ -48,7 +48,7 @@ class World{
     var ambient = new THREE.PointLight( 0x444444 );
     scene.add( ambient );
     var directionalLight = new THREE.DirectionalLight( 0xffeedd );
-    directionalLight.position.set( 0, 0, 1 ).normalize();
+    directionalLight.position.set( 1, 1, 1 ).normalize();
     scene.add( directionalLight );
     var directionalLight1 = new THREE.DirectionalLight( 0xffeedd );
     directionalLight1.position.set( limitx, limity, limitz ).normalize();
@@ -210,13 +210,21 @@ class World{
               MatrizPrincipal[i][2] = NumerosAleatorios(limity)-1;
               MatrizPrincipal[i][3] = NumerosAleatorios(limitz)-1;
             }else if(obj[0][2]=='last'){
-              MatrizPrincipal[i][1] = limitx;
+              MatrizPrincipal[i][1] = limitx-1;
               MatrizPrincipal[i][2] = Math.round(limity/2);
-              MatrizPrincipal[i][3] = Math.round(limitz/2);;
+              MatrizPrincipal[i][3] = Math.round(limitz/2);
             }
            
             //Creamos el modelo
-            loadModelo(i,obj[0][1],MatrizPrincipal);
+            var geometry = new THREE.BoxGeometry( 1, 1, 1 ); //Los tres deben de ser nones
+            var material = new THREE.MeshBasicMaterial( {color: 0x99ffff} );
+            var model = new THREE.Mesh( geometry, material );
+            
+            MatrizPrincipal[i][4] = model;
+            scene.add(MatrizPrincipal[i][4]);
+            MatrizPrincipal[i][4].position.x = MatrizPrincipal[i][1];
+            MatrizPrincipal[i][4].position.y = MatrizPrincipal[i][2];
+            MatrizPrincipal[i][4].position.z = MatrizPrincipal[i][3];
    
             //Le damos su vida correspondiente
             MatrizPrincipal[i][6] = 100;

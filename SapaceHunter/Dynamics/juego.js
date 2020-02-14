@@ -64,8 +64,8 @@ var patterns = new Array(
 var clases_naves = {
   //velocidad,rango,velChase,velDisparo,rangoDisp,vida,largo,ancho,alto, modelo y nave a seguir
   'class1 1': new Array('nave',1000,60,500,200,10,2,1,1,1,'Tie.glb',0),
-  'class1 2': new Array('nave',1000,40,300,150,15,3,1,1,1,'Tie.glb',0),
-  'class1 3': new Array('nave',1000,20,100,100,20,4,1,1,1,'Tie.glb',0),
+  'class1 2': new Array('nave',900,40,300,150,15,3,1,1,1,'Tie.glb',0),
+  'class1 3': new Array('nave',8000,20,100,100,20,4,1,1,1,'Tie.glb',0),
 
   'wanted 1': new Array('nave',1000,100,300,200,25,15,4,2,3,'Destructor.glb',0),
   'wanted 2': new Array('nave',1000,80,200,150,35,20,4,2,3,'Destructor.glb',0),
@@ -77,16 +77,16 @@ var clases_naves = {
   ////Beto tenemos que cambiar el modelo de la nave
   'claseAmiga1': new Array('amiga',1000,200,100,100,20,4,1,1,1,'asteroide_1_Gre.glb',0),////Aqui va la nave amiga
   //velocidad,modelo y dimensiones
-  ast1: new Array('ast',500,'asteroide_1_Gre.glb',1,1,1),
-  ast2: new Array('ast',500,'asteroide_1_Pi.glb',1,1,1),
-  ast3: new Array('ast',500,'asteroide_1_Re.glb',1,1,1),
-  ast4: new Array('ast',500,'asteroide_1_Ye.glb',1,1,1),
+  ast1: new Array('ast',300,'asteroide_1_Gre.glb',1,1,1),
+  ast2: new Array('ast',400,'asteroide_1_Pi.glb',1,1,1),
+  ast3: new Array('ast',300,'asteroide_1_Re.glb',1,1,1),
+  ast4: new Array('ast',300,'asteroide_1_Ye.glb',1,1,1),
   ast5: new Array('ast',500,'asteroide_3_Gre.glb',3,3,3),
-  ast6: new Array('ast',500,'asteroide_3_Pi.glb',3,3,3),
+  ast6: new Array('ast',400,'asteroide_3_Pi.glb',3,3,3),
   ast7: new Array('ast',500,'asteroide_3_Re.glb',3,3,3),
-  ast8: new Array('ast',500,'asteroide_3_Ye.glb',3,3,3),
+  ast8: new Array('ast',300,'asteroide_3_Ye.glb',3,3,3),
   //Checkpoint
-  'check1': new Array('check','Destructor.glb','last'), //Modelo,posición
+  'check1': new Array('check','glow_cube.glb','last'), //Modelo,posición
   'check2': new Array('check','Destructor.glb','random')
 };
 
@@ -294,12 +294,12 @@ function Wanted(dif){  //Checa si el objetivo fue destruido
   check();
 }
 
-function Checkpoint(largo,dif){
+function Checkpoint(dif){
   MatrizThatMakeMeCry[0][1] = 0;
   MatrizThatMakeMeCry[0][2] = 25;
   MatrizThatMakeMeCry[0][3] = 25;
   var last = MatrizThatMakeMeCry.length-1;
-  tiempo = 120*dif;
+  tiempo = 150-(dif*10);
   setInterval(check,1000);
   function check(){
     tiempo--;
@@ -342,7 +342,7 @@ if(modo == 1){  //Modo supervivencia
     new Array(clases_naves['ast6'],12),
     new Array(clases_naves['class1 '+dif],10*dif)
   );
-  data_world = new Array(60,60,60,'imperio',obj);
+  data_world = new Array(50,50,50,'imperio',obj);
   msg = 'Localización: Sector K-3345  Sistema Alfa-C <br>Quedaste varado en territorio Imperial, vez a lo lejos los restos de una fragata rebelde.<br>Puedes sobrevivir el tiempo suficiente para que llegue la brigada de rescate?';
   Sobrevive(dif);
 }
@@ -356,12 +356,12 @@ else if(modo == 2){ //Modo Mensajero
       new Array(clases_naves['class1 '+dif],10*dif),
       new Array(clases_naves['check1'],1)
     );
-    var largo= 300;
+    var largo= 200;
     var dim = 60-(10*dif);
-    data_world = new Array(largo,dim,dim,'default',obj);
-    msg = 'Localización: Sector S-1  Orbita del planeta Scarif <br> Después de que entregar los planos y alejarse en el hiperespacio, la nave es perseguida por decenas de tropas imperiales. No tienes mucho tiempo! ¿Puedes llegar hasta el punto marcado de azul y entregar los planos?';
+    data_world = new Array(largo,dim,dim,'scarif',obj);
+    msg = 'Localización: Sector S-1  Orbita del planeta Scarif <br> Después de que entregar los planos y alejarse en el hiperespacio, la nave rebelde te deja varado en un cinturón de asteroides. No tienes mucho tiempo! ¿Puedes llegar hasta el punto marcado de azul y entregar los planos?';
     setTimeout(function(){ 
-      Checkpoint(largo,dif);
+      Checkpoint(dif);
     },11000);
 }
 else if(modo == 4){ //Modo flota
@@ -373,7 +373,7 @@ else if(modo == 4){ //Modo flota
     new Array(clases_naves['ast8'],7*dif), 
     new Array(clases_naves['class1 '+dif],5*dif)
   );
-  data_world = new Array(100,100,100,'default',obj);
+  data_world = new Array(70,70,70,'default',obj);
   msg = 'Localización: Sector D-1233  Estrella Delta-A <br> El imperio a tomado posesión de esta zona, acaba con ellos para que las tropas puedan pasar.<br>Buena suerte!';
   NumKills();
 }
@@ -384,7 +384,7 @@ else if(modo == 5){ //Modo, el Rey ha Caído
     new Array(clases_naves['ast2'],2*dif), 
     new Array(clases_naves['ast7'],2*dif), 
     new Array(clases_naves['ast8'],2*dif),
-    new Array(clases_naves['bodyguard '+dif],4*dif),
+    new Array(clases_naves['bodyguard '+dif],7*dif),
     new Array(clases_naves['wanted '+dif],1)
   );
   data_world = new Array(100,100,100,'default',obj);
