@@ -1,6 +1,5 @@
 $('#mod_s').change(function(){  //En caso de cambiar el modo, mostrar la información de este
     var mod = $('#mod_s').val();
-    console.log(mod);
     if(mod==1){
         $('img').attr("src","../Media/Supervivencia_background.jpg");
         $('#modo').html('Supervivencia');

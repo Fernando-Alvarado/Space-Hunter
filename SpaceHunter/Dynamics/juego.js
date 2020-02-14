@@ -298,7 +298,7 @@ function Wanted(dif,nom,tipo){  //Checa si el objetivo fue destruido
   }
 }
 
-function Checkpoint(dif){
+function Checkpoint(dif){ //Coloca un checckpoint y checa si el jugador llega a el
   MatrizThatMakeMeCry[0][1] = 0;
   MatrizThatMakeMeCry[0][2] = 25;
   MatrizThatMakeMeCry[0][3] = 25;
