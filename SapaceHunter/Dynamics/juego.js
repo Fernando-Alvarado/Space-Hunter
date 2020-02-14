@@ -74,6 +74,10 @@ var clases_naves = {
   'bodyguard 1': new Array('nave',1000,60,100,200,10,2,1,1,1,'Tie.glb','w'),
   'bodyguard 2': new Array('nave',1000,40,100,150,15,3,1,1,1,'Tie.glb','w'),
   'bodyguard 3': new Array('nave',1000,20,100,100,20,4,1,1,1,'Tie.glb','w'),
+  //Guardián Supremo
+  'guardian 1': new Array('nave',1000,50,1000,150,50,50,4,2,3,'Destructor.glb',0),
+  'guardian 2': new Array('nave',1000,100,700,120,100,70,4,2,3,'Destructor.glb',0),
+  'guardian 3': new Array('nave',1000,150,500,100,150,100,4,2,3,'Destructor.glb',0),
   ////Beto tenemos que cambiar el modelo de la nave
   'claseAmiga1': new Array('amiga',1000,200,100,100,20,4,1,1,1,'asteroide_1_Gre.glb',0),////Aqui va la nave amiga
   //velocidad,modelo y dimensiones
@@ -87,7 +91,7 @@ var clases_naves = {
   ast8: new Array('ast',300,'asteroide_3_Ye.glb',3,3,3),
   //Checkpoint
   'check1': new Array('check','glow_cube.glb','last'), //Modelo,posición
-  'check2': new Array('check','Destructor.glb','random')
+  'check2': new Array('check','glow_cube.glb','random')
 };
 
 ////-----------------------------------------------------------------------------------------------------------------------
@@ -260,12 +264,13 @@ function Sobrevive(dif){  //Cuenta el tiempo para sosbrevivir
   }
   check();
 }
-function Wanted(dif){  //Checa si el objetivo fue destruido
+function Wanted(dif,nom,tipo){  //Checa si el objetivo fue destruido
   var wanted = MatrizThatMakeMeCry.length-1;
-  var vida = clases_naves['wanted '+dif][6];
+  var vida = clases_naves[tipo+' '+dif][6];
   setInterval(check,500);
   $('#wanted').show();
- $('#wantedname').show();
+  $('#wantedname').html(nom);
+  $('#wantedname').show();
   function check(){
     if(MatrizThatMakeMeCry[wanted][0] == null || MatrizThatMakeMeCry[wanted][0] <= 0){
       location.href="Win.html"; //Redireccionamos si gana
@@ -281,9 +286,9 @@ function Wanted(dif){  //Checa si el objetivo fue destruido
       life.fillStyle = "#373737";
       life.fill();
       life.closePath();
-      //la nave tendra 10 puntos de vida xd pero pueden ser mas 
-      var vidaTotal = vida //es la vida que tendra el presonaje principal
-      var anchoLife = ((numero * 200) / vidaTotal);
+      var anchoLife = ((numero * 200) / vida);
+      console.log(vida);
+      console.log(numero);
       life.beginPath();
       //puntos iniciales // puntos finales
       life.rect(1, 1, anchoLife, 20);//la tercera es la que tengo que modificar
@@ -291,7 +296,6 @@ function Wanted(dif){  //Checa si el objetivo fue destruido
       life.fill();
       life.closePath();
   }
-  check();
 }
 
 function Checkpoint(dif){
@@ -342,7 +346,7 @@ if(modo == 1){  //Modo supervivencia
     new Array(clases_naves['ast6'],12),
     new Array(clases_naves['class1 '+dif],10*dif)
   );
-  data_world = new Array(50,50,50,'imperio',obj);
+  data_world = new Array(50,50,50,'restos',obj);
   msg = 'Localización: Sector K-3345  Sistema Alfa-C <br>Quedaste varado en territorio Imperial, vez a lo lejos los restos de una fragata rebelde.<br>Puedes sobrevivir el tiempo suficiente para que llegue la brigada de rescate?';
   Sobrevive(dif);
 }
@@ -362,7 +366,22 @@ else if(modo == 2){ //Modo Mensajero
     msg = 'Localización: Sector S-1  Orbita del planeta Scarif <br> Después de que entregar los planos y alejarse en el hiperespacio, la nave rebelde te deja varado en un cinturón de asteroides. No tienes mucho tiempo! ¿Puedes llegar hasta el punto marcado de azul y entregar los planos?';
     setTimeout(function(){ 
       Checkpoint(dif);
-    },11000);
+    },12000);
+}
+else if(modo == 3){ //Modo guardián supremo
+  //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
+  var obj = new Array(
+    new Array(clases_naves['ast1'],5*dif), 
+    new Array(clases_naves['ast3'],5*dif), 
+    new Array(clases_naves['ast5'],5*dif), 
+    new Array(clases_naves['ast7'],5*dif),
+    new Array(clases_naves['guardian '+dif],1)
+  );
+  data_world = new Array(150,150,150,'fuerza',obj);
+  msg = 'Localización: desconocida<br>A lo lejos vez dos nébulas chocando, como dos fuerzas que se oponen. La nave se encuentra frente a ti, no puedes correr, no hay ni un planeta en dónde esconderte.<br>Sólo queda hacerle frente, prepara tus escudos, los necesitarás.';
+  setTimeout(function(){ 
+    Wanted(dif,'Guardián Supremo','guardian');
+  },12000);
 }
 else if(modo == 4){ //Modo flota
   //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
@@ -373,8 +392,8 @@ else if(modo == 4){ //Modo flota
     new Array(clases_naves['ast8'],7*dif), 
     new Array(clases_naves['class1 '+dif],5*dif)
   );
-  data_world = new Array(70,70,70,'default',obj);
-  msg = 'Localización: Sector D-1233  Estrella Delta-A <br> El imperio a tomado posesión de esta zona, acaba con ellos para que las tropas puedan pasar.<br>Buena suerte!';
+  data_world = new Array(70,70,70,'delta',obj);
+  msg = 'Localización: Sector D-1233  Estrella Delta-A <br>El imperio a tomado posesión de esta zona, acaba con ellos para que las tropas puedan pasar.<br>Buena suerte!';
   NumKills();
 }
 else if(modo == 5){ //Modo, el Rey ha Caído
@@ -390,19 +409,10 @@ else if(modo == 5){ //Modo, el Rey ha Caído
   data_world = new Array(100,100,100,'default',obj);
   msg = 'Localización: Sector C-2  Sistema Rune <br> Después de una eternidad de batalla logras sacar a la nave del rey Hutt "Cosmos" de su escondite. Pero no viene solo, sus mejores guerreros lo acompañan, tal vez haga el trabjo un poco más difícil, procede con precaución.';
   setTimeout(function(){ 
-    Wanted(dif);
-  },11000);
+    Wanted(dif,'Rey Cosmos','wanted');
+  },12000);
 }
-//Vamos a trabajar sobre este mundo xd, es el modo mensajero, se supone
-else if(modo == 3){ //Modo flota
-  //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
-  var obj = new Array(
-    //new Array(clases_naves['claseAmiga1'],10),
-    new Array(clases_naves['class1 '+dif],10)
-  );
-  data_world = new Array(30,30,30,'default',obj);
-  msg = 'prueba naves amigas xd';
-}
+
 
 
 $('#wanted').hide();
@@ -413,5 +423,5 @@ setTimeout(function(){
   $('.texto_intro').hide(); //Ocultamos el mensaje
   $('#arriba').show();  //Mostramos la cabina y barras
   world.StartWorld(); //Empezamos el juego
-},10000);
+},11000);
 //------------------------------------------------------------------------------------------------

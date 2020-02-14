@@ -4,7 +4,7 @@ $('#mod_s').change(function(){  //En caso de cambiar el modo, mostrar la informa
     if(mod==1){
         $('img').attr("src","../Media/Supervivencia_background.jpg");
         $('#modo').html('Supervivencia');
-        $('.descript').html('Quedaste varado en el sector K-3345 Sistema Alfa-C, los enemigos te flanquean, puedes sobrevivir el tiempo necesario para que llegue la brigada de rescate?');
+        $('.descript').html('Quedaste varado en el sector K-3345, los enemigos te flanquean, puedes sobrevivir el tiempo necesario para que llegue la brigada de rescate?');
     }else if(mod==2){
         $('img').attr("src","../Media/Mensajero_background.jpg");
         $('#modo').html('Mensajero');
@@ -12,7 +12,7 @@ $('#mod_s').change(function(){  //En caso de cambiar el modo, mostrar la informa
     }else if(mod==3){
         $('img').attr("src","../Media/Guardian_background.jpg");
         $('#modo').html('Guardián Supremo');
-        $('.descript').html('');
+        $('.descript').html('Llegas a un lugar extraño, sientes una tensión en las mismas fibras del espacio y encuentras a una nave, o eso parece, inmensa. <br>Tu hiper-propulsor está fallando. La única salida es pelear.');
     }else if(mod==4){
         $('img').attr("src","../Media/Flota_background.jpg");
         $('#modo').html('Flota');

@@ -316,7 +316,6 @@ class balas{//NOTE: la matriz del juego esta declarada arriba sera global, por q
 
                   for(let i = 0; i<=numamigas+numasteroides; i++ ){
                     
-                    
                      //Posición del objeto
                      var x = MatrizThatMakeMeCry[i][1];
                      var y = MatrizThatMakeMeCry[i][2];
