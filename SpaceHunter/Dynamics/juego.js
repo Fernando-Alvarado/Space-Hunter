@@ -241,12 +241,22 @@ function loadModelo(i,arch,MatrizPrincipal){
 function NumerosAleatorios(tope){
     return Math.floor((Math.random()*tope))+1;
 }
-
-function NumKills(){  //Función que cuenta las kills
+function win(dif){  //Sube el dinero dependiendo del monto especificado
+  var money=0;
+  if(dif==1)
+    money = 1000;
+  else if(dif==2)
+    money = 1500;
+  else if(dif==3)
+    money = 2500;
+  updateMoney(money);
+}
+function NumKills(dif){  //Función que cuenta las kills
   setInterval(check,100);
   function check(){
     $('#numkills').html('Kills: '+numkills+'/'+numnaves); //Imprimimos las kills actuales y faltantes
-    if(numkills == numnaves){ //Si destruyes todas las naves, redirecciona a ganar
+    if(numkills == numnaves){ //Si destruyes todas las naves, redirecciona a ganaz
+      win(dif);  //Lamamos a la fnció para subir el dinero
       location.href="Win.html";
     }
   }
@@ -259,6 +269,7 @@ function Sobrevive(dif){  //Cuenta el tiempo para sosbrevivir
     tiempo--;
     $('#numkills').html('Tiempo restante: '+tiempo+'s');  //Imprimimos el tiempo restante
     if(tiempo == 0){
+      win(dif); //Lamamos a la fnció para subir el dinero
       location.href="Win.html"; //Redireccionamos si gana
     }
   }
@@ -273,6 +284,7 @@ function Wanted(dif,nom,tipo){  //Checa si el objetivo fue destruido
   $('#wantedname').show();
   function check(){
     if(MatrizThatMakeMeCry[wanted][0] == null || MatrizThatMakeMeCry[wanted][0] <= 0){
+      win(dif);  //Lamamos a la fnció para subir el dinero
       location.href="Win.html"; //Redireccionamos si gana
     }
       
@@ -318,6 +330,7 @@ function Checkpoint(dif){ //Coloca un checckpoint y checa si el jugador llega a 
       location.href="../Templates/EndMatch.html";////No se si esta ruta funcione 
     }
     if(x==x1 && y==y1 && z==z1){
+      win(dif);  //Lamamos a la fnció para subir el dinero
       location.href="Win.html"; //Redireccionamos si gana
     }
   }
@@ -394,7 +407,7 @@ else if(modo == 4){ //Modo flota
   );
   data_world = new Array(70,70,70,'delta',obj);
   msg = 'Localización: Sector D-1233  Estrella Delta-A <br>El imperio a tomado posesión de esta zona, acaba con ellos para que las tropas puedan pasar.<br>Buena suerte!';
-  NumKills();
+  NumKills(dif);
 }
 else if(modo == 5){ //Modo, el Rey ha Caído
   //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
