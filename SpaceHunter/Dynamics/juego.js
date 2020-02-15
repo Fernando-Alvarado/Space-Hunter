@@ -71,13 +71,13 @@ var clases_naves = {
   'wanted 2': new Array('nave',1000,80,200,150,35,20,4,2,3,'Destructor.glb',0),
   'wanted 3': new Array('nave',1000,60,100,100,50,30,4,2,3,'Destructor.glb',0),
 
-  'bodyguard 1': new Array('nave',1000,60,100,200,10,2,9,9,9,'Giant.glb','w'),
+  'bodyguard 1': new Array('nave',1000,60,100,200,10,2,9,9,9,'Tie.glb','w'),
   'bodyguard 2': new Array('nave',1000,40,100,150,15,3,1,1,1,'Tie.glb','w'),
   'bodyguard 3': new Array('nave',1000,20,100,100,20,4,1,1,1,'Tie.glb','w'),
   //Guardián Supremo
-  'guardian 1': new Array('nave',1000,50,1000,150,50,50,4,2,3,'Destructor.glb',0),
-  'guardian 2': new Array('nave',1000,100,700,120,100,70,4,2,3,'Destructor.glb',0),
-  'guardian 3': new Array('nave',1000,150,500,100,150,100,4,2,3,'Destructor.glb',0),
+  'guardian 1': new Array('nave',400,50,1000,100,50,50,9,9,9,'Giant9.glb',0),
+  'guardian 2': new Array('nave',300,100,700,90,100,70,9,9,9,'Giant9.glb',0),
+  'guardian 3': new Array('nave',100,150,500,70,150,100,9,9,9,'Giant9.glb',0),
   ////Beto tenemos que cambiar el modelo de la nave
   'claseAmiga1': new Array('amiga',1000,200,100,100,20,4,1,1,1,'asteroide_1_Gre.glb',0),////Aqui va la nave amiga
   //velocidad,modelo y dimensiones
@@ -148,7 +148,7 @@ function ChooseWhereToMove(event, value){//switch para elegir
           }
           //En caso de que alguno de los dos objetos en la colision sean el principal, se manda un menaje de perder
           if(value==0||i==0)
-              MatrizThatMakeMeCry[0][6] = 3;////Aqui hize que la nave no pierda en caso de chocar
+              MatrizThatMakeMeCry[0][6] -= 3;
           LifeBar(MatrizThatMakeMeCry[0][6])
           color = "white";
         }else{
