@@ -299,8 +299,6 @@ function Wanted(dif,nom,tipo){  //Checa si el objetivo fue destruido
       life.fill();
       life.closePath();
       var anchoLife = ((numero * 200) / vida);
-      console.log(vida);
-      console.log(numero);
       life.beginPath();
       //puntos iniciales // puntos finales
       life.rect(1, 1, anchoLife, 20);//la tercera es la que tengo que modificar
@@ -419,7 +417,7 @@ else if(modo == 5){ //Modo, el Rey ha Caído
     new Array(clases_naves['bodyguard '+dif],7*dif),
     new Array(clases_naves['wanted '+dif],1)
   );
-  data_world = new Array(100,100,100,'default',obj);
+  data_world = new Array(100,100,100,'rune',obj);
   msg = 'Localización: Sector C-2  Sistema Rune <br> Después de una eternidad de batalla logras sacar a la nave del rey Hutt "Cosmos" de su escondite. Pero no viene solo, sus mejores guerreros lo acompañan, tal vez haga el trabjo un poco más difícil, procede con precaución.';
   setTimeout(function(){ 
     Wanted(dif,'Rey Cosmos','wanted');
