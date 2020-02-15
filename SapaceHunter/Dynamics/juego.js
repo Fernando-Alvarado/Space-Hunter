@@ -71,7 +71,7 @@ var clases_naves = {
   'wanted 2': new Array('nave',1000,80,200,150,35,20,4,2,3,'Destructor.glb',0),
   'wanted 3': new Array('nave',1000,60,100,100,50,30,4,2,3,'Destructor.glb',0),
 
-  'bodyguard 1': new Array('nave',1000,60,100,200,10,2,1,1,1,'Tie.glb','w'),
+  'bodyguard 1': new Array('nave',1000,60,100,200,10,2,9,9,9,'Giant.glb','w'),
   'bodyguard 2': new Array('nave',1000,40,100,150,15,3,1,1,1,'Tie.glb','w'),
   'bodyguard 3': new Array('nave',1000,20,100,100,20,4,1,1,1,'Tie.glb','w'),
   ////Beto tenemos que cambiar el modelo de la nave

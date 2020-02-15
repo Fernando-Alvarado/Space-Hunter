@@ -39,7 +39,7 @@ document.body.appendChild( renderer.domElement );
      }
     
 
-    var geometry = new THREE.BoxGeometry( 1, 1, 1 ); //Los tres deben de ser nones
+    var geometry = new THREE.BoxGeometry( 9, 9, 9 ); //Los tres deben de ser nones
     var material = new THREE.MeshBasicMaterial( {color: 0xff0000,wireframe:true} );
     var model = new THREE.Mesh( geometry, material );
     scene.add( model );
@@ -65,7 +65,7 @@ document.body.appendChild( renderer.domElement );
     var model_p;
     var loader = new THREE.GLTFLoader();
       loader.load(
-          "../Modelos/"+'glow_cube.glb',//Aquí va el nombre del modelo
+          "../Modelos/"+'Giant9.glb',//Aquí va el nombre del modelo
 
           function ( gltf ) {
               model_p = gltf.scene;
