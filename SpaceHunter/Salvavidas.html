@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+function graficadoraBullet(x,y,z,x2,y2,z2, limite){
+         //-Declaracion de los 3 array
+         var ArrayX = new Array(0);//okey so, here i should push negative numbers that would be dump
+         var ArrayY = new Array(0);
+         var ArrayZ = new Array(0);
+         var sinRedondear1 = new Array(0);
+         var sinRedondear2 = new Array(0);
+         function Tabulaciones (pun1, pun2, arrePun, limite, arreSalida1, arreSalida2, numSalida1, numSalida2, numPrincipal, leter1, leter2, ord1, ord2, ord3){
+             var VectorDirector = [x2-x,y2-y,z2-z];//vector que dara la direccion
+             var cont = pun1;
+             if(pun2 < pun1)//compara donde esta los puntos, para poder los puntos para tabular
+             while(cont != 0){
+                 arrePun.push(cont);
+                 cont--;
+             }
+         else
+             while(cont != limite){
+                 arrePun.push(cont);
+                 cont++;
+             }////
+         for (let i = 0; i < arrePun.length; i++){//loop of arrayY
+             if(VectorDirector[0]!= 0){
+               //aqui esta el arreglo de l s poscicones sin redondear
+                 sinRedondear1.push((VectorDirector[numSalida1]*((arrePun[i]-pun1)/VectorDirector[numPrincipal]))+leter1);
+                 arreSalida1.push(Math.round((VectorDirector[numSalida1]*((arrePun[i]-pun1)/VectorDirector[numPrincipal]))+leter1));
+                 //arreglo 2 de posiciones sin redondear y redondeadas
+                  sinRedondear2.push((VectorDirector[numSalida2]*((arrePun[i]-pun1)/VectorDirector[numPrincipal]))+leter2);
+                 arreSalida2.push(Math.round((VectorDirector[numSalida2]*((arrePun[i]-pun1)/VectorDirector[numPrincipal]))+leter2));
+             }else{
+                 arreSalida1.push(leter1);
+                 arreSalida2.push(leter2);
+                 sinRedondear1=arreSalida2;
+                 sinRedondear2=arreSalida1;
+             }
+             //para ver como esta funcioanndo la mamada
+         }//ord te dice que teltra le corresponde el arreglo que saco para las balas
+        var MyRegret = [ord1, arrePun, ord2,arreSalida1, ord3,arreSalida2, sinRedondear1,sinRedondear2  ] ;  //we are going to return 3 arrayS
+         return MyRegret;
+         }
+                     //numeros de las letras x =0, y=1, z=2 ---El ultimo es del que se quiere sacar
+   
+         if(x != y){
+             var takeMe = Tabulaciones(x, x2, ArrayX, limite,ArrayY, ArrayZ,1,2,0,y,z, "x","y","z" )
+             var letMeFly = [takeMe[1], takeMe[3],takeMe[5], "y",takeMe[6], "z",takeMe[7]]//poniendo arden
+         }else if(x == y){
+             var takeMe = Tabulaciones(z, z2, ArrayZ, limite,ArrayX, ArrayY,0,1,2,x,y, "z","x","y" )
+             var letMeFly = [takeMe[3], takeMe[5],takeMe[1],"z",takeMe[6], "y",takeMe[7]]//ordenando lo que sale de los arreglos
+         }
+         return letMeFly;
+     }
+     function NumerosAleatorios(tope){
+    return Math.floor((Math.random()*tope))+1;
+}
+
+//whereX, whereY, whereZ, ObjX, ObjY, ObjZ,limiteCampoJuego
+    var fer = graficadoraBullet(9,21,21,6,21,18,40);
+    console.log(fer)
+    </script>
+</body>
+</html>
