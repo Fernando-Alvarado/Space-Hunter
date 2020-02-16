@@ -345,6 +345,8 @@ function Checkpoint(dif){ //Coloca un checckpoint y checa si el jugador llega a 
 //               Funciones principales que corren todo el juego
 
 $('#arriba').hide();  //Escondemos las barras de vida, ecudos y máscara de cabina
+$('#wanted').hide();
+$('#wantedname').hide();
 var world = new World();  //Creamos el objeto world
 var dif = Number($('.dif').text()); //Obtenemos la dificultad especificada
 var modo = Number($('.modo').text()); //Obtenemos el modo de juego
@@ -441,10 +443,6 @@ else if(modo == 6){ //Test
   msg = 'Pruebas amigas';
 }
 
-
-
-$('#wanted').hide();
-$('#wantedname').hide();
 $('.texto_intro').html(msg); //Mostramos el mensaje acorde al modo
 world.CreateWorld(data_world); //Creamos el mundo
 setTimeout(function(){

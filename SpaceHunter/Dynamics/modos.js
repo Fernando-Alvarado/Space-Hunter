@@ -10,14 +10,14 @@ $('#mod_s').change(function(){  //En caso de cambiar el modo, mostrar la informa
         $('.descript').html('Fuiste comisionado por un jefe rebelde para llevar lo que parece un dispositivo de almacenamiento a una nave cerca del planeta Scarif. <br>Sólo te dicen que es polvo de estrellas y esperanza.');
     }else if(mod==3){
         $('img').attr("src","../Media/Guardian_background.jpg");
-        $('#modo').html('Guardián Supremo');
+        $('#modo').html('Guardián<br>Supremo');
         $('.descript').html('Llegas a un lugar extraño, sientes una tensión en las mismas fibras del espacio y encuentras a una nave, o eso parece, inmensa. <br>Tu hiper-propulsor está fallando. La única salida es pelear.');
     }else if(mod==4){
         $('img').attr("src","../Media/Flota_background.jpg");
         $('#modo').html('Flota');
         $('.descript').html('Fuiste enviado a la estrella Delta-A, actualmente en posesión del imperio, tienes que limpiar la zona para que las tropas rebeldes puedan entrar.');
     }else if(mod==5){
-        $('img').attr("src","../Media/Flota_background.jpg");
+        $('img').attr("src","../Media/Rey_background.jpg");
         $('#modo').html('El Rey Ha Caído');
         $('.descript').html('El sistema Rune es controlado por el jefe Hutt "Cosmos". <br>Este tirano mandamás no obedece a nadie y el imperio está pagando muy bien por su cabeza, o mejor dicho, su nave.');
     }
