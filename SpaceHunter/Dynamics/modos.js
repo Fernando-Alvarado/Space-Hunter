@@ -35,3 +35,7 @@ $('#Go').click(function(){  //Cuano el usuario aprieta el botón de empezar, lo 
     $('body').append(form);
     form.submit();
 });
+
+$("#back").click(function(){
+    location.href="logIn.html";
+});

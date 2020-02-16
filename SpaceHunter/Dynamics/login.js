@@ -1,5 +1,5 @@
     //Regex inputs
-    var reg_pass= /^(?=.*[A-Z])(?=.*\d)(?=.*[!?/\\.,-]).{8,30}$/;
+    var reg_pass= /^((?=.*[A-Z])(?=.*\d)(?=.*[!?/\\.,-])).{8,30}$/;
     var nickname_reg= /^[\w !?/\\.,-]{6,30}$/
 
     var inputs=document.querySelectorAll('input');
@@ -25,9 +25,14 @@
     function ChangePlace() {
         var tocaste = document.getElementById("JustPlay");
         tocaste.addEventListener("click", function(){
-        location.href = "./Elegir_modo.html";    
+            location.href = "./Elegir_modo.html";    
+        }); 
+        var tocaste2 = document.getElementById("Return");
+        tocaste2.addEventListener("click", function(){
+        location.href = "./inicio.html";    
         }); 
     }
+
 
     ChangePlace();
   
