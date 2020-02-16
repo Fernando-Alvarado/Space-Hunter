@@ -144,7 +144,7 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
                }
                //the last thing to do
        }
-       setInterval(updown, 150);//para que pueda rotrar lal camara de arriba hacia abajo
+       setInterval(updown, 170);//para que pueda rotrar lal camara de arriba hacia abajo
        function updown(){
          //para que la nave pueda subir o bajar
          if(WhereOnY < (MedidaEnY)/3 && camera.position.y != limity-1){ //hace que la nave baja

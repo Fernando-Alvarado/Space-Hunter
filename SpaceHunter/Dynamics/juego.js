@@ -377,7 +377,7 @@ else if(modo == 2){ //Modo Mensajero
     msg = 'Localización: Sector S-1  Orbita del planeta Scarif <br> Después de que entregar los planos y alejarse en el hiperespacio, la nave rebelde te deja varado en un cinturón de asteroides. No tienes mucho tiempo! ¿Puedes llegar hasta el punto marcado de azul y entregar los planos?';
     setTimeout(function(){ 
       Checkpoint(dif);
-    },12000);
+    },10000);
 }
 else if(modo == 3){ //Modo guardián supremo
   //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
@@ -392,7 +392,7 @@ else if(modo == 3){ //Modo guardián supremo
   msg = 'Localización: desconocida<br>A lo lejos vez dos nébulas chocando, como dos fuerzas que se oponen. La nave se encuentra frente a ti, no puedes correr, no hay ni un planeta en dónde esconderte.<br>Sólo queda hacerle frente, prepara tus escudos, los necesitarás.';
   setTimeout(function(){ 
     Wanted(dif,'Guardián Supremo','guardian');
-  },12000);
+  },10000);
 }
 else if(modo == 4){ //Modo flota
   //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
@@ -421,7 +421,7 @@ else if(modo == 5){ //Modo, el Rey ha Caído
   msg = 'Localización: Sector C-2  Sistema Rune <br> Después de una eternidad de batalla logras sacar a la nave del rey Hutt "Cosmos" de su escondite. Pero no viene solo, sus mejores guerreros lo acompañan, tal vez haga el trabjo un poco más difícil, procede con precaución.';
   setTimeout(function(){ 
     Wanted(dif,'Rey Cosmos','wanted');
-  },12000);
+  },10000);
 }
 
 
@@ -435,5 +435,5 @@ setTimeout(function(){
   $('.texto_intro').hide(); //Ocultamos el mensaje
   $('#arriba').show();  //Mostramos la cabina y barras
   world.StartWorld(); //Empezamos el juego
-},11000);
+},9500);
 //------------------------------------------------------------------------------------------------
