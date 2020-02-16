@@ -64,7 +64,7 @@ var patterns = new Array(
 var clases_naves = {
   //velocidad,rango,velChase,velDisparo,rangoDisp,vida,largo,ancho,alto, modelo y nave a seguir
   'class1 1': new Array('nave',1000,60,500,200,10,2,1,1,1,'Tie.glb',0),
-  'class1 2': new Array('nave',900,40,300,150,15,3,1,1,1,'Tie.glb',0),
+  'class1 2': new Array('nave',900,40,300,150,15,3,5,3,3,'enemy_335.glb',0),
   'class1 3': new Array('nave',8000,20,100,100,20,4,1,1,1,'Tie.glb',0),
 
   'wanted 1': new Array('nave',1000,100,300,200,25,15,4,2,3,'Destructor.glb',0),
@@ -79,7 +79,7 @@ var clases_naves = {
   'guardian 2': new Array('nave',300,100,700,90,100,70,9,9,9,'Giant9.glb',0),
   'guardian 3': new Array('nave',100,150,500,70,150,100,9,9,9,'Giant9.glb',0),
   ////Beto tenemos que cambiar el modelo de la nave
-  'claseAmiga1': new Array('amiga',1000,200,100,100,20,4,1,1,1,'asteroide_1_Gre.glb',0),////Aqui va la nave amiga
+  'claseAmiga1': new Array('amiga',1000,200,100,100,20,4,1,1,1,'aliada.glb',0),////Aqui va la nave amiga
   //velocidad,modelo y dimensiones
   ast1: new Array('ast',300,'asteroide_1_Gre.glb',1,1,1),
   ast2: new Array('ast',400,'asteroide_1_Pi.glb',1,1,1),
