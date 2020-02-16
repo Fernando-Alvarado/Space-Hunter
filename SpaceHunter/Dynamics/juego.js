@@ -431,6 +431,7 @@ $('#wantedname').hide();
 $('.texto_intro').html(msg); //Mostramos el mensaje acorde al modo
 world.CreateWorld(data_world); //Creamos el mundo
 setTimeout(function(){
+  $('#hyper').hide(); //Ocultamos el gif
   $('.texto_intro').hide(); //Ocultamos el mensaje
   $('#arriba').show();  //Mostramos la cabina y barras
   world.StartWorld(); //Empezamos el juego

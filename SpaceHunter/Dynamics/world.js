@@ -34,12 +34,12 @@ class World{
     {
       const loader = new THREE.CubeTextureLoader();
       const texture = loader.load([
-        '../Media/Fondos/'+background+'/back.png',
-        '../Media/Fondos/'+background+'/front.png',
-        '../Media/Fondos/'+background+'/bottom.png',
-        '../Media/Fondos/'+background+'/top.png',
-        '../Media/Fondos/'+background+'/right.png',
-        '../Media/Fondos/'+background+'/left.png',
+        '../Media/Fondos_world/'+background+'/back.png',
+        '../Media/Fondos_world/'+background+'/front.png',
+        '../Media/Fondos_world/'+background+'/bottom.png',
+        '../Media/Fondos_world/'+background+'/top.png',
+        '../Media/Fondos_world/'+background+'/right.png',
+        '../Media/Fondos_world/'+background+'/left.png',
       ]);
       scene.background = texture;
     }

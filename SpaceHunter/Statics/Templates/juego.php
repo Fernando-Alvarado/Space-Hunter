@@ -26,6 +26,7 @@
   </div>
     <span id="wantedname"></span>
     <canvas height="20" width="202" id='wanted'></canvas>
+  <img id='hyper' height="100%" width="100%" src="../Media/hyper.gif">
   <div class='texto_intro'>default</div>
   <div style='display:none'>
   <div class='dif'><?php
