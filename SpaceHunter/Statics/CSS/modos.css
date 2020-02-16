@@ -55,6 +55,12 @@ body {
     margin-left: 10%;
     margin-right: 20%;
 }
+#shop{
+    /* display: inline; */
+    margin-left: 10%;
+    margin-right: 20%;
+    margin-top: 7%;
+}
 #caja{
     width: 65%;
 }

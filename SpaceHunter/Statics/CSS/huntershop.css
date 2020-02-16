@@ -1,0 +1,15 @@
+    #test{
+        top: 2.5rem;
+        left: 15%;
+        position: relative;
+        width: 70%;
+    }
+
+    #todo_fondo{
+        z-index: -999;
+        width: 100%;
+        height: auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
