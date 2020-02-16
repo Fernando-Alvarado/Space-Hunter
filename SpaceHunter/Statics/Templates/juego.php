@@ -8,10 +8,6 @@
     <link href="https://fonts.googleapis.com/css?family=Bebas+Neue|Cambay|Ubuntu&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
     <title>Document</title>
-
-   <style>
-   
-</style>
 </head>
 <body>
   <div id='arriba'>

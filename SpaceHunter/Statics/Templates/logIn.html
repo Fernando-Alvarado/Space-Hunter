@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="../CSS/login.css">
     <!-- <link rel="stylesheet" href="../CSS/register.css"> -->
     <link href="https://fonts.googleapis.com/css?family=Bebas+Neue|Cambay|Ubuntu&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Luckiest+Guy|Orbitron&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="../CSS/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="../../Dynamics/Librerías/jquery-3.4.1.min.js"></script>
 
@@ -33,15 +35,19 @@
                         <p class="feed_log"></p>
                 </div>
                 <div id="pass">
-                        <label>Password</label>
+                        <label>Contraseña</label>
                         <input type="password" class="password" id="in_pass" name="pass"> <br>
                         <p class="feed_log"></p>
                 </div>
             </form>
                 <div id="butones">
-                        <button class="btn btn-outline-success" id="boton_ingresar">Submit</button>
+                        <button class="btn btn-outline-success" id="boton_ingresar">Log In</button>
                         <button id="secret"></button>
-                        <button class="btn btn-outline-info" id="boton_registro">Register</button>
+                        <button class="btn btn-outline-info" id="boton_registro">Registro</button>
+                        <br><br>
+                        <button class="btn btn-outline-light" id="JustPlay">Sólo Juega</button>
+                        <button  id="secret"></button>
+                        <button class="btn btn-outline-danger" id="Return">Regresa</button>
                 </div>
             
         </div>
@@ -53,15 +59,7 @@
     <div id="bigbox">
         <div id="cajaChica_reg">
             <form action="" id="form_reg">
-                    <label id="Log_reg">Register</label><br>
-                <!-- <div id="name_reg">
-                    <label>Name</label>
-                    <input type="text" style="width:30%">
-                    <button id="justSecret"></button>
-                    <label>Surname</label>
-                    <input type="text" style="width:30%"> 
-                    <button class="secret_reg"></button>
-                </div> -->
+                    <label id="Log_reg">Registro</label><br>
                 <div id="nick_reg">
                         <label class="fer">Nickname</label>
                         <input type="text" class="caja nickname" id="nick_input" name="nick"> <br>
@@ -69,22 +67,20 @@
                 </div>
                 <div id="pass_reg">
                     <button class="secret_reg"></button> <br>
-                        <label class="fer">Password</label>
+                        <label class="fer">Contraseña</label>
                         <input type="password" class="caja password" id="nick_pass" name="pass"> <br>
                         <p class="feed_reg"></p>
                         <button class="secret_reg"></button> <br>
                 </form>
-                        <label>Confirm password</label>
+                        <label>Confirmar Contraseña</label>
                         <input type="password" class="caja password" id="nick_passx2"> <br>
                         <p class="feed_reg"></p>
                 </div>
            
                 <div id="GoBack_btn">
-                        <button class="btn btn-outline-info" id="registrar_button">Register</button>
+                        <button class="btn btn-outline-info" id="registrar_button">Registro</button>
                         <button  id="justSecret"></button>
-                        <button class="btn btn-outline-danger" id="return_button">Go back</button>
-                        <button  id="justSecret"></button>
-                        <button class="btn btn-outline-light" id="JustPlay">Just Play</button>
+                        <button class="btn btn-outline-danger" id="return_button">Regresar</button>
                 </div>
             
         </div>
