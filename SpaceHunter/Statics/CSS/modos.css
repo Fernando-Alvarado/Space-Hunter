@@ -39,7 +39,7 @@ body {
 }
 #Log, #modo{
     padding-bottom: 7%;
-    font-family: 'Ubuntu', sans-serif;
+    font-family: 'Orbitron', sans-serif;
     font-size: 300%;
     text-align: center;
     color: #45CAF1;
@@ -52,8 +52,8 @@ body {
 }
 #Go{
     display: inline;
-    margin-left: 30%;
-    margin-right: 30%;
+    margin-left: 10%;
+    margin-right: 20%;
 }
 #caja{
     width: 65%;

@@ -5,7 +5,7 @@ body {
 }
 #bigbox {
     position: absolute;
-    top: 9%;
+    top: 10%;
     left: 6%;
     background-color: black;
     color: white;
@@ -16,7 +16,7 @@ body {
     font-family: 'Bebas Neue', cursive;
     font-size: 110%;
     width: 40%;
-    height: 85%;
+    height: 80%;
 }
 label{
     padding-right: 2%;

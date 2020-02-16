@@ -32,7 +32,7 @@ body {
     left: 0;
 }
 #nick {
-    padding-top: 20%;
+    padding-top: 15%;
     padding-bottom: 10%;
 }
 #nick label{
@@ -45,18 +45,19 @@ body {
     padding-right: 15px;
 }
 #Log{
-    font-family: 'Bebas Neue', cursive;
+    font-family: 'Orbitron', sans-serif;
     font-size: 420%;
     color: #11FF43;
     position: absolute;
-    top: 15%;
-    left: 35%;
+    top: 10%;
+    margin-left: 15%;
+    margin-right: 15%;
 }
 
 #cajaGrande{
     font-family: 'Ubuntu', sans-serif;
     position: absolute;
-    top: 0%;
+    top: 10%;
     left: 33%;
     background-color: rgba(0, 0, 0, 0.548);
     color: white;
@@ -64,10 +65,11 @@ body {
     padding-right: 5%;
     padding-left: 5%;
     padding-bottom: 5%;
-    width: 38%;
+    width: 34%;
+    height: 80%;
 }
 #secret{
-    padding-left: 35%;
+    padding-left: 25%;
     visibility: hidden;
 }
 
@@ -102,7 +104,7 @@ label{
  #Log_reg {
     padding-bottom: 7%;
     padding-left: 18%;
-    font-family: 'Ubuntu', sans-serif;
+    font-family: 'Orbitron', sans-serif;
     font-size: 350%;
     color: #45CAF1;
 } 
@@ -127,7 +129,7 @@ label{
     display: inline;
 }
 #justSecret{
-    width: 6%;
+    width: 7%;
     visibility: hidden;
 }
 .caja{

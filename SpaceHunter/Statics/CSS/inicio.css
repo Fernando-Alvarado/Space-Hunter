@@ -1,0 +1,23 @@
+#cajaGrande {
+    position: absolute;
+    margin: 5%;
+    margin-top: 15%;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 110%;
+    width: 90%;
+    text-align: center;
+    height: 85%;
+}
+
+#video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+  }
+
+  #space{
+      margin-left: 10px;
+      margin-right: 10px;
+  }
