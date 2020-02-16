@@ -423,6 +423,15 @@ else if(modo == 5){ //Modo, el Rey ha Caído
     Wanted(dif,'Rey Cosmos','wanted');
   },10000);
 }
+else if(modo == 6){ //Modo, el Rey ha Caído
+  //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
+  var obj = new Array(
+    new Array(clases_naves['class1 '+dif],5*dif),
+    new Array(clases_naves['claseAmiga1'],5*dif)
+  );
+  data_world = new Array(50,50,50,'rune',obj);
+  msg = 'Pruebas amigas';
+}
 
 
 

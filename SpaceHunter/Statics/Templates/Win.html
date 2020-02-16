@@ -6,7 +6,15 @@
     <link rel="stylesheet" href="../CSS/end.css">
     <link href="https://fonts.googleapis.com/css?family=Luckiest+Guy|Orbitron&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Fredoka+One|Passion+One|Poiret+One&display=swap" rel="stylesheet">
+    <script src="../../Dynamics/Librerías/three.js"></script>
+    <script src="../../Dynamics/Librerías/three.js-master/examples/js/loaders/GLTFLoader.js"></script>
     <title>Ganaste</title>
+    <style>
+        body { margin: 0; }    /*  pantalla completa, canvas al 100% */
+        canvas { width: 100%; height: 100% }
+
+
+    </style>
 </head>
 <body>
     <p id="loser">You win</p>
@@ -20,5 +28,84 @@
     }); 
 }
 ChangePlace()
+
+ function ChangePlace() {
+  var tocaste = document.getElementById("JustPlay");
+  tocaste.addEventListener("click", function(){
+    location.href = "./Elegir_modo.html";    
+    }); 
+}
+ChangePlace()
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+   
+    var renderer = new THREE.WebGLRenderer();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.outputEncoding = THREE.sRGBEncoding;
+
+   
+    document.body.appendChild( renderer.domElement );
+
+        var model;
+
+        function loadObject(){
+            var loader = new THREE.GLTFLoader();
+            // console.log(loader);
+            loader.load(
+            "../Modelos/X-Wing.glb",
+
+                function ( gltf ) {
+
+                    model = gltf;
+                    scene.add( model.scene );
+
+                },
+                function ( xhr ) {
+                    //console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+                },
+                function ( error ) {
+                    //console.log( 'An error happened' );
+                }
+            );
+        }
+
+    loadObject();
+
+    console.log(model);
+    var ambient = new THREE.PointLight( 0x00ffff );
+    scene.add( ambient );
+    var directionalLight = new THREE.DirectionalLight( 0x00ffff );
+    directionalLight.position.set( 0, 0, 1 ).normalize();
+    scene.add( directionalLight );
+   
+    camera.position.z = 2;
+  
+
+    function animate(){
+        requestAnimationFrame( animate );
+        //el request animationFrame de toda la vida, recursivo, aprox. 60 ciclos por segundo, también deja
+        //de ejecutarse la animación cuando no estás en la pestaña por lo que ahorras procesamiento
+        //y batería usada.
+
+        /* cube.rotation.x += 0.02;
+        cube.rotation.y += 0.02; */
+        
+        model.scene.rotation.y+=0.02;
+        model.scene.rotation.x+=0.02;
+
+
+
+        //El reto aquí será modificar camera.position.z con base en algún botón que toque, por ejemplo, si toca 
+        // s que se vaya la cámara hacia atrás, si toca w hacia adelante.
+
+        //Add event listener aquí xd...
+
+        renderer.render( scene, camera );
+        //ya que está la cámara y la escena, las ejecuta el render, boila.
+    }
+    setTimeout(function(){  
+     animate();
+    },200);
 </script>
 </html>
