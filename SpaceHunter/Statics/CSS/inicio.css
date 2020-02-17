@@ -31,3 +31,8 @@
       margin-left: 10px;
       margin-right: 10px;
   }
+
+  #butones{
+      position: absolute;
+      top: 70%;
+  }
