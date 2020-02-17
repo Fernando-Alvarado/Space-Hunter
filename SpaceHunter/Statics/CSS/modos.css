@@ -65,9 +65,28 @@ body {
     width: 65%;
 }
 
+#datos{
+    color: rgba(177, 182, 226, 0.99);
+    background-color: rgba(32, 34, 49, 0.8);
+    z-index: 2;
+    position: absolute;
+    width: 17%;
+    right: 0%;
+    top: 0;
+    padding-left: 1rem;
+}
+#top{
+    /* padding-left: .5rem; */
+    width: 100%;
+    display: inline;
+    top:0;
+}
+
+
 .descript{
     width:80%;
     word-wrap: break-word;
 }
+
 
 

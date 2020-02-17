@@ -351,7 +351,7 @@ life.closePath();
 }
 function healing_sound(){
     var heal_sound= new Audio(heal);
-    heal_sound.volume=0.012;
+    heal_sound.volume=0.02;
     heal_sound.play();
   }
 
