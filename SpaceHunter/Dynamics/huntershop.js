@@ -2,12 +2,18 @@
     var buttons= document.querySelectorAll(".buy");
 
      //global, cambiará su valor de acuerdo al precio de la pintura/foto, servirá para moneyUpdate.
+<<<<<<< HEAD
     var precio;
     var num_item;
     var nickname;
     var dinero_disp;
 
 
+=======
+    
+    let dinero_disp=parseInt(seekCookieValue(" user_money"));
+    $('#dinero').html('Dinero disponible: $'+dinero_disp)
+>>>>>>> 2406f7449bb6656c10359d370f37a2c77ddf4bea
     buttons.forEach(boton=>{
         $(boton).click(function(){
             console.log("Cookies1: "+document.cookie);
@@ -50,7 +56,11 @@
                 alert("Dinero insuficiente, sigue jugando :]")
             }
         })
-    })
+    });
+
+    $("#back").click(function(){
+        location.href="Elegir_modo.html";
+    });
     
 
     

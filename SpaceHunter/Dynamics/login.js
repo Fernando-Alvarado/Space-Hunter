@@ -89,6 +89,7 @@
             },
         }).done( function(response) {
             console.log ("Respuesta del Ajax: "+response);
+            location.href="logIn.html";
         }).fail( function(jqXHR, textStatus) {
             alert('Error: ' + textStatus);
         });

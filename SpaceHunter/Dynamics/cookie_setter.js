@@ -38,9 +38,11 @@
     function checkDaMoney()
     //Revisa el dinero del jugador en la base de datos, lo actualiza en la cookie.
     {
-        var player_name=seekCookieValue("user_name");
-        var player_money;
+        var player_name=seekCookieValue(" user_name");
+        var player_money=seekCookieValue(" user_money");
 
+        console.log('nom'+player_name);
+        console.log('money'+player_money);
         $.ajax({
             url: '../Dynamics/PHP/money_controller.php' , 
             method: 'POST',
@@ -53,10 +55,7 @@
         }).done( function(response) {
             console.log ("Respuesta del Ajax: "+response);
            player_money=JSON.parse(response);
-
-           console.log(player_money.Money);
            setCookieValue(" user_money",player_money.Money);
-           console.log(document.cookie);
 
         }).fail( function(jqXHR, textStatus) {
             alert('Error: ' + textStatus);
@@ -67,7 +66,7 @@
     //sirve para modificar la cantidad que tiene en la base de datos.
     //Si perdió dinero se ingresa una cantidad negativa.
     {
-        var player_name=seekCookieValue("user_name");
+        var player_name=seekCookieValue(" user_name");
         var player_money=seekCookieValue(" user_money");
         var total=parseInt(player_money)+parseInt(money_increment);
         console.log(total);

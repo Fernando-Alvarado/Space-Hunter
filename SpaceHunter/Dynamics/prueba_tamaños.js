@@ -5,7 +5,19 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
   
-
+    var background = 'delta'
+    {
+      const loader = new THREE.CubeTextureLoader();
+      const texture = loader.load([
+        '../Media/Fondos_world/'+background+'/back.png',
+        '../Media/Fondos_world/'+background+'/front.png',
+        '../Media/Fondos_world/'+background+'/bottom.png',
+        '../Media/Fondos_world/'+background+'/top.png',
+        '../Media/Fondos_world/'+background+'/right.png',
+        '../Media/Fondos_world/'+background+'/left.png',
+      ]);
+      scene.background = texture;
+    }
     //Ponemos luces
     var ambient = new THREE.PointLight( 0x444444 );
     scene.add( ambient );
@@ -39,13 +51,6 @@ document.body.appendChild( renderer.domElement );
      }
     
 
-    var geometry = new THREE.BoxGeometry( 3, 3, 5 ); //Los tres deben de ser nones
-    var material = new THREE.MeshBasicMaterial( {color: 0xff0000,wireframe:true} );
-    var model = new THREE.Mesh( geometry, material );
-    scene.add( model );
-    model.position.x = 1;
-    model.position.y = 1;
-    model.position.z = 1;
 
     document.addEventListener('keydown',function(e){
         if(e.code=='KeyA')
@@ -60,12 +65,16 @@ document.body.appendChild( renderer.domElement );
            camera.rotation.y+=.1;
         if(e.code=='KeyF')
            camera.rotation.y-=.1;
+        if(e.code=='KeyT')
+           camera.position.y+=.1;
+        if(e.code=='KeyG')
+           camera.position.y-=.1;
     });
 
     var model_p;
     var loader = new THREE.GLTFLoader();
       loader.load(
-          "../Modelos/"+'enemy_335.glb',//Aquí va el nombre del modelo
+          "../Modelos/"+'asteroide_1_Pi.glb',//Aquí va el nombre del modelo
 
           function ( gltf ) {
               model_p = gltf.scene;
