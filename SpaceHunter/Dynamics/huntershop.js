@@ -1,4 +1,33 @@
 
+    $.ajax({
+        url: '../Dynamics/PHP/unlocked_art_searcher.php' , 
+        method: 'POST',
+        data: "nickname="+seekCookieValue("user_name"),
+        statusCode: {
+        404: function(){
+            alert('No encontrado');
+        },
+        },
+    }).done( function(response) {
+        console.log ("Respuesta del Ajax: "+response);
+        var array_obj=JSON.parse(response);
+        console.log(array_obj)
+        var imgs=document.querySelectorAll(".d-block");
+        for(let x=0;x<15;x++)
+        {
+            if(array_obj[x]=="0")
+            {
+                let src= $(imgs[x]).attr("src");
+                console.log(src)
+                let first_string=src.split(".jpg");
+                $(imgs[x]).attr("src",first_string[0]+"_lock.jpg");
+            }
+        }
+
+    }).fail( function(jqXHR, textStatus) {
+        alert('Error: ' + textStatus);
+    });
+
     var buttons= document.querySelectorAll(".buy");
 
      //global, cambiará su valor de acuerdo al precio de la pintura/foto, servirá para moneyUpdate.
@@ -54,6 +83,15 @@
     $("#back").click(function(){
         location.href="Elegir_modo.html";
     });
-    
+
+    // $("document").click(function(){
+    //     $("#exampleModal").modal('show');
+    //     $("#exampleModal").modal('toogle');
+
+    // })    
+    // document.addEventListener("click",function(){
+    //     $("#exampleModal").modal('show');
+    //     $("#exampleModal").modal('toggle');
+    // })
 
     
