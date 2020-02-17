@@ -1,8 +1,8 @@
     #test{
-        top: 2.5rem;
-        left: 15%;
+        /* top: 2.5rem; */
+        left: 17.5%;
         position: relative;
-        width: 70%;
+        width: 65%;
     }
 
     #todo_fondo{

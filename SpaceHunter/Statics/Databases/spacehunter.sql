@@ -31,6 +31,12 @@ CREATE TABLE `usuarios` (
   `Nickname` varchar(35) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Password` varchar(35) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Money` SMALLINT UNSIGNED COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Item1` TINYINT UNSIGNED COLLATE utf8mb4_unicode_ci NULL DEFAULT '0',
+  `Item2` TINYINT UNSIGNED COLLATE utf8mb4_unicode_ci NULL DEFAULT '0',
+  `Item3` TINYINT UNSIGNED COLLATE utf8mb4_unicode_ci NULL DEFAULT '0',
+  `Item4` TINYINT UNSIGNED COLLATE utf8mb4_unicode_ci NULL DEFAULT '0',
+  `Item5` TINYINT UNSIGNED COLLATE utf8mb4_unicode_ci NULL DEFAULT '0',
+
 
   PRIMARY KEY (`Nickname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -42,7 +48,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES ('asdasdasd','ElmherHomero',0),('alberto',"123",5000);
+INSERT INTO `usuarios` VALUES ('asdasdasd','ElmherHomero',0,0,0,0,0,0),('alberto',"123",5000,0,0,0,0,0);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

@@ -1,5 +1,10 @@
 
-    // $(".carousel").carousel();
-    // $("#next").click(function(){
-    //     $(".carousel").next();
-    // })
+    var buttons= document.querySelectorAll(".buy");
+
+    buttons.forEach(boton=>{
+        $(boton).click(function(){
+
+        })
+    })
+
+    

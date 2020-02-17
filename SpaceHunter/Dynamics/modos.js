@@ -39,7 +39,7 @@ $('#Go').click(function(){  //Cuano el usuario aprieta el botón de empezar, lo 
 $("#back").click(function(){
     location.href="logIn.html";
 });
-
-$("#htrshop").click(function(){
-    location.href=""
-})
+//Direccionamos a la tienda.
+    $("#htrshop").click(function(){
+        location.href="huntershop.html"
+    })
