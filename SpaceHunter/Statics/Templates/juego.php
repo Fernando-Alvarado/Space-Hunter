@@ -39,7 +39,7 @@
     
     <script src="../../Dynamics/Librerías/three.min.js"></script>
     <script src="../../Dynamics/Librerías/jquery-3.4.1.min.js"></script>
-    <script src="../../Dynamics/Librerías/three.js-master/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="../../Dynamics/Librerías/GLTFLoader.js"></script>
     <!-- <script src="Librerías/three.min.js"></script> -->
     <script src="../../Dynamics/world.js"></script>
     <script src="../../Dynamics/cookie_setter.js"></script>
