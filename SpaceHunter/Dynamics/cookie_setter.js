@@ -28,7 +28,7 @@
             if(parts[0]==cookie_name)
             {
                 console.log("Found it")
-                document.cookie=cookie_name+"="+new_value+"; path=/"
+                document.cookie=cookie_name+"="+new_value+";max-age="+30*60+";path=/"
             }
         })
     }
