@@ -31,8 +31,6 @@
       margin-left: 10px;
       margin-right: 10px;
   }
-
-  #butones{
-      position: absolute;
-      top: 70%;
-  }
+.modal_body{
+    text-size-adjust: auto;
+}
