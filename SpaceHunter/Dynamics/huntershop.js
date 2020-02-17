@@ -2,18 +2,23 @@
     var buttons= document.querySelectorAll(".buy");
 
      //global, cambiará su valor de acuerdo al precio de la pintura/foto, servirá para moneyUpdate.
+    var precio;
+    var num_item;
+    var nickname;
+    var dinero_disp;
+
 
     buttons.forEach(boton=>{
         $(boton).click(function(){
             console.log("Cookies1: "+document.cookie);
 
-            let precio=parseInt($(boton).parent().parent().attr("precio"));
+            precio=parseInt($(boton).parent().parent().attr("precio"));
             console.log("Precio arte: "+precio);
-            let num_item=parseInt($(boton).parent().parent().attr("number"));
+            num_item=parseInt($(boton).parent().parent().attr("number"));
             console.log("Número Item: "+num_item);
-            let nickname=seekCookieValue("user_name");
+            nickname=seekCookieValue("user_name");
             console.log("nickname: "+nickname);
-            let dinero_disp=parseInt(seekCookieValue(" user_money"));
+            dinero_disp=parseInt(seekCookieValue(" user_money"));
             console.log("Dinero disponible: "+dinero_disp);
             if(dinero_disp>=precio)
             {
@@ -33,6 +38,8 @@
                     updateMoney(-precio);
                     setCookieValue(" user_money",dinero_disp-precio);
                     console.log("Cookies depués Ajax: "+document.cookie);
+                    checkDaMoney();
+                    dinero_disp=parseInt(seekCookieValue(" user_money"));
         
                 }).fail( function(jqXHR, textStatus) {
                     alert('Error: ' + textStatus);
