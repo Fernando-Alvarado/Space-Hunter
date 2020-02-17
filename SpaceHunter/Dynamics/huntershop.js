@@ -2,7 +2,7 @@
     $.ajax({
         url: '../Dynamics/PHP/unlocked_art_searcher.php' , 
         method: 'POST',
-        data: "nickname="+seekCookieValue("user_name"),
+        data: "nickname="+seekCookieValue(" user_name"),
         statusCode: {
         404: function(){
             alert('No encontrado');
@@ -46,7 +46,7 @@
             console.log("Precio arte: "+precio);
             num_item=parseInt($(boton).parent().parent().attr("number"));
             console.log("Número Item: "+num_item);
-            nickname=seekCookieValue("user_name");
+            nickname=seekCookieValue(" user_name");
             console.log("nickname: "+nickname);
 
             dinero_disp=parseInt(seekCookieValue(" user_money"));
