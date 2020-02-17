@@ -3,7 +3,7 @@ var MatrizThatMakeMeCry = null; //Matriz principal del juego, para cada objeto s
 //Arrelgo a donde apunta, apunta a la nave,
 var Apuntando = null;//delcarnado la variable con todas las posciones
 
-var vidaDelEscudo = 60//seran los segundos que durar el escudo
+var vidaDelEscudo = 60//sera lo que durará el escudo
 //Dimensiones del munfo
 var limitx = null;
 var limity = null;
@@ -63,9 +63,13 @@ var patterns = new Array(
 //Definimos las clases de naves y asteroides
 var clases_naves = {
   //velocidad,rango,velChase,velDisparo,rangoDisp,vida,largo,ancho,alto, modelo y nave a seguir
-  'class1 1': new Array('nave',1000,60,500,200,10,2,1,1,1,'Tie.glb',0),
-  'class1 2': new Array('nave',900,40,300,150,15,3,5,3,3,'enemy_335.glb',0),
-  'class1 3': new Array('nave',8000,20,100,100,20,4,1,1,1,'Tie.glb',0),
+  'class1 1': new Array('nave',1000,20,500,200,10,2,1,1,1,'Tie.glb',0),
+  'class1 2': new Array('nave',900,40,300,150,15,3,1,2,2,'Tie.glb',0),
+  'class1 3': new Array('nave',800,60,100,100,20,4,1,1,1,'Tie.glb',0),
+
+  'class2 1': new Array('nave',1000,40,600,150,15,3,3,3,5,'enemy_335.glb',0),
+  'class2 2': new Array('nave',950,50,400,120,20,4,3,3,5,'enemy_335.glb',0),
+  'class2 3': new Array('nave',900,70,200,90,27,5,3,3,5,'enemy_335.glb',0),
 
   'wanted 1': new Array('nave',1000,100,300,200,25,15,4,2,3,'Destructor.glb',0),
   'wanted 2': new Array('nave',1000,80,200,150,35,20,4,2,3,'Destructor.glb',0),
@@ -341,6 +345,8 @@ function Checkpoint(dif){ //Coloca un checckpoint y checa si el jugador llega a 
 //               Funciones principales que corren todo el juego
 
 $('#arriba').hide();  //Escondemos las barras de vida, ecudos y máscara de cabina
+$('#wanted').hide();
+$('#wantedname').hide();
 var world = new World();  //Creamos el objeto world
 var dif = Number($('.dif').text()); //Obtenemos la dificultad especificada
 var modo = Number($('.modo').text()); //Obtenemos el modo de juego
@@ -355,7 +361,8 @@ if(modo == 1){  //Modo supervivencia
     new Array(clases_naves['ast2'],12), 
     new Array(clases_naves['ast5'],12), 
     new Array(clases_naves['ast6'],12),
-    new Array(clases_naves['class1 '+dif],10*dif)
+    new Array(clases_naves['class1 '+dif],8*dif),
+    new Array(clases_naves['class2 '+dif],2*dif)
   );
   data_world = new Array(50,50,50,'restos',obj);
   msg = 'Localización: Sector K-3345  Sistema Alfa-C <br>Quedaste varado en territorio Imperial, vez a lo lejos los restos de una fragata rebelde.<br>Puedes sobrevivir el tiempo suficiente para que llegue la brigada de rescate?';
@@ -368,7 +375,8 @@ else if(modo == 2){ //Modo Mensajero
       new Array(clases_naves['ast2'],10*dif), 
       new Array(clases_naves['ast7'],10*dif), 
       new Array(clases_naves['ast8'],10*dif),
-      new Array(clases_naves['class1 '+dif],10*dif),
+      new Array(clases_naves['class1 '+dif],8*dif),
+      new Array(clases_naves['class2 '+dif],2*dif),
       new Array(clases_naves['check1'],1)
     );
     var largo= 200;
@@ -401,7 +409,8 @@ else if(modo == 4){ //Modo flota
     new Array(clases_naves['ast4'],7*dif), 
     new Array(clases_naves['ast7'],7*dif), 
     new Array(clases_naves['ast8'],7*dif), 
-    new Array(clases_naves['class1 '+dif],5*dif)
+    new Array(clases_naves['class1 '+dif],4*dif),
+    new Array(clases_naves['class2 '+dif],1*dif)
   );
   data_world = new Array(70,70,70,'delta',obj);
   msg = 'Localización: Sector D-1233  Estrella Delta-A <br>El imperio a tomado posesión de esta zona, acaba con ellos para que las tropas puedan pasar.<br>Buena suerte!';
@@ -423,20 +432,17 @@ else if(modo == 5){ //Modo, el Rey ha Caído
     Wanted(dif,'Rey Cosmos','wanted');
   },10000);
 }
-else if(modo == 6){ //Modo, el Rey ha Caído
+else if(modo == 6){ //Test
   //Objeto que guarda el tipo de objeto y cuántas unidades de este se crearán
   var obj = new Array(
-    new Array(clases_naves['class1 '+dif],5*dif),
+    new Array(clases_naves['class1 '+dif],4*dif),
+    new Array(clases_naves['class2 '+dif],1*dif),
     new Array(clases_naves['claseAmiga1'],5*dif)
   );
   data_world = new Array(50,50,50,'rune',obj);
   msg = 'Pruebas amigas';
 }
 
-
-
-$('#wanted').hide();
-$('#wantedname').hide();
 $('.texto_intro').html(msg); //Mostramos el mensaje acorde al modo
 world.CreateWorld(data_world); //Creamos el mundo
 setTimeout(function(){

@@ -1,13 +1,23 @@
 #cajaGrande {
     position: absolute;
-    margin: 5%;
-    margin-top: 15%;
+    margin-left: 2%;
+    margin-right: 5%;
+    margin-top: 10%;
     color: white;
     font-family: 'Orbitron', sans-serif;
     font-size: 110%;
     width: 90%;
     text-align: center;
-    height: 85%;
+    height: 65%;
+}
+
+#loser{
+    text-align: center;
+}
+
+#cajaChica{
+    width: 90%;
+    height: 65%;
 }
 
 #video {
