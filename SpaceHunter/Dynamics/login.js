@@ -19,8 +19,8 @@
 
 
     //Mensaje a desplegar si la regex no se cumple.
-    var mensaje_nick="Necesario letras, números y caracteres especiales. Min: 6, Max: 30.";
-    var mensaje_pass="Necesario letras, números y caracteres especiales. Min:8, Max:30.";
+    var mensaje_nick="Necesario letras, números o caracteres especiales(!?/\.,-). Min: 6, Max: 30.";
+    var mensaje_pass="Necesario letras, números y caracteres especiales(!?/\.,-). Min:8, Max:30.";
 
     function ChangePlace() {
         var tocaste = document.getElementById("JustPlay");
