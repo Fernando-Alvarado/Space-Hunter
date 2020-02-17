@@ -23,6 +23,10 @@
                 $(imgs[x]).attr("src",first_string[0]+"_lock.jpg");
             }
         }
+        if(array_obj.indexOf("1")==-1)
+        {
+            $(exampleModal).modal('show');
+        }
 
     }).fail( function(jqXHR, textStatus) {
         alert('Error: ' + textStatus);

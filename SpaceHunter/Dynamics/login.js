@@ -124,8 +124,8 @@
                   {
                       let objeto_usuario=new User($("#in_nick").val());
                       console.log(JSON.stringify(objeto_usuario))
-                      document.cookie="user_name="+objeto_usuario.nickname+";max-age="+30*60+";path=/";
-                      document.cookie="user_money=;max-age="+30*60+";path=/";
+                      document.cookie="user_name="+objeto_usuario.nickname+";max-age="+60*60*24+";path=/";
+                      document.cookie="user_money=;max-age="+60*60*24+";path=/";
 
                       console.log("Cookies= "+document.cookie);
                       location.href="Elegir_modo.html";
