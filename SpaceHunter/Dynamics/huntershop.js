@@ -5,7 +5,7 @@
     $.ajax({
         url: '../Dynamics/PHP/unlocked_art_searcher.php' , 
         method: 'POST',
-        data: "nickname="+seekCookieValue(" user_name"),
+        data: "nickname="+seekCookieValue("user_name"),
         statusCode: {
         404: function(){
             alert('No encontrado');

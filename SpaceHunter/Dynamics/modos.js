@@ -1,6 +1,6 @@
    checkDaMoney();
    
-   $("#username").text("Usuario: "+seekCookieValue("user_name"));
+   $("#username").html("Usuario: "+seekCookieValue("user_name"));
 
 $('#mod_s').change(function(){  //En caso de cambiar el modo, mostrar la información de este
     var mod = $('#mod_s').val();
