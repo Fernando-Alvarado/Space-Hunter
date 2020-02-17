@@ -1,4 +1,7 @@
 
+    var buttons= document.querySelectorAll(".buy");
+
+
     $.ajax({
         url: '../Dynamics/PHP/unlocked_art_searcher.php' , 
         method: 'POST',
@@ -22,6 +25,10 @@
                 let first_string=src.split(".jpg");
                 $(imgs[x]).attr("src",first_string[0]+"_lock.jpg");
             }
+            else
+            {
+                $(buttons[x]).remove();
+            }
         }
         if(array_obj.indexOf("1")==-1)
         {
@@ -32,7 +39,6 @@
         alert('Error: ' + textStatus);
     });
 
-    var buttons= document.querySelectorAll(".buy");
 
      //global, cambiará su valor de acuerdo al precio de la pintura/foto, servirá para moneyUpdate.
     
@@ -46,7 +52,7 @@
             console.log("Precio arte: "+precio);
             num_item=parseInt($(boton).parent().parent().attr("number"));
             console.log("Número Item: "+num_item);
-            nickname=seekCookieValue(" user_name");
+            nickname=seekCookieValue("user_name");
             console.log("nickname: "+nickname);
 
             dinero_disp=parseInt(seekCookieValue(" user_money"));

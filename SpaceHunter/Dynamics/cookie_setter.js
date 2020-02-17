@@ -66,7 +66,7 @@
     //sirve para modificar la cantidad que tiene en la base de datos.
     //Si perdió dinero se ingresa una cantidad negativa.
     {
-        var player_name=seekCookieValue(" user_name");
+        var player_name=seekCookieValue("user_name");
         var player_money=seekCookieValue(" user_money");
         var total=parseInt(player_money)+parseInt(money_increment);
         console.log(total);
