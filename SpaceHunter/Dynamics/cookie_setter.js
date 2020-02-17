@@ -1,3 +1,5 @@
+    //cookies: ["user_name", " user_money"] respetar los espacios en las cadenas.
+    
     var all_cookies=document.cookie.split(";");
     all_cookies.forEach(cookie=>{
         let cont=0;
@@ -31,6 +33,8 @@
         })
     }
 
+    
+
     function checkDaMoney()
     //Revisa el dinero del jugador en la base de datos, lo actualiza en la cookie.
     {
@@ -59,7 +63,9 @@
         });
 
     }
-    function updateMoney(money_increment) //el parámetro es un Int, cuánto dinero ganó en la partida.
+    function updateMoney(money_increment) //el parámetro es un Int, cuánto dinero ganó en la partida. 
+    //sirve para modificar la cantidad que tiene en la base de datos.
+    //Si perdió dinero se ingresa una cantidad negativa.
     {
         var player_name=seekCookieValue("user_name");
         var player_money=seekCookieValue(" user_money");
@@ -83,5 +89,5 @@
             alert('Error: ' + textStatus);
         });
     }
-    checkDaMoney();
+    // checkDaMoney();
     // updateMoney(1000);

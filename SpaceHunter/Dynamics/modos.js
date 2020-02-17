@@ -43,3 +43,5 @@ $("#back").click(function(){
     $("#htrshop").click(function(){
         location.href="huntershop.html"
     })
+
+    checkDaMoney();
