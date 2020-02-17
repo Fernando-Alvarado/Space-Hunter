@@ -38,7 +38,7 @@
     function checkDaMoney()
     //Revisa el dinero del jugador en la base de datos, lo actualiza en la cookie.
     {
-        var player_name=seekCookieValue("user_name");
+        var player_name=seekCookieValue(" user_name");
         var player_money=seekCookieValue(" user_money");
 
         console.log('nom'+player_name);
