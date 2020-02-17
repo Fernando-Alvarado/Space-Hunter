@@ -11,8 +11,7 @@
     // 1 es en caso de que sólo se quiera obtener la cantidad de dinero, 2 para hacer update de la cantidad.
     if($tipo=="1")
     {
-        $action="SELECT Money FROM usuarios WHERE Nickname='".$datos['nickname']. "'";
-
+        $action="SELECT Money FROM usuarios WHERE Nickname="."'".$datos['nickname']."'";
     }
     else
     {

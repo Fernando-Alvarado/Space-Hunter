@@ -2,7 +2,9 @@
     var buttons= document.querySelectorAll(".buy");
 
      //global, cambiará su valor de acuerdo al precio de la pintura/foto, servirá para moneyUpdate.
-
+    
+    let dinero_disp=parseInt(seekCookieValue(" user_money"));
+    $('#dinero').html('Dinero disponible: $'+dinero_disp)
     buttons.forEach(boton=>{
         $(boton).click(function(){
             console.log("Cookies1: "+document.cookie);
@@ -43,7 +45,11 @@
                 alert("Dinero insuficiente, sigue jugando :]")
             }
         })
-    })
+    });
+
+    $("#back").click(function(){
+        location.href="Elegir_modo.html";
+    });
     
 
     
