@@ -36,6 +36,17 @@ CREATE TABLE `usuarios` (
   `Item3` TINYINT UNSIGNED COLLATE utf8mb4_unicode_ci NULL DEFAULT '0',
   `Item4` TINYINT UNSIGNED COLLATE utf8mb4_unicode_ci NULL DEFAULT '0',
   `Item5` TINYINT UNSIGNED COLLATE utf8mb4_unicode_ci NULL DEFAULT '0',
+  `Item6` TINYINT UNSIGNED COLLATE utf8mb4_unicode_ci NULL DEFAULT '0',
+  `Item7` TINYINT UNSIGNED COLLATE utf8mb4_unicode_ci NULL DEFAULT '0',
+  `Item8` TINYINT UNSIGNED COLLATE utf8mb4_unicode_ci NULL DEFAULT '0',
+  `Item9` TINYINT UNSIGNED COLLATE utf8mb4_unicode_ci NULL DEFAULT '0',
+  `Item10` TINYINT UNSIGNED COLLATE utf8mb4_unicode_ci NULL DEFAULT '0',
+  `Item11` TINYINT UNSIGNED COLLATE utf8mb4_unicode_ci NULL DEFAULT '0',
+  `Item12` TINYINT UNSIGNED COLLATE utf8mb4_unicode_ci NULL DEFAULT '0',
+  `Item13` TINYINT UNSIGNED COLLATE utf8mb4_unicode_ci NULL DEFAULT '0',
+  `Item14` TINYINT UNSIGNED COLLATE utf8mb4_unicode_ci NULL DEFAULT '0',
+  `Item15` TINYINT UNSIGNED COLLATE utf8mb4_unicode_ci NULL DEFAULT '0',
+
 
 
   PRIMARY KEY (`Nickname`)
@@ -48,8 +59,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES ('asdasdasd','ElmherHomero',0,0,0,0,0,0),('alberto',"123",5000,0,0,0,0,0);
-/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

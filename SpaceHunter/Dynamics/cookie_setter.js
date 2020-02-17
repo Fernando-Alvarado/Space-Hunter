@@ -1,3 +1,5 @@
+    //cookies: ["user_name", " user_money"] respetar los espacios en las cadenas.
+    
     var all_cookies=document.cookie.split(";");
     all_cookies.forEach(cookie=>{
         let cont=0;
@@ -26,17 +28,21 @@
             if(parts[0]==cookie_name)
             {
                 console.log("Found it")
-                document.cookie=cookie_name+"="+new_value+"; path=/"
+                document.cookie=cookie_name+"="+new_value+";max-age="+30*60+";path=/"
             }
         })
     }
 
+    
+
     function checkDaMoney()
     //Revisa el dinero del jugador en la base de datos, lo actualiza en la cookie.
     {
-        var player_name=seekCookieValue("user_name");
-        var player_money;
+        var player_name=seekCookieValue(" user_name");
+        var player_money=seekCookieValue(" user_money");
 
+        console.log('nom'+player_name);
+        console.log('money'+player_money);
         $.ajax({
             url: '../Dynamics/PHP/money_controller.php' , 
             method: 'POST',
@@ -49,19 +55,18 @@
         }).done( function(response) {
             console.log ("Respuesta del Ajax: "+response);
            player_money=JSON.parse(response);
-
-           console.log(player_money.Money);
            setCookieValue(" user_money",player_money.Money);
-           console.log(document.cookie);
 
         }).fail( function(jqXHR, textStatus) {
             alert('Error: ' + textStatus);
         });
 
     }
-    function updateMoney(money_increment) //el parámetro es un Int, cuánto dinero ganó en la partida.
+    function updateMoney(money_increment) //el parámetro es un Int, cuánto dinero ganó en la partida. 
+    //sirve para modificar la cantidad que tiene en la base de datos.
+    //Si perdió dinero se ingresa una cantidad negativa.
     {
-        var player_name=seekCookieValue("user_name");
+        var player_name=seekCookieValue(" user_name");
         var player_money=seekCookieValue(" user_money");
         var total=parseInt(player_money)+parseInt(money_increment);
         console.log(total);
@@ -83,5 +88,5 @@
             alert('Error: ' + textStatus);
         });
     }
-    checkDaMoney();
+    // checkDaMoney();
     // updateMoney(1000);
