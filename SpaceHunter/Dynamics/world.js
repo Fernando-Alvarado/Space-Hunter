@@ -281,7 +281,7 @@ function CrearObjetos(objetos){//saber donde estaran las naves al inicio
       }else if(obj[0][0]=='ast'){//Creamos los ovjetos asteroide
         var lim = current_celda;
         for(let i = lim; i<(obj[1]+lim);i++){
-          MatrizThatMakeMeCry[i][5] = new Asteroide(MatrizThatMakeMeCry, i,obj[0][1]);
+          MatrizThatMakeMeCry[i][5] = new Asteroide(i,obj[0][1]);
           MatrizThatMakeMeCry[i][5].JustTheCreator();//Js es una mamada jajaja
 
           current_celda++;
