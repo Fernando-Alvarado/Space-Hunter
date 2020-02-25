@@ -94,14 +94,6 @@
         location.href="Elegir_modo.html";
     });
 
-    // $("document").click(function(){
-    //     $("#exampleModal").modal('show');
-    //     $("#exampleModal").modal('toogle');
 
-    // })    
-    // document.addEventListener("click",function(){
-    //     $("#exampleModal").modal('show');
-    //     $("#exampleModal").modal('toggle');
-    // })
 
     

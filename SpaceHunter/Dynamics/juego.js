@@ -1,26 +1,32 @@
 //Variable globales necesarios
 var MatrizThatMakeMeCry = null; //Matriz principal del juego, para cada objeto su tipo, posiciones, modelo, objeto, vidas y dimensiones
+
 //Arrelgo a donde apunta, apunta a la nave,
 var Apuntando = null;//delcarnado la variable con todas las posciones
 
 var vidaDelEscudo = 60//sera lo que durará el escudo
-//Dimensiones del munfo
+
+//Dimensiones del mundo
 var limitx = null;
 var limity = null;
 var limitz = null;
+
 //Número de naves, asteroides y nave amigas
 var numnaves = null;
 var numasteroides = null; 
 var numamigas = null;
 var numcheck = 0;
 var NumberOfTotalThings = null;
+
 //Variables para modos de juego
 var numkills = 0; //Cuantas naves destruidas lleva el jugador
 var tiempo = null;  //Cuabto tiempo falta para ganar
+
 //Variables para three.js
 var scene = null;
 var renderer = null;
 var camera = null;
+
 //Soinidos, rutas
 var laser_ene="../Media/Recovered_laser5.mp3"; //https://freesound.org/people/DayCraftMC/sounds/337112/
 var laser_ali="../Media/Recovered_77172__huvaakoodia__pulse-laser.wav"; //https://freesound.org/people/HuvaaKoodia/sounds/77172/
@@ -32,12 +38,13 @@ var enemy_destroy="../Media/Recovered_458867__raclure__damage-sound-effect.mp3";
 var gigantic_ene="../Media/Recovered_220533__the-very-real-horst__lithium-chloratum-3-min-binaural.mp3"; 
 //https://freesound.org/people/the_very_Real_Horst/sounds/220533/
 var is_playing=false; //Para preguntar si está sonando el fondo.
+
 //Imágenes
 var inside=document.getElementById("imagenPrincipal");
 inside.setAttribute('draggable', false);
 
 
- //Array con todos los diferentes patrones, el primer número es la velocidad
+//Array con todos los diferentes patrones, el primer número es la velocidad
 var patterns = new Array(
   new Array(200,2,2),
   new Array(200,1,1),
@@ -71,19 +78,23 @@ var clases_naves = {
   'class2 2': new Array('nave',950,50,400,120,20,4,3,3,5,'enemy_335.glb',0),
   'class2 3': new Array('nave',900,70,200,90,27,5,3,3,5,'enemy_335.glb',0),
 
+  //El Rey
   'wanted 1': new Array('nave',1000,100,300,200,25,15,4,2,3,'Destructor.glb',0),
   'wanted 2': new Array('nave',1000,80,200,150,35,20,4,2,3,'Destructor.glb',0),
   'wanted 3': new Array('nave',1000,60,100,100,50,30,4,2,3,'Destructor.glb',0),
 
+  //Guardaespaldas
   'bodyguard 1': new Array('nave',1000,60,100,200,10,2,9,9,9,'Tie.glb','w'),
   'bodyguard 2': new Array('nave',1000,40,100,150,15,3,1,1,1,'Tie.glb','w'),
   'bodyguard 3': new Array('nave',1000,20,100,100,20,4,1,1,1,'Tie.glb','w'),
+
   //Guardián Supremo
   'guardian 1': new Array('nave',400,50,1000,100,50,50,9,9,9,'Giant9.glb',0),
   'guardian 2': new Array('nave',300,100,700,90,100,70,9,9,9,'Giant9.glb',0),
   'guardian 3': new Array('nave',100,150,500,70,150,100,9,9,9,'Giant9.glb',0),
-  ////Beto tenemos que cambiar el modelo de la nave
   'claseAmiga1': new Array('amiga',1000,200,100,100,20,4,1,1,1,'aliada.glb',0),////Aqui va la nave amiga
+  
+  //Asteroides
   //velocidad,modelo y dimensiones
   ast1: new Array('ast',300,'asteroide_1_Gre.glb',1,1,1),
   ast2: new Array('ast',400,'asteroide_1_Pi.glb',1,1,1),
@@ -93,13 +104,14 @@ var clases_naves = {
   ast6: new Array('ast',400,'asteroide_3_Pi.glb',3,3,3),
   ast7: new Array('ast',500,'asteroide_3_Re.glb',3,3,3),
   ast8: new Array('ast',300,'asteroide_3_Ye.glb',3,3,3),
+
   //Checkpoint
   'check1': new Array('check','glow_cube.glb','last'), //Modelo,posición
   'check2': new Array('check','glow_cube.glb','random')
 };
 
 ////-----------------------------------------------------------------------------------------------------------------------
-////----------------------------FUNCIONES GLOBALES----------------------------------------------------------------------------------
+////----------------------------FUNCIONES GLOBALES-------------------------------------------------------------------------
 ////-----------------------------------------------------------------------------------------------------------------------
 //  value valie sirve para saber el indice donde se guardara el incie de la matriz que me hace llorar
 
@@ -135,7 +147,7 @@ function ChooseWhereToMove(event, value){//switch para elegir
             MatrizThatMakeMeCry[i][6]-=3;
           }
           if(i!=0 && MatrizThatMakeMeCry[i][6]<=0){
-            impact_sound(); //sonido de choque entre objetos
+            impact_sound();//sonido de choque entre objetos
             destroy(i);//Eliminamos a la nave o asteroide de la matriz
             type=0; //Regresamos type para parar la ejecución desde el objeto
           }

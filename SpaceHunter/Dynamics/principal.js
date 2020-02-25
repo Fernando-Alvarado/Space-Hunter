@@ -7,8 +7,6 @@ class PersonajePrincipal{
     constructor (matrizDondeSeTrabaja) {
          this.matrizDondeSeTrabaja = matrizDondeSeTrabaja;
      }
-
- //Quitare la funcion choose  where to move del mono, por que ya no es necesaria xd
    JustTheCreator(){
                
 
@@ -16,28 +14,30 @@ class PersonajePrincipal{
        camera.position.x = MatrizThatMakeMeCry[0][1];
        camera.position.y = MatrizThatMakeMeCry[0][2];
        camera.position.z = MatrizThatMakeMeCry[0][3];
-       var working = [this.matrizDondeSeTrabaja[0][1],this.matrizDondeSeTrabaja[0][2],this.matrizDondeSeTrabaja[0][3]];
+
        LifeBar(MatrizThatMakeMeCry[0][6])//poniendo la barra de vida al tope
-       function mover(matriz){
+
+       function mover(matriz){//Fucnión de movimiento
          setTimeout(function(){
-         //  var lol = [matriz[0][1], matriz[0][2],matriz[0][3]]
            //  MatrizThatMakeMeCry   //esta es la matriz con todas la posiciones
              matriz[0][1] = camera.position.x;
              matriz[0][2] = camera.position.y;
              matriz[0][3] = camera.position.z;
-             //Diego aqui iria tu codigo, que corria el movimiento de la camara
-           mover(matriz);
+
+           mover(matriz);//Volvemos a llamarla para continuar el ciclo
          }, 50);
 
        }
-       mover(this.matrizDondeSeTrabaja);
-       document.addEventListener("click", function(){
+       mover(this.matrizDondeSeTrabaja);//Llamamos a la función para comenzar el ciclo
+
+       document.addEventListener("click", function(){//Si hace click con el mouse
          
+        //dispara
         var bala = new BalasPrincipal();
         bala.disparo();
         bala.sonido();
        });
-   }  //Aqui iria el codigo del evento del mouse, pa que se mueva la camara con el mouse
+   }
    vida(){
     
 
@@ -64,7 +64,7 @@ class PersonajePrincipal{
      Recargo();
    }
   Escudo(){
-         function Resumida(num){//junta la funcion de el relleno de las doso funciones
+         function Resumida(num){//junta la funcion de el relleno de las dos funciones
              ShieldBar(num, 'Barraescudos1')
              ShieldBar(num, 'Barraescudos2')
          }
@@ -83,20 +83,20 @@ class PersonajePrincipal{
              document.addEventListener('keydown', (event) => {
              if(event.key == "Enter" && vidaDelEscudo> 1){
                var OwnLife = MatrizThatMakeMeCry[0][6];
-               LifeBar(OwnLife)//Se imprime el valor de la vida que se tenia para que no fluctue nada xd
+               LifeBar(OwnLife)//Se imprime el valor de la vida que se tenia para que no fluctue nada
                  document.getElementById("escudos").style.visibility = "visible";
                  function loopShield(){
                    setTimeout(()=>{
                      MatrizThatMakeMeCry[0][6]= OwnLife;//Pra que no se le vabe vida al tipo xd
-                     LifeBar(OwnLife)//Se imprime el valor de la vida que se tenia para que no fluctue nada xd
+                     LifeBar(OwnLife)//Se imprime el valor de la vida que se tenia para que no fluctue nada
                      if(vidaDelEscudo == 0){
                        MatrizThatMakeMeCry[0][6] = OwnLife
-                       LifeBar(OwnLife)//Se imprime el valor de la vida que se tenia para que no fluctue nada xd
+                       LifeBar(OwnLife)//Se imprime el valor de la vida que se tenia para que no fluctue nada
                        document.getElementById("escudos").style.visibility = "hidden";
                         Resumida(vidaDelEscudo)
                     }else{
                      MatrizThatMakeMeCry[0][6] = OwnLife
-                     LifeBar(OwnLife)//Se imprime el valor de la vida que se tenia para que no fluctue nada xd
+                     LifeBar(OwnLife)//Se imprime el valor de la vida que se tenia para que no fluctue nada
                        vidaDelEscudo--
                        Resumida(vidaDelEscudo)
                        loopShield()
@@ -114,12 +114,12 @@ class PersonajePrincipal{
    
  }//fin del metodo
 //este objeto controlara el movimiento de la nave usando el mouse, para subir y poder rotar la torreta
-class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia arriba y abajo
-   constructor( canvas){//solo necesito el evento que haga que me regrese los valores de las posiciones del mouse
+class CabinaDeControl {//objeto para que la nave principal pueda rotar y moverse hacia arriba y abajo
+   constructor( canvas){
        ///aqui hayq ue poner la pantalla y no el canvas para
        this.WhereItWorks = canvas;
        //si ancho y alto son iguales se va uno
-       this.inicioCamaraTorre = 5; //empieza a 90 grados jeje
+       this.inicioCamaraTorre = 5; //empieza a 90 grados
        //Aqui hay que ejecutar funcion pa que este en 90 grados
    }
    Torreta(){//todo tiene que se se un loop para que se pregunte a cada si lo hace o no
@@ -131,7 +131,7 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
        var OriginalPosition = this.inicioCamaraTorre; //EMPIEZA AQUI la vista de la camar
        this.WhereItWorks.onmousemove = function(e){
            WhereOnX = e.pageX;//dice el valor de los eventos en tiempo real
-           WhereOnY = e.pageY;//valor de y en real time
+           WhereOnY = e.pageY;//valor de y en tiempo real
        }
        setInterval(CheckWhereTheHellIsIn, 1);
        function CheckWhereTheHellIsIn(){
@@ -142,17 +142,19 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
                else if(WhereOnX> ((MedidaPantalla)/4)*3){//girara a la girar a la izquierda
                    camera.rotation.y -= .007;
                }
-               //the last thing to do
+               
        }
        setInterval(updown, 170);//para que pueda rotrar lal camara de arriba hacia abajo
        function updown(){
          //para que la nave pueda subir o bajar
-         if(WhereOnY < (MedidaEnY)/3 && camera.position.y != limity-1){ //hace que la nave baja
+
+         //hace que la nave baja
+         if(WhereOnY < (MedidaEnY)/3 && camera.position.y != limity-1){
              var parametro = 0;
 
              camera.position.y +=1;
 
-             //aqui se hara que la nave suba
+         //aqui se hara que la nave suba
          }else if(WhereOnY > ((MedidaEnY)/3)*2 && camera.position.y != 0){//si esta arriba de 2/3 la nave empezara asubir
              var parametro = 1;
 
@@ -161,9 +163,10 @@ class CabinaDeControl {//cosa para que las neves puedan rotar y moverse hacia ar
              //Aqui se hara que la nave baje
          }
        }
-     //  setInterval(adelante, 100); Para que la nave pueda avanzar hacia adelante sola
+
+    
      //el chacador de si esta apto para para que se pueda mover solo va aqui
-       setInterval(adelante,500);
+       setInterval(adelante,500); // que la nave pueda avanzar hacia adelante sola
        function adelante(){//arriba dice que hace
 
          var direction = camera.getWorldDirection();  //Obtenemos el vector director de la nave principal
@@ -208,6 +211,7 @@ disparo(){
    snap.play();  
  }
 
+ //Creamos una geometría esférica de three.js
  var geometry = new THREE.SphereGeometry( .05, .05, .05 );
  var material = new THREE.MeshBasicMaterial( {color: 0x04a2b2} );
  var sphere = new THREE.Mesh( geometry, material );
@@ -329,7 +333,7 @@ Shield.closePath();
 }
 
 function LifeBar(numero){///El numero seran las divisiones en que se dibujaran
-//la nave tendra 10 puntos de vida xd pero pueden ser mas 
+//la nave tendra 10 puntos de vida pero pueden ser mas 
 var canvasVida = document.getElementById("me");
 var life = canvasVida.getContext("2d");
 life.beginPath();
@@ -338,7 +342,7 @@ life.rect(1, 1, 200, 20);//la tercera es la que tengo que modificar
 life.fillStyle = "#373737";
 life.fill();
 life.closePath();
-//la nave tendra 10 puntos de vida xd pero pueden ser mas 
+//la nave tendra 10 puntos de vida  pero pueden ser mas 
 var vidaTotal = 13 //es la vida que tendra el presonaje principal
 var anchoLife = ((numero * 200) / vidaTotal);
 life.beginPath();

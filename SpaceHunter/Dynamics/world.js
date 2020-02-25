@@ -15,8 +15,7 @@ class World{
     // aspect ratio, una buena explicación aquí  https://es.wikipedia.org/wiki/Relaci%C3%B3n_de_aspecto
     //https://scsarquitecto.cl/importancia-relacion-aspecto/
     // ,se puede dejar ese parámetro o el más usado 16:9; el siguiente es cercanía y el cuarto es lejanía,
-    //significa que nos se renderearan (shit of translation DX) objetos más cercanos al valor de cercanía
-    //ni objetos más lejanos al valor de lejanía.
+    //significa que nos se renderizan objetos más cercanos al valor de cercanía ni objetos más lejanos al valor de lejanía.
     renderer = new THREE.WebGLRenderer();
     renderer.setSize( window.innerWidth, window.innerHeight );
     //Es necesario determinar el tamaño del rendereado, el aspect ratio es sólo una escala, aquí daremos las
@@ -68,7 +67,7 @@ class World{
     //Nos dirá que tipo de objetos y cuántos
     this.objetos = data[4];
 
-    //Hacemos el conteo de naves y asteroides que nos mandan en datos
+    //Hacemos el conteo de naves, steroides y/o checkpoints que nos mandan en datos
     for(let a of this.objetos){
       if(a[0][0]=='nave'){
         numnaves+=a[1];
@@ -93,10 +92,10 @@ class World{
     //de ejecutarse la animación cuando no estás en la pestaña por lo que ahorras procesamiento
     //y batería usada.
     renderer.render( scene, camera );
-    //ya que está la cámara y la escena, las ejecuta el render, boila.
+    //ya que está la cámara y la escena, las ejecuta el render
     }
     CrearObjetos(this.objetos)//Creamos las instancias de objetos nave, asteroides y principal
-    animate();
+    animate();//Comenzamos la animación
   }
        
   }
@@ -274,7 +273,7 @@ function CrearObjetos(objetos){//saber donde estaran las naves al inicio
         for(let i = lim; i<(obj[1]+lim);i++){
           //Orden de Parametros: matrizDondeSeTrabaja, number,velocidad,rango,velChase,velDisparo,rangoDisp
           MatrizThatMakeMeCry[i][5] = new Naves(MatrizThatMakeMeCry, i,obj[0][1],obj[0][2],obj[0][3],obj[0][4],obj[0][5]);
-          MatrizThatMakeMeCry[i][5].JustTheCreator();//Js es una mamada jajaja
+          MatrizThatMakeMeCry[i][5].JustTheCreator();
 
           current_celda++;
         }
@@ -282,7 +281,7 @@ function CrearObjetos(objetos){//saber donde estaran las naves al inicio
         var lim = current_celda;
         for(let i = lim; i<(obj[1]+lim);i++){
           MatrizThatMakeMeCry[i][5] = new Asteroide(i,obj[0][1]);
-          MatrizThatMakeMeCry[i][5].JustTheCreator();//Js es una mamada jajaja
+          MatrizThatMakeMeCry[i][5].JustTheCreator();
 
           current_celda++;
         }
@@ -291,7 +290,7 @@ function CrearObjetos(objetos){//saber donde estaran las naves al inicio
         for(let i = lim; i<(obj[1]+lim);i++){
           //Orden de Parametros: matrizDondeSeTrabaja, number,velocidad,rango,velChase,velDisparo,rangoDisp
           MatrizThatMakeMeCry[i][5] = new Naves(MatrizThatMakeMeCry, i,obj[0][1],obj[0][2],obj[0][3],obj[0][4],obj[0][5]);
-          MatrizThatMakeMeCry[i][5].JustTheCreator();//Js es una mamada jajaja
+          MatrizThatMakeMeCry[i][5].JustTheCreator();
 
           current_celda++;
         }
@@ -299,7 +298,7 @@ function CrearObjetos(objetos){//saber donde estaran las naves al inicio
 
     }
 
-    //instanciando el objeto principal ----------------------
+    //instanciando el objeto de la nave principal ----------------------
     const nave = new PersonajePrincipal(MatrizThatMakeMeCry);
     nave.JustTheCreator();
     nave.vida();
