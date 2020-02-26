@@ -157,16 +157,14 @@ class CabinaDeControl {//objeto para que la nave principal pueda rotar y moverse
 
          //hace que la nave baja
          if(WhereOnY < (MedidaEnY)/3 && camera.position.y != limity-1){
-             var parametro = 0;
 
              camera.position.y +=1;
 
          //aqui se hara que la nave suba
          }else if(WhereOnY > ((MedidaEnY)/3)*2 && camera.position.y != 0){//si esta arriba de 2/3 la nave empezara asubir
-             var parametro = 1;
-
              
              camera.position.y -=1;
+             
              //Aqui se hara que la nave baje
          }
        }
