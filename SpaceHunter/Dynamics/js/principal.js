@@ -35,14 +35,14 @@ class PersonajePrincipal{
         //dispara
         var bala = new BalasPrincipal(1);
         bala.disparo();
-        bala.sonido();
+        bala.sonidoLaser();
        });
        document.addEventListener('keydown', (event) => {
         if(event.code == "Space"){
           var bala = new BalasPrincipal(2);
         }
         bala.disparo();
-        bala.sonido();
+        bala.sonidoMissile();
     });
    }
    vida(){
@@ -205,11 +205,18 @@ class BalasPrincipal{
     this.QueTipoBala = tipo;//para saber si disparamos una bala o un misil
   }
 
-sonido(){                   //Método para que suene el laser al disparar.
+sonidoLaser(){                   //Método para que suene el laser al disparar.
  var sonido= new Audio(laser_ali);       //variable tipo audio, con la referencia del laser de las naves aliadas.
  sonido.play();          //Método para hacerlo sonar.
 
-} 
+}
+
+sonidoMissile(){
+  var sonido= new Audio(missile_ali);  
+  sonido.volume=0.8;     //variable tipo audio, con la referencia del laser de las naves aliadas.
+  sonido.play(); 
+
+}
 
 disparo(){
  var direction = camera.getWorldDirection();
