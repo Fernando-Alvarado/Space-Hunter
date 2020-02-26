@@ -33,10 +33,17 @@ class PersonajePrincipal{
        document.addEventListener("click", function(){//Si hace click con el mouse
          
         //dispara
-        var bala = new BalasPrincipal();
+        var bala = new BalasPrincipal(1);
         bala.disparo();
         bala.sonido();
        });
+       document.addEventListener('keydown', (event) => {
+        if(event.code == "Space"){
+          var bala = new BalasPrincipal(2);
+        }
+        bala.disparo();
+        bala.sonido();
+    });
    }
    vida(){
     
@@ -196,6 +203,9 @@ class CabinaDeControl {//objeto para que la nave principal pueda rotar y moverse
 }
 
 class BalasPrincipal{
+  constructor(tipo){//tipo == 1 (balas) tipo == 2 (misial)
+    this.QueTipoBala = tipo;//para saber si disparamos una bala o un misil
+  }
 
 sonido(){                   //Método para que suene el laser al disparar.
  var sonido= new Audio(laser_ali);       //variable tipo audio, con la referencia del laser de las naves aliadas.
@@ -212,15 +222,36 @@ disparo(){
  }
 
  //Creamos una geometría esférica de three.js
- var geometry = new THREE.SphereGeometry( .05, .05, .05 );
- var material = new THREE.MeshBasicMaterial( {color: 0x04a2b2} );
- var sphere = new THREE.Mesh( geometry, material );
- geometry = null;
- material = null;
- scene.add( sphere );
- sphere.position.x = camera.position.x;
- sphere.position.y = camera.position.y;
- sphere.position.z = camera.position.z;
+/*if( this.QueTipoBala == 1 ){
+  var geometry = new THREE.SphereGeometry( .05, .05, .05 );
+  var material = new THREE.MeshBasicMaterial( {color: 0x04a2b2} );
+  var sphere = new THREE.Mesh( geometry, material );
+  geometry = null;
+  material = null;
+  scene.add( sphere );
+  sphere.position.x = camera.position.x;
+  sphere.position.y = camera.position.y;
+  sphere.position.z = camera.position.z;
+}else{//Aqui ira la geometria de las balas
+
+
+
+
+}*/
+///prueba solo hago esto para que noten la diferencia entre los misisles y las balas
+var geometry = new THREE.SphereGeometry( .05, .05, .05 );
+if( this.QueTipoBala == 1 ){
+  var material = new THREE.MeshBasicMaterial( {color: 0x04a2b2} );
+}else{//Aqui ira la geometria de las balas
+  var material = new THREE.MeshBasicMaterial( {color: 0xdb7093} );
+}
+var sphere = new THREE.Mesh( geometry, material );
+geometry = null;
+material = null;
+scene.add( sphere );
+sphere.position.x = camera.position.x;
+sphere.position.y = camera.position.y;
+sphere.position.z = camera.position.z;
 
  function move(){ //Movemos a la bala y devolvemos valores enteros para revisar si hay alguna colision
    var x,y,z;
@@ -253,19 +284,20 @@ disparo(){
         var ylim = (MatrizThatMakeMeCry[i][8]-1)/2;
         var zlim = (MatrizThatMakeMeCry[i][9]-1)/2;
         if((pos[0]>=x-xlim && pos[0]<=x+xlim) && (pos[1]>=y-ylim && pos[1]<=y+ylim) && (pos[2]>=z-zlim && pos[2]<=z+zlim)){
-  
+ 
+          
+///this.QueTipoBala == 1
+
         //Aqui le aumento 1 valor a la nave pricipal para que aumente de vida cada vez que impacta una nave enemiga
-        if( MatrizThatMakeMeCry[0][6] < 13){          
-          MatrizThatMakeMeCry[0][6]++;////Aqui hize que la nave no pierda en caso de chocar
-    
-          //Sonido de vida al matar a nave.
-          healing_sound();
-    
-          LifeBar(MatrizThatMakeMeCry[0][6])
-        }
+      
 
         //Si es una nave
         if(MatrizThatMakeMeCry[i][0]==1){//nave enemiga o amiga //----------------------------------
+          if ( this.QueTipoBala == 1 ) {
+            MatrizThatMakeMeCry[i][6]--;////Se le quita solo 1 punto de vida
+          }else{
+            MatrizThatMakeMeCry[i][6] =  MatrizThatMakeMeCry[i][6]-2;
+          }
           //navesVar--;//resto 1 por que ya fue eliminada xd s
           //aqui abria impacto xd jajaja
           if(MatrizThatMakeMeCry[i][6] <= 0){
@@ -275,8 +307,14 @@ disparo(){
               i = numnaves;//para acabar el ciclo
               numkills+=1;
               enemyDestroyedSound(); // sonido de destrucción de la nave enemiga.s
-          }else{
-              MatrizThatMakeMeCry[i][6]--;////Se le quita solo 1 punto de vida
+              if( MatrizThatMakeMeCry[0][6] < 13){          
+                MatrizThatMakeMeCry[0][6]++;////Aqui hize que la nave no pierda en caso de chocar
+          
+                //Sonido de vida al matar a nave.
+                healing_sound();
+          
+                LifeBar(MatrizThatMakeMeCry[0][6])
+              }
           }
         }else if(MatrizThatMakeMeCry[i][0]==3){ //Si es un asteroide
           //Eliminamos a la nave de la matriz
