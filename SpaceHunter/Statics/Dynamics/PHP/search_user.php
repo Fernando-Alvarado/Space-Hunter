@@ -1,4 +1,5 @@
 <?php
+    
 
     $datos= $_POST;
     // var_dump($datos);
@@ -27,6 +28,8 @@
         $was_found="yes";
     mysqli_close($conection);
     echo json_encode($was_found);
+    //Devuleve yes o no, si encontró al usuario;
+
 
 
 

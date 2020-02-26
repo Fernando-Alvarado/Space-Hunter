@@ -37,15 +37,15 @@
 
   <div id="abajo">
     
-    <script src="../../Dynamics/Librerías/three.min.js"></script>
-    <script src="../../Dynamics/Librerías/jquery-3.4.1.min.js"></script>
-    <script src="../../Dynamics/Librerías/GLTFLoader.js"></script>
-    <script src="../../Dynamics/world.js"></script>
-    <script src="../../Dynamics/cookie_setter.js"></script>
-    <script src="../../Dynamics/juego.js"></script>
-    <script src="../../Dynamics/principal.js"></script>
-    <script src="../../Dynamics/naves.js"></script>
-    <script src="../../Dynamics/asteroides.js"></script>
+    <script src="../../Dynamics/js/Librerías/three.min.js"></script>
+    <script src="../../Dynamics/js/Librerías/jquery-3.4.1.min.js"></script>
+    <script src="../../Dynamics/js/Librerías/GLTFLoader.js"></script>
+    <script src="../../Dynamics/js/world.js"></script>
+    <script src="../../Dynamics/js/cookie_setter.js"></script>
+    <script src="../../Dynamics/js/juego.js"></script>
+    <script src="../../Dynamics/js/principal.js"></script>
+    <script src="../../Dynamics/js/naves.js"></script>
+    <script src="../../Dynamics/js/asteroides.js"></script>
     
   </div>
 </body>

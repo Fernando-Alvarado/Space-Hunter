@@ -3,7 +3,7 @@
 
 
     $.ajax({
-        url: '../Dynamics/PHP/unlocked_art_searcher.php' , 
+        url: '../../Dynamics/php/arte_desbloqueado.php' , 
         method: 'POST',
         data: "nickname="+seekCookieValue("user_name"),
         statusCode: {
@@ -14,14 +14,14 @@
     }).done( function(response) {
         console.log ("Respuesta del Ajax: "+response);
         var array_obj=JSON.parse(response);
-        console.log(array_obj)
+        console.log("Array de llegada: "+array_obj)
         var imgs=document.querySelectorAll(".d-block");
         for(let x=0;x<15;x++)
         {
             if(array_obj[x]=="0")
             {
                 let src= $(imgs[x]).attr("src");
-                console.log(src)
+                // console.log(src)
                 let first_string=src.split(".jpg");
                 $(imgs[x]).attr("src",first_string[0]+"_lock.jpg");
             }
@@ -30,7 +30,7 @@
                 $(buttons[x]).remove();
             }
         }
-        if(array_obj.indexOf("1")==-1)
+        if(array_obj.indexOf(1)==-1)
         {
             $(exampleModal).modal('show');
         }
@@ -61,9 +61,9 @@
             {
                 //código pa meter un modal.
                 $.ajax({
-                    url: '../Dynamics/PHP/art_unlocker.php' , 
+                    url: '../../Dynamics/php/desbloqueador_arte.php' , 
                     method: 'POST',
-                    data: "item="+num_item+"&nickname="+nickname,
+                    data: "item="+(num_item-1)+"&nickname="+nickname,
                     statusCode: {
                     404: function(){
                         alert('No encontrado');
@@ -73,9 +73,9 @@
                     console.log ("Respuesta del Ajax: "+response);
                 //    player_money=JSON.parse(response);
                     updateMoney(-precio);
-                    setCookieValue(" user_money",dinero_disp-precio);
+                    setCookieValue("user_money",dinero_disp-precio);
                     console.log("Cookies depués Ajax: "+document.cookie);
-                    location.href="HunterShop.html";
+                    // location.href="HunterShop.html";
 
 
         
