@@ -19,7 +19,7 @@ $('#mod_s').change(function(){  //En caso de cambiar el modo, mostrar la informa
         $('img').attr("src","../Media/Guardian_background.jpg");
         $('#modo').html('Guardián<br>Supremo');
         $('.descript').html('Llegas a un lugar extraño, sientes una tensión en las mismas fibras del espacio y encuentras a una nave, o eso parece, inmensa. <br>Tu hiper-propulsor está fallando. La única salida es pelear.');
-        $("#icono").attr("class","far logo fa-life-ring");
+        $("#icono").attr("class","fab logo fa-battle-net");
 
     }else if(mod==4){
         $('img').attr("src","../Media/Flota_background.jpg");
@@ -31,7 +31,8 @@ $('#mod_s').change(function(){  //En caso de cambiar el modo, mostrar la informa
         $('img').attr("src","../Media/Rey_background.jpg");
         $('#modo').html('El Rey Ha Caído');
         $('.descript').html('El sistema Rune es controlado por el jefe Hutt "Cosmos". <br>Este tirano mandamás no obedece a nadie y el imperio está pagando muy bien por su cabeza, o mejor dicho, su nave.');
-        $("#icono").attr("class","fab logo fa-battle-net");
+        $("#icono").attr("class","far logo fa-life-ring");
+
 
     }
 });
