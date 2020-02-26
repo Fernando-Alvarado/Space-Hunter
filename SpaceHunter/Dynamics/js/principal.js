@@ -269,7 +269,7 @@ sphere.position.z = camera.position.z;
    return data;
  }
  
- function dispLoop(){
+ function dispLoop(tipo){
    setTimeout(()=>{ 
      var who = 0;
      var pos = move();
@@ -293,10 +293,10 @@ sphere.position.z = camera.position.z;
 
         //Si es una nave
         if(MatrizThatMakeMeCry[i][0]==1){//nave enemiga o amiga //----------------------------------
-          if ( this.QueTipoBala == 1 ) {
+          if ( tipo == 1 ) {
             MatrizThatMakeMeCry[i][6]--;////Se le quita solo 1 punto de vida
           }else{
-            MatrizThatMakeMeCry[i][6] =  MatrizThatMakeMeCry[i][6]-2;
+            MatrizThatMakeMeCry[i][6] -=  5;
           }
           //navesVar--;//resto 1 por que ya fue eliminada xd s
           //aqui abria impacto xd jajaja
@@ -337,13 +337,13 @@ sphere.position.z = camera.position.z;
         scene.remove(sphere);
         sphere = null;
      }else{
-       dispLoop();
+       dispLoop(tipo);
      }
    }
  }, 100);
 }
 
-dispLoop();
+dispLoop(this.QueTipoBala);
 }
 }
 
