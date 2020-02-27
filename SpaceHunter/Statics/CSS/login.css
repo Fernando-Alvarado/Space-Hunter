@@ -32,14 +32,20 @@ body {
     left: 0;
 }
 #nick {
-    padding-top: 15%;
-    padding-bottom: 10%;
+    margin:auto;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10%;
+    
 }
 #nick label{
     padding-right: 10px;
 }
 #pass{
-    padding-bottom: 20%;   
+    margin:auto;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10%;   
 }
 #pass label{
     padding-right: 15px;
@@ -48,31 +54,36 @@ body {
     font-family: 'Orbitron', sans-serif;
     font-size: 420%;
     color: #11FF43;
-    position: absolute;
-    top: 10%;
-    margin-left: 15%;
-    margin-right: 15%;
+    margin: auto;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 10%;
+}
+
+#form_log{
+    height: 60%;
+}
+#form_reg{
+    margin-bottom: 5%;
 }
 
 #cajaGrande{
     font-family: 'Ubuntu', sans-serif;
-    position: absolute;
-    top: 10%;
-    left: 33%;
+    margin: auto;
+    margin-top: 7%;
     background-color: rgba(0, 0, 0, 0.548);
     color: white;
-    padding-top: 11%;
-    padding-right: 5%;
-    padding-left: 5%;
-    padding-bottom: 5%;
-    width: 34%;
-    height: 80%;
+    width: 60%;
+    height: 60%;
 }
 #secret{
     padding-left: 25%;
     visibility: hidden;
 }
 
+#butones{
+    margin-bottom: 4%;
+}
 
 
 /* Register Box */
@@ -80,19 +91,14 @@ body {
 
 
 #bigbox {
-    position: absolute;
-    top: 5%;
-    left: 33%;
-    background-color: rgba(0, 0, 0, 0.603);
+
+    font-family: 'Ubuntu', sans-serif;
+    margin: auto;
+    margin-top: 7%;
     color: white;
-    padding-top: 11%;
-    padding-right: 1%;
-    padding-left: 5%;
-    padding-bottom: 5%;
-    font-family: 'Bebas Neue', cursive;
-    font-size: 110%;
-    width: 33%;
-    height: 85%;
+    width: 50%;
+    height: 80%;
+    background-color: rgba(0, 0, 0, 0.603);
 }
 
 label{
@@ -102,10 +108,12 @@ label{
     padding-right: 13.8%;
 }
  #Log_reg {
-    padding-bottom: 7%;
-    padding-left: 18%;
     font-family: 'Orbitron', sans-serif;
-    font-size: 350%;
+    font-size: 420%;
+    margin: auto;
+    margin-bottom: 4%;
+    text-align: center;
+    width: 100%;
     color: #45CAF1;
 } 
 .secret_reg {
@@ -117,16 +125,15 @@ label{
     display: inline;
 }
 #cajaChica_reg{
-    position: absolute;
-    top: 7%;
-    left: 10%;
+    margin: 7%;
+    height: 80%;
+}
+#cajaChica{
+    margin: 7%;
 }
 #GoBack_btn{
-    display: flex;
     justify-content: space-around;
-    position: absolute;
-    top: 110%;
-    display: inline;
+    margin-bottom: 5%;
 }
 #justSecret{
     width: 7%;

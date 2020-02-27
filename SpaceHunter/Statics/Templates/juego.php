@@ -19,7 +19,14 @@
     <div id="killsCounter">
     <p id="numberKills"><span id='numkills'></span></p>
     </div>
+    <div id="balas">
+        <canvas height="20" width="32" id='bala1' class='bala'></canvas>
+        <canvas height="20" width="32" id='bala2' class='bala'></canvas>
+        <canvas height="20" width="32" id='bala3' class='bala'></canvas>
+        <canvas height="20" width="32" id='bala4' class='bala'></canvas>
+    </div>
   </div>
+
     <span id="wantedname"></span>
     <canvas height="20" width="202" id='wanted'></canvas>
   <img id='hyper' height="100%" width="100%" src="../Media/hyper.gif">

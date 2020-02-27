@@ -90,3 +90,13 @@ padding-left: 40%;
     bottom:0;  
     background-color: black;
 }
+#balas{
+    position: absolute;
+    top: 10%;
+    left: 4%;
+    background-color: transparent;
+    border: none;
+}
+.bala{
+    border:1px solid black;
+}

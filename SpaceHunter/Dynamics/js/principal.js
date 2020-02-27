@@ -1,15 +1,41 @@
+//---------------------------Variables------------------------------------------------------------------------------------
+var misiles = 4;
 ////-----------------------------------------------------------------------------------------------------------------------
 ////----------------------------Objetos----------------------------------------------------------------------------------
 ////-----------------------------------------------------------------------------------------------------------------------
-
-
 class PersonajePrincipal{
     constructor (matrizDondeSeTrabaja) {
          this.matrizDondeSeTrabaja = matrizDondeSeTrabaja;
      }
-   JustTheCreator(){
-               
+    JustTheCreator(){
+        function BulletBar(numero){//Cuantas balas tienes
+      var barras = new Array(4);
+      var context = new Array(4);
+  for(let i=0; i<4; i++){
+      let total = i+1;
+      barras[i]= document.getElementById("bala"+ total);
+      context[i] = barras[i].getContext("2d");
+  }
+  //esta sera el que limpie
+  for(let i=0; i<4; i++){
+      context[i].beginPath();
+      context[i].rect(1, 1, 30, 18);//la tercera es la que tengo que modificar
+      context[i].fillStyle = "#373737";
+      context[i].fill();
+      context[i].closePath();
+  }
+  //este sera el que rellene todos de color
+  if(numero != 0){
+      for(let i=0; i<numero; i++){
+      context[i].beginPath();
+      context[i].rect(1, 1, 30, 18);//la tercera es la que tengo que modificar
+      context[i].fillStyle = "#B90000";
+      context[i].fill();
+      context[i].closePath();
+  }
+  }
 
+}               
        //Colocamos a el jugador en su posición Inicial
        camera.position.x = MatrizThatMakeMeCry[0][1];
        camera.position.y = MatrizThatMakeMeCry[0][2];
@@ -37,13 +63,35 @@ class PersonajePrincipal{
         bala.disparo();
         bala.sonidoLaser();
        });
-       document.addEventListener('keydown', (event) => {
-        if(event.code == "Space"){
-          var bala = new BalasPrincipal(2);
-        }
-        bala.disparo();
-        bala.sonidoMissile();
-    });
+       BulletBar(misiles);
+           document.addEventListener('keydown', (event) => {
+        if(event.code == "Space"){  
+            if (misiles > 0) {
+              var bala = new BalasPrincipal(2);
+              bala.disparo();
+              bala.sonidoMissile();       
+            }         
+                 misiles--;
+            BulletBar(misiles);
+            console.log(misiles)
+            if(misiles == 0){
+                    console.log('estoy adentro')
+                    function Upper(time){
+                        setTimeout(function(){ 
+                        misiles++;
+                        BulletBar(misiles);
+                      
+                     }, time)
+                    }
+                    Upper(2000);
+                    Upper(4000);
+                    Upper(6000);
+                    Upper(8000);
+                   
+
+                }
+            }
+        });  
    }
    vida(){
     
@@ -157,16 +205,14 @@ class CabinaDeControl {//objeto para que la nave principal pueda rotar y moverse
 
          //hace que la nave baja
          if(WhereOnY < (MedidaEnY)/3 && camera.position.y != limity-1){
-             var parametro = 0;
 
              camera.position.y +=1;
 
          //aqui se hara que la nave suba
          }else if(WhereOnY > ((MedidaEnY)/3)*2 && camera.position.y != 0){//si esta arriba de 2/3 la nave empezara asubir
-             var parametro = 1;
-
              
              camera.position.y -=1;
+             
              //Aqui se hara que la nave baje
          }
        }
