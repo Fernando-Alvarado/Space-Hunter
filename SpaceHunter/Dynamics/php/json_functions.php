@@ -21,7 +21,7 @@
         file_put_contents('../js/usuarios.json', $newJsonString);
     }
 
-    function searchNickname($array_JSON,string $nickname)
+    function searchNickname(array $array_JSON,string $nickname)
     {
         $counter=-1;
         for($x=0;$x<count($array_JSON);$x++)
