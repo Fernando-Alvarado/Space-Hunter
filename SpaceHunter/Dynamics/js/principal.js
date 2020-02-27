@@ -275,27 +275,12 @@ disparo(){
  }
 
  //Creamos una geometría esférica de three.js
-/*if( this.QueTipoBala == 1 ){
+
+if( this.QueTipoBala == 1 ){//Aqui ira la geometria de las balas
   var geometry = new THREE.SphereGeometry( .05, .05, .05 );
   var material = new THREE.MeshBasicMaterial( {color: 0x04a2b2} );
-  var sphere = new THREE.Mesh( geometry, material );
-  geometry = null;
-  material = null;
-  scene.add( sphere );
-  sphere.position.x = camera.position.x;
-  sphere.position.y = camera.position.y;
-  sphere.position.z = camera.position.z;
-}else{//Aqui ira la geometria de las balas
-
-
-
-
-}*/
-///prueba solo hago esto para que noten la diferencia entre los misisles y las balas
-var geometry = new THREE.SphereGeometry( .05, .05, .05 );
-if( this.QueTipoBala == 1 ){
-  var material = new THREE.MeshBasicMaterial( {color: 0x04a2b2} );
-}else{//Aqui ira la geometria de las balas
+}else{//Aqui ira la geometria de los misiles
+  var geometry = new THREE.SphereGeometry( .5, .5, .5 );
   var material = new THREE.MeshBasicMaterial( {color: 0xdb7093} );
 }
 var sphere = new THREE.Mesh( geometry, material );
