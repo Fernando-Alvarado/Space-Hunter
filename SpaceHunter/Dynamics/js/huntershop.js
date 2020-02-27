@@ -76,7 +76,7 @@
                     updateMoney(-precio);
                     setCookieValue("user_money",dinero_disp-precio);
                     console.log("Cookies depués Ajax: "+document.cookie);
-                    // location.href="HunterShop.html";
+                    location.href="HunterShop.html";
 
 
         
