@@ -82,10 +82,11 @@
             },
             },
         }).done( function(response) {
-            console.log ("Respuesta del Ajax: "+response);
+            console.log("Respuesta del Ajax: "+response);
+            console.log(datos_form)
 
             var mensaje=response;
-            if(mensaje=="true") //Sí se registró
+            if(mensaje!=false) //Sí se registró
             {
                 //Meter el nav con fade in y fade out
                 $("#feed p").text("Usuario correctamente registrado.")
@@ -212,7 +213,7 @@
       document.getElementById("boton_ingresar").addEventListener("click",function(){
           if($("#in_nick").attr("correct")=="true"&&$("#in_pass").attr("correct")=="true")
           {
-              var log_data=$("#form_log").serialize();            
+              var log_data=$("#form_log").serialize();          
               seekingUser(log_data);
               
           }

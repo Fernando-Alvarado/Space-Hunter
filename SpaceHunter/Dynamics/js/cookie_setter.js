@@ -12,6 +12,8 @@
         var cookie_value="";
         all_cookies.forEach(cookie=>{
             let parts=cookie.split("=");
+            if(parts[0][0]==' ')
+                parts[0] = parts[0].replace(" ","");
             if(parts[0]==cookie_name)
             {
                 cookie_value=parts[1];
@@ -25,6 +27,8 @@
     {
         all_cookies.forEach(cookie=>{
             let parts=cookie.split("=");
+            if(parts[0][0]==' ')
+                parts[0] = parts[0].replace(" ","");
             if(parts[0]==cookie_name)
             {
                 console.log("Found it")
@@ -39,7 +43,7 @@
     //Revisa el dinero del jugador en la base de datos, lo actualiza en la cookie.
     {
         var player_name=seekCookieValue("user_name");
-        var player_money=seekCookieValue(" user_money");
+        var player_money=seekCookieValue("user_money");
 
         console.log('nom: '+player_name);
         console.log('money: '+player_money);
@@ -55,7 +59,7 @@
         }).done( function(response) {
             console.log ("Respuesta del Ajax: "+response);
             player_money=JSON.parse(response);
-           setCookieValue(" user_money",response);
+            setCookieValue("user_money",response);
 
         }).fail( function(jqXHR, textStatus) {
             alert('Error: ' + textStatus);
@@ -67,7 +71,7 @@
     //Si perdió dinero se ingresa una cantidad negativa.
     {
         var player_name=seekCookieValue("user_name");
-        var player_money=seekCookieValue(" user_money");
+        var player_money=seekCookieValue("user_money");
         var total=parseInt(player_money)+parseInt(money_increment);
         console.log(total);
 
