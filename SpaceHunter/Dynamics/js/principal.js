@@ -61,14 +61,16 @@ class PersonajePrincipal{
         //dispara
         var bala = new BalasPrincipal(1);
         bala.disparo();
-        bala.sonido();
+        bala.sonidoLaser();
        });
        BulletBar(misiles);
            document.addEventListener('keydown', (event) => {
         if(event.code == "Space"){  
-            var bala = new BalasPrincipal(2);
-          bala.disparo();
-          bala.sonido();                
+            if (misiles > 0) {
+              var bala = new BalasPrincipal(2);
+              bala.disparo();
+              bala.sonidoMissile();       
+            }         
                  misiles--;
             BulletBar(misiles);
             console.log(misiles)
@@ -253,11 +255,18 @@ class BalasPrincipal{
     this.QueTipoBala = tipo;//para saber si disparamos una bala o un misil
   }
 
-sonido(){                   //Método para que suene el laser al disparar.
+sonidoLaser(){                   //Método para que suene el laser al disparar.
  var sonido= new Audio(laser_ali);       //variable tipo audio, con la referencia del laser de las naves aliadas.
  sonido.play();          //Método para hacerlo sonar.
 
-} 
+}
+
+sonidoMissile(){
+  var sonido= new Audio(missile_ali);  
+  sonido.volume=0.8;     //variable tipo audio, con la referencia del laser de las naves aliadas.
+  sonido.play(); 
+
+}
 
 disparo(){
  var direction = camera.getWorldDirection();
@@ -315,7 +324,7 @@ sphere.position.z = camera.position.z;
    return data;
  }
  
- function dispLoop(){
+ function dispLoop(tipo){
    setTimeout(()=>{ 
      var who = 0;
      var pos = move();
@@ -339,10 +348,10 @@ sphere.position.z = camera.position.z;
 
         //Si es una nave
         if(MatrizThatMakeMeCry[i][0]==1){//nave enemiga o amiga //----------------------------------
-          if ( this.QueTipoBala == 1 ) {
+          if ( tipo == 1 ) {
             MatrizThatMakeMeCry[i][6]--;////Se le quita solo 1 punto de vida
           }else{
-            MatrizThatMakeMeCry[i][6] =  MatrizThatMakeMeCry[i][6]-2;
+            MatrizThatMakeMeCry[i][6] -=  5;
           }
           //navesVar--;//resto 1 por que ya fue eliminada xd s
           //aqui abria impacto xd jajaja
@@ -383,13 +392,13 @@ sphere.position.z = camera.position.z;
         scene.remove(sphere);
         sphere = null;
      }else{
-       dispLoop();
+       dispLoop(tipo);
      }
    }
  }, 100);
 }
 
-dispLoop();
+dispLoop(this.QueTipoBala);
 }
 }
 
