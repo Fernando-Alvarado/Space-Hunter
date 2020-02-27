@@ -6,6 +6,18 @@ body {
     /* background-image: url("../../../Media/login_background.jpg"); 
     background-size: cover; */
 }
+#feed{
+    background-color:#2b2a41f0 ;
+    color: whitesmoke;
+    display: none;
+    font-size: 1.5rem;
+    height: 4rem;
+    justify-content: center;
+    padding: 1.5rem;
+    top: 0;
+    width: 100%;
+    z-index: 3;
+}
 
 /* #myvideo{
     position: relative;

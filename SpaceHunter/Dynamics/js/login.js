@@ -88,10 +88,19 @@
             if(mensaje=="true") //Sí se registró
             {
                 //Meter el nav con fade in y fade out
+                $("#feed p").text("Usuario correctamente registrado.")
+                $("#feed").fadeIn(2000);
+                $("#feed").fadeOut(1200);
+                inputs.forEach(casilla=>{
+                    casilla.value="";
+                });
             }
             else
             {
-                //NAv con mensaje de no se pudo.
+                $("#feed p").text("El nombre de usuario está en uso.")
+                $("#feed").fadeIn(2000);
+                $("#feed").fadeOut(1200);  
+                $("#nick_input").val(""); 
             }
             // location.href="logIn.html";
         }).fail( function(jqXHR, textStatus) {
@@ -113,7 +122,7 @@
               },
           }).done( function(response) {
               console.log ("Respuesta del Ajax: "+response);
-              respuesta= JSON.parse(response);
+              respuesta=response;
   
               if(respuesta==true)
               {
@@ -130,7 +139,9 @@
               }
               else //usuario no encontrado
               {
-                  alert("Usuario no encontrado, asegurate de haber escrito bien tu Nickname.");
+                $("#feed p").text("Usuario no encontrado, asegúrate de haber escrito correctamente el nickname.")
+                $("#feed").fadeIn(2000);
+                $("#feed").fadeOut(2000)              
               }
           }).fail( function(jqXHR, textStatus) {
               alert('Error: ' + textStatus);
@@ -186,7 +197,7 @@
           console.log(inputs_data);
   
           if($("#nick_input").attr("correct")=="true"&&$("#nick_pass").attr("correct")=="true"&&
-          $("#nick_pass").val()==$("#nick_passx2").val())
+          $("#nick_pass").val()==$("#nick_passx2").val()&&$("#nick_input").val()!="")
           {
               console.log("Contraseñas iguales");          
             

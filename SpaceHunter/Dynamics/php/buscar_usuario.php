@@ -7,11 +7,17 @@
     $array_JSON=getArrayFromJSON();
 
     $index=searchNickname($array_JSON,$datos_formu['nick']);
-
-    if($array_JSON[$index]['password']==$datos_formu['pass'])
-        echo true;
+    if($index=!-1)
+    {
+        if($array_JSON[$index]['password']==$datos_formu['pass'])
+            echo true;
+        else
+            echo false;
+    }
     else
         echo false;
+    
+    
     
 
 
