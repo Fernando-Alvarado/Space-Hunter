@@ -11,13 +11,13 @@ class PersonajePrincipal{
         function BulletBar(numero){//Cuantas balas tienes
       var barras = new Array(4);
       var context = new Array(4);
-  for(i=0; i<4; i++){
+  for(let i=0; i<4; i++){
       let total = i+1;
       barras[i]= document.getElementById("bala"+ total);
       context[i] = barras[i].getContext("2d");
   }
   //esta sera el que limpie
-  for(i=0; i<4; i++){
+  for(let i=0; i<4; i++){
       context[i].beginPath();
       context[i].rect(1, 1, 30, 18);//la tercera es la que tengo que modificar
       context[i].fillStyle = "#373737";
@@ -26,7 +26,7 @@ class PersonajePrincipal{
   }
   //este sera el que rellene todos de color
   if(numero != 0){
-      for(i=0; i<numero; i++){
+      for(let i=0; i<numero; i++){
       context[i].beginPath();
       context[i].rect(1, 1, 30, 18);//la tercera es la que tengo que modificar
       context[i].fillStyle = "#B90000";
