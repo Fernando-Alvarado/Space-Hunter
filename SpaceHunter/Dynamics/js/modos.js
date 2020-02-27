@@ -55,7 +55,12 @@ $("#back").click(function(){
 });
 //Direccionamos a la tienda.
     $("#htrshop").click(function(){
-        location.href="huntershop.html"
+        var a = seekCookieValue("user_name");
+        if(!a){
+            alert("No se ha iniciado sesión, no puedes acceder a la Huntershop");
+        }else{
+            location.href="huntershop.html"
+        }
     })
 
     checkDaMoney();
