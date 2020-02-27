@@ -82,16 +82,18 @@
             },
             },
         }).done( function(response) {
-            console.log ("Respuesta del Ajax: "+response);
+            console.log("Respuesta del Ajax: "+response);
+            console.log(datos_form)
 
             var mensaje=response;
-            if(mensaje=="true") //Sí se registró
+            if(mensaje!=false) //Sí se registró
             {
-                //Meter el nav con fade in y fade out
+                alert('Ya estás registrado, inicia sesión para empezar a jugar');
+                location.href="logIn.html";
             }
             else
             {
-                //NAv con mensaje de no se pudo.
+                alert('Este usuario ya existe');
             }
             // location.href="logIn.html";
         }).fail( function(jqXHR, textStatus) {
@@ -201,7 +203,7 @@
       document.getElementById("boton_ingresar").addEventListener("click",function(){
           if($("#in_nick").attr("correct")=="true"&&$("#in_pass").attr("correct")=="true")
           {
-              var log_data=$("#form_log").serialize();            
+              var log_data=$("#form_log").serialize();          
               seekingUser(log_data);
               
           }

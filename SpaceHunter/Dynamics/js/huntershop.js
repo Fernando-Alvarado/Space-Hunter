@@ -42,7 +42,8 @@
 
      //global, cambiará su valor de acuerdo al precio de la pintura/foto, servirá para moneyUpdate.
     
-    let dinero_disp=parseInt(seekCookieValue(" user_money"));
+    let dinero_disp=parseInt(seekCookieValue("user_money"));
+    console.log(dinero_disp)
     $('#dinero').html('Dinero disponible: $'+dinero_disp);
     buttons.forEach(boton=>{
         $(boton).click(function(){
@@ -55,7 +56,7 @@
             nickname=seekCookieValue("user_name");
             console.log("nickname: "+nickname);
 
-            dinero_disp=parseInt(seekCookieValue(" user_money"));
+            dinero_disp=parseInt(seekCookieValue("user_money"));
             console.log("Dinero disponible: "+dinero_disp);
             if(dinero_disp>=precio)
             {
