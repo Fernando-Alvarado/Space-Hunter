@@ -73,16 +73,20 @@ body {
     margin-top: 7%;
     background-color: rgba(0, 0, 0, 0.548);
     color: white;
-    width: 60%;
+    width: 55%;
     height: 60%;
 }
 #secret{
-    padding-left: 25%;
+    padding-left: 15%;
     visibility: hidden;
 }
 
 #butones{
-    margin-bottom: 4%;
+    margin: auto;
+    width: 100%;
+}
+#butones button{
+    margin: 5%;
 }
 
 
@@ -96,7 +100,7 @@ body {
     margin: auto;
     margin-top: 7%;
     color: white;
-    width: 50%;
+    width: 55%;
     height: 80%;
     background-color: rgba(0, 0, 0, 0.603);
 }
@@ -132,8 +136,12 @@ label{
     margin: 7%;
 }
 #GoBack_btn{
-    justify-content: space-around;
-    margin-bottom: 5%;
+    margin: auto;
+    width: 100%;
+}
+
+#GoBack_btn button{
+    margin: 5%;
 }
 #justSecret{
     width: 7%;
